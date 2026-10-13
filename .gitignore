@@ -1,0 +1,8 @@
+# reference papers: only openly licensed ones are committed
+papers/*.pdf
+!papers/hahn25.pdf
+
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
