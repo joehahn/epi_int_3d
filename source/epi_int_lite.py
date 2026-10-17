@@ -13,7 +13,8 @@
 #read input parameters
 import numpy as np
 random_seed = None     #inputs.py may set this to make random initial orbits reproducible
-exec(open('inputs.py').read())
+with open('inputs.py') as fp:
+    exec(fp.read())
 print('number_of_streamlines =', number_of_streamlines)
 print('particles_per_streamline =', particles_per_streamline)
 print('dt =', dt)

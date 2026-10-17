@@ -14,7 +14,9 @@ Python, as the reference implementation that later, faster versions are checked 
 - Check the port by rerunning the three tests and comparing against the figures in
   epi_int_lite's test notebooks, and against analytic expectations: unperturbed orbits that
   stay on their initial orbits, the libration frequency of a narrow eccentric ringlet, and
-  the viscous spreading rate. Show me the comparisons.
+  the viscous spreading rate. Port epi_int_lite's test notebooks to Python 3 too, and rerun
+  them on the new code's output, so that the same analysis code produces both sets of results.
+  Show me the comparisons.
 - Turn those checks into a pytest regression suite, the **2D regression suite**, that runs
   quickly with `uv run pytest`.
 - Add a `CLAUDE.md` with the project's conventions, units, notation and how to run the code

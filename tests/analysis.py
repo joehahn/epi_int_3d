@@ -2,7 +2,8 @@
 #
 #Diagnostics of the unperturbed, spreading and libration tests, reproducing the calculations
 #in epi_int_lite's test notebooks (check_orbits.ipynb, spreading.ipynb, libration.ipynb).
-#Used by the regression suite (test_regression.py) and by tools/compare_port.py.
+#Used by the regression suite (test_regression.py); the ported notebooks themselves are in each
+#test folder.
 
 import sys
 from pathlib import Path

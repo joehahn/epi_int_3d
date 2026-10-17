@@ -10,7 +10,7 @@ shows every change. The algorithms are unchanged, and there are no speedups.
 | Change | Where |
 |---|---|
 | `print x` statements → `print(x)` | `source/epi_int_lite.py` (20), `source/helper_fns.py` (5), every `inputs.py` (1) |
-| `execfile('inputs.py')` → `exec(open('inputs.py').read())` | `source/epi_int_lite.py` |
+| `execfile('inputs.py')` → `with open('inputs.py') as fp: exec(fp.read())` | `source/epi_int_lite.py` |
 | `dict.iteritems()` → `dict.items()` | every `inputs.py` (command-line parameter overrides) |
 | `/` → `//` where an integer division is used as an array index (`/` returns a float in Python 3) | `helper_fns.peri_corotate()`, `fluxes.py` (2) |
 
@@ -28,11 +28,26 @@ any deprecation warning into an error.
   orbits use. `tests/unperturbed/inputs.py` sets `random_seed = 1`, so its random eccentricities
   are reproducible; they differ from those of the notebook's unseeded Python 2 run.
 
+## Notebooks
+
+Four of epi_int_lite's test notebooks were ported the same way and re-executed on the port's
+output (`check_orbits`, `spreading`, `libration` for the 10⁻⁹ narrow ringlet, and
+`libration_frequency`); the untouched Python 2 versions are commit `99a7753`.
+
+| Change | Where |
+|---|---|
+| `print x` → `print(x)` | 44 statements in the four notebooks |
+| `execfile(f)` → `exec(open(f).read())` | each notebook |
+| plot labels such as `'$|\Delta e|$'` → raw strings `r'$|\Delta e|$'` (`\D` is an invalid string escape, a `SyntaxWarning` in Python 3.12+ and an error in future versions) | 6 labels |
+| kernel Python 2 → Python 3 | each notebook's metadata |
+
+They are run from their own folders with `source/` on the import path:
+`PYTHONPATH=source uv run jupyter nbconvert --to notebook --execute --inplace <notebook>`.
+Their calculations are also reproduced in `tests/analysis.py` for the regression suite.
+
 ## Not ported
 
-- The test notebooks. Their calculations are reproduced in `tests/analysis.py` and used by the
-  regression suite (`tests/test_regression.py`) and by `tools/compare_port.py`; their figures
-  and printed outputs are kept in each test's `reference/` folder.
+- The other notebooks.
 - The other tests (`equilibrium`, `edge_torques`, `timestep`, `particles_per_streamline`,
   `rates`, `profile`), the hahn25 production runs (`runs/`) and the paper (`paper/`).
 

@@ -14,3 +14,5 @@ paper/epi_int_3d.pdf
 
 # simulation outputs
 tests/**/output/
+tests/**/output.log
+tests/**/figs/
