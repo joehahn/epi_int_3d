@@ -6,3 +6,6 @@ papers/*.pdf
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# personal bibliography: kept local, not committed
+paper/jmh_bibliography.bib

@@ -42,16 +42,17 @@ drove each phase, what CC produced, and how the results were verified.
 ## Phase 0 — Setup and baseline
 
 - GitHub repo `joehahn/epi_int_3d` (private now, public later), **starting fresh**, with no git
-  connection to epi_int_lite. Start from the source on epi_int_lite's **`lindblad_resonance`
-  branch** (master plus the Fourier-satellite forcing) and cite
+  connection to epi_int_lite. Start from the source on epi_int_lite's **`master` branch**
+  (the hahn25 code); the Fourier-satellite forcing on the `lindblad_resonance` branch is
+  ported separately in Phase 3 (see 2c). Cite
   https://github.com/joehahn/epi_int_lite and https://github.com/joehahn/epi_int (IDL) as
   origins in the README.
 - **Port to modern Python.** Upstream is Python 2.7 (`print` statements, `execfile`). Target
   the newest CPython that Numba supports when the phase starts (likely 3.14), with NumPy 2.x.
   The port itself is a straight translation, with no speed changes yet, so it can be checked
-  directly against the original. One known break: the branch uses `scipy.misc.derivative`
-  (removed from modern SciPy) for the Laplace-coefficient derivative; replace it with the
-  analytic derivative.
+  directly against the original. (When the `lindblad_resonance` forcing is ported later, its
+  `scipy.misc.derivative` call, removed from modern SciPy, is replaced with the analytic
+  Laplace-coefficient derivative.)
 - Rerun a few existing `tests/` (e.g. `unperturbed`, `libration`, `spreading`) and confirm they
   reproduce the Python 2 / hahn25 results. These become the **2D regression suite**, and the
   straight port becomes the **reference implementation** that the faster code is checked against.
@@ -160,7 +161,8 @@ the README (a good demo result in its own right).
     (point-mass satellites with z, giving A_z).
 
   Plan:
-  - *Horizontal forcing:* port the Fourier satellite from the branch (no rederivation).
+  - *Horizontal forcing:* port the Fourier satellite from the `lindblad_resonance` branch
+    onto the master-based code (no rederivation).
   - *Vertical forcing:* rederive Shu's (1984) resonant vertical forcing term in GT notation
     and add it as a vertical Fourier satellite (inclined satellite, m-th vertical resonance).
   - *Cross-check:* also port epi_int's direct 3D satellite gravity. A direct inclined satellite
@@ -273,7 +275,8 @@ comparison with Cassini data is out of scope for this paper.
 - Port to the newest Python that Numba supports, then optimize for speed (Phase 0b).
 - Bending wave: m = 2–3, ~20 crests, ~20 streamlines per wavelength, ~20 particles per streamline.
 - Math in Goldreich & Tremaine notation; Shu's results are rederived/translated (GT m = −Shu m).
-- Code starts from epi_int_lite's `lindblad_resonance` branch (Fourier-satellite forcing).
+- Code starts from epi_int_lite's `master` branch; the Fourier-satellite forcing is ported
+  from the `lindblad_resonance` branch in Phase 3.
 - Satellite horizontal forcing ported; vertical forcing rederived from Shu in GT notation and
   cross-checked against epi_int's direct 3D satellite gravity.
 - Simulations run multicore on Google Cloud VMs in a dedicated GCP project (shared billing
