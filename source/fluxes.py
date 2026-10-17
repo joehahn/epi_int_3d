@@ -1,6 +1,7 @@
 #fluxes.py
 #
 #by Joe Hahn, jmh.datasciences@gmail.com, 6 June 2018
+#Ported to Python 3 by Claude Code for epi_int_3d, October 2026 (see notes/port_changes.md).
 #
 #compute viscous angular momentum flux and luminosity through ringlet's central streamline
 
@@ -21,7 +22,7 @@ def calculate_angular_momentum_flux(total_ring_mass, number_of_streamlines, part
         #streamlines' linear density 
         lambda_ = get_lambda(total_ring_mass, number_of_streamlines, J2, Rp, r_now, t_now, vr_now, vt_now)
         #preserve only two middlemost streamlines, to force acceleations() to compute one-sided accelerations
-        middle_index = number_of_streamlines/2
+        middle_index = number_of_streamlines//2
         rc = r_now[middle_index-1:middle_index+1,:]
         tc = t_now[middle_index-1:middle_index+1,:]
         vrc = vr_now[middle_index-1:middle_index+1,:]
@@ -65,7 +66,7 @@ def calculate_energy_flux(total_ring_mass, number_of_streamlines, particles_per_
         #streamlines' linear density 
         lambda_ = get_lambda(total_ring_mass, number_of_streamlines, J2, Rp, r_now, t_now, vr_now, vt_now)
         #preserve only two middlemost streamlines, to force acceleations() to compute one-sided accelerations
-        middle_index = number_of_streamlines/2
+        middle_index = number_of_streamlines//2
         rc = r_now[middle_index-1:middle_index+1,:]
         tc = t_now[middle_index-1:middle_index+1,:]
         vrc = vr_now[middle_index-1:middle_index+1,:]

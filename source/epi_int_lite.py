@@ -7,34 +7,36 @@
 #this simulates the dynamical evolution of self-gravitating planetary rings.
 #A portion of this code was written while drinking and singing at
 #the Water Tank karaoke bar in northwest Austin TX, so buyer beware.
+#
+#Ported to Python 3 by Claude Code for epi_int_3d, October 2026 (see notes/port_changes.md).
 
 #read input parameters
 import numpy as np
-execfile('inputs.py')
-print 'number_of_streamlines =', number_of_streamlines
-print 'particles_per_streamline =', particles_per_streamline
-print 'dt =', dt
-print 'timesteps_per_output = ', timesteps_per_output
-print 'total_number_of_outputs =', total_number_of_outputs
-print 'radial_width =', radial_width
-print 'total_ring_mass =', total_ring_mass
-print 'ring gravitation constant =', G_ring
-print 'fast_gravity =', fast_gravity
-print 'shear_viscosity =', shear_viscosity
-print 'bulk_viscosity =', bulk_viscosity
-print 'confine_inner_edge =', confine_inner_edge
-print 'confine_outer_edge =', confine_outer_edge
-print "Toomre's Q_ring =", Q_ring
-print 'Rp =', Rp
-print 'J2 =', J2
-print 'initial_orbits =', initial_orbits
-print 'output_folder =', output_folder
-
+random_seed = None     #inputs.py may set this to make random initial orbits reproducible
+exec(open('inputs.py').read())
+print('number_of_streamlines =', number_of_streamlines)
+print('particles_per_streamline =', particles_per_streamline)
+print('dt =', dt)
+print('timesteps_per_output = ', timesteps_per_output)
+print('total_number_of_outputs =', total_number_of_outputs)
+print('radial_width =', radial_width)
+print('total_ring_mass =', total_ring_mass)
+print('ring gravitation constant =', G_ring)
+print('fast_gravity =', fast_gravity)
+print('shear_viscosity =', shear_viscosity)
+print('bulk_viscosity =', bulk_viscosity)
+print('confine_inner_edge =', confine_inner_edge)
+print('confine_outer_edge =', confine_outer_edge)
+print("Toomre's Q_ring =", Q_ring)
+print('Rp =', Rp)
+print('J2 =', J2)
+print('initial_orbits =', initial_orbits)
+print('output_folder =', output_folder)
 #initialize orbits
 from helper_fns import *
 r, t, vr, vt, c, monitor = initialize_streamline(number_of_streamlines, particles_per_streamline,
     radial_width, total_ring_mass, G_ring, fast_gravity, shear_viscosity, bulk_viscosity, 
-    confine_inner_edge, confine_outer_edge, Q_ring, J2, Rp, initial_orbits)
+    confine_inner_edge, confine_outer_edge, Q_ring, J2, Rp, initial_orbits, random_seed=random_seed)
 
 #prep for main loop
 timestep = 0
@@ -42,7 +44,7 @@ number_of_outputs = 0
 (rz, tz, vrz, vtz, timestepz) = ([r], [t], [vr], [vt], [timestep])
 
 #evolve system using Chamber's (1993) 2nd order kick-drift-kick scheme 
-print 'evolving system...'
+print('evolving system...')
 while (number_of_outputs < total_number_of_outputs):
     #kick velocities forwards by timestep +dt/2
     r, t, vr, vt = velocity_kick(J2, Rp, G_ring, shear_viscosity, bulk_viscosity, c, total_ring_mass, number_of_streamlines, \
@@ -82,4 +84,4 @@ while (number_of_outputs < total_number_of_outputs):
 #save results
 timez = np.array(timestepz)*dt
 save_output(rz, tz, vrz, vtz, timez, modified_params, monitor, output_folder)
-print 'execution time (minutes) = ', (monitor['current_time'] - monitor['start_time'])/60.0
+print('execution time (minutes) = ', (monitor['current_time'] - monitor['start_time'])/60.0)

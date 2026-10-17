@@ -63,6 +63,6 @@ modified_params = None
 if (args.modified_params):
     modified_params_str = args.modified_params
     modified_params = json.loads(modified_params_str)
-    print 'modified_params =', modified_params
-    for key, val in modified_params.iteritems():
+    print('modified_params =', modified_params)
+    for key, val in modified_params.items():
         exec(key + '=val')

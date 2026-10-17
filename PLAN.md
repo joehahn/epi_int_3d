@@ -70,6 +70,11 @@ drove each phase, what CC produced, and how the results were verified.
 
 **Deliverable:** a modern-Python epi_int_lite that reproduces its published results.
 
+**Status (2026-10-17, prompt 05):** done. `source/` is the Python 3.14 port (changes in
+`notes/port_changes.md`); it reproduces the notebooks' Python 2 results to 6–10 significant
+figures (`notes/phase0/port_comparison.md`). The 2D regression suite is `uv run pytest`
+(unperturbed, spreading, libration; golden files in `tests/golden/`). Remaining: your gate review.
+
 ## Phase 0b — Performance
 
 Done once, before the 3D work, so the 3D kernels are written in the fast form from the start.

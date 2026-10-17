@@ -11,3 +11,6 @@ __pycache__/
 paper/jmh_bibliography.bib
 paper/epi_int_3d.pdf
 .venv/
+
+# simulation outputs
+tests/**/output/

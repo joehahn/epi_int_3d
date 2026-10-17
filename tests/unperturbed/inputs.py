@@ -31,8 +31,9 @@ fast_gravity = False
 shear_viscosity = -1.0
 bulk_viscosity = shear_viscosity
 
-#add fictitious torque at inner and outer streamlines, to oppose any radial spreading
-confine_edges = False
+#add fictitious torques at inner and/or outer streamlines, to oppose any radial spreading
+confine_inner_edge = False
+confine_outer_edge = False
 
 #ring pressure scales with Toomre's Q_ring, set Q_ring < 0 to turn off
 Q_ring = -1.0
@@ -47,6 +48,9 @@ initial_orbits = {
     'e':(1.0e-8, 1.0e-2),
 }
 
+#seed for the random initial orbits, so that runs are reproducible
+random_seed = 1
+
 #output folder
 output_folder = 'output'
 
@@ -60,6 +64,6 @@ modified_params = None
 if (args.modified_params):
     modified_params_str = args.modified_params
     modified_params = json.loads(modified_params_str)
-    print 'modified_params =', modified_params
-    for key, val in modified_params.iteritems():
+    print('modified_params =', modified_params)
+    for key, val in modified_params.items():
         exec(key + '=val')

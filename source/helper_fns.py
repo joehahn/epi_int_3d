@@ -3,6 +3,8 @@
 #by Joe Hahn, jmh.datasciences@gmail.com, 28 September 2017.
 #
 #helper functions used by epi_int_lite.py
+#
+#Ported to Python 3 by Claude Code for epi_int_3d, October 2026 (see notes/port_changes.md).
 
 #angular frequency
 def Omega(J2, Rp, a, Ar=0.0):
@@ -423,7 +425,7 @@ def monitor_streamlines(monitor, r, t, timestep):
     #check for nan in r
     nan_timestep = monitor['nan_timestep']
     if ((np.isnan(r).any() == True) and (nan_timestep == None)):
-        print 'nan coordinate at timestep = ', timestep
+        print('nan coordinate at timestep = ', timestep)
         monitor['nan_timestep'] = timestep
     #check for streamline crossing where dr[1] = streamline 1's radial distance relative to streamline 0
     dr = r - interpolate_fn(t, r, -1, interpolate=True)
@@ -431,7 +433,7 @@ def monitor_streamlines(monitor, r, t, timestep):
     idx = (dr < 0)
     streamline_crossing_timestep = monitor['streamline_crossing_timestep']
     if ((idx.sum() > 0) and (streamline_crossing_timestep == None)):
-        print 'steamlines cross at timestep = ', timestep
+        print('steamlines cross at timestep = ', timestep)
         monitor['streamline_crossing_timestep'] = timestep
     return monitor
 
@@ -467,22 +469,26 @@ def update_display(number_of_outputs, total_number_of_outputs, dt, timestep, mon
     monitor['current_time'] = int(tm.time())
     exec_time_min = (monitor['current_time'] - monitor['start_time'])/60.0
     eta_min = int((total_number_of_outputs - number_of_outputs)*exec_time_min/number_of_outputs)
-    print 'time = ' + str(timestep*dt) + \
+    print('time = ' + str(timestep*dt) + \
         '    number of outputs = ' + str(number_of_outputs) + \
         '    number of orbits = ' + str(int(timestep*dt/2.0/np.pi)) + \
-        '    eta (minutes) = ', eta_min
+        '    eta (minutes) = ', eta_min)
     continue_sim = True
     if (monitor['self_interacting'] == True):
         for key in ['streamline_crossing_timestep', 'nan_timestep']:
             if (monitor[key]):
-                print 'sim terminated at timestep = ' + str(timestep)
+                print('sim terminated at timestep = ' + str(timestep))
                 continue_sim = False
     return continue_sim
 
 #initialize streamlines
 def initialize_streamline(number_of_streamlines, particles_per_streamline, radial_width,
     total_ring_mass, G_ring, fast_gravity, shear_viscosity, bulk_viscosity,
-    confine_inner_edge, confine_outer_edge, Q_ring, J2, Rp, initial_orbits):
+    confine_inner_edge, confine_outer_edge, Q_ring, J2, Rp, initial_orbits, random_seed=None):
+    
+    #seed the random number generator, if requested, so that random initial orbits are reproducible
+    if (random_seed is not None):
+        np.random.seed(random_seed)
     
     #initialize particles in circular orbits
     a_streamlines = np.linspace(1.0, 1.0 + radial_width, num=number_of_streamlines)
@@ -566,7 +572,7 @@ def initialize_streamline(number_of_streamlines, particles_per_streamline, radia
 #recompute coordinates in coordinate system that co-rotates with ringlet's middle streamline's peri
 def peri_corotate(r, t, vr, vt, wt):
     number_of_streamlines = r.shape[0]
-    s_idx = (number_of_streamlines - 1)/2
+    s_idx = (number_of_streamlines - 1)//2
     r_middle_streamline = r[s_idx]
     t_idx = np.argmin(r_middle_streamline)
     wt_middle_streamline = wt[s_idx]
