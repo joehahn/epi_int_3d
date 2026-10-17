@@ -121,8 +121,11 @@ angular velocity $\Omega_a$, and its mean anomaly $M$ advances at the epicyclic 
 $\kappa_a$. Note that $\Omega$ denotes the longitude of ascending node, while $\Omega_a$ is
 the mean angular velocity.
 
-The new physics is the vertical equation. Since $\nu^2(r) = \nu^2(a)[1 + {\cal O}(e)]$,
-to first order in $e$ and $i$ it is the harmonic oscillator
+So the only additional physics that epi\_int\_lite's drift step needs in order to follow
+out-of-plane motion is the vertical equation of motion, the second of
+Eqns.\ (\ref{eqn:eom_expand}); the vertical forces that the ring and satellites exert enter
+the kick step and are treated separately. Evaluating $\nu^2(r)$ at $r = a$ reduces the
+vertical equation to the harmonic oscillator
 \begin{equation}
     \label{eqn:z_oscillator}
     \ddot{z} = -\nu_a^2 z,
@@ -132,8 +135,8 @@ with vertical frequency (Eqn.\ 17 of \citealt{BL94})
     \label{eqn:nu}
     \nu_a \equiv \nu(a) = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
 \end{equation}
-and the neglected terms are of order ${\cal O}(ei)$ and ${\cal O}(i^3)$
-(Section \ref{sec:accuracy}). The three frequencies satisfy
+where the neglected terms are of order ${\cal O}(ei)$, due to the particle's radial excursion
+$r - a = {\cal O}(ea)$, and ${\cal O}(i^3)$ (Section \ref{sec:accuracy}). The three frequencies satisfy
 $\kappa_a^2 + \nu_a^2 = 2\Omega_a^2$, as Laplace's equation requires outside the planet.
 
 \subsection{Vertical solution}
