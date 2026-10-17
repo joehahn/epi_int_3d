@@ -148,11 +148,11 @@ the README (a good demo result in its own right).
   kept as `notes/numerics/vertical_motion_check.py`. V1–V4 are sympy-verified
   (`notes/sympy/vertical_motion.py`) and written up condensed in the mock paper
   `paper/epi_int_3d.tex` (prompt 04). Remaining: your hand verification.
-  Note: epi_int (IDL) already tracks z, v_z, I, N with the same first-order formulas, using
-  vertical phase ω̃ + M − N. Ours uses ω̃ + (Ω_a/κ_a)M − Ω, which makes the vertical phase advance
-  at exactly ν_a; the two agree to first order.
-- **2b. Vertical self-gravity of streamlines.** Neither code has this: epi_int's
-  `ring_gravity` explicitly assumes z = 0 and sets A_z = 0. The new physics: the vertical (and modified
+  **epi_int is treated as a 2D code** (Hahn & Spitale 2013 describe a planar model). Its IDL
+  source has partial, undocumented z bookkeeping that was never peer reviewed, so this
+  project neither cites nor builds on it.
+- **2b. Vertical self-gravity of streamlines.** Neither epi_int nor epi_int_lite has this;
+  both are planar. The new physics: the vertical (and modified
   radial) acceleration that one inclined/warped streamline exerts on a particle in another.
   In the wire approximation this is roughly A ≈ −2Gλ(Δr, Δz)/(Δr² + Δz²). That needs to be
   derived carefully, including the regime λ_b ≲ A where in-plane and vertical forcing couple
@@ -162,15 +162,14 @@ the README (a good demo result in its own right).
   - epi_int_lite `lindblad_resonance` branch: a "Fourier satellite", i.e. only the resonant
     m-th term of a circular, uninclined satellite's potential (horizontal forces only), with
     Laplace coefficients evaluated once at the ring's mean radius.
-  - epi_int (IDL) `sat_grav`: the same Fourier option, plus fully 3D direct satellite gravity
-    (point-mass satellites with z, giving A_z).
 
   Plan:
   - *Horizontal forcing:* port the Fourier satellite from the `lindblad_resonance` branch
     onto the master-based code (no rederivation).
   - *Vertical forcing:* rederive Shu's (1984) resonant vertical forcing term in GT notation
     and add it as a vertical Fourier satellite (inclined satellite, m-th vertical resonance).
-  - *Cross-check:* also port epi_int's direct 3D satellite gravity. A direct inclined satellite
+  - *Cross-check:* also implement direct 3D gravity of a point-mass satellite (written new,
+    not ported from epi_int's unpublished z code). A direct inclined satellite
     contains all terms of the potential, so its response near the vertical resonance should
     match the Fourier version. That gives an independent test of the rederived forcing.
     Production runs use the Fourier satellite (cleaner, and it doesn't also excite nearby
@@ -283,7 +282,7 @@ comparison with Cassini data is out of scope for this paper.
 - Code starts from epi_int_lite's `master` branch; the Fourier-satellite forcing is ported
   from the `lindblad_resonance` branch in Phase 3.
 - Satellite horizontal forcing ported; vertical forcing rederived from Shu in GT notation and
-  cross-checked against epi_int's direct 3D satellite gravity.
+  cross-checked against a newly written direct 3D point-mass satellite.
 - Simulations run multicore on Google Cloud VMs in a dedicated GCP project (shared billing
   account); budget $100, scoped to that project (alerts + auto-shutdown).
 - Ring edges: stop runs before the wave front reaches the edge; `radiative_bc` is a nice-to-have.

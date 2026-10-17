@@ -2,8 +2,14 @@
 
 Write up the derivation of the particles' vertical motion (prompts 01–02) as a section of a
 mock ApJ paper in AASTeX, `paper/epi_int_3d.tex`, set up like the hahn25 source in
-epi_int_lite's `paper/` folder. Keep the derivation condensed, like hahn25's Appendix A.
+epi_int_lite's `paper/` folder. Start from Newton's second law, r̈ = −∇Φ for the planet's
+potential, and linearize it to get first-order equations for the particle's cylindrical
+coordinates (r, θ, z). State that the r, θ equations and their solution are from Hahn et al.
+(2025), and summarize those results concisely in an appendix. Then focus on the z motion and
+its solution, deriving the new results as completely and concisely as possible.
 
+- Use AASTeX v7. Use Ω for the longitude of ascending node, and Ω_a, κ_a, ν_a for the
+  frequencies at semimajor axis a; use M_p and R_p for the planet's mass and radius.
 - Verify every equation with sympy first, and mark it sympy-verified in `notes/equations.md`.
 - Cite from my bibliography, `paper/jmh_bibliography.bib`, which stays local and is not
   committed. Put any references it lacks in a separate, committed bib file.

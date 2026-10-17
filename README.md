@@ -25,4 +25,4 @@ Built on:
 - epi_int_lite (Python): https://github.com/joehahn/epi_int_lite — Hahn et al. 2025, ApJ, 986, 220
 - epi_int (IDL): https://github.com/joehahn/epi_int — Hahn & Spitale 2013, ApJ, 772, 122
 
-Joe Hahn, joe.hahn@jmh-datasciences.com (AI and this demo); jhahn@SpaceScience.org (the science and the paper)
+Joe Hahn, joe.hahn@jmh-datasciences.com

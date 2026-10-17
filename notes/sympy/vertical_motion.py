@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Sympy verification of the first-order vertical epicyclic equations V1-V4
+# Sympy verification of the first-order vertical epicyclic equations V1-V6, and of the
+# in-plane solution of hahn25 Appendix A (H1-H3) as transcribed in the paper's Appendix A
 # (see notes/equations.md).
 #
 # Run:  uv run python notes/sympy/vertical_motion.py
@@ -30,6 +31,12 @@ Phi = -(G*Mp/rho_)*(1 - J2*(R/rho_)**2*P2(z/rho_))
 # --- the 3D potential reduces to hahn25 Eq. A2 in the midplane ---
 Phi_A2 = -G*Mp/r - J2*G*Mp*R**2/(2*r**3)
 check('Phi(r, z=0) equals hahn25 Eq. A2', Phi.subs(z, 0) - Phi_A2)
+
+# --- V5: Phi is even in z, and Phi(r, z) = Phi(r, 0) + nu^2(r) z^2/2 + O(z^4) ---
+nu2_r = (G*Mp/r**3)*(1 + sp.Rational(9, 2)*J2*(R/r)**2)
+check('V5: Phi is even in z', Phi - Phi.subs(z, -z))
+check('V5: Phi = Phi(r,0) + nu^2(r) z^2/2 + O(z^4)',
+      sp.series(Phi, z, 0, 4).removeO() - (Phi_A2 + nu2_r*z**2/2))
 
 # --- V1: frequencies, exact in J2 ---
 n2 = G*Mp/a**3
@@ -81,6 +88,12 @@ ser = sp.series(resid, eps, 0, 3).removeO()
 check('V2: residual of z equation has no O(eps^1) term', ser.coeff(eps, 1))
 print('      leading residual, O(e*i):', sp.factor(sp.simplify(ser.coeff(eps, 2))))
 
+# --- V6: the O(e i) residual equals the radial variation of nu^2(r), a d(nu^2)/da * delta * z ---
+check('V6: residual = -a d(nu^2)/da * d * z',
+      ser.coeff(eps, 2) - (-a*sp.diff(nu2_r, r).subs(r, a))*d*(a*zh))
+check('V6: a d(nu^2)/da = -(3GM/a^3)[1 + (15/2) J2 (R/a)^2]',
+      a*sp.diff(nu2_r, r).subs(r, a) + 3*G*Mp/a**3*(1 + sp.Rational(15, 2)*J2*(R/a)**2))
+
 # --- V4: nodal regression rate, to first order in J2 ---
 x = sp.symbols('x', positive=True)                 # x = J2 (R/a)^2
 n = sp.sqrt(n2)
@@ -88,4 +101,19 @@ rate = n*(sp.sqrt(1 + sp.Rational(3, 2)*x) - sp.sqrt(1 + sp.Rational(9, 2)*x))
 check('V4: Omega - nu = -(3/2) J2 (R/a)^2 n + O(J2^2)',
       sp.series(rate, x, 0, 2).removeO() + sp.Rational(3, 2)*x*n)
 
-print('\nAll checks of V1-V4 passed.')
+# --- H1-H3: the in-plane solution of hahn25 Appendix A, as transcribed in the paper's Appendix A ---
+e, M = sp.symbols('e M', positive=True)
+Om_a, ka_a = sp.sqrt(Omega2), sp.sqrt(kappa2)
+r_A = a/sp.sqrt(1 + 2*e*sp.cos(M))
+vr_A = e*a*ka_a*sp.sin(M)*(r_A/a)**3
+vt_A = a**2*Om_a/r_A
+check('H1: h = r v_theta = a^2 Omega_a exactly', r_A*vt_A - a**2*Om_a)
+C = sp.symbols('C', positive=True)
+a_A = R*(C + sp.sqrt(C**2 - sp.Rational(3, 2)*J2))
+lhs = sp.expand((a**4*Omega2).subs(a, a_A))
+check('H2: a = R(C + sqrt(C^2 - 3J2/2)) solves h^2 = a^4 Omega_a^2, with h^2 = 2 G M R C',
+      lhs - 2*G*Mp*R*C)
+check('H3: e sin M = (v_r/a kappa_a)(a/r)^3', (vr_A/(a*ka_a))*(a/r_A)**3 - e*sp.sin(M))
+check('H3: e cos M = [(a/r)^2 - 1]/2', ((a/r_A)**2 - 1)/2 - e*sp.cos(M))
+
+print('\nAll checks of V1-V6 and H1-H3 passed.')
