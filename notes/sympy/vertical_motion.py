@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Sympy verification of the first-order vertical epicyclic equations V1-V6, and of the
+# Sympy verification of the first-order vertical epicyclic equations V1-V7, and of the
 # in-plane solution of hahn25 Appendix A (H1-H3) as transcribed in the paper's Appendix A
 # (see notes/equations.md).
 #
@@ -50,6 +50,12 @@ check('kappa^2 = r^-3 d(r^4 Omega^2)/dr at z=0',
       (sp.diff(r**3*dPhi_dr, r)/r**3).subs(r, a) - kappa2)
 check('V1: nu^2 = d^2Phi/dz^2 at z=0', sp.diff(Phi, z, 2).subs(z, 0).subs(r, a) - nu2)
 check('V1: kappa^2 + nu^2 = 2 Omega^2', kappa2 + nu2 - 2*Omega2)
+
+# --- V7: Laplace's equation outside the planet, and the frequency relation it implies ---
+lap = sp.diff(r*sp.diff(Phi, r), r)/r + sp.diff(Phi, z, 2)
+check("V7: Laplace's equation, (1/r) d/dr(r dPhi/dr) + d2Phi/dz2 = 0", lap)
+check('V7: kappa^2 = 3 Omega^2 + d2Phi/dr2 at z=0',
+      (3*dPhi_dr/r + sp.diff(Phi, r, 2).subs(z, 0)).subs(r, a) - kappa2)
 
 # --- V2: elements -> coordinates; V3: coordinates -> elements ---
 inc = sp.symbols('i', positive=True)
@@ -116,4 +122,4 @@ check('H2: a = R(C + sqrt(C^2 - 3J2/2)) solves h^2 = a^4 Omega_a^2, with h^2 = 2
 check('H3: e sin M = (v_r/a kappa_a)(a/r)^3', (vr_A/(a*ka_a))*(a/r_A)**3 - e*sp.sin(M))
 check('H3: e cos M = [(a/r)^2 - 1]/2', ((a/r_A)**2 - 1)/2 - e*sp.cos(M))
 
-print('\nAll checks of V1-V6 and H1-H3 passed.')
+print('\nAll checks of V1-V7 and H1-H3 passed.')

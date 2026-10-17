@@ -1,0 +1,56 @@
+% Accuracy subsection removed from paper/epi_int_3d.tex (Section 2.4) on 2026-10-17; kept here
+% for possible reuse (e.g. in a later section or appendix). Restore with \input{unused/accuracy}.
+% Labels used here: sec:accuracy, eqn:residual, tab:accuracy. It refers to eqn:zvz, eqn:nu_r,
+% eqn:eom_expand, eqn:Phi3d and sec:appendix_inplane in the main file.
+% Numbers in Table 1 come from notes/numerics/vertical_motion_check.py; the residual is
+% sympy check V6 in notes/sympy/vertical_motion.py.
+
+\subsection{Accuracy}
+\label{sec:accuracy}
+
+Eqns.\ (\ref{eqn:zvz}) neglect the variation of $\nu^2(r)$ over the particle's radial
+excursion. Inserting $r = a(1 + \delta)$ with $\delta = {\cal O}(e)$ into Eqn.\ (\ref{eqn:nu_r})
+gives $\nu^2(r) \simeq \nu_a^2 + a\delta\,d\nu^2/da$, so Eqns.\ (\ref{eqn:zvz}) satisfy the exact
+vertical equation of motion $\ddot{z} = -\partial\Phi/\partial z$ with a residual of order
+${\cal O}(ei)$,
+\begin{equation}
+    \label{eqn:residual}
+    \ddot{z} + \nu_a^2z \simeq \frac{3GM_p}{a^3}\left[1 + \frac{15}{2}J_2\left(\frac{R_p}{a}\right)^2\right]\delta z,
+\end{equation}
+plus terms of order ${\cal O}(i^3)$. Likewise the in-plane solution ignores the ${\cal O}(z^2)$
+term in the radial Eqn.\ (\ref{eqn:eom_expand}), {\it i.e.}\ the ${\cal O}(i^2)$ change in the
+radial force on a particle at height $z$. The solution is therefore accurate to first order,
+with errors of order ${\cal O}(e^2, i^2, ei)$, the same order as the in-plane solution alone.
+All equations in this section and in Appendix \ref{sec:appendix_inplane} were verified
+symbolically.
+
+Table \ref{tab:accuracy} confirms this numerically for Saturn-like $J_2 = 0.016$ and $a = 2R_p$.
+Converting $10^5$ random particles having $e, i \le 0.05$ from coordinates to elements and
+back reproduces the coordinates with relative errors $\lesssim 10^{-15}$, and $10^4$ repeated
+round trips change $r$ by $\lesssim 2\times10^{-15}a$ and $z$ by $\lesssim 2\times10^{-13}a$.
+After one orbit, the position error relative to an exact integration of the particle's motion
+in potential (\ref{eqn:Phi3d}) falls as the square of $e$ and $i$.
+
+\begin{deluxetable}{ccc}
+\tablecaption{Position error after one orbit\label{tab:accuracy}}
+\tablehead{\colhead{$e$} & \colhead{$i$} & \colhead{$|\Delta\mathbf{r}|/a$}}
+\startdata
+0.02  & 0     & $3.7\times10^{-3}$ \\
+0.01  & 0     & $9.3\times10^{-4}$ \\
+0     & 0.02  & $4.0\times10^{-3}$ \\
+0     & 0.01  & $9.9\times10^{-4}$ \\
+0.02  & 0.02  & $7.7\times10^{-3}$ \\
+0.01  & 0.01  & $1.9\times10^{-3}$ \\
+0.005 & 0.005 & $4.8\times10^{-4}$ \\
+\enddata
+\tablecomments{Error in the drift-step position of a particle with $a=2R_p$ and $J_2=0.016$
+after one orbit, relative to an exact numerical integration in the potential
+(\ref{eqn:Phi3d}).}
+\end{deluxetable}
+
+\cite{BL94} and \cite{RS06} give conversions between coordinates and geometric
+elements for inclined orbits about an oblate planet that are accurate to second order in $e$
+and $i$. But those conversions are not exact inverses of each other (\citealt{H25};
+the inversion of \citealt{RS06} is iterative and accurate to second order), so the repeated
+conversions made during a long simulation accumulate error. The first-order equations given here trade that higher accuracy
+for exact reversibility, as \cite{H25} did for the in-plane motion.
