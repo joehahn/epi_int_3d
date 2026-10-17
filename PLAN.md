@@ -142,14 +142,15 @@ the README (a good demo result in its own right).
 ## Phase 2 — Theory
 
 - **2a. Vertical epicyclic motion (largely done).** The first-order, exactly reversible
-  extension of hahn25 Eq. A9 to (z, v_z) with new elements (i, Ω̂). A numerical check has
+  extension of hahn25 Eq. A9 to (z, v_z) with new elements (i, Ω). Notation: Ω is the node, and Ω_a, κ_a, ν_a
+  are the frequencies at semimajor axis a (as in Borderies-Rappaport & Longaretti 1994). A numerical check has
   already been done (round trip accurate to ~1e-16; errors scale as O(e², i², e·i)), and is
   kept as `notes/numerics/vertical_motion_check.py`. V1–V4 are sympy-verified
   (`notes/sympy/vertical_motion.py`) and written up condensed in the mock paper
   `paper/epi_int_3d.tex` (prompt 04). Remaining: your hand verification.
   Note: epi_int (IDL) already tracks z, v_z, I, N with the same first-order formulas, using
-  vertical phase ω̃ + M − N. Ours uses ω̃ + (Ω/κ)M − Ω̂, which makes the vertical phase advance
-  at exactly ν; the two agree to first order.
+  vertical phase ω̃ + M − N. Ours uses ω̃ + (Ω_a/κ_a)M − Ω, which makes the vertical phase advance
+  at exactly ν_a; the two agree to first order.
 - **2b. Vertical self-gravity of streamlines.** Neither code has this: epi_int's
   `ring_gravity` explicitly assumes z = 0 and sets A_z = 0. The new physics: the vertical (and modified
   radial) acceleration that one inclined/warped streamline exerts on a particle in another.
@@ -193,7 +194,7 @@ review the derivations (hand verification may continue in parallel with Phase 3)
 
 ## Phase 3 — Code: epi_int_3d
 
-- Drift step: add (i, Ω̂) and nodal regression (Phase 2a).
+- Drift step: add (i, Ω) and nodal regression (Phase 2a).
 - Kick step: vertical streamline gravity (2b), satellite horizontal + vertical forcing (2c),
   and the 2d terms, all written as Numba kernels (Phase 0b).
 - A stop condition: end the run when the wave front nears the ring edge (2e).
@@ -208,7 +209,7 @@ review the derivations (hand verification may continue in parallel with Phase 3)
 | Round trip coords ↔ elements | machine precision |
 | Single particle vs. exact 3D J₂ integration | errors O(e², i², e·i) |
 | All 2D regression tests with z = 0 | identical to Phase 0 |
-| Single inclined test particle | nodal regression at Ω − ν |
+| Single inclined test particle | nodal regression at Ω_a − ν_a |
 | Narrow inclined self-gravitating ringlet | rigid nodal precession / libration (vertical analog of the eccentric-ringlet test) |
 | Satellite horizontal forcing | reproduces the `lindblad_resonance` branch / epi_int results for the same setup |
 | Vertical Fourier satellite vs. direct inclined satellite | same forced vertical response near the resonance |

@@ -5,6 +5,10 @@
 # Run:  uv run python notes/sympy/vertical_motion.py
 #
 # Each check prints PASS or raises AssertionError.
+#
+# Notation: Omega, kappa, nu here are the frequencies Omega_a, kappa_a, nu_a of the paper;
+# the longitude of ascending node (Omega in the paper) is called node. M_p and R are the
+# planet's mass and radius (M_p and R_p in the paper).
 import sympy as sp
 
 G, Mp, R, J2 = sp.symbols('G M_p R J_2', positive=True)
@@ -42,7 +46,7 @@ check('V1: kappa^2 + nu^2 = 2 Omega^2', kappa2 + nu2 - 2*Omega2)
 
 # --- V2: elements -> coordinates; V3: coordinates -> elements ---
 inc = sp.symbols('i', positive=True)
-u = sp.symbols('u', real=True)                     # vertical phase u = lambda - Omega_hat
+u = sp.symbols('u', real=True)                     # vertical phase u = lambda - node
 nu = sp.sqrt(nu2)
 z_V2 = a*inc*sp.sin(u)
 vz_V2 = a*nu*inc*sp.cos(u)
@@ -55,13 +59,13 @@ check('V3: (v_z/nu)/(a i) = cos u', (vz_V2/nu)/(a*i_V3) - sp.cos(u))
 
 # --- V2 + V4: the motion is an exact harmonic oscillator at frequency nu ---
 # lambda = wt + (Omega/kappa) M advances at Omega since dM/dt = kappa, and
-# Omega_hat advances at Omega - nu (V4), so du/dt = Omega - (Omega - nu) = nu.
-t, u0, wt, M0, Oh0 = sp.symbols('t u_0 omegatilde M_0 Omegahat_0', real=True)
+# the node advances at Omega - nu (V4), so du/dt = Omega - (Omega - nu) = nu.
+t, wt, M0, node0 = sp.symbols('t omegatilde M_0 node_0', real=True)
 Om, ka = sp.sqrt(Omega2), sp.sqrt(kappa2)
 M_t = M0 + ka*t
 lam_t = wt + (Om/ka)*M_t
-Oh_t = Oh0 + (Om - nu)*t                           # V4
-u_t = lam_t - Oh_t
+node_t = node0 + (Om - nu)*t                           # V4
+u_t = lam_t - node_t
 check('V4: du/dt = nu', sp.diff(u_t, t) - nu)
 z_t, vz_t = z_V2.subs(u, u_t), vz_V2.subs(u, u_t)
 check('V2: dz/dt = v_z', sp.diff(z_t, t) - vz_t)

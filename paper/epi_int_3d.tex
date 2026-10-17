@@ -3,7 +3,7 @@
 %mock ApJ paper on epi_int_3d: N-body simulations of spiral bending waves in planetary rings.
 %Work in progress; only the vertical-motion section is drafted.
 %
-%AASTeX v7.0.2 (aastex702.cls, aasjournalv7.1.bst) is kept in this folder.
+%AASTeX v7.0.2 (aastex702.cls, aasjournalv7.bst) is kept in this folder.
 %to compile (tectonic runs bibtex itself):
 %    tectonic epi_int_3d.tex
 %jmh_bibliography.bib is kept local and not committed; cc_added.bib holds entries added by Claude Code.
@@ -68,42 +68,44 @@ The planet's potential, extended to three dimensions, is the $J_2$ term of the z
 expansion in Eqn.\ (5) of \cite{BL94},
 \begin{equation}
     \label{eqn:Phi3d}
-    \Phi(r,z) = -\frac{GM_p}{\rho}\left[1 - J_2\left(\frac{R}{\rho}\right)^2P_2\left(\frac{z}{\rho}\right)\right]
+    \Phi(r,z) = -\frac{GM_p}{\rho}\left[1 - J_2\left(\frac{R_p}{\rho}\right)^2P_2\left(\frac{z}{\rho}\right)\right]
 \end{equation}
-where $M_p$ is the planet's mass, $R$ its radius, $\rho^2 = r^2 + z^2$, $r$ is the
+where $M_p$ is the planet's mass, $R_p$ its radius, $\rho^2 = r^2 + z^2$, $r$ is the
 cylindrical radius, and $P_2(\mu) = (3\mu^2 - 1)/2$. In the ring plane this reduces to
-Eqn.\ (A2) of \cite{H25}, so the mean orbital frequency $\Omega(a)$ and epicyclic frequency
-$\kappa(a)$ are unchanged (Eqns.\ A7--A8 of \citealt{H25}). Expanding $\Phi$ to second order in
-$z$ gives the vertical frequency $\nu^2 = \partial^2\Phi/\partial z^2$ at $z=0$
+Eqn.\ (A2) of \cite{H25}, so the mean orbital frequency and epicyclic frequency are unchanged
+(Eqns.\ A7--A8 of \citealt{H25}). Following \cite{BL94}, we write these as $\Omega_a \equiv \Omega(a)$
+and $\kappa_a \equiv \kappa(a)$, where the subscript denotes a function of the semimajor axis $a$,
+so that $\Omega$ is free to denote the longitude of ascending node. Expanding $\Phi$ to second
+order in $z$ gives the vertical frequency $\nu_a^2 = \partial^2\Phi/\partial z^2$ at $z=0$, $r=a$
 (Eqn.\ 17 of \citealt{BL94}):
 \begin{equation}
     \label{eqn:nu}
-    \nu(a) = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R}{a}\right)^2\right]^{1/2},
+    \nu_a = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
 \end{equation}
-which satisfies $\kappa^2 + \nu^2 = 2\Omega^2$ as required by Laplace's equation.
+which satisfies $\kappa_a^2 + \nu_a^2 = 2\Omega_a^2$ as required by Laplace's equation.
 
 \subsection{Elements to coordinates}
 \label{sec:elem2coords}
 
 Two orbit elements are added: the inclination $i$ and the longitude of ascending node
-$\hat{\Omega}$. The in-plane coordinates $r, \theta, v_r, v_\theta$ are given by
+$\Omega$. The in-plane coordinates $r, \theta, v_r, v_\theta$ are given by
 Eqns.\ (A9) of \cite{H25} without change, and the vertical coordinates are
 \begin{eqnarray}
     \label{eqn:zvz}
-    z   &=& a\,i\sin(\lambda - \hat{\Omega}) \nonumber\\
-    v_z &=& a\nu i\cos(\lambda - \hat{\Omega})
+    z   &=& a\,i\sin(\lambda - \Omega) \nonumber\\
+    v_z &=& a\nu_a i\cos(\lambda - \Omega)
 \end{eqnarray}
-where $\lambda = \tilde{\omega} + (\Omega/\kappa)M$ is the particle's mean longitude,
+where $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$ is the particle's mean longitude,
 {\it i.e.}\ $\theta$ without its $2e\sin M$ term. The node regresses at the rate
 \begin{equation}
     \label{eqn:node}
-    \dot{\hat{\Omega}} = \Omega - \nu \simeq -\frac{3}{2}J_2\left(\frac{R}{a}\right)^2\Omega,
+    \dot{\Omega} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a,
 \end{equation}
-so the vertical phase $\lambda - \hat{\Omega}$ advances at exactly $\nu$, and
-Eqns.\ (\ref{eqn:zvz}) are an exact solution of $\ddot{z} = -\nu^2z$. Taking the vertical phase
+so the vertical phase $\lambda - \Omega$ advances at exactly $\nu_a$, and
+Eqns.\ (\ref{eqn:zvz}) are an exact solution of $\ddot{z} = -\nu_a^2z$. Taking the vertical phase
 from $\lambda$ rather than from $\theta$ is what keeps the vertical motion a pure harmonic
-oscillator; using $\theta - \hat{\Omega}$ would add an ${\cal O}(ei)$ error to the phase.
-The original epi\_int code used the vertical phase $\tilde{\omega} + M - \hat{\Omega}$,
+oscillator; using $\theta - \Omega$ would add an ${\cal O}(ei)$ error to the phase.
+The original epi\_int code used the vertical phase $\tilde{\omega} + M - \Omega$,
 which agrees with ours to first order.
 
 \subsection{Coordinates to elements}
@@ -113,20 +115,20 @@ The inversion is steps 1--4 of \cite{H25} Appendix A, followed by a new step 5.
 Step 1 remains exact in three dimensions: $h = rv_\theta$ is the $z$-component of the
 particle's specific angular momentum, which is conserved in the axisymmetric potential
 (\ref{eqn:Phi3d}), so Eqn.\ (A10) of \cite{H25} still yields $a$ exactly when $r$ is the
-cylindrical radius. Steps 2--4 then provide $\Omega$, $\kappa$, $e$, $M$ and $\tilde{\omega}$,
-and so $\lambda$. Step 5 computes $\nu(a)$ from Eqn.\ (\ref{eqn:nu}) and then
+cylindrical radius. Steps 2--4 then provide $\Omega_a$, $\kappa_a$, $e$, $M$ and $\tilde{\omega}$,
+and so $\lambda$. Step 5 computes $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
 \begin{eqnarray}
     \label{eqn:i_node}
-    i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu}\right)^2} \nonumber\\
-    \hat{\Omega} &=& \lambda - \text{atan2}(z, v_z/\nu).
+    i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu_a}\right)^2} \nonumber\\
+    \Omega &=& \lambda - \text{atan2}(z, v_z/\nu_a).
 \end{eqnarray}
-Once $a$ is known the mapping $(i, \lambda - \hat{\Omega}) \leftrightarrow (z, v_z/\nu)$ is a
+Once $a$ is known the mapping $(i, \lambda - \Omega) \leftrightarrow (z, v_z/\nu_a)$ is a
 change between polar and Cartesian coordinates, so Eqns.\ (\ref{eqn:zvz}) and
 (\ref{eqn:i_node}) are exact inverses. During the drift step from $t$ to $t + \Delta t$,
 steps 1--5 convert coordinates to elements, the elements are advanced via
-$M \rightarrow M + \kappa\Delta t$ and $\hat{\Omega} \rightarrow \hat{\Omega} + (\Omega - \nu)\Delta t$,
+$M \rightarrow M + \kappa_a\Delta t$ and $\Omega \rightarrow \Omega + (\Omega_a - \nu_a)\Delta t$,
 and Eqns.\ (A9) and (\ref{eqn:zvz}) convert back to coordinates. In the code the vertical part
-of the drift is simply a rotation of $(z, v_z/\nu)$ through the angle $\nu\Delta t$.
+of the drift is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 
 \subsection{Accuracy}
 \label{sec:accuracy}
@@ -136,7 +138,7 @@ motion $\ddot{z} = -\partial\Phi/\partial z$ shows that Eqns.\ (\ref{eqn:zvz}) s
 a residual of order ${\cal O}(ei)$,
 \begin{equation}
     \label{eqn:residual}
-    \ddot{z} + \nu^2z \simeq \frac{3GM_p}{a^3}\left[1 + \frac{15}{2}J_2\left(\frac{R}{a}\right)^2\right]\delta z,
+    \ddot{z} + \nu_a^2z \simeq \frac{3GM_p}{a^3}\left[1 + \frac{15}{2}J_2\left(\frac{R_p}{a}\right)^2\right]\delta z,
 \end{equation}
 plus terms of order ${\cal O}(i^3)$. Likewise the in-plane Eqns.\ (A9) ignore the ${\cal O}(i^2)$
 change in the radial force on a particle at height $z$. The solution is therefore accurate
@@ -144,7 +146,7 @@ to first order, with errors of order ${\cal O}(e^2, i^2, ei)$, the same order as
 Eqns.\ (A9) alone. These equations, and the inversion (\ref{eqn:i_node}), were verified
 symbolically.
 
-Table \ref{tab:accuracy} confirms this numerically for Saturn-like $J_2 = 0.016$ and $a = 2R$.
+Table \ref{tab:accuracy} confirms this numerically for Saturn-like $J_2 = 0.016$ and $a = 2R_p$.
 Converting $10^5$ random particles having $e, i \le 0.05$ from coordinates to elements and
 back reproduces the coordinates with relative errors $\lesssim 10^{-15}$, and $10^4$ repeated
 round trips change $r$ by $\lesssim 2\times10^{-15}a$ and $z$ by $\lesssim 2\times10^{-13}a$.
@@ -163,7 +165,7 @@ in potential (\ref{eqn:Phi3d}) falls as the square of $e$ and $i$.
 0.01  & 0.01  & $1.9\times10^{-3}$ \\
 0.005 & 0.005 & $4.8\times10^{-4}$ \\
 \enddata
-\tablecomments{Error in the drift-step position of a particle with $a=2R$ and $J_2=0.016$
+\tablecomments{Error in the drift-step position of a particle with $a=2R_p$ and $J_2=0.016$
 after one orbit, relative to an exact numerical integration in the potential
 (\ref{eqn:Phi3d}).}
 \end{deluxetable}
@@ -177,6 +179,6 @@ for exact reversibility, as \cite{H25} did for the in-plane motion.
 
 
 \bibliography{jmh_bibliography,cc_added}{}
-\bibliographystyle{aasjournalv7.1}
+\bibliographystyle{aasjournalv7}  % v7.1 (June 2026) mislabels lone citations as "2006a"
 
 \end{document}
