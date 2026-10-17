@@ -1,0 +1,182 @@
+%epi_int_3d.tex
+%
+%mock ApJ paper on epi_int_3d: N-body simulations of spiral bending waves in planetary rings.
+%Work in progress; only the vertical-motion section is drafted.
+%
+%AASTeX v7.0.2 (aastex702.cls, aasjournalv7.1.bst) is kept in this folder.
+%to compile (tectonic runs bibtex itself):
+%    tectonic epi_int_3d.tex
+%jmh_bibliography.bib is kept local and not committed; cc_added.bib holds entries added by Claude Code.
+
+
+\documentclass[twocolumn]{aastex702}
+
+\usepackage{amsmath}
+
+%journal
+\received{not yet}
+\revised{not yet}
+\accepted{not yet}
+\submitjournal{ApJ}
+
+%short names
+\shorttitle{Spiral Bending Waves in epi\_int\_3d}
+\shortauthors{Hahn}
+
+
+\begin{document}
+
+
+%title page
+\title{N-body Simulations of Spiral Bending Waves in Planetary Rings}
+
+\author[gname=Joseph,sname=Hahn]{Joseph M. Hahn}
+\affiliation{Space Science Institute}
+\email[show]{jhahn@SpaceScience.org}
+\correspondingauthor{Joseph M. Hahn}
+
+\begin{abstract}
+%placeholder
+Draft. This mock paper currently holds only the derivation of the vertical
+epicyclic motion used by the epi\_int\_3d drift step (Section \ref{sec:vertical}).
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:intro}
+
+%placeholder
+The epi\_int and epi\_int\_lite N-body integrators \citep{HS13, H25} model a planetary ring as
+a set of gravitating streamlines whose particles are confined to the ring plane. Spiral bending
+waves, which are launched at a satellite's vertical resonances \citep{SCL83, S84}, require the
+particles' vertical motions too. This paper extends epi\_int\_lite into the vertical direction
+and uses the new code, epi\_int\_3d, to simulate spiral bending waves.
+
+
+\section{Vertical epicyclic motion}
+\label{sec:vertical}
+
+The epi\_int\_lite drift step advances a particle's unperturbed orbit about an oblate planet
+using first-order epicyclic equations (Eqns.\ A9--A10 of \citealt{H25}) that are exactly
+reversible: converting spatial coordinates into epicyclic orbit elements and back introduces no
+error, so the drift step is not a source of numerical drift during simulations lasting
+$10^5$--$10^6$ orbits. Here those equations are extended to particles having vertical
+displacement $z$ and vertical velocity $v_z$, with the same first-order accuracy and the same
+exact reversibility.
+
+The planet's potential, extended to three dimensions, is the $J_2$ term of the zonal-harmonic
+expansion in Eqn.\ (5) of \cite{BL94},
+\begin{equation}
+    \label{eqn:Phi3d}
+    \Phi(r,z) = -\frac{GM_p}{\rho}\left[1 - J_2\left(\frac{R}{\rho}\right)^2P_2\left(\frac{z}{\rho}\right)\right]
+\end{equation}
+where $M_p$ is the planet's mass, $R$ its radius, $\rho^2 = r^2 + z^2$, $r$ is the
+cylindrical radius, and $P_2(\mu) = (3\mu^2 - 1)/2$. In the ring plane this reduces to
+Eqn.\ (A2) of \cite{H25}, so the mean orbital frequency $\Omega(a)$ and epicyclic frequency
+$\kappa(a)$ are unchanged (Eqns.\ A7--A8 of \citealt{H25}). Expanding $\Phi$ to second order in
+$z$ gives the vertical frequency $\nu^2 = \partial^2\Phi/\partial z^2$ at $z=0$
+(Eqn.\ 17 of \citealt{BL94}):
+\begin{equation}
+    \label{eqn:nu}
+    \nu(a) = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R}{a}\right)^2\right]^{1/2},
+\end{equation}
+which satisfies $\kappa^2 + \nu^2 = 2\Omega^2$ as required by Laplace's equation.
+
+\subsection{Elements to coordinates}
+\label{sec:elem2coords}
+
+Two orbit elements are added: the inclination $i$ and the longitude of ascending node
+$\hat{\Omega}$. The in-plane coordinates $r, \theta, v_r, v_\theta$ are given by
+Eqns.\ (A9) of \cite{H25} without change, and the vertical coordinates are
+\begin{eqnarray}
+    \label{eqn:zvz}
+    z   &=& a\,i\sin(\lambda - \hat{\Omega}) \nonumber\\
+    v_z &=& a\nu i\cos(\lambda - \hat{\Omega})
+\end{eqnarray}
+where $\lambda = \tilde{\omega} + (\Omega/\kappa)M$ is the particle's mean longitude,
+{\it i.e.}\ $\theta$ without its $2e\sin M$ term. The node regresses at the rate
+\begin{equation}
+    \label{eqn:node}
+    \dot{\hat{\Omega}} = \Omega - \nu \simeq -\frac{3}{2}J_2\left(\frac{R}{a}\right)^2\Omega,
+\end{equation}
+so the vertical phase $\lambda - \hat{\Omega}$ advances at exactly $\nu$, and
+Eqns.\ (\ref{eqn:zvz}) are an exact solution of $\ddot{z} = -\nu^2z$. Taking the vertical phase
+from $\lambda$ rather than from $\theta$ is what keeps the vertical motion a pure harmonic
+oscillator; using $\theta - \hat{\Omega}$ would add an ${\cal O}(ei)$ error to the phase.
+The original epi\_int code used the vertical phase $\tilde{\omega} + M - \hat{\Omega}$,
+which agrees with ours to first order.
+
+\subsection{Coordinates to elements}
+\label{sec:coords2elem}
+
+The inversion is steps 1--4 of \cite{H25} Appendix A, followed by a new step 5.
+Step 1 remains exact in three dimensions: $h = rv_\theta$ is the $z$-component of the
+particle's specific angular momentum, which is conserved in the axisymmetric potential
+(\ref{eqn:Phi3d}), so Eqn.\ (A10) of \cite{H25} still yields $a$ exactly when $r$ is the
+cylindrical radius. Steps 2--4 then provide $\Omega$, $\kappa$, $e$, $M$ and $\tilde{\omega}$,
+and so $\lambda$. Step 5 computes $\nu(a)$ from Eqn.\ (\ref{eqn:nu}) and then
+\begin{eqnarray}
+    \label{eqn:i_node}
+    i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu}\right)^2} \nonumber\\
+    \hat{\Omega} &=& \lambda - \text{atan2}(z, v_z/\nu).
+\end{eqnarray}
+Once $a$ is known the mapping $(i, \lambda - \hat{\Omega}) \leftrightarrow (z, v_z/\nu)$ is a
+change between polar and Cartesian coordinates, so Eqns.\ (\ref{eqn:zvz}) and
+(\ref{eqn:i_node}) are exact inverses. During the drift step from $t$ to $t + \Delta t$,
+steps 1--5 convert coordinates to elements, the elements are advanced via
+$M \rightarrow M + \kappa\Delta t$ and $\hat{\Omega} \rightarrow \hat{\Omega} + (\Omega - \nu)\Delta t$,
+and Eqns.\ (A9) and (\ref{eqn:zvz}) convert back to coordinates. In the code the vertical part
+of the drift is simply a rotation of $(z, v_z/\nu)$ through the angle $\nu\Delta t$.
+
+\subsection{Accuracy}
+\label{sec:accuracy}
+
+Inserting $r = a(1 + \delta)$ with $\delta = {\cal O}(e)$ into the exact vertical equation of
+motion $\ddot{z} = -\partial\Phi/\partial z$ shows that Eqns.\ (\ref{eqn:zvz}) satisfy it with
+a residual of order ${\cal O}(ei)$,
+\begin{equation}
+    \label{eqn:residual}
+    \ddot{z} + \nu^2z \simeq \frac{3GM_p}{a^3}\left[1 + \frac{15}{2}J_2\left(\frac{R}{a}\right)^2\right]\delta z,
+\end{equation}
+plus terms of order ${\cal O}(i^3)$. Likewise the in-plane Eqns.\ (A9) ignore the ${\cal O}(i^2)$
+change in the radial force on a particle at height $z$. The solution is therefore accurate
+to first order, with errors of order ${\cal O}(e^2, i^2, ei)$, the same order as
+Eqns.\ (A9) alone. These equations, and the inversion (\ref{eqn:i_node}), were verified
+symbolically.
+
+Table \ref{tab:accuracy} confirms this numerically for Saturn-like $J_2 = 0.016$ and $a = 2R$.
+Converting $10^5$ random particles having $e, i \le 0.05$ from coordinates to elements and
+back reproduces the coordinates with relative errors $\lesssim 10^{-15}$, and $10^4$ repeated
+round trips change $r$ by $\lesssim 2\times10^{-15}a$ and $z$ by $\lesssim 2\times10^{-13}a$.
+After one orbit, the position error relative to an exact integration of the particle's motion
+in potential (\ref{eqn:Phi3d}) falls as the square of $e$ and $i$.
+
+\begin{deluxetable}{ccc}
+\tablecaption{Position error after one orbit\label{tab:accuracy}}
+\tablehead{\colhead{$e$} & \colhead{$i$} & \colhead{$|\Delta\mathbf{r}|/a$}}
+\startdata
+0.02  & 0     & $3.7\times10^{-3}$ \\
+0.01  & 0     & $9.3\times10^{-4}$ \\
+0     & 0.02  & $4.0\times10^{-3}$ \\
+0     & 0.01  & $9.9\times10^{-4}$ \\
+0.02  & 0.02  & $7.7\times10^{-3}$ \\
+0.01  & 0.01  & $1.9\times10^{-3}$ \\
+0.005 & 0.005 & $4.8\times10^{-4}$ \\
+\enddata
+\tablecomments{Error in the drift-step position of a particle with $a=2R$ and $J_2=0.016$
+after one orbit, relative to an exact numerical integration in the potential
+(\ref{eqn:Phi3d}).}
+\end{deluxetable}
+
+\cite{BL94} and \cite{RS06} give conversions between coordinates and geometric
+elements for inclined orbits about an oblate planet that are accurate to second order in $e$
+and $i$. But those conversions are not exact inverses of each other (\citealt{H25};
+the inversion of \citealt{RS06} is iterative and accurate to second order), so the repeated
+conversions made during a long simulation accumulate error. The first-order equations given here trade that higher accuracy
+for exact reversibility, as \cite{H25} did for the in-plane motion.
+
+
+\bibliography{jmh_bibliography,cc_added}{}
+\bibliographystyle{aasjournalv7.1}
+
+\end{document}

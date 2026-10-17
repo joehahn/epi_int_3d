@@ -56,6 +56,8 @@ drove each phase, what CC produced, and how the results were verified.
 - Rerun a few existing `tests/` (e.g. `unperturbed`, `libration`, `spreading`) and confirm they
   reproduce the Python 2 / hahn25 results. These become the **2D regression suite**, and the
   straight port becomes the **reference implementation** that the faster code is checked against.
+- Python environment managed by uv (`pyproject.toml`, `uv.lock`, project-local `.venv/`),
+  Python 3.14 (set up early, with the vertical-motion write-up); Phase 0 adds Numba etc.
 - Add `CLAUDE.md` (conventions, units, how to run tests), `prompts/`, `notes/`, and
   `tools/session_time.py` for time tracking.
 - `papers/` holds the reference PDFs. Only openly licensed ones are committed (hahn25 is
@@ -141,8 +143,10 @@ the README (a good demo result in its own right).
 
 - **2a. Vertical epicyclic motion (largely done).** The first-order, exactly reversible
   extension of hahn25 Eq. A9 to (z, v_z) with new elements (i, Ω̂). A numerical check has
-  already been done (round trip accurate to ~1e-16; errors scale as O(e², i², e·i)).
-  Remaining: sympy verification, entry in `notes/equations.md`, LaTeX write-up.
+  already been done (round trip accurate to ~1e-16; errors scale as O(e², i², e·i)), and is
+  kept as `notes/numerics/vertical_motion_check.py`. V1–V4 are sympy-verified
+  (`notes/sympy/vertical_motion.py`) and written up condensed in the mock paper
+  `paper/epi_int_3d.tex` (prompt 04). Remaining: your hand verification.
   Note: epi_int (IDL) already tracks z, v_z, I, N with the same first-order formulas, using
   vertical phase ω̃ + M − N. Ours uses ω̃ + (Ω/κ)M − Ω̂, which makes the vertical phase advance
   at exactly ν; the two agree to first order.
@@ -226,8 +230,8 @@ comparison with Cassini data is out of scope for this paper.
   density σ₀ (hence wavelength λ_b), and map where the transition to nonlinearity occurs and
   whether density waves are launched.
 - **Compute: multicore VMs on Google Cloud.**
-  - Software environment pinned in a container image (or a pinned conda/uv environment), so
-    the VM and the Mac run identical code.
+  - Software environment: the same `uv.lock` used on the Mac, installed on the VM with
+    `uv sync --frozen` (optionally baked into a container image), so both run identical code.
   - Each run uses all cores of one VM through Numba's parallel loops. For the parameter study,
     either several runs share one large VM, or several smaller VMs run at once (the choice
     depends on the measured scaling with core count from Phase 0b).

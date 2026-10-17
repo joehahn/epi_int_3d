@@ -13,8 +13,16 @@ running simulations, and drafting the journal paper.
 - Equation verification status: [notes/equations.md](notes/equations.md)
 - Reference papers: [papers/](papers/)
 
+Setup (macOS or Linux):
+- Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
+  `pyproject.toml`, `.python-version` and `uv.lock`, and installed in this folder's `.venv/`
+  only. Run scripts with `uv run python <script>`; `uv sync` rebuilds the environment.
+- LaTeX: the paper compiles with [tectonic](https://tectonic-typesetting.github.io/)
+  (`brew install tectonic`; `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class
+  and bibliography style are kept in `paper/`.
+
 Built on:
 - epi_int_lite (Python): https://github.com/joehahn/epi_int_lite — Hahn et al. 2025, ApJ, 986, 220
 - epi_int (IDL): https://github.com/joehahn/epi_int — Hahn & Spitale 2013, ApJ, 772, 122
 
-Joe Hahn, jmh.datasciences@gmail.com
+Joe Hahn, joe.hahn@jmh-datasciences.com (AI and this demo); jhahn@SpaceScience.org (the science and the paper)

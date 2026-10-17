@@ -9,3 +9,5 @@ __pycache__/
 
 # personal bibliography: kept local, not committed
 paper/jmh_bibliography.bib
+paper/epi_int_3d.pdf
+.venv/
