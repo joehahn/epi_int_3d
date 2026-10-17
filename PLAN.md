@@ -30,12 +30,13 @@ drove each phase, what CC produced, and how the results were verified.
    - **Human time in session:** from CC's reply to your next prompt (reading, reviewing,
      thinking). Gaps longer than ~30 min count as "away" and are excluded.
    - **Human time off session:** e.g. hand-verifying equations, logged by you in
-     `notes/human_time.md` (date, task, hours).
+     `notes/human_time.md` (date, phase, task, hours).
    - **Token / $ cost** per phase.
    - Your estimate of how long the same work would have taken without AI.
 
    CC session logs (`~/.claude/projects/<project>/*.jsonl`) timestamp every message, so the
-   first two can be extracted by a small script, `tools/session_time.py`, written in Phase 0.
+   first two, plus tokens and cost, are extracted by `tools/session_time.py` (phases are
+   assigned by date in `notes/phases.csv`; a session's cost is known once it ends).
 
 ---
 
@@ -54,8 +55,12 @@ drove each phase, what CC produced, and how the results were verified.
   `scipy.misc.derivative` call, removed from modern SciPy, is replaced with the analytic
   Laplace-coefficient derivative.)
 - Rerun a few existing `tests/` (e.g. `unperturbed`, `libration`, `spreading`) and confirm they
-  reproduce the Python 2 / hahn25 results. These become the **2D regression suite**, and the
-  straight port becomes the **reference implementation** that the faster code is checked against.
+  reproduce the epi_int_lite results. **Decided:** the port is checked against the figures in
+  epi_int_lite's test notebooks and against analytic expectations (e.g. unperturbed orbits,
+  libration frequencies, viscous spreading rates), not against reruns of the Python 2 code,
+  which can't run on this Mac without an x86 Python 2.7 install. These become the **2D
+  regression suite**, and the straight port becomes the **reference implementation** that the
+  faster code is checked against (to ~1e-12).
 - Python environment managed by uv (`pyproject.toml`, `uv.lock`, project-local `.venv/`),
   Python 3.14 (set up early, with the vertical-motion write-up); Phase 0 adds Numba etc.
 - Add `CLAUDE.md` (conventions, units, how to run tests), `prompts/`, `notes/`, and
