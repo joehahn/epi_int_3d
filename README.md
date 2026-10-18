@@ -21,18 +21,32 @@ Setup (macOS or Linux):
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
   `pyproject.toml`, `.python-version` and `uv.lock`, and installed in this folder's `.venv/`
   only. Run scripts with `uv run python <script>`; `uv sync` rebuilds the environment.
-- Tests: `uv run pytest` runs the 2D regression suite (about 40 s). A simulation runs from
-  its test folder, e.g. `cd tests/spreading && uv run python ../../source/epi_int_lite.py`.
-- Notebooks: epi_int_lite's test notebooks, ported to Python 3, analyze the test simulations.
-  Run the simulations first, `uv run python tools/run_simulations.py` (all 22 in parallel,
-  about 10 min; or name one, e.g. `tests/spreading`), then open a notebook with
-  `uv run jupyter lab tests/unperturbed/check_orbits.ipynb` and run all cells. The notebooks are
-  `tests/unperturbed/check_orbits.ipynb`, `tests/spreading/spreading.ipynb`,
-  `tests/libration/narrow_ring/ring_mass_1.0e-9/libration.ipynb` and
-  `tests/libration/libration_frequency.ipynb`.
 - LaTeX: the paper compiles with [tectonic](https://tectonic-typesetting.github.io/)
   (`brew install tectonic`; `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class
   and bibliography style are kept in `paper/`.
+
+### Tests:
+
+Each tests folder holds a test's inputs.py, its output/, and a Jupyter notebook that compares that
+output to theory:
+
+- unperturbed: 51 eccentric streamlines without ring forces should stay on their initial orbits, check_orbits.ipynb
+- spreading: a viscous ringlet's surface density should spread like the analytic solution, spreading.ipynb
+- libration: 20 narrow and wide ringlets of differing mass should librate at the rate predicted by
+  Borderies, Goldreich & Tremaine, libration_frequency.ipynb
+
+To run all 22 test simulations in parallel (about 10 min), or just one:
+
+    uv run python tools/run_simulations.py
+    uv run python tools/run_simulations.py tests/spreading
+
+then start Jupyter and click Run > Run All Cells:
+
+    uv run jupyter lab tests/unperturbed/check_orbits.ipynb
+
+The regression suite reruns those tests (some shortened) and checks their results in about 40 s:
+
+    uv run pytest
 
 Built on:
 - epi_int_lite (Python): https://github.com/joehahn/epi_int_lite — Hahn et al. 2025, ApJ, 986, 220.
