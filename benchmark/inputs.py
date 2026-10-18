@@ -6,8 +6,9 @@
 #
 #define input input parameters
 #
-#Phase 0b benchmark ringlet (epi_int_3d): the wide 1e-9 libration ringlet with 20 particles per
-#streamline and viscosity on. benchmark.py overrides number_of_streamlines, radial_width,
+#Phase 0b benchmark ringlet (epi_int_3d): the wide 1e-9 libration ringlet's surface density, with
+#circular streamlines, 20 particles per streamline and viscosity on (eccentric streamlines this
+#closely spaced go unstable after ~100 orbits; see notes/epi_int_lite_issues.md). benchmark.py overrides number_of_streamlines, radial_width,
 #total_ring_mass and the run length, holding streamline spacing and surface density fixed.
 
 #set number of streamlins and particles per streamline
@@ -48,10 +49,7 @@ J2 = 0.01
 
 #choose ringlet's initial orbits
 initial_orbits = {
-    'shape':'eccentric',
-    'e':0.005,
-    'e_prime':0.3363210717239859,
-    'w_prime':0.0
+    'shape':'circular'
 }
 
 #output folder

@@ -35,3 +35,35 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 - **Effect on hahn25:** none; it is a test input only.
 - **Fix:** both set to `False` (the old setting) in this repo's `tests/unperturbed/inputs.py`;
   see `port_changes.md`. Fixed.
+
+## 3. Closely spaced eccentric streamlines go unstable when sparsely sampled
+
+- **Found:** checking that the Phase 0b benchmark ringlet stayed well behaved, 2026-10-18.
+- **What:** an eccentric ringlet with streamline spacing 10⁻⁵ (e = 0.005, a de/da = 0.336, the
+  wide 10⁻⁹ libration ringlet's surface density, 10–100 streamlines) stays smooth for a few tens
+  of orbits; then a kink localized in longitude appears in every streamline's r(θ), grows by
+  ~20× in ~25 orbits, the streamlines cross and the code makes NaNs. Run with the reference
+  helper functions, without the driver's (misfiring, issue 1) stop:
+
+  | variant (Nr = 30, Nt = 20 unless noted) | unstable after |
+  |---|---|
+  | as above | ~100 orbits |
+  | Nt = 40 | ~70 orbits |
+  | Nt = 80 | ~50 orbits |
+  | Nt = 241 (the libration tests' sampling) | stable for 480 orbits |
+  | Nr = 10 | ~140 orbits |
+  | Nr = 100 | ~90 orbits |
+  | ring gravity off (viscosity only) | ~110 orbits |
+  | viscosity off (gravity only) | ~200 orbits |
+  | dt = 0.25 instead of 0.5 | ~100 orbits |
+  | a de/da = 0 | ~130 orbits |
+  | circular streamlines | stable for 380 orbits |
+
+- **So far:** it needs eccentric streamlines and some ring force, but not self-gravity, and it is
+  not the timestep. It is not monotonic in Nt. The cause (numerical, e.g. the 3-point Lagrange
+  interpolation between sparsely sampled eccentric streamlines, or physical) is unknown.
+- **Effect on hahn25:** none known; the libration tests (2 streamlines, Nt = 241, spacing
+  5×10⁻⁴–10⁻³) are stable.
+- **Effect on epi_int_3d:** bending-wave runs have closely spaced streamlines with Nt ≈ 20, and
+  satellite forcing makes them eccentric, so this needs to be understood before Phase 5. The
+  Phase 0b benchmark uses circular streamlines meanwhile. Open.
