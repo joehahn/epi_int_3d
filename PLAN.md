@@ -73,7 +73,8 @@ drove each phase, what CC produced, and how the results were verified.
 **Status (2026-10-17, prompt 05):** done. `source/` is the Python 3.14 port (changes in
 `notes/port_changes.md`); it reproduces the notebooks' Python 2 results to 6–10 significant
 figures (`notes/phase0/port_comparison.md`). The 2D regression suite is `uv run pytest`
-(unperturbed, spreading, libration; golden files in `tests/golden/`). Remaining: your gate review.
+(unperturbed, spreading, libration; golden files in `tests/golden/`). **Gate: approved 2026-10-17**
+(the user compared each test notebook with its epi_int_lite original).
 
 ## Phase 0b — Performance
 
