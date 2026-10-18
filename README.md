@@ -3,8 +3,10 @@
 *Work in progress — Phase 0: epi_int_lite has been ported to Python 3 (the reference
 implementation, in `source/`).*
 
-epi_int_3d will extend the 2D epi_int_lite streamline N-body integrator for gravitating
-planetary rings into the vertical direction, and use it to simulate spiral bending waves.
+epi_int_3d will extend the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
+N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
+started as a copy of its master branch, commit 5e0942a) into the vertical direction, and use
+it to simulate spiral bending waves.
 The project also serves as a demo of using an AI coding agent (Claude Code) to accelerate
 research: reviewing papers, deriving equations, porting and extending code, testing,
 running simulations, and drafting the journal paper.
@@ -35,22 +37,20 @@ output to theory:
 - libration: 20 narrow and wide ringlets of differing mass should librate at the rate predicted by
   Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) ([epi_int_lite original](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
 
-To run all 22 test simulations in parallel (about 10 min), or just one:
+To run all 22 epi_int_3d test simulations in parallel (about 10 min), or just one:
 
     uv run python tools/run_simulations.py
     uv run python tools/run_simulations.py tests/spreading
 
-then start Jupyter and click Run > Run All Cells:
+then use Jupyter to inspect a test's output, e.g.
 
-    uv run jupyter lab tests/unperturbed/check_orbits.ipynb
+    cd tests/unperturbed
+    uv run jupyter lab check_orbits.ipynb
+
+and click Run > Run All Cells.
 
 The regression suite reruns those tests (some shortened) and checks their results in about 40 s:
 
     uv run pytest
-
-Built on:
-- epi_int_lite (Python): https://github.com/joehahn/epi_int_lite — Hahn et al. 2025, ApJ, 986, 220.
-  `source/` started as a copy of its master branch (commit 5e0942a).
-- epi_int (IDL): https://github.com/joehahn/epi_int — Hahn & Spitale 2013, ApJ, 772, 122
 
 Joe Hahn, joe.hahn@jmh-datasciences.com
