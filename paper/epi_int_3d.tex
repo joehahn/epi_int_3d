@@ -225,6 +225,102 @@ with $a$, $e$ and $\tilde{\omega}$ constant. Eqns.\ (\ref{eqn:inplane}) are inve
 \end{enumerate}
 
 
+\section{Resolution limit of the streamline method}
+\label{sec:appendix_zigzag}
+
+%draft (2026-10-18); equations are sympy-checked P6, P7 in notes/sympy/ring_pressure.py
+A streamline model represents a continuous ring by $N_r$ streamlines spaced $\Delta$ apart, and
+that discreteness sets which wavelengths of the ring's response it can follow. This appendix
+derives the axisymmetric stability of a uniform lattice of circular streamlines under the
+self-gravity and pressure accelerations of epi\_int\_lite \citep{HS13, H25}, and compares it
+with the continuum Toomre criterion.
+
+Each streamline of linear density $\lambda$ exerts the acceleration $2G\lambda/d$ of a straight
+wire on a particle a distance $d$ away \citep{HS13}. The pressure $p = c^2\sigma$ acts through
+the surface density $\sigma_j = 2\lambda/(r_{j+1} - r_{j-1})$ of streamline $j$ and the central
+difference $A_j = -(p_{j+1} - p_{j-1})/2\lambda$, which tends to $-\sigma^{-1}\partial p/\partial r$
+as $\Delta \rightarrow 0$. Displace the streamlines radially by $\xi_j = \xi\cos(j\phi)$, where
+$\phi = k\Delta$ and $k$ is the radial wavenumber, so that $0 < \phi \le \pi$; $\phi = \pi$ is
+the shortest wave the lattice can carry, the zigzag $\xi_j = (-1)^j\xi$ of
+Figure~\ref{fig:zigzag}a. Linearizing in $\xi$, the streamlines at $j = \pm n$ add
+$4G\lambda(1 - \cos n\phi)\xi/(n\Delta)^2$ to the acceleration of streamline 0, and summing over
+$n$ with $\sigma = \lambda/\Delta$ gives
+\begin{equation}
+    \label{eqn:zigzag_X}
+    X(\phi) = \frac{4G\sigma}{\Delta}\sum_{n=1}^\infty\frac{1 - \cos n\phi}{n^2}
+            = \frac{4G\sigma}{\Delta}\left(\frac{\pi\phi}{2} - \frac{\phi^2}{4}\right),
+\end{equation}
+while pressure contributes
+\begin{equation}
+    \label{eqn:zigzag_p}
+    \omega_p^2(\phi) = \left(\frac{c}{\Delta}\right)^2\sin^2\phi,
+\end{equation}
+so that each mode oscillates at the frequency
+\begin{equation}
+    \label{eqn:zigzag_disp}
+    \omega^2 = \kappa^2 - X(\phi) + \omega_p^2(\phi).
+\end{equation}
+For $\phi \ll 1$ these recover the continuum terms $X \rightarrow 2\pi G\sigma k$ and
+$\omega_p^2 \rightarrow c^2k^2$, and Eqn.\ (\ref{eqn:zigzag_disp}) becomes the dispersion relation
+of a pressure-supported self-gravitating sheet, which is stable at all $k$ when
+$Q = c\kappa/\pi G\sigma \ge 1$ \citep{T64, BT87}. At the grid scale the lattice departs from
+the continuum in two ways (Figure~\ref{fig:zigzag}b). Self-gravity peaks at
+$X(\pi) = \pi^2G\sigma/\Delta$, half the continuum value $2\pi G\sigma k$ at $k = \pi/\Delta$.
+And pressure vanishes there: in the zigzag, streamlines $j \pm 1$ move together, so
+$r_{j+1} - r_{j-1}$ and hence $\sigma_j$ and $p_j$ do not change. The viscous fluxes of
+\cite{HS13}, which are differenced in the same way, likewise exert no force on the zigzag.
+
+A cold continuum disk ($c = 0$) is unstable to all wavelengths shorter than
+$\lambda_{\rm crit} = 4\pi^2G\sigma/\kappa^2$, and the lattice hides these: by
+Eqn.\ (\ref{eqn:zigzag_X}) a cold lattice is axisymmetrically stable as long as
+\begin{equation}
+    \label{eqn:zigzag_R}
+    {\cal R} \equiv \frac{\lambda_{\rm crit}}{2\Delta} = \frac{2\pi^2G\sigma}{\kappa^2\Delta}
+    \simeq \frac{\pi G m_r N_r}{\kappa^2 a\Delta a^2} < 2,
+\end{equation}
+where $2\Delta$ is the shortest resolved wavelength, and the last form is for a ringlet of mass
+$m_r$, semimajor axis $a$ and width $\Delta a$, with $\sigma \simeq m_r/2\pi a\Delta a$ and
+$\Delta \simeq \Delta a/N_r$. Adding streamlines to a given ringlet raises ${\cal R}$ in
+proportion to $N_r$.
+
+That limit matters because a ringlet's self-gravity must be strong enough to resist the
+differential precession due to $J_2$: the equilibrium eccentricity gradient of a gravitating
+ringlet scales as $(a/\Delta a)^2/m_r$ \citep{BGT83AJpaper, H25}, so the self-gravity that
+controls a ringlet's shape scales as $m_r/\Delta a^2$, as does ${\cal R}/N_r$. We tested this
+with a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
+eccentricity $e = 10^{-4}$, periapses twisted by $\pi$ from its inner to outer edge, and kinematic
+viscosity $\nu = 7\times10^{-11}a^2\Omega_a$, with no pressure, $R_p = 0.5a$ and $J_2 = 0.01$. With
+$N_r = 100$ streamlines (${\cal R} \simeq 0.09$ in the ringlet's middle, where the taper makes
+$\sigma$ 1.25 times and $\Delta$ 0.8 times their ringlet-wide means) the ringlet stays smooth for $10^4$ orbits while
+self-gravity holds its twist against $J_2$. With $N_r = 300$ (${\cal R} \simeq 0.3$) and
+$N_r = 1000$ (${\cal R} \simeq 0.9$) it becomes ragged and its streamlines cross after about
+190 and 30 orbits. The growing disturbance is non-axisymmetric and starts in the ringlet's
+interior; it grows at the same rate with 40 or 241 particles per streamline, does not grow when
+ring gravity is turned off, and pressure with $Q \le 2$ delays the crossing by less than two
+orbits, as expected from Figure~\ref{fig:zigzag}b, where $\omega_p^2 \le 0.1\kappa^2$.
+
+So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only: the cold, eccentric, twisted
+ringlet goes unstable at ${\cal R} \simeq 0.3$, well inside the axisymmetrically stable range,
+presumably through non-axisymmetric modes that this analysis does not treat. In practice a
+simulated ringlet whose self-gravity matters should be run with ${\cal R} \lesssim 0.1$, and a
+ringlet that needs more streamlines must be made wider or less massive.
+
+\begin{figure*}
+\centering
+\includegraphics[width=0.9\textwidth]{figures/zigzag.pdf}
+\caption{(a) The zigzag mode of a lattice of streamlines (blue) displaced by $\pm\xi$ from their
+unperturbed radii (dashed): the gaps alternate between $\Delta \pm 2\xi$, but
+$r_{j+1} - r_{j-1} = 2\Delta$ does not change, so neither does the surface density that sets
+streamline $j$'s pressure. (b) The terms of Eqn.\ (\ref{eqn:zigzag_disp}) versus
+$\phi = k\Delta$, in units of $\kappa^2$, for $G\sigma/\kappa^2\Delta = 0.048$ (the ringlet of
+the text with $N_r = 1000$): the destabilizing self-gravity $X$ (Eqn.\ \ref{eqn:zigzag_X}, solid red)
+and its continuum value $2\pi G\sigma k$ (dashed red), and the restoring $\kappa^2 + \omega_p^2$
+for $Q = 1$ and $2$ (blue; Eqn.\ \ref{eqn:zigzag_p}) and their continuum values
+$\kappa^2 + c^2k^2$ (dotted blue). A mode is unstable where $X$ exceeds $\kappa^2 + \omega_p^2$.}
+\label{fig:zigzag}
+\end{figure*}
+
+
 \bibliography{jmh_bibliography,cc_added}{}
 \bibliographystyle{aasjournalv7}  % v7.1 (June 2026) mislabels lone citations as "2006a"
 

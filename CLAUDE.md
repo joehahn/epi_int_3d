@@ -23,7 +23,11 @@ decisions, ground rules) and `README.md`.
 - `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs (git-ignored except hahn25).
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
-  versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel).
+  versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
+  `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix).
+- `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`
+  applies `tools/patches.py`. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  outputs git-ignored.
 
 ## Running
 

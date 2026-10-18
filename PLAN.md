@@ -138,7 +138,16 @@ one M5 core, so a bending-wave run of 10⁵–10⁶ steps takes 2 h–3 days wit
 driver's streamline-crossing check misfires near θ = ±π for closely spaced eccentric
 streamlines; the faster code must fix it. Closely spaced eccentric streamlines with Nt ≈ 20 go
 unstable after 50–200 orbits (issue 3 in `notes/epi_int_lite_issues.md`), so the benchmark ringlet
-is circular; this must be understood before Phase 5. Next: step 2, the Numba gravity kernel.
+is circular; this must be understood before Phase 5.
+
+**Status (2026-10-18, prompt 07):** epi_int_3d's nominal ringlet, `tests/nominal/`
+(`notes/phase0b/nominal.md`): 100 streamlines × 40 particles, width 0.0125 with tapered edges, mass
+3×10⁻⁸, e = 10⁻⁴ with a π periapse twist, ν = 7×10⁻¹¹; smooth for 10⁴ orbits while self-gravity holds
+the twist against J2. At 300 and 1000 streamlines it goes unstable, in ~190 and ~30 orbits: gravitational, not cured by
+more particles per streamline or by ring pressure (Q ≤ 2), probably the cold ringlet's Toomre
+instability once the streamlines resolve λ_crit. Ring-pressure equations checked against hahn13
+(P1–P7); issues 4–5 logged, minor for the nominal ringlet; a pressure deep dive comes first if the
+z ≠ 0 runs use pressure. Next: step 2, the Numba gravity kernel.
 
 ## Phase 1 — Literature review
 

@@ -67,3 +67,46 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 - **Effect on epi_int_3d:** bending-wave runs have closely spaced streamlines with Nt ≈ 20, and
   satellite forcing makes them eccentric, so this needs to be understood before Phase 5. The
   Phase 0b benchmark uses circular streamlines meanwhile. Open.
+
+## 4. The outer-edge flux in `A_P()` is evaluated at the wrong longitudes
+
+- **Found:** checking the ring-pressure code against hahn13, 2026-10-18.
+- **What:** hahn13 (Eq. 23 and text) gives the outermost streamline the acceleration
+  p(r − Δ)/λ, the pressure of its inner neighbor at the particle's longitude. `A_P()`
+  (`source/helper_fns.py:189`) uses `interpolate_fn(t, P, 1)[-2]`: the outer streamline's own P,
+  interpolated to the longitudes of the inner neighbor's particles, then applied column by column to
+  the outer streamline's particles. Using the outer streamline's own (one-sided) P would match the
+  inner edge, `A[0] = -P[0]/λ`, but the longitudes are off by up to ~1.6 particle spacings in an
+  eccentric ringlet, which changed the outer-edge value by up to 70% in one test state.
+- **Scope:** `A_P()` also gives the shear- and bulk-viscous accelerations, so this affects
+  viscosity, used in hahn25, as well as pressure (unused there).
+- **Test:** the tapered π-twist nominal ringlet (`explore/taper/nr0100_pi*`, 100 streamlines,
+  10⁴ orbits, viscosity on, pressure off) with three outer-edge terms:
+
+  | outer-edge term | max q | width | last gap, outer/inner | max raggedness |
+  |---|---|---|---|---|
+  | as coded | 0.387 | ×2.655 | 23.67/23.51 | 1.0×10⁻⁴ |
+  | own P, own longitudes (`--fix-edge-own`) | 0.387 | ×2.655 | 23.67/23.51 | 3.4×10⁻⁵ |
+  | hahn13's p(r − Δ) (`--fix-edge`) | 0.297 | ×2.792 | 34.89/23.51 | 3.3×10⁻⁵ |
+
+- **So:** the code's choice of the outer streamline's own one-sided flux is right: it mirrors the
+  inner edge and keeps the edges symmetric, while hahn13's literal p(r − Δ) does not. The only
+  error is the longitudes, which adds a little raggedness (×3) and nothing else visible.
+- **Effect on hahn25:** probably negligible (smooth streamlines, Nt = 241); not checked.
+- **Fix:** `A[-1] = P[-1]/lambda_[-1]` in the faster code, with a test. Minor. Open.
+
+## 5. Ring-pressure scheme: omitted term and two properties of the discretization
+
+- **Found:** same check; sympy checks P1–P7 in `notes/sympy/ring_pressure.py`.
+- **Omitted term:** hahn13 also has the pressure gradient along a streamline,
+  A_p = −(∂p/∂θ)/(rσ). The code omits it; it is smaller than the radial term by ~qΔa/a.
+- **Momentum:** with the edge terms, the net radial pressure force on the ring is
+  (−p₀ + p₁ + p_{N−2} − p_{N−1})/2 ≠ 0 (P3). The same holds for the viscous fluxes.
+- **Odd–even decoupling:** central differences do not see a grid-scale zigzag of the
+  streamlines, so pressure exerts no restoring force on it (P6), and likewise for the viscous
+  fluxes. This may be why viscously spreading ringlet edges develop alternating gaps (seen in
+  `explore/nominal`, 1000 streamlines).
+- **Status:** properties of the published scheme, recorded for epi_int_3d's design. Open.
+
+Issues 4 and 5 are minor for the nominal simulation. Decision (2026-10-18): if the z ≠ 0 runs use
+pressure, pressure gets a deep dive then (physics and code) before it is relied on.
