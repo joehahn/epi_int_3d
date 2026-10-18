@@ -16,3 +16,4 @@ paper/epi_int_3d.pdf
 tests/**/output/
 tests/**/output.log
 tests/**/figs/
+benchmark/runs/

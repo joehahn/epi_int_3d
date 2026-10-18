@@ -132,6 +132,12 @@ profiling shows the step count, not the per-step cost, is the limit.
 **Deliverable:** the same results as the reference implementation, with a speedup table in
 the README (a good demo result in its own right).
 
+**Status (2026-10-18, prompt 06):** step 1 (benchmark) done: `notes/phase0b/benchmark.md`.
+Ring gravity is 99.6% of the time at Nr = 1000; s/step ≈ (Nr − 1)(33 μs + 0.017 μs Nr(Nt + 2)) on
+one M5 core, so a bending-wave run of 10⁵–10⁶ steps takes 2 h–3 days with the current code. The
+driver's streamline-crossing check misfires near θ = ±π for closely spaced eccentric
+streamlines; the faster code must fix it. Next: step 2, the Numba gravity kernel.
+
 ## Phase 1 — Literature review
 
 - CC reads hahn13 and hahn25, plus key papers on epicyclic theory and bending waves:

@@ -53,4 +53,13 @@ The regression suite reruns those tests (some shortened) and checks their result
 
     uv run pytest
 
+### Performance:
+
+Time per timestep on an Apple M5 laptop, for a ringlet of Nr streamlines with 20 particles each
+(`uv run python benchmark/benchmark.py`, details in [notes/phase0b/benchmark.md](notes/phase0b/benchmark.md)):
+
+| code | Nr = 10 | Nr = 100 | Nr = 1000 |
+|---|---:|---:|---:|
+| epi_int_lite, Python 3 port (1 core) | 0.44 ms | 6.3 ms | 430 ms |
+
 Joe Hahn, joe.hahn@jmh-datasciences.com

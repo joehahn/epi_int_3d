@@ -13,6 +13,7 @@ dependencies = [
 dev = [
     "ipykernel>=7.4.0",
     "jupyterlab>=4.6.4",
+    "line-profiler>=5.0.2",
     "matplotlib>=3.11.2",
     "nbconvert>=7.17.2",
     "pandas>=3.0.6",

@@ -16,6 +16,9 @@ decisions, ground rules) and `README.md`.
   calculations for `tests/test_regression.py`, the 2D regression suite.
 - `notes/`: `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
+- `benchmark/`: the Phase 0b benchmark (`benchmark.py`, `line_profile.py`, the benchmark ringlet's
+  `inputs.py`), its results (`results/`) and the reference final states that faster code must
+  match (`reference/`); scratch runs go in the git-ignored `runs/`.
 - `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs (git-ignored except hahn25).
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
