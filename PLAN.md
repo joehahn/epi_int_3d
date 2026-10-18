@@ -211,6 +211,7 @@ review the derivations (hand verification may continue in parallel with Phase 3)
 - Optional non-uniform streamline spacing, to resolve the shrinking wavelength efficiently.
 - Initial conditions, I/O and animation scripts extended for z and v_z.
 - Keep a `z ≡ 0` path that reproduces the 2D results exactly.
+- Remove the `fast_gravity` approximation; epi_int_3d uses exact streamline gravity only.
 
 ## Phase 4 — Testing
 
@@ -302,6 +303,9 @@ comparison with Cassini data is out of scope for this paper.
   verification of derivations.
 - Time tracking includes human time, from session timestamps plus your off-session log.
 - Papers in `papers/`; only openly licensed PDFs are committed, the rest are linked by DOI/arXiv.
+- `fast_gravity = False` and `Q_ring = -1` (pressure off) in all runs: the fast-gravity
+  approximation was never useful, and the pressure code was never used in hahn25 nor rigorously
+  tested. `fast_gravity` is removed from epi_int_3d (Phase 3).
 
 ## Open questions to settle
 

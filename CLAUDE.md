@@ -57,3 +57,5 @@ decisions, ground rules) and `README.md`.
   `paper/cc_added.bib`.
 - epi_int (IDL) is a 2D code: don't cite or port its unpublished vertical (z) code.
 - Ask before creating or deleting any cloud resource.
+- Always run with `fast_gravity = False` and `Q_ring = -1`: the fast-gravity approximation and
+  the ring-pressure code are untested and unused (`fast_gravity` is dropped in epi_int_3d).
