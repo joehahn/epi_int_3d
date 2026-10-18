@@ -38,7 +38,7 @@ output to theory:
 - libration: 20 narrow and wide ringlets of differing mass should librate at the rate predicted by
   Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
 - nominal: epi_int_3d's nominal ringlet, eccentric with a π periapse twist, should stay smooth and
-  coherent for 10⁴ orbits while self-gravity holds the twist against J2, [nominal.ipynb](tests/nominal/nominal.ipynb)
+  coherent for 10⁴ orbits while self-gravity keeps J2 from winding it up, [nominal.ipynb](tests/nominal/nominal.ipynb)
   (about 30 min; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
 
 To run all 23 epi_int_3d test simulations in parallel (about 30 min), or just one:

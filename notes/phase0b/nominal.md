@@ -27,9 +27,13 @@ residual of a streamline's r(θ) about a Fourier fit through m = 3, in spacings.
 | run | 10⁴ orbits (126 000 steps), about 30 min on one M5 core |
 
 Result (`tests/nominal/nominal.ipynb`): no crossing or NaN; max q 0.39; smallest gap 0.97; raggedness
-≤ 1.2×10⁻⁴ spacings; width ×2.66; |ΔL/L₀| ≤ 1.3×10⁻⁵. The ringlet's body holds its twist: its
-periapses librate about the middle streamline's rather than winding up. The outermost few streamlines
-on each edge spread away from the body and their e and ϖ wander.
+≤ 1.2×10⁻⁴ spacings; width ×2.66; |ΔL/L₀| ≤ 1.3×10⁻⁵. The initial π twist does not persist:
+within ~1000 orbits self-gravity straightens it, and the middle ~80% of the ringlet then precesses as one
+aligned ellipse (e ≈ 0.4×10⁻⁴, periapses within ~0.3 rad of the middle streamline's) instead of being wound
+up by J2. The tapered edges, the outer ~10% of streamlines on each side, carry larger eccentricities (up to
+≳ 3×10⁻⁴) and librating periapses; the inner edge's periapse circulates once every ~4800 orbits. All the
+large q is at the edges, mostly the outer one; the body stays below ~0.05. (Space-time diagrams and
+surface-density maps in the notebook.)
 
 **Edge taper.** Streamlines keep equal masses but sit at equal-mass quantiles of a surface density that
 is flat across the middle and falls as cos² to zero over 20% of the width at each edge. The width is
@@ -83,9 +87,11 @@ wavelengths shorter than λ_crit = 4π²Gσ/κ²; only the streamline spacing Δ
 λ_crit/2Δ ≈ 0.94 at 1000 streamlines and ≈ 0.09 at 100. A uniform-lattice analysis of the code's
 forces (P6, P7 in `notes/equations.md`) says axisymmetric modes are still stable at 1000 streamlines,
 because the discrete self-gravity at the grid scale is half the continuum value; the failure is
-non-axisymmetric, so that analysis does not cover it. The self-gravity that holds the twist against
-J2 scales as M/Δa², but λ_crit/2Δ ≈ πGM N_r/(aΔa²) scales the same way times N_r, so for a given
-twist-holding strength, enough streamlines always resolve the instability.
+non-axisymmetric, so that analysis does not cover it. A rough estimate that fits these runs: J2's differential precession across the
+ringlet scales as J2 Δa, self-gravity's (for small q) as m_r Δϖ/Δa², so keeping J2 from winding the
+ringlet up needs m_r ∝ J2 Δa³/Δϖ, and then λ_crit/2Δ ∝ J2 Δa N_r/Δϖ. A wider ringlet does not help;
+a narrower one (with smaller e, to keep q and the interpolation error small) does
+(`explore/narrow/`, in progress).
 
 **Ring pressure does not help** (`explore/pressure/`, Q_ring = 0.5, 1, 1.2, 2): the 1000-streamline
 run crosses at steps 361, 366, 369, 384 (361 without pressure), and the 100-streamline run is

@@ -284,15 +284,21 @@ $\Delta \simeq \Delta a/N_r$. Adding streamlines to a given ringlet raises ${\ca
 proportion to $N_r$.
 
 That limit matters because a ringlet's self-gravity must be strong enough to resist the
-differential precession due to $J_2$: the equilibrium eccentricity gradient of a gravitating
-ringlet scales as $(a/\Delta a)^2/m_r$ \citep{BGT83AJpaper, H25}, so the self-gravity that
-controls a ringlet's shape scales as $m_r/\Delta a^2$, as does ${\cal R}/N_r$. We tested this
+differential precession due to $J_2$. Across a ringlet of width $\Delta a$, $J_2$ drives a
+differential precession $\propto J_2(R_p/a)^2\Omega_a\Delta a/a$, while for a small nonlinearity
+parameter the ringlet's self-gravity drives one $\propto (m_r/M_p)\Omega_a\Delta\tilde{\omega}(a/\Delta a)^2$,
+where $\Delta\tilde{\omega}$ is the periapse twist across it (cf.\ Eqn.\ C1 of \citealt{H25}).
+%TODO: this scaling is an order-of-magnitude estimate that fits the runs below; derive it properly
+So keeping $J_2$ from winding up the ringlet requires $m_r \propto J_2\Delta a^3/\Delta\tilde{\omega}$,
+and then ${\cal R} \propto J_2\Delta a N_r/\Delta\tilde{\omega}$: a wider ringlet does not help, and
+for a given planet more streamlines can be afforded only by a narrower ringlet. We tested this
 with a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
 eccentricity $e = 10^{-4}$, periapses twisted by $\pi$ from its inner to outer edge, and kinematic
 viscosity $\nu = 7\times10^{-11}a^2\Omega_a$, with no pressure, $R_p = 0.5a$ and $J_2 = 0.01$. With
 $N_r = 100$ streamlines (${\cal R} \simeq 0.09$ in the ringlet's middle, where the taper makes
 $\sigma$ 1.25 times and $\Delta$ 0.8 times their ringlet-wide means) the ringlet stays smooth for $10^4$ orbits while
-self-gravity holds its twist against $J_2$. With $N_r = 300$ (${\cal R} \simeq 0.3$) and
+self-gravity, rather than $J_2$, controls its shape: within about 1000 orbits it
+straightens the initial twist, and the ringlet then precesses as one aligned ellipse. With $N_r = 300$ (${\cal R} \simeq 0.3$) and
 $N_r = 1000$ (${\cal R} \simeq 0.9$) it becomes ragged and its streamlines cross after about
 190 and 30 orbits. The growing disturbance is non-axisymmetric and starts in the ringlet's
 interior; it grows at the same rate with 40 or 241 particles per streamline, does not grow when
