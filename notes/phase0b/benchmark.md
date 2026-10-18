@@ -91,6 +91,7 @@ self-interacting, so it doesn't stop). Because a flagged self-interacting run is
 (`update_display`), a long bending-wave run would stop early. `source/` is left as is; the
 benchmark uses its own check on the wrapped arrays (`min_separation()`), and the faster code
 should do the same.
+Logged as issue 1 in `notes/epi_int_lite_issues.md`.
 
 ## Reference states
 

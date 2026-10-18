@@ -18,6 +18,7 @@ running simulations, and drafting the journal paper.
 - Python 3 port of epi_int_lite, and how it compares with the Python 2 results:
   [notes/port_changes.md](notes/port_changes.md),
   [notes/phase0/port_comparison.md](notes/phase0/port_comparison.md)
+- Issues found in epi_int_lite: [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md)
 
 Setup (macOS or Linux):
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in

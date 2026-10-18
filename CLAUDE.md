@@ -14,7 +14,8 @@ decisions, ground rules) and `README.md`.
   (executed on the port's output) and a git-ignored `output/`. The Python 2 notebooks, with
   their original outputs, are git commit `99a7753`. `tests/analysis.py` reproduces the notebooks'
   calculations for `tests/test_regression.py`, the 2D regression suite.
-- `notes/`: `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
+- `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
+  `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
 - `benchmark/`: the Phase 0b benchmark (`benchmark.py`, `line_profile.py`, the benchmark ringlet's
   `inputs.py`), its results (`results/`) and the reference final states that faster code must
