@@ -32,10 +32,10 @@ Setup (macOS or Linux):
 Each tests folder holds a test's inputs.py, its output/, and a Jupyter notebook that compares that
 output to theory:
 
-- unperturbed: 51 eccentric streamlines without ring forces should stay on their initial orbits, [check_orbits.ipynb](tests/unperturbed/check_orbits.ipynb) ([epi_int_lite original](https://github.com/joehahn/epi_int_lite/blob/master/tests/unperturbed/check_orbits.ipynb))
-- spreading: a viscous ringlet's surface density should spread like the analytic solution, [spreading.ipynb](tests/spreading/spreading.ipynb) ([epi_int_lite original](https://github.com/joehahn/epi_int_lite/blob/master/tests/spreading/spreading.ipynb))
+- unperturbed: 51 eccentric streamlines without ring forces should stay on their initial orbits, [check_orbits.ipynb](tests/unperturbed/check_orbits.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/unperturbed/check_orbits.ipynb))
+- spreading: a viscous ringlet's surface density should spread like the analytic solution, [spreading.ipynb](tests/spreading/spreading.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/spreading/spreading.ipynb))
 - libration: 20 narrow and wide ringlets of differing mass should librate at the rate predicted by
-  Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) ([epi_int_lite original](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
+  Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
 
 To run all 22 epi_int_3d test simulations in parallel (about 10 min), or just one:
 
