@@ -40,9 +40,10 @@ output (`check_orbits`, `spreading`, `libration` for the 10⁻⁹ narrow ringlet
 | `execfile(f)` → `exec(open(f).read())` | each notebook |
 | plot labels such as `'$|\Delta e|$'` → raw strings `r'$|\Delta e|$'` (`\D` is an invalid string escape, a `SyntaxWarning` in Python 3.12+ and an error in future versions) | 6 labels |
 | kernel Python 2 → Python 3 | each notebook's metadata |
+| lines added to the first code cell that put `source/` on the import path (found by walking up to `pyproject.toml`) and stop with a message if the simulation's `output/` is missing; the Python 2 notebooks relied on `helper_fns` being importable | each notebook |
 
-They are run from their own folders with `source/` on the import path:
-`PYTHONPATH=source uv run jupyter nbconvert --to notebook --execute --inplace <notebook>`.
+To run one: make its simulations' output with `uv run python tools/run_simulations.py`, then
+`uv run jupyter lab <notebook>` (JupyterLab is in the dev dependency group).
 Their calculations are also reproduced in `tests/analysis.py` for the regression suite.
 
 ## Not ported

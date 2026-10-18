@@ -11,15 +11,15 @@ decisions, ground rules) and `README.md`.
   translation of the Python 2 code (changes in `notes/port_changes.md`); don't optimize or
   restructure it. Faster code (Phase 0b) and the 3D code (Phase 3) are checked against it.
 - `tests/`: each test folder holds an `inputs.py`, its epi_int_lite notebook ported to Python 3
-  (executed on the port's output), a `reference/` folder (figures and outputs of the Python 2
-  notebook) and a git-ignored `output/`. `tests/analysis.py` reproduces the notebooks'
+  (executed on the port's output) and a git-ignored `output/`. The Python 2 notebooks, with
+  their original outputs, are git commit `99a7753`. `tests/analysis.py` reproduces the notebooks'
   calculations for `tests/test_regression.py`, the 2D regression suite.
 - `notes/`: `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
 - `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs (git-ignored except hahn25).
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
-  versus Python 3 notebook outputs).
+  versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel).
 
 ## Running
 
@@ -31,8 +31,10 @@ decisions, ground rules) and `README.md`.
 - Regression suite: `uv run pytest` (about 40 s). It compares final states with
   `tests/golden/*.npz` to relative precision 1e-11. Regenerate those (`UPDATE_GOLDEN=1 uv run
   pytest`) only when the reference implementation itself is meant to change.
-- Notebooks: `PYTHONPATH=source uv run jupyter nbconvert --to notebook --execute --inplace
-  tests/spreading/spreading.ipynb` (reads that test's `output/`).
+- Notebooks read their test's git-ignored `output/`; make it with `uv run python
+  tools/run_simulations.py [tests/<test>]` (skips runs that have `output/`). Then
+  `uv run jupyter lab <notebook>`, or `uv run jupyter nbconvert --to notebook --execute
+  --inplace <notebook>`. Each notebook's first cell puts `source/` on the import path.
 - Paper: `cd paper && tectonic epi_int_3d.tex`.
 - Symbolic checks: `uv run python notes/sympy/vertical_motion.py`.
 

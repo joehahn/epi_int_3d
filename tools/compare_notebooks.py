@@ -3,7 +3,7 @@
 
 The Python 2 notebooks, with their original outputs, are in git commit 99a7753; the working
 copies are their Python 3 ports, executed on the port's output with
-    PYTHONPATH=source uv run jupyter nbconvert --to notebook --execute --inplace <notebook>
+    uv run jupyter nbconvert --to notebook --execute --inplace <notebook>
 For each notebook this places every figure beside the same cell's Python 2 figure, writing
 notes/phase0/figs/<notebook>_cellNN.png, and prints each cell's printed output from both runs.
 

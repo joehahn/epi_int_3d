@@ -23,6 +23,13 @@ Setup (macOS or Linux):
   only. Run scripts with `uv run python <script>`; `uv sync` rebuilds the environment.
 - Tests: `uv run pytest` runs the 2D regression suite (about 40 s). A simulation runs from
   its test folder, e.g. `cd tests/spreading && uv run python ../../source/epi_int_lite.py`.
+- Notebooks: epi_int_lite's test notebooks, ported to Python 3, analyze the test simulations.
+  Run the simulations first, `uv run python tools/run_simulations.py` (all 22 in parallel,
+  about 10 min; or name one, e.g. `tests/spreading`), then open a notebook with
+  `uv run jupyter lab tests/unperturbed/check_orbits.ipynb` and run all cells. The notebooks are
+  `tests/unperturbed/check_orbits.ipynb`, `tests/spreading/spreading.ipynb`,
+  `tests/libration/narrow_ring/ring_mass_1.0e-9/libration.ipynb` and
+  `tests/libration/libration_frequency.ipynb`.
 - LaTeX: the paper compiles with [tectonic](https://tectonic-typesetting.github.io/)
   (`brew install tectonic`; `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class
   and bibliography style are kept in `paper/`.
