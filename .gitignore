@@ -20,6 +20,9 @@ benchmark/runs/
 explore/**/output/
 explore/**/output.log
 explore/**/diagnose.png
+explore/**/figs/
+explore/**/anim.ipynb
+explore/**/inputs_run.py
 explore/nbtest/
 explore/*/*/inputs.py
 !explore/ladder/nr0010/inputs.py

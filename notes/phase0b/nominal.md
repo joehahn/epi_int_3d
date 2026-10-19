@@ -32,8 +32,16 @@ within ~1000 orbits self-gravity straightens it, and the middle ~80% of the ring
 aligned ellipse (e ≈ 0.4×10⁻⁴, periapses within ~0.3 rad of the middle streamline's) instead of being wound
 up by J2. The tapered edges, the outer ~10% of streamlines on each side, carry larger eccentricities (up to
 ≳ 3×10⁻⁴) and librating periapses; the inner edge's periapse circulates once every ~4800 orbits. All the
-large q is at the edges, mostly the outer one; the body stays below ~0.05. (Space-time diagrams and
-surface-density maps in the notebook.)
+large q is at the edges, mostly the outer one; the body stays below ~0.05. In the notebook's
+animation (e, periapse and q versus a) the body is two sub-ringlets, the inner ~25% and the next ~65%,
+precessing slowly relative to each other, with the outer edge decoupled. (Space-time diagrams,
+surface-density maps and the optional animation in the notebook.) The 10⁴ orbits span 0.43 of the
+viscous timescale τ_ν = Δa₀²/12ν_s (hahn25 Eq. 9), ≈ 2.3×10⁴ orbits.
+
+**A 30% wider ringlet** (`explore/wide/`: width 0.01625 at the same surface density, mass 3.9×10⁻⁸, π
+twist) also stays smooth for 10⁴ orbits (max q 0.41, smallest gap 0.98, raggedness ≤ 8×10⁻⁵, width
+×2.19), but still forms only two sub-ringlets, not three, and spans only 0.25 τ_ν; so the nominal
+width was kept.
 
 **Edge taper.** Streamlines keep equal masses but sit at equal-mass quantiles of a surface density that
 is flat across the middle and falls as cos² to zero over 20% of the width at each edge. The width is
