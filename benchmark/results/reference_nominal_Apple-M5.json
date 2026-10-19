@@ -1,0 +1,53 @@
+{
+ "label": "reference",
+ "ringlet": "nominal",
+ "driver": "source/epi_int_lite.py",
+ "date": "2026-10-19",
+ "machine": {
+  "cpu": "Apple M5",
+  "cores": 10,
+  "performance_cores": "4",
+  "memory_GB": 16,
+  "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "numpy": "2.5.4"
+ },
+ "cases": [
+  {
+   "Nr": 33,
+   "Nt": 40,
+   "n1": 200,
+   "n2": 1200,
+   "wall_n1_s": 0.4484811248257756,
+   "wall_n2_s": 2.2792254160158336,
+   "s_per_step": 0.001830744291190058,
+   "min_gap": 0.7751378196559244,
+   "driver_crossing_flag": null,
+   "nan": null
+  },
+  {
+   "Nr": 100,
+   "Nt": 40,
+   "n1": 100,
+   "n2": 600,
+   "wall_n1_s": 1.3604277912527323,
+   "wall_n2_s": 7.5678780833259225,
+   "s_per_step": 0.01241490058414638,
+   "min_gap": 0.7914055727620806,
+   "driver_crossing_flag": null,
+   "nan": null
+  },
+  {
+   "Nr": 333,
+   "Nt": 40,
+   "n1": 50,
+   "n2": 250,
+   "wall_n1_s": 5.530838790815324,
+   "wall_n2_s": 26.431543458718807,
+   "s_per_step": 0.10450352333951742,
+   "min_gap": 0.7973126912968097,
+   "driver_crossing_flag": null,
+   "nan": null
+  }
+ ]
+}

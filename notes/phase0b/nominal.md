@@ -1,7 +1,7 @@
 # epi_int_3d's nominal ringlet
 
 A ringlet for benchmarking and testing this project's code (`tests/nominal/`), found by the parameter
-search in `explore/` (2026-10-18). The goal was a ringlet that is eccentric, has a periapse twist that
+search in `explore/` (2026-10-18/19). The goal was a ringlet that is eccentric, has a periapse twist that
 makes its self-gravity non-axisymmetric, is massive enough that self-gravity rather than J2 controls
 the twist, spreads viscously by about ×2, and stays smooth for 10⁴ orbits with as many streamlines as
 possible, ideally 1000.
@@ -15,32 +15,46 @@ residual of a streamline's r(θ) about a Fourier fit through m = 3, in spacings.
 
 ## The nominal ringlet
 
+Since 2026-10-19 the nominal ringlet has no initial periapse twist; the π-twisted ringlet found first
+(below) is kept as a variant.
+
 | parameter | value |
 |---|---|
 | streamlines × particles | 100 × 40 |
 | width Δa₀ | 0.0125, edges tapered (below) |
 | mass | 3×10⁻⁸ |
 | e, a de/da | 10⁻⁴, 0 |
-| periapse twist | π from inner to outer edge (`w_prime` = π e ā/Δa₀ = 0.02529) |
+| periapse twist | none (`w_prime` = 0) |
 | ν_s = ν_b | 7×10⁻¹¹ |
 | pressure, fast_gravity | off, off |
-| run | 10⁴ orbits (126 000 steps), about 30 min on one M5 core |
+| run | 5×10⁴ orbits (629 000 steps, 500 outputs), 16 min with `fast/epi_int_fast.py` |
 
-Result (`tests/nominal/nominal.ipynb`): no crossing or NaN; max q 0.39; smallest gap 0.97; raggedness
-≤ 1.2×10⁻⁴ spacings; width ×2.66; |ΔL/L₀| ≤ 1.3×10⁻⁵. The initial π twist does not persist:
-within ~1000 orbits self-gravity straightens it, and the middle ~80% of the ringlet then stays nearly
-aligned (e ≈ 0.4×10⁻⁴, periapses spread by ≲ 0.3π) instead of being wound up by J2. The tapered edges, the outer ~10% of streamlines on each side, carry larger eccentricities (up to
-≳ 3×10⁻⁴) and librating periapses; the inner edge's periapse circulates once every ~4800 orbits. All the
-large q is at the edges, mostly the outer one; the body stays below ~0.05. In the notebook's
-animation (e, periapse and q versus a) that body is two sub-ringlets, the inner ~25% and the next ~65%,
-precessing slowly relative to each other, with the outer edge decoupled. (Space-time diagrams,
-surface-density maps and the optional animation in the notebook.) The 10⁴ orbits span 0.43 of the
-viscous timescale τ_ν = Δa₀²/12ν_s (hahn25 Eq. 9), ≈ 2.3×10⁴ orbits.
+The 5×10⁴ orbits are 2.2 viscous timescales τ_ν = Δa₀²/12ν_s (hahn25 Eq. 9) ≈ 2.3×10⁴ orbits, with Δa₀
+the initial distance between the edge streamlines.
 
-**A 30% wider ringlet** (`explore/wide/`: width 0.01625 at the same surface density, mass 3.9×10⁻⁸, π
-twist) also stays smooth for 10⁴ orbits (max q 0.41, smallest gap 0.98, raggedness ≤ 8×10⁻⁵, width
-×2.19), but still forms only two sub-ringlets, not three, and spans only 0.25 τ_ν; so the nominal
-width was kept.
+Result (`tests/nominal/nominal.ipynb`): no crossing or NaN; max q 0.38 (at ~10⁴ orbits, lower after);
+smallest gap 0.996 of the spacing; raggedness ≤ 4.3×10⁻⁴ spacings, creeping up over the last 10⁴
+orbits; width ×5.35; |ΔL/L₀| ≤ 6.5×10⁻⁵. J2 starts to twist the ringlet, but self-gravity holds the body to a small, smooth
+twist (~0.1–0.3π) with no sub-ringlets, while an eccentricity gradient builds up: e grows outward,
+to ~6×10⁻⁴ at the outer edge and ~10⁻⁵ at the inner edge by 10⁴ orbits. The body then circularizes
+(e ≈ 0 by ~3×10⁴ orbits, after which its periapses are meaningless), and only the outer few streamlines
+stay eccentric (e ≈ 4–5×10⁻⁴), carrying all the large q. At 333 streamlines (`explore/twist0_n333`,
+λ_crit/2Δ ≈ 0.31) it crosses at step 1825 (~145 orbits), like the π-twisted ringlet at 300, so the
+limit is resolution, not the twist.
+
+**The π-twisted variant** (`w_prime` = π e ā/Δa₀ = 0.02529, 10⁴ orbits; `explore/taper/nr0100_pi`):
+no crossing; max q 0.39; smallest gap 0.97; raggedness ≤ 1.2×10⁻⁴ spacings; width ×2.66;
+|ΔL/L₀| ≤ 1.3×10⁻⁵. Within ~1000 orbits self-gravity straightens the twist, and the middle ~80% of the
+ringlet then stays nearly aligned (e ≈ 0.4×10⁻⁴, periapses spread by ≲ 0.3π), as two sub-ringlets, the
+inner ~25% and the next ~65%, precessing slowly relative to each other. The tapered edges carry larger
+eccentricities (≳ 3×10⁻⁴) and librating periapses; the inner edge's periapse circulates once every
+~4800 orbits. All the large q is at the edges. With zero twist (`explore/twist0`, 10⁴ orbits) the
+same ringlet has no sub-ringlets: max q 0.35, raggedness ≤ 5.7×10⁻⁵, width ×2.65. So the sub-ringlets
+are left over from the initial twist.
+
+**A 30% wider π-twisted ringlet** (`explore/wide/`: width 0.01625 at the same surface density, mass
+3.9×10⁻⁸) also stays smooth for 10⁴ orbits (max q 0.41, smallest gap 0.98, raggedness ≤ 8×10⁻⁵, width
+×2.19), but still forms only two sub-ringlets, not three, and spans only 0.25 τ_ν.
 
 **Edge taper.** Streamlines keep equal masses but sit at equal-mass quantiles of a surface density that
 is flat across the middle and falls as cos² to zero over 20% of the width at each edge. The width is

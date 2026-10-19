@@ -60,6 +60,17 @@ Whole driver, `benchmark.py --driver fast/epi_int_fast.py --label numba --check`
 | 300 | 51.5 ms | 2.62 ms | ×20 |
 | 1000 | 447 ms | 14.1 ms | ×32 |
 
+The nominal ringlet (`--ringlet nominal`: eccentric, tapered edges, Nt = 40, width and mass fixed;
+`benchmark/results/*_nominal_Apple-M5.json`), at streamline counts a factor ~3.3 apart:
+
+| Nr | reference | fast | speedup | final state |
+|---:|---:|---:|---:|---|
+| 33 | 1.83 ms | 0.66 ms | ×2.8 | identical |
+| 100 | 12.4 ms | 1.7 ms | ×7.4 | identical |
+| 333 | 105 ms | 6.3 ms | ×16.5 | identical |
+
+The 5×10⁴-orbit nominal run (629 000 steps) takes 16 min with the fast driver.
+
 ## Where the time goes now
 
 cProfile, 400 steps at Nr = 1000, Nt = 40: gravity 6.4 s (16 ms/step), everything else ~13 ms/step:

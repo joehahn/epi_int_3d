@@ -156,7 +156,10 @@ z ≠ 0 runs use pressure. Next: step 2, the Numba gravity kernel.
 reference's (benchmark states, regression suite, the full nominal run). Kernel ×50 on 10 threads;
 whole driver ×7 at Nr = 100, ×32 at Nr = 1000 (14 ms/step at Nt = 20); the nominal run takes 3.3 min
 instead of 24. The remaining time is NumPy bookkeeping (viscosity interpolation, coordinate
-conversions, sorting), so step 4 is next.
+conversions, sorting), so step 4 is next. The nominal ringlet is now the zero-twist one, run for
+5×10⁴ orbits (2.2 viscous timescales; 16 min with the fast driver): smooth, its body circularizes
+and its outer edge stays eccentric. At 333 streamlines it crosses after ~145 orbits. Benchmarked at
+Nr = 33, 100, 333 (`--ringlet nominal`): ×2.8, ×7.4, ×16.5, final states identical.
 
 ## Phase 1 — Literature review
 

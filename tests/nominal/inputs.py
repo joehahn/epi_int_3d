@@ -3,19 +3,19 @@
 #inputs.py
 #
 #epi_int_3d's nominal ringlet, for benchmarking and testing (see notes/phase0b/nominal.md): an eccentric
-#ringlet whose periapses twist by pi from inner to outer edge, massive enough that self-gravity rather
-#than J2 controls the twist, with edges tapered so that viscous spreading stays smooth. It stays smooth
-#and coherent for 1e4 orbits while it spreads by x2.7.
+#ringlet with aligned periapses, massive enough that self-gravity rather than J2 keeps them nearly
+#aligned, with edges tapered so that viscous spreading stays smooth. It stays smooth for 5e4 orbits
+#(2.2 viscous timescales) while it spreads by x5.3 and its body circularizes.
 
 #set number of streamlins and particles per streamline
 number_of_streamlines = 100
 particles_per_streamline = 40
 number_of_particles = number_of_streamlines*particles_per_streamline
 
-#set timestamp, timesteps per output, and total number of outputs (1e4 orbits)
+#set timestamp, timesteps per output, and total number of outputs (5e4 orbits, one output per 100)
 dt = 0.5
-timesteps_per_output = 629
-total_number_of_outputs = 200
+timesteps_per_output = 1258
+total_number_of_outputs = 500
 
 #ring radial width assuming circular orbits
 radial_width = 0.0125
@@ -47,7 +47,7 @@ initial_orbits = {
     'shape':'eccentric',
     'e':1.0e-4,
     'e_prime':0.0,
-    'w_prime':0.025290       #periapse twist of pi across the ringlet: w_prime = pi e a_mean/radial_width
+    'w_prime':0.0            #no initial periapse twist
 }
 
 #output folder
@@ -56,7 +56,10 @@ output_folder = 'output'
 #epi_int_lite has no edge taper: apply it, and the longitude-wrapped streamline-crossing check
 #(issue 1 in notes/epi_int_lite_issues.md), from tools/patches.py; source/ is unchanged
 import os, sys
-sys.path.insert(0, os.path.join(os.path.abspath('.'), '..', '..', 'tools'))
+repo = os.path.abspath('.')
+while not os.path.exists(os.path.join(repo, 'pyproject.toml')):
+    repo = os.path.dirname(repo)
+sys.path.insert(0, os.path.join(repo, 'tools'))
 import patches
 patches.apply(taper=0.2)
 
