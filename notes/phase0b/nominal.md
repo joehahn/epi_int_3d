@@ -28,12 +28,11 @@ residual of a streamline's r(θ) about a Fourier fit through m = 3, in spacings.
 
 Result (`tests/nominal/nominal.ipynb`): no crossing or NaN; max q 0.39; smallest gap 0.97; raggedness
 ≤ 1.2×10⁻⁴ spacings; width ×2.66; |ΔL/L₀| ≤ 1.3×10⁻⁵. The initial π twist does not persist:
-within ~1000 orbits self-gravity straightens it, and the middle ~80% of the ringlet then precesses as one
-aligned ellipse (e ≈ 0.4×10⁻⁴, periapses within ~0.3 rad of the middle streamline's) instead of being wound
-up by J2. The tapered edges, the outer ~10% of streamlines on each side, carry larger eccentricities (up to
+within ~1000 orbits self-gravity straightens it, and the middle ~80% of the ringlet then stays nearly
+aligned (e ≈ 0.4×10⁻⁴, periapses spread by ≲ 0.3π) instead of being wound up by J2. The tapered edges, the outer ~10% of streamlines on each side, carry larger eccentricities (up to
 ≳ 3×10⁻⁴) and librating periapses; the inner edge's periapse circulates once every ~4800 orbits. All the
 large q is at the edges, mostly the outer one; the body stays below ~0.05. In the notebook's
-animation (e, periapse and q versus a) the body is two sub-ringlets, the inner ~25% and the next ~65%,
+animation (e, periapse and q versus a) that body is two sub-ringlets, the inner ~25% and the next ~65%,
 precessing slowly relative to each other, with the outer edge decoupled. (Space-time diagrams,
 surface-density maps and the optional animation in the notebook.) The 10⁴ orbits span 0.43 of the
 viscous timescale τ_ν = Δa₀²/12ν_s (hahn25 Eq. 9), ≈ 2.3×10⁴ orbits.
@@ -98,8 +97,28 @@ because the discrete self-gravity at the grid scale is half the continuum value;
 non-axisymmetric, so that analysis does not cover it. A rough estimate that fits these runs: J2's differential precession across the
 ringlet scales as J2 Δa, self-gravity's (for small q) as m_r Δϖ/Δa², so keeping J2 from winding the
 ringlet up needs m_r ∝ J2 Δa³/Δϖ, and then λ_crit/2Δ ∝ J2 Δa N_r/Δϖ. A wider ringlet does not help;
-a narrower one (with smaller e, to keep q and the interpolation error small) does
-(`explore/narrow/`, in progress).
+a narrower one (with smaller e, to keep q and the interpolation error small) does.
+
+**A 10× narrower ringlet** (`explore/narrow/`: width 0.00125, e = 10⁻⁵ so q starts at 0.025 as
+before, π twist, ν = 7×10⁻¹³ for the same ×2 spreading, J2 still 0.01; the scaling gives mass ≈ 3×10⁻¹¹).
+"Body twist" is the periapse span across the middle 80% of the streamlines:
+
+| run | result | max q | body twist (rad), 0 → 4000 → 10⁴ orbits | body e at end |
+|---|---|---|---|---|
+| 100 streamlines, 10⁻¹¹ | smooth for 10⁴ orbits | 0.026 | 2.0 → 1.6 → 0.9 | 0.97×10⁻⁵ |
+| 100 streamlines, 3×10⁻¹¹ | smooth for 10⁴ orbits | 0.026 | 2.0 → 1.5 → 0.5 | 0.87×10⁻⁵ |
+| 100 streamlines, 10⁻¹⁰ | smooth for 10⁴ orbits | 0.11 | 2.0 → 1.05 → 1.6 (librates) | 0.81×10⁻⁵ |
+| 1000 streamlines, 3×10⁻¹¹ | no crossing in 159 orbits | 0.027 | 2.0 throughout | 1.0×10⁻⁵ |
+
+All 100-streamline runs widen ×2.65 with raggedness ≤ 4.5×10⁻⁵ spacings. At 1000 streamlines and
+3×10⁻¹¹ (λ_crit/2Δ ≈ 0.09) the raggedness falls from 1.2×10⁻⁴ to 0.8×10⁻⁴ spacings over 159 orbits,
+where the wide ringlet at 300 streamlines was already growing. So the narrow ringlet is the
+1000-streamline candidate; its 10⁴-orbit run (~28 h with the reference code) waits for the faster
+code. The catch: J2's differential precession scales with the width, so across this ringlet it alone
+would twist it by only ~1 rad in 10⁴ orbits (versus ~10 rad for the nominal), and at 3×10⁻¹¹
+self-gravity unwinds the twist slowly instead of aligning the body within ~1000 orbits. At 10⁻¹⁰
+self-gravity controls the twist, but that is λ_crit/2Δ ≈ 0.31 at 1000 streamlines, where the wide
+ringlet went unstable at 300; untested.
 
 **Ring pressure does not help** (`explore/pressure/`, Q_ring = 0.5, 1, 1.2, 2): the 1000-streamline
 run crosses at steps 361, 366, 369, 384 (361 without pressure), and the 100-streamline run is

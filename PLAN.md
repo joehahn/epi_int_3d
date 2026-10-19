@@ -143,7 +143,8 @@ is circular; this must be understood before Phase 5.
 **Status (2026-10-18, prompt 07):** epi_int_3d's nominal ringlet, `tests/nominal/`
 (`notes/phase0b/nominal.md`): 100 streamlines × 40 particles, width 0.0125 with tapered edges, mass
 3×10⁻⁸, e = 10⁻⁴ with a π periapse twist, ν = 7×10⁻¹¹; smooth for 10⁴ orbits: self-gravity straightens
-the twist and the body precesses as one aligned ellipse, with eccentric, librating edges. At 300 and 1000 streamlines it goes unstable, in ~190 and ~30 orbits: gravitational, not cured by
+the twist and the body stays nearly aligned, as two sub-ringlets precessing slowly relative to each
+other, with eccentric, librating edges. At 300 and 1000 streamlines it goes unstable, in ~190 and ~30 orbits: gravitational, not cured by
 more particles per streamline or by ring pressure (Q ≤ 2), probably the cold ringlet's Toomre
 instability once the streamlines resolve λ_crit. Ring-pressure equations checked against hahn13
 (P1–P7); issues 4–5 logged, minor for the nominal ringlet; a pressure deep dive comes first if the
