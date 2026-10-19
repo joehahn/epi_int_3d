@@ -150,6 +150,14 @@ instability once the streamlines resolve λ_crit. Ring-pressure equations checke
 (P1–P7); issues 4–5 logged, minor for the nominal ringlet; a pressure deep dive comes first if the
 z ≠ 0 runs use pressure. Next: step 2, the Numba gravity kernel.
 
+**Status (2026-10-19, prompt 08):** steps 2–3 done for gravity (`notes/phase0b/numba.md`):
+`fast/kernels.py`, a Numba ring-gravity kernel with `prange` over target streamlines, and
+`fast/epi_int_fast.py`, the reference driver with that kernel swapped in. Results are bit-for-bit the
+reference's (benchmark states, regression suite, the full nominal run). Kernel ×50 on 10 threads;
+whole driver ×7 at Nr = 100, ×32 at Nr = 1000 (14 ms/step at Nt = 20); the nominal run takes 3.3 min
+instead of 24. The remaining time is NumPy bookkeeping (viscosity interpolation, coordinate
+conversions, sorting), so step 4 is next.
+
 ## Phase 1 — Literature review
 
 - CC reads hahn13 and hahn25, plus key papers on epicyclic theory and bending waves:

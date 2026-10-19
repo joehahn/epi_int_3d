@@ -1,0 +1,121 @@
+{
+ "label": "numba",
+ "driver": "../../../../../../Dropbox/prog/claude/epi-int-3d/fast/epi_int_fast.py",
+ "date": "2026-10-19",
+ "machine": {
+  "cpu": "Apple M5",
+  "cores": 10,
+  "performance_cores": "4",
+  "memory_GB": 16,
+  "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "numpy": "2.5.4"
+ },
+ "cases": [
+  {
+   "Nr": 10,
+   "Nt": 20,
+   "n1": 200,
+   "n2": 1200,
+   "wall_n1_s": 0.9090029592625797,
+   "wall_n2_s": 1.0471698748879135,
+   "s_per_step": 0.00013816691562533378,
+   "min_gap": 1.0100296199411218,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  },
+  {
+   "Nr": 30,
+   "Nt": 20,
+   "n1": 200,
+   "n2": 1200,
+   "wall_n1_s": 0.6969194998964667,
+   "wall_n2_s": 1.1718227081000805,
+   "s_per_step": 0.00047490320820361374,
+   "min_gap": 0.9993130107410763,
+   "driver_crossing_flag": null,
+   "nan": null
+  },
+  {
+   "Nr": 100,
+   "Nt": 20,
+   "n1": 100,
+   "n2": 600,
+   "wall_n1_s": 0.7024152083322406,
+   "wall_n2_s": 1.1431520418263972,
+   "s_per_step": 0.0008814736669883132,
+   "min_gap": 0.9991938307418734,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  },
+  {
+   "Nr": 300,
+   "Nt": 20,
+   "n1": 50,
+   "n2": 250,
+   "wall_n1_s": 0.7399766254238784,
+   "wall_n2_s": 1.2648300831206143,
+   "s_per_step": 0.0026242672884836792,
+   "min_gap": 0.9998939451305587,
+   "driver_crossing_flag": null,
+   "nan": null
+  },
+  {
+   "Nr": 1000,
+   "Nt": 20,
+   "n1": 50,
+   "n2": 250,
+   "wall_n1_s": 1.3470665840432048,
+   "wall_n2_s": 4.1599928750656545,
+   "s_per_step": 0.01406463145511225,
+   "min_gap": 0.9990083502886548,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  },
+  {
+   "Nr": 100,
+   "Nt": 10,
+   "n1": 100,
+   "n2": 600,
+   "wall_n1_s": 0.7100822501815856,
+   "wall_n2_s": 1.049934749957174,
+   "s_per_step": 0.000679704999551177,
+   "min_gap": 0.9991938319631187,
+   "driver_crossing_flag": null,
+   "nan": null
+  },
+  {
+   "Nr": 100,
+   "Nt": 40,
+   "n1": 100,
+   "n2": 600,
+   "wall_n1_s": 0.77813975000754,
+   "wall_n2_s": 1.5003545843064785,
+   "s_per_step": 0.001444429668597877,
+   "min_gap": 0.9991938278330891,
+   "driver_crossing_flag": null,
+   "nan": null
+  }
+ ]
+}

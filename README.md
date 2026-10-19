@@ -65,5 +65,8 @@ Time per timestep on an Apple M5 laptop, for a ringlet of Nr circular streamline
 | code | Nr = 10 | Nr = 100 | Nr = 1000 |
 |---|---:|---:|---:|
 | epi_int_lite, Python 3 port (1 core) | 0.47 ms | 6.3 ms | 450 ms |
+| + Numba gravity kernel, 10 threads (`fast/epi_int_fast.py`) | 0.14 ms | 0.88 ms | 14 ms |
+
+The faster driver gives bit-for-bit the same results ([notes/phase0b/numba.md](notes/phase0b/numba.md)).
 
 Joe Hahn, joe.hahn@jmh-datasciences.com

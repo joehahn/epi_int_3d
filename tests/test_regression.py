@@ -1,7 +1,8 @@
 #test_regression.py
 #
 #The 2D regression suite: shortened versions of epi_int_lite's unperturbed, spreading and
-#libration tests, run through the driver source/epi_int_lite.py. Each test checks
+#libration tests, run through the driver source/epi_int_lite.py (or the driver named by the
+#environment variable EPI_INT_DRIVER, e.g. fast/epi_int_fast.py). Each test checks
 #  1. physics: the diagnostics of epi_int_lite's test notebooks (see tests/analysis.py), and
 #  2. regression: the final state matches tests/golden/<test>.npz, written by the Python 3 port
 #     of epi_int_lite (the reference implementation) to relative precision GOLDEN_RTOL.
@@ -9,6 +10,8 @@
 #Run:  uv run pytest
 #Regenerate the golden files (only when the reference implementation itself changes):
 #      UPDATE_GOLDEN=1 uv run pytest
+#Check the faster code against the same golden files:
+#      EPI_INT_DRIVER=fast/epi_int_fast.py uv run pytest
 
 import json
 import os
@@ -24,14 +27,15 @@ from analysis import (REPO, load, unperturbed_metrics, spreading_metrics, librat
 TESTS = REPO/'tests'
 GOLDEN = TESTS/'golden'
 GOLDEN_RTOL = 1.0e-11
+DRIVER = REPO/os.environ.get('EPI_INT_DRIVER', 'source/epi_int_lite.py')
 
 
 def run_sim(test_folder, output_folder, **params):
-    """Run source/epi_int_lite.py in test_folder, with inputs.py modified by params.
+    """Run the driver (source/epi_int_lite.py by default) in test_folder, with inputs.py modified by params.
 
     Warnings (e.g. NumPy deprecations) are raised as errors."""
     params['output_folder'] = str(output_folder)
-    cmd = [sys.executable, '-W', 'error', str(REPO/'source'/'epi_int_lite.py'),
+    cmd = [sys.executable, '-W', 'error', str(DRIVER),
            '-m', json.dumps(params)]
     result = subprocess.run(cmd, cwd=test_folder, capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
@@ -43,6 +47,7 @@ def check_golden(name, o):
     path = GOLDEN/f'{name}.npz'
     state = {k: o[k][-1] for k in ('r', 't', 'vr', 'vt')}
     if os.environ.get('UPDATE_GOLDEN'):
+        assert DRIVER == REPO/'source'/'epi_int_lite.py', 'golden files come from the reference implementation'
         GOLDEN.mkdir(exist_ok=True)
         np.savez(path, times=o['times'], **state)
         pytest.skip(f'wrote {path.name}')
