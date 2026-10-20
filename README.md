@@ -67,8 +67,9 @@ Time per timestep on an Apple M5 laptop, for a ringlet of Nr circular streamline
 
 | code | Nr = 10 | Nr = 100 | Nr = 1000 |
 |---|---:|---:|---:|
-| epi_int_lite, Python 3 port (1 core) | 0.47 ms | 6.3 ms | 450 ms |
-| + Numba gravity kernel, 10 threads (`fast/epi_int_fast.py`) | 0.14 ms | 0.88 ms | 14 ms |
+| epi_int_lite, Python 3 port (1 core) | 0.49 ms | 6.3 ms | 450 ms |
+| + Numba gravity kernel, 10 threads (`fast/epi_int_fast.py`) | 0.38 ms | 0.88 ms | 14 ms |
+| + own driver, bookkeeping kernels (`fast/epi_int_3d.py`) | 0.30 ms | 0.73 ms | 12 ms |
 
 and for the former nominal ringlet (eccentric, viscous, 40 particles per streamline; `--ringlet nominal`):
 
@@ -76,7 +77,9 @@ and for the former nominal ringlet (eccentric, viscous, 40 particles per streaml
 |---|---:|---:|---:|
 | epi_int_lite, Python 3 port (1 core) | 1.8 ms | 12.4 ms | 105 ms |
 | + Numba gravity kernel, 10 threads (`fast/epi_int_fast.py`) | 0.66 ms | 1.7 ms | 6.3 ms |
+| + own driver, bookkeeping kernels (`fast/epi_int_3d.py`) | 0.49 ms | 1.1 ms | 4.3 ms |
 
-The faster driver gives bit-for-bit the same results ([notes/phase0b/numba.md](notes/phase0b/numba.md)).
+The faster drivers give bit-for-bit the same results ([notes/phase0b/numba.md](notes/phase0b/numba.md),
+[notes/phase0b/driver.md](notes/phase0b/driver.md)).
 
 Joe Hahn, joe.hahn@jmh-datasciences.com

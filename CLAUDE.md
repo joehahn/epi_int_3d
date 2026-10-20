@@ -25,8 +25,10 @@ decisions, ground rules) and `README.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
   `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix).
-- `fast/`: the faster code (Phase 0b). `kernels.py` holds Numba kernels; `epi_int_fast.py` runs the
-  reference driver with ring gravity replaced by the kernel, bit-for-bit the same results.
+- `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
+  epi_int_3d's own driver (planar until Phase 3), with Numba kernels for ring gravity (`kernels.py`)
+  and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
+  with only ring gravity swapped for the kernel.
 - `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`
   applies `tools/patches.py`. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
@@ -38,8 +40,8 @@ decisions, ground rules) and `README.md`.
 - A simulation runs from its test folder, which supplies `inputs.py`:
   `cd tests/spreading && uv run python ../../source/epi_int_lite.py`. Parameters can be
   overridden with `-m '{"total_number_of_outputs": 20}'`. Outputs go to `output/`.
-- Faster driver: `cd tests/spreading && uv run python ../../fast/epi_int_fast.py` (all cores; set
-  `NUMBA_NUM_THREADS` for fewer). `EPI_INT_DRIVER=fast/epi_int_fast.py uv run pytest` checks it.
+- Faster driver: `cd tests/spreading && uv run python ../../fast/epi_int_3d.py` (all cores; set
+  `NUMBA_NUM_THREADS` for fewer). `EPI_INT_DRIVER=fast/epi_int_3d.py uv run pytest` checks it.
 - Regression suite: `uv run pytest` (about 40 s). It compares final states with
   `tests/golden/*.npz` to relative precision 1e-11. Regenerate those (`UPDATE_GOLDEN=1 uv run
   pytest`) only when the reference implementation itself is meant to change.

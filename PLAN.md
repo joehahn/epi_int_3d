@@ -31,7 +31,8 @@ drove each phase, what CC produced, and how the results were verified.
      thinking). Gaps longer than ~30 min count as "away" and are excluded.
    - **Human time off session:** e.g. hand-verifying equations, logged by you in
      `notes/human_time.md` (date, phase, task, hours).
-   - **Token / $ cost** per phase.
+   - **Token / $ cost** per phase; the $ cost is the API cost of those tokens (the logs'
+     `totalCostUSD`), whatever plan actually paid for them.
    - Your estimate of how long the same work would have taken without AI.
 
    CC session logs (`~/.claude/projects/<project>/*.jsonl`) timestamp every message, so the
@@ -169,6 +170,13 @@ streamlines, width 0.00125, mass 3×10⁻¹¹ (λ_crit/2Δ ≈ 0.09), e = 10⁻�
 pressure off: smooth for 5×10⁴ orbits (2.8 h with the fast driver), self-gravity holding its twist
 within 0.38 rad against J2's ~5 rad. The former nominal ringlet is frozen in
 `benchmark/nominal_inputs.py` for the benchmark.
+
+**Status (2026-10-20, prompt 10):** step 4 done (`notes/phase0b/driver.md`): `fast/epi_int_3d.py`, epi_int_3d's
+own driver, with the bookkeeping (coordinate conversions, drift, sorting, linear density, crossing
+check) as Numba kernels in `fast/bookkeeping.py`, bit-for-bit the reference. Only ×1.15–1.5 over the
+gravity-kernel driver: at 1000 × 20 gravity is 8.7 of 12.3 ms per step, and the rest is the
+transcendentals that bit-for-bit results require. Threads don't help the bookkeeping below ~50 000
+particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in this driver.
 
 ## Phase 1 — Literature review
 
@@ -317,7 +325,9 @@ comparison with Cassini data is out of scope for this paper.
 - Narrative organized by phase: the final prompts → what CC produced → how it was verified.
 - Lessons learned: where AI accelerated the work, where it was wrong or overconfident, and what
   needed domain expertise.
-- A time and cost table per phase.
+- A time and cost table per phase, with cost as API cost: what the tokens would cost at API
+  prices, labelled as such (decided 2026-10-20). Cloud compute, if any, is a separate line at
+  its billed cost.
 
 ---
 
@@ -344,6 +354,8 @@ comparison with Cassini data is out of scope for this paper.
 - `fast_gravity = False` and `Q_ring = -1` (pressure off) in all runs: the fast-gravity
   approximation was never useful, and the pressure code was never used in hahn25 nor rigorously
   tested. `fast_gravity` is removed from epi_int_3d (Phase 3).
+- The README reports Claude Code's cost as API cost (tokens at API prices), not what the plan
+  that paid for it cost (2026-10-20).
 
 ## Open questions to settle
 

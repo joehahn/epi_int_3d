@@ -2,7 +2,7 @@
 """Run the test simulations that the notebooks analyze, in parallel.
 
 Each folder under the given paths that holds an inputs.py is a simulation; it is run from that
-folder with source/epi_int_lite.py (or, with --fast, fast/epi_int_fast.py, which gives the same results
+folder with source/epi_int_lite.py (or, with --fast, fast/epi_int_3d.py, which gives the same results
 bit for bit), writing output/ (and output.log). Simulations that already have an output/ folder are
 skipped unless --force is given.
 
@@ -21,7 +21,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 DRIVER = REPO/'source'/'epi_int_lite.py'
-FAST_DRIVER = REPO/'fast'/'epi_int_fast.py'
+FAST_DRIVER = REPO/'fast'/'epi_int_3d.py'
 
 
 def run(folder, driver=DRIVER):
@@ -37,7 +37,7 @@ def main():
     parser.add_argument('paths', nargs='*', default=['tests'])
     parser.add_argument('-j', '--jobs', type=int, default=os.cpu_count())
     parser.add_argument('--force', action='store_true', help='rerun simulations that have output/')
-    parser.add_argument('--fast', action='store_true', help='use the faster driver, fast/epi_int_fast.py')
+    parser.add_argument('--fast', action='store_true', help='use the faster driver, fast/epi_int_3d.py')
     args = parser.parse_args()
     folders = sorted({f.parent for p in args.paths for f in (REPO/p).resolve().rglob('inputs.py')})
     todo = [f for f in folders if args.force or not (f/'output').is_dir()]

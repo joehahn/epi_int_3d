@@ -54,11 +54,14 @@ Whole driver, `benchmark.py --driver fast/epi_int_fast.py --label numba --check`
 
 | Nr | reference | fast | speedup |
 |---:|---:|---:|---:|
-| 10 | 0.47 ms | 0.14 ms | ×3.4 |
+| 10 | 0.47 ms | 0.14 ms* | ×3.4* |
 | 30 | 1.28 ms | 0.47 ms | ×2.7 |
 | 100 | 6.35 ms | 0.88 ms | ×7.2 |
 | 300 | 51.5 ms | 2.62 ms | ×20 |
 | 1000 | 447 ms | 14.1 ms | ×32 |
+
+*Noise: measured over more steps, Nr = 10 takes 0.49 ms (reference) and 0.38 ms (fast); see
+`driver.md`, which also has the next step, epi_int_3d's own driver.
 
 The nominal ringlet (`--ringlet nominal`: eccentric, tapered edges, Nt = 40, width and mass fixed;
 `benchmark/results/*_nominal_Apple-M5.json`), at streamline counts a factor ~3.3 apart:

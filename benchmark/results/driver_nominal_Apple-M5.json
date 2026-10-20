@@ -1,0 +1,74 @@
+{
+ "label": "driver",
+ "ringlet": "nominal",
+ "driver": "../../../../../../Dropbox/prog/claude/epi-int-3d/fast/epi_int_3d.py",
+ "date": "2026-10-20",
+ "machine": {
+  "cpu": "Apple M5",
+  "cores": 10,
+  "performance_cores": "4",
+  "memory_GB": 16,
+  "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.4",
+  "numpy": "2.5.4"
+ },
+ "cases": [
+  {
+   "Nr": 33,
+   "Nt": 40,
+   "n1": 200,
+   "n2": 1200,
+   "wall_n1_s": 1.1456735827960074,
+   "wall_n2_s": 1.6403412912040949,
+   "s_per_step": 0.0004946677084080875,
+   "min_gap": 0.7751378196559244,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  },
+  {
+   "Nr": 100,
+   "Nt": 40,
+   "n1": 100,
+   "n2": 600,
+   "wall_n1_s": 1.171801040880382,
+   "wall_n2_s": 1.7210900001227856,
+   "s_per_step": 0.001098577918484807,
+   "min_gap": 0.7914055727620806,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  },
+  {
+   "Nr": 333,
+   "Nt": 40,
+   "n1": 50,
+   "n2": 250,
+   "wall_n1_s": 1.2890826249495149,
+   "wall_n2_s": 2.1520834593102336,
+   "s_per_step": 0.004315004171803594,
+   "min_gap": 0.7973126912968097,
+   "driver_crossing_flag": null,
+   "nan": null,
+   "max_rel_diff": {
+    "r": 0.0,
+    "vr": 0.0,
+    "vt": 0.0,
+    "t": 0.0
+   },
+   "matches_reference": true
+  }
+ ]
+}
