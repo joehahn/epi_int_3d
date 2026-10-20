@@ -1,7 +1,8 @@
 # epi_int_3d
 
-*Work in progress — Phase 0: epi_int_lite has been ported to Python 3 (the reference
-implementation, in `source/`).*
+*Work in progress — Phase 0b: epi_int_lite has been ported to Python 3 (the reference
+implementation, in `source/`), and faster drivers (`fast/`) give its results bit for bit.
+The vertical motion comes next.*
 
 epi_int_3d will extend the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
@@ -81,5 +82,12 @@ and for the former nominal ringlet (eccentric, viscous, 40 particles per streaml
 
 The faster drivers give bit-for-bit the same results ([notes/phase0b/numba.md](notes/phase0b/numba.md),
 [notes/phase0b/driver.md](notes/phase0b/driver.md)).
+
+### License and citation:
+
+MIT license ([LICENSE](LICENSE)): anyone may use, change and redistribute this code, keeping the
+copyright notice. If you use it in published work, please cite Hahn et al. (2025, ApJ, 986, 220) and
+this repository ([CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button gives the
+reference).
 
 Joe Hahn, joe.hahn@jmh-datasciences.com

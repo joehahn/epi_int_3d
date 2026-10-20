@@ -2,7 +2,7 @@
 
 #epi_int_lite.py
 #
-#by Joe Hahn, jmh.datasciences@gmail.com, 27 August 2017.
+#by Joe Hahn, joe.hahn@jmh-datasciences.com, 27 August 2017.
 #
 #this simulates the dynamical evolution of self-gravitating planetary rings.
 #A portion of this code was written while drinking and singing at

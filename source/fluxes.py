@@ -1,6 +1,6 @@
 #fluxes.py
 #
-#by Joe Hahn, jmh.datasciences@gmail.com, 6 June 2018
+#by Joe Hahn, joe.hahn@jmh-datasciences.com, 6 June 2018
 #Ported to Python 3 by Claude Code for epi_int_3d, October 2026 (see notes/port_changes.md).
 #
 #compute viscous angular momentum flux and luminosity through ringlet's central streamline

@@ -1,7 +1,7 @@
 {
  "label": "numba",
  "ringlet": "nominal",
- "driver": "../../../../../../Dropbox/prog/claude/epi-int-3d/fast/epi_int_fast.py",
+ "driver": "fast/epi_int_fast.py",
  "date": "2026-10-19",
  "machine": {
   "cpu": "Apple M5",

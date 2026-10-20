@@ -69,7 +69,7 @@ decisions, ground rules) and `README.md`.
 - Check every new citation against SciX (scixplorer.org). The user's bibliography,
   `paper/jmh_bibliography.bib`, stays local and is never committed; entries it lacks go in
   `paper/cc_added.bib`.
-- epi_int (IDL) is a 2D code: don't cite or port its unpublished vertical (z) code.
+- epi_int (IDL) is treated as a 2D code.
 - Ask before creating or deleting any cloud resource.
 - Always run with `fast_gravity = False` and `Q_ring = -1`: the fast-gravity approximation and
   the ring-pressure code are untested and unused (`fast_gravity` is dropped in epi_int_3d).

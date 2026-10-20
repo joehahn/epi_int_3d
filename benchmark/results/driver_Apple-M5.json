@@ -1,7 +1,7 @@
 {
  "label": "driver",
  "ringlet": "benchmark",
- "driver": "../../../../../../Dropbox/prog/claude/epi-int-3d/fast/epi_int_3d.py",
+ "driver": "fast/epi_int_3d.py",
  "date": "2026-10-20",
  "machine": {
   "cpu": "Apple M5",

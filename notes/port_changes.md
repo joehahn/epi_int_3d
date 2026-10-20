@@ -27,6 +27,8 @@ any deprecation warning into an error.
   NumPy's random number generator in `initialize_streamline()`, which only the `log-e` initial
   orbits use. `tests/unperturbed/inputs.py` sets `random_seed = 1`, so its random eccentricities
   are reproducible; they differ from those of the notebook's unseeded Python 2 run.
+- **Author email.** The header comments of `source/`, the `inputs.py` files and the notebooks give
+  joe.hahn@jmh-datasciences.com instead of the older jmh.datasciences@gmail.com (2026-10-20, comments only).
 
 ## Notebooks
 

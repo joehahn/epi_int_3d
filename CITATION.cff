@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it, and the paper describing the streamline method (Hahn et al. 2025)."
+title: "epi_int_3d: a streamline N-body integrator for vertically perturbed planetary rings"
+type: software
+authors:
+  - family-names: Hahn
+    given-names: Joseph M.
+    affiliation: Space Science Institute
+    email: jhahn@SpaceScience.org
+repository-code: "https://github.com/joehahn/epi_int_3d"
+license: MIT
+references:
+  - type: article
+    authors:
+      - family-names: Hahn
+        given-names: Joseph M.
+      - family-names: Hamilton
+        given-names: Douglas P.
+      - family-names: Rimlinger
+        given-names: Thomas
+      - family-names: Lu
+        given-names: Yuxi
+    title: "N-body Simulations of the Self-confinement of Viscous Self-gravitating Narrow Eccentric Planetary Ringlets"
+    journal: "The Astrophysical Journal"
+    year: 2025
+    volume: 986
+    start: 220
+    doi: "10.3847/1538-4357/add3f5"

@@ -2,7 +2,7 @@
 
 #inputs.py
 #
-#by Joe Hahn, jmh.datasciences@gmail.com, 18 October 2017.
+#by Joe Hahn, joe.hahn@jmh-datasciences.com, 18 October 2017.
 #
 #define input input parameters
 #

@@ -133,7 +133,7 @@ def main():
     if args.cases:
         wanted = {tuple(map(int, c.split(':'))) for c in args.cases.split(',')}
         cases = [c for c in CASES if c[:2] in wanted]
-    results = {'label': args.label, 'ringlet': args.ringlet, 'driver': os.path.relpath(args.driver, REPO),
+    results = {'label': args.label, 'ringlet': args.ringlet, 'driver': os.path.relpath(Path(args.driver).resolve(), REPO),
                'date': time.strftime('%Y-%m-%d'), 'machine': machine(), 'cases': []}
     (BENCH/'results').mkdir(exist_ok=True)
     (BENCH/'reference').mkdir(exist_ok=True)

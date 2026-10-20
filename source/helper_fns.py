@@ -1,6 +1,6 @@
 #helper_fns.py
 #
-#by Joe Hahn, jmh.datasciences@gmail.com, 28 September 2017.
+#by Joe Hahn, joe.hahn@jmh-datasciences.com, 28 September 2017.
 #
 #helper functions used by epi_int_lite.py
 #

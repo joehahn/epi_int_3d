@@ -6,7 +6,7 @@ folder with source/epi_int_lite.py (or, with --fast, fast/epi_int_3d.py, which g
 bit for bit), writing output/ (and output.log). Simulations that already have an output/ folder are
 skipped unless --force is given.
 
-Run:  uv run python tools/run_simulations.py                     #all 22 test simulations
+Run:  uv run python tools/run_simulations.py                     #all 23 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
       uv run python tools/run_simulations.py tests/libration -j 8  #the 20 libration runs
       uv run python tools/run_simulations.py tests/nominal --fast  #~3 h instead of days

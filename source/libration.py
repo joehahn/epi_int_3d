@@ -1,6 +1,6 @@
 #libration.py
 #
-#by Joe Hahn, jmh.datasciences@gmail.com, 18 March 2018.
+#by Joe Hahn, joe.hahn@jmh-datasciences.com, 18 March 2018.
 #Ported to Python 3 by Claude Code for epi_int_3d, October 2026 (see notes/port_changes.md).
 #
 #these helper functions are used to analyze the motions (libration etc) of a self-confining ringlet

@@ -205,9 +205,7 @@ particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in t
   kept as `notes/numerics/vertical_motion_check.py`. V1–V4 are sympy-verified
   (`notes/sympy/vertical_motion.py`) and written up condensed in the mock paper
   `paper/epi_int_3d.tex` (prompt 04). Remaining: your hand verification.
-  **epi_int is treated as a 2D code** (Hahn & Spitale 2013 describe a planar model). Its IDL
-  source has partial, undocumented z bookkeeping that was never peer reviewed, so this
-  project neither cites nor builds on it.
+  **epi_int is treated as a 2D code** (Hahn & Spitale 2013 describe a planar model).
 - **2b. Vertical self-gravity of streamlines.** Neither epi_int nor epi_int_lite has this;
   both are planar. The new physics: the vertical (and modified
   radial) acceleration that one inclined/warped streamline exerts on a particle in another.
@@ -226,7 +224,7 @@ particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in t
   - *Vertical forcing:* rederive Shu's (1984) resonant vertical forcing term in GT notation
     and add it as a vertical Fourier satellite (inclined satellite, m-th vertical resonance).
   - *Cross-check:* also implement direct 3D gravity of a point-mass satellite (written new,
-    not ported from epi_int's unpublished z code). A direct inclined satellite
+    written new). A direct inclined satellite
     contains all terms of the potential, so its response near the vertical resonance should
     match the Fourier version. That gives an independent test of the rederived forcing.
     Production runs use the Fourier satellite (cleaner, and it doesn't also excite nearby
