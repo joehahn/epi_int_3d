@@ -114,7 +114,7 @@ The faster drivers give bit-for-bit the same results ([notes/phase0b/numba.md](n
 
 ## About the author
 
-I am Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. Through **JMH DataSciences** I build production AI and machine learning systems for clients who need a real decision automated, not a demo. Before going independent I spent eight years inside Oracle's AI Center of Excellence delivering AI systems for enterprise clients in manufacturing, oil and gas, public sector, and retail, and before that four years building machine learning systems on large data platforms.
+I am Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. Through **JMH DataSciences** I build AI and machine learning systems that automate real decisions. Before going independent I spent eight years inside Oracle's AI Center of Excellence delivering AI systems for enterprise clients in manufacturing, oil and gas, public sector, and retail, and before that four years building machine learning systems on large data platforms.
 
 I am also a planetary dynamicist: a Research Scientist at the [Space Science Institute](https://www.spacescience.org/bio.php?emp=JHAHN) (Ph.D., University of Notre Dame, 1997), working on the dynamics of planetary rings; my most recent paper is Hahn et al. (2025, ApJ, 986, 220), on self-confining eccentric ringlets, which describes epi_int_lite. For academic correspondence and citations, use jhahn@SpaceScience.org.
 
@@ -124,7 +124,7 @@ This repo applies an AI agent to research rather than to a business decision. Th
 
 - [**epi_int_lite**](https://github.com/joehahn/epi_int_lite). The 2D streamline N-body code for planetary rings that this project extends (Hahn et al. 2025, ApJ, 986, 220).
 - [**geo-herd-rider**](https://github.com/joehahn/geo-herd-rider). An AI agent reads a continuous feed of unstructured news and makes a routine judgment call a person would otherwise make by hand, while deterministic code handles everything that can be computed rather than judged.
-- [**diplomacy-A2A**](https://github.com/joehahn/diplomacy-A2A). Seven Claude-powered agents play *Diplomacy*, the classic seven-player negotiation board game, against each other: forming alliances, bargaining, and betraying each other over the A2A protocol.
+- [**diplomacy-A2A**](https://github.com/joehahn/diplomacy-A2A). Seven AI agents play the seven nations of *Diplomacy*, the classic negotiation board game, forming alliances, bargaining, and betraying each other over the A2A protocol. Playtested with several LLMs powering the agents, including different LLMs head to head.
 
 ## License
 
