@@ -43,7 +43,7 @@ drove each phase, what CC produced, and how the results were verified.
 
 ## Phase 0 — Setup and baseline
 
-- GitHub repo `joehahn/epi_int_3d` (private now, public later), **starting fresh**, with no git
+- GitHub repo `joehahn/epi_int_3d` (public since 2026-10-20), **starting fresh**, with no git
   connection to epi_int_lite. Start from the source on epi_int_lite's **`master` branch**
   (the hahn25 code); the Fourier-satellite forcing on the `lindblad_resonance` branch is
   ported separately in Phase 3 (see 2c). Cite
@@ -331,7 +331,7 @@ comparison with Cassini data is out of scope for this paper.
 
 ## Decisions so far
 
-- Repo `joehahn/epi_int_3d`, private until ready, then public; fresh git history; epi_int_lite referenced by URL.
+- Repo `joehahn/epi_int_3d`, private until ready, public since 2026-10-20 (MIT license); fresh git history; epi_int_lite referenced by URL.
 - Target journal: ApJ.
 - Science scope: linear validation + nonlinear parameter study (no Saturn/Cassini comparison).
 - Port to the newest Python that Numba supports, then optimize for speed (Phase 0b).
