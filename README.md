@@ -1,5 +1,19 @@
 # epi_int_3d
 
+**This project:** An AI coding agent (Claude Code) drives a real astrophysics research project end to
+end: reviewing the literature, deriving and symbolically checking the equations, porting and extending
+a published N-body code, testing it, running the simulations and drafting the journal paper, with
+every equation, citation and number checked along the way. The science: spiral bending waves in
+planetary rings.
+
+**Author:** Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. [jmh-datasciences.com](https://jmh-datasciences.com) · [LinkedIn](https://www.linkedin.com/in/hahnjoe/) · joe.hahn@jmh-datasciences.com
+
+**License:** Writing [CC BY 4.0](LICENSE-docs.md) · code [PolyForm Noncommercial](LICENSE.md), [details](#license)  
+**Project:** Started 2026-Oct-11 · branch `main`  
+Built end-to-end with [Claude Code](https://claude.com/claude-code).
+
+---
+
 *Work in progress — Phase 0b: epi_int_lite has been ported to Python 3 (the reference
 implementation, in `source/`), and faster drivers (`fast/`) give its results bit for bit.
 The vertical motion comes next.*
@@ -83,11 +97,41 @@ and for the former nominal ringlet (eccentric, viscous, 40 particles per streaml
 The faster drivers give bit-for-bit the same results ([notes/phase0b/numba.md](notes/phase0b/numba.md),
 [notes/phase0b/driver.md](notes/phase0b/driver.md)).
 
-### License and citation:
+## About the author
 
-MIT license ([LICENSE](LICENSE)): anyone may use, change and redistribute this code, keeping the
-copyright notice. If you use it in published work, please cite Hahn et al. (2025, ApJ, 986, 220) and
-this repository ([CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button gives the
-reference).
+I am Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. Through **JMH DataSciences** I build production AI and machine learning systems for clients who need a real decision automated, not a demo. Before going independent I spent eight years inside Oracle's AI Center of Excellence delivering AI systems for enterprise clients in manufacturing, oil and gas, public sector, and retail, and before that four years building machine learning systems on large data platforms.
 
-Joe Hahn, joe.hahn@jmh-datasciences.com
+This repo applies an AI agent to research rather than to a business decision. The agent does the work, while the scaffolding keeps it honest: every derived equation gets a symbolic check, every citation is checked against the literature database, and every faster code path must reproduce the reference implementation bit for bit. If that shape matches a problem in your business, the work I do and what it costs are at [jmh-datasciences.com](https://jmh-datasciences.com).
+
+**Related work:**
+
+- [**epi_int_lite**](https://github.com/joehahn/epi_int_lite). The 2D streamline N-body code for planetary rings that this project extends (Hahn et al. 2025, ApJ, 986, 220).
+- [**geo-herd-rider**](https://github.com/joehahn/geo-herd-rider). An AI agent reads a continuous feed of unstructured news and makes a routine judgment call a person would otherwise make by hand, while deterministic code handles everything that can be computed rather than judged.
+- [**diplomacy-A2A**](https://github.com/joehahn/diplomacy-A2A). Seven Claude-powered agents play *Diplomacy*, the classic seven-player negotiation board game, against each other: forming alliances, bargaining, and betraying each other over the A2A protocol.
+
+## License
+
+This repository is **dual-licensed**, split by file type.
+
+| What | License | Commercial use |
+|---|---|---|
+| **Documentation and writing**: every `*.md` file at any path, and the mock paper under `paper/` | [CC BY 4.0](LICENSE-docs.md) | **Yes**, with attribution |
+| **Everything else**: `source/`, `fast/`, `tools/`, `tests/`, `benchmark/`, `explore/`, sympy and numerics scripts, notebooks, config | [PolyForm Noncommercial 1.0.0](LICENSE.md) | No |
+
+The writing is meant to travel: quote it, adapt it, put a figure or an equation in your slides,
+commercially or not, as long as you credit the source. The requested form is *Joseph M. Hahn, Ph.D.,
+JMH DataSciences, https://jmh-datasciences.com, from the `epi_int_3d` project*. The code is free to
+use, modify, and share for any noncommercial purpose: research, experimentation, education, personal
+projects, and use by nonprofit or government organizations. Commercial rights to the code are
+reserved; [get in touch](https://jmh-datasciences.com) if you want them.
+
+Code samples embedded in documentation files stay under the code license, so a snippet lifted from
+this README carries the same terms as the file it came from.
+
+**Citing this work.** If you use the code or results in published research, please cite Hahn et al.
+(2025, ApJ, 986, 220) and this repository ([CITATION.cff](CITATION.cff); GitHub's "Cite this
+repository" button gives the reference).
+
+**Third-party content.** The AASTeX class and bibliography style in `paper/` belong to the American
+Astronomical Society and are distributed under their own terms; `papers/hahn25.pdf` is published by
+the AAS under CC BY 4.0. They are not licensed by the author under either license above.
