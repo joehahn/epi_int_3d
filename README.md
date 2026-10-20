@@ -6,11 +6,24 @@ a published N-body code, testing it, running the simulations and drafting the jo
 every equation, citation and number checked along the way. The science: spiral bending waves in
 planetary rings.
 
-**Author:** Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. [jmh-datasciences.com](https://jmh-datasciences.com) · [LinkedIn](https://www.linkedin.com/in/hahnjoe/) · joe.hahn@jmh-datasciences.com
+**Author:** Joseph M. Hahn, Ph.D.  
+Research Scientist, [Space Science Institute](https://www.spacescience.org/bio.php?emp=JHAHN) (planetary ring dynamics) · jhahn@SpaceScience.org  
+Independent AI and machine learning consultant, [JMH DataSciences](https://jmh-datasciences.com) · [LinkedIn](https://www.linkedin.com/in/hahnjoe/) · joe.hahn@jmh-datasciences.com
 
 **License:** [MIT](LICENSE), [details](#license)  
 **Project:** Started 2026-Oct-11 · branch `main`  
 Built end-to-end with [Claude Code](https://claude.com/claude-code).
+
+**For researchers:** epi_int_3d extends the streamline N-body code epi_int_lite (Hahn et al. 2025,
+ApJ, 986, 220) into the vertical direction, to simulate spiral bending waves in self-gravitating
+planetary rings. Its faster drivers reproduce the published code bit for bit, every derived equation
+has a symbolic (sympy) check, and the code, tests, notes and the draft paper are all open.
+
+**For R&D and industry:** this repo shows that an AI agent can carry a long, open-ended technical
+investigation when a domain expert builds the checks around it: symbolic algebra for every derivation,
+every citation checked against the literature database, regression against a reference
+implementation, and every prompt and hour of work logged ([prompts/](prompts/), [PLAN.md](PLAN.md)).
+It is the same pattern as my other repos, applied to research rather than to a business decision.
 
 ---
 
@@ -100,6 +113,8 @@ The faster drivers give bit-for-bit the same results ([notes/phase0b/numba.md](n
 ## About the author
 
 I am Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. Through **JMH DataSciences** I build production AI and machine learning systems for clients who need a real decision automated, not a demo. Before going independent I spent eight years inside Oracle's AI Center of Excellence delivering AI systems for enterprise clients in manufacturing, oil and gas, public sector, and retail, and before that four years building machine learning systems on large data platforms.
+
+I am also a planetary dynamicist: a Research Scientist at the [Space Science Institute](https://www.spacescience.org/bio.php?emp=JHAHN) (Ph.D., University of Notre Dame, 1997), working on the dynamics of planetary rings; my most recent paper is Hahn et al. (2025, ApJ, 986, 220), on self-confining eccentric ringlets, which introduced epi_int_lite. For academic correspondence and citations, use jhahn@SpaceScience.org.
 
 This repo applies an AI agent to research rather than to a business decision. The agent does the work, while the scaffolding keeps it honest: every derived equation gets a symbolic check, every citation is checked against the literature database, and every faster code path must reproduce the reference implementation bit for bit. If that shape matches a problem in your business, the work I do and what it costs are at [jmh-datasciences.com](https://jmh-datasciences.com).
 
