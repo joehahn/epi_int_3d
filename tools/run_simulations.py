@@ -3,16 +3,18 @@
 
 Each folder under the given paths that holds an inputs.py is a simulation; it is run from that
 folder with source/epi_int_lite.py (or, with --fast, fast/epi_int_3d.py, which gives the same results
-bit for bit), writing output/ (and output.log). Simulations that already have an output/ folder are
+bit for bit), writing output/ (and output.log). Tests with vertical motion (an `inclination` in
+inputs.py, e.g. tests/inclined) always run with fast/epi_int_3d.py, which the reference lacks. Simulations that already have an output/ folder are
 skipped unless --force is given.
 
-Run:  uv run python tools/run_simulations.py                     #all 23 test simulations
+Run:  uv run python tools/run_simulations.py                     #all 24 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
       uv run python tools/run_simulations.py tests/libration -j 8  #the 20 libration runs
       uv run python tools/run_simulations.py tests/nominal --fast  #~3 h instead of days
 """
 import argparse
 import os
+import re
 import subprocess
 import sys
 import time
@@ -22,6 +24,11 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 DRIVER = REPO/'source'/'epi_int_lite.py'
 FAST_DRIVER = REPO/'fast'/'epi_int_3d.py'
+
+
+def needs_3d(folder):
+    """Does the test need epi_int_3d's vertical motion?"""
+    return re.search(r'^inclination\s*=', (folder/'inputs.py').read_text(), re.M) is not None
 
 
 def run(folder, driver=DRIVER):
@@ -44,7 +51,7 @@ def main():
     for f in sorted(set(folders) - set(todo)):
         print(f'skip (has output/): {f.relative_to(REPO)}')
     with ThreadPoolExecutor(args.jobs) as pool:
-        for folder, rc, dt in pool.map(lambda f: run(f, FAST_DRIVER if args.fast else DRIVER), todo):
+        for folder, rc, dt in pool.map(lambda f: run(f, FAST_DRIVER if args.fast or needs_3d(f) else DRIVER), todo):
             status = 'done' if rc == 0 else f'FAILED (exit {rc}, see output.log)'
             print(f'{status}: {folder.relative_to(REPO)}  ({dt/60:.1f} min)', flush=True)
 

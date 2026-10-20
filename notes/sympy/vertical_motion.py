@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Sympy verification of the first-order vertical epicyclic equations V1-V7, and of the
+# Sympy verification of the first-order vertical epicyclic equations V1-V8, and of the
 # in-plane solution of hahn25 Appendix A (H1-H3) as transcribed in the paper's Appendix A
 # (see notes/equations.md).
 #
@@ -122,4 +122,17 @@ check('H2: a = R(C + sqrt(C^2 - 3J2/2)) solves h^2 = a^4 Omega_a^2, with h^2 = 2
 check('H3: e sin M = (v_r/a kappa_a)(a/r)^3', (vr_A/(a*ka_a))*(a/r_A)**3 - e*sp.sin(M))
 check('H3: e cos M = [(a/r)^2 - 1]/2', ((a/r_A)**2 - 1)/2 - e*sp.cos(M))
 
-print('\nAll checks of V1-V7 and H1-H3 passed.')
+# --- V8: the drift of V2-V4 is a rotation of (z, v_z/nu) by nu*dt, as coded in fast/bookkeeping.py ---
+# Elements -> coords (V2) with lambda = wt + (Omega/kappa) M; the drift advances M by kappa dt and the
+# node by (Omega - nu) dt (V4), so u = lambda - node advances by nu dt.
+wt_, M0, node0, inc, dt_ = sp.symbols('wt M_0 node_0 i dt', real=True)
+Om_, ka_, nu_ = sp.symbols('Omega_a kappa_a nu_a', positive=True)
+u0 = wt_ + (Om_/ka_)*M0 - node0
+z0, vz0 = a*inc*sp.sin(u0), a*inc*nu_*sp.cos(u0)
+u1 = wt_ + (Om_/ka_)*(M0 + ka_*dt_) - (node0 + (Om_ - nu_)*dt_)
+z1, vz1 = a*inc*sp.sin(u1), a*inc*nu_*sp.cos(u1)
+c_, s_ = sp.cos(nu_*dt_), sp.sin(nu_*dt_)
+check('V8: z(t+dt) = z c + (v_z/nu) s', sp.expand_trig(z1 - (z0*c_ + (vz0/nu_)*s_)))
+check('V8: v_z(t+dt) = v_z c - nu z s', sp.expand_trig(vz1 - (vz0*c_ - nu_*z0*s_)))
+
+print('\nAll checks of V1-V8 and H1-H3 passed.')

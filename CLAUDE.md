@@ -13,7 +13,9 @@ decisions, ground rules) and `README.md`.
 - `tests/`: each test folder holds an `inputs.py`, its epi_int_lite notebook ported to Python 3
   (executed on the port's output) and a git-ignored `output/`. The Python 2 notebooks, with
   their original outputs, are git commit `99a7753`. `tests/analysis.py` reproduces the notebooks'
-  calculations for `tests/test_regression.py`, the 2D regression suite.
+  calculations for `tests/test_regression.py`, the 2D regression suite. `tests/inclined/` (inclined
+  test particles), `tests/vertical_analysis.py` and `tests/test_vertical.py` test the vertical motion,
+  which only `fast/epi_int_3d.py` has.
 - `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
   `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
@@ -26,7 +28,7 @@ decisions, ground rules) and `README.md`.
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
   `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
-  epi_int_3d's own driver (planar until Phase 3), with Numba kernels for ring gravity (`kernels.py`)
+  epi_int_3d's own driver, with vertical motion (so far the drift only: `notes/phase3/`), Numba kernels for ring gravity (`kernels.py`)
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
   with only ring gravity swapped for the kernel.
 - `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`
@@ -42,7 +44,7 @@ decisions, ground rules) and `README.md`.
   overridden with `-m '{"total_number_of_outputs": 20}'`. Outputs go to `output/`.
 - Faster driver: `cd tests/spreading && uv run python ../../fast/epi_int_3d.py` (all cores; set
   `NUMBA_NUM_THREADS` for fewer). `EPI_INT_DRIVER=fast/epi_int_3d.py uv run pytest` checks it.
-- Regression suite: `uv run pytest` (about 40 s). It compares final states with
+- Regression suite: `uv run pytest` (about 40 s; `tests/test_vertical.py` always uses `fast/epi_int_3d.py`). It compares final states with
   `tests/golden/*.npz` to relative precision 1e-11. Regenerate those (`UPDATE_GOLDEN=1 uv run
   pytest`) only when the reference implementation itself is meant to change.
 - Notebooks read their test's git-ignored `output/`; make it with `uv run python

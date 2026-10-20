@@ -15,6 +15,9 @@ reference's. One pitfall: when sin and cos of the same angle are computed in one
 them into a single sincos call, whose sin differs from NumPy's (and libm's) sin in the last bit for
 ~0.3% of angles. So sin and cos of an angle are always taken in separate loops.
 
+The vertical drift (vertical_drift, V8 of notes/equations.md) has no reference to match; it
+follows the same rules.
+
 The kernels work on flattened (1D) views of the (Nr, Nt) arrays, except sort_streamlines, wrap and
 the crossing check, which need the streamlines. Each is compiled twice, serial (SERIAL) and with its
 loops spread over all cores (PARALLEL); the loops' iterations are independent, so both give the
@@ -135,28 +138,58 @@ def drift(r, t, vr, vt, dt, J2_15, Rp2, Rp, two_GM_Rp, a, e, wt, M, s, c):
         r[k] = rk
 
 
-def sort_streamlines(r, t, vr, vt):
-    """helper_fns.sort_particles: order each streamline's particles by longitude, by insertion
-    sort, which is nearly free because particles barely move in longitude per step. Longitudes
-    are distinct, so the order is the reference's argsort order."""
+def shift1(x, dx):
+    """x += dx."""
+    for k in prange(x.size):
+        x[k] = x[k] + dx
+
+
+def vertical_drift(a, z, vz, dt, J2_45, Rp2, nu, s, c):
+    """The vertical part of the drift (notes/equations.md V8): rotate (z, vz/nu) by nu*dt, with
+    nu = nu_a (V1) at the semimajor axes a that drift() just computed; J2_45 = 4.5*J2. This is
+    V2-V4 exactly: the node regresses at Omega_a - nu_a while the mean longitude advances at
+    Omega_a. z = vz = 0 stays exactly 0. (nu, s, c are work arrays.)"""
+    for k in prange(a.size):
+        ak = a[k]
+        a2 = ak*ak
+        nu[k] = np.sqrt((1.0/a2/ak)*(1.0 + J2_45*(Rp2/a2)))
+    for k in prange(a.size):              #sin and cos in separate loops, see the module docstring
+        s[k] = np.sin(nu[k]*dt)
+    for k in prange(a.size):
+        c[k] = np.cos(nu[k]*dt)
+    for k in prange(a.size):
+        zk = z[k]
+        vzk = vz[k]
+        z[k] = zk*c[k] + (vzk/nu[k])*s[k]
+        vz[k] = vzk*c[k] - nu[k]*zk*s[k]
+
+
+def sort_streamlines(r, t, vr, vt, z, vz):
+    """helper_fns.sort_particles, carrying z and vz along: order each streamline's particles by
+    longitude, by insertion sort, which is nearly free because particles barely move in longitude
+    per step. Longitudes are distinct, so the order is the reference's argsort order."""
     Nr, Nt = t.shape
     for i in prange(Nr):
         for j in range(1, Nt):
             tj = t[i, j]
             if tj >= t[i, j - 1]:
                 continue
-            rj, vrj, vtj = r[i, j], vr[i, j], vt[i, j]
+            rj, vrj, vtj, zj, vzj = r[i, j], vr[i, j], vt[i, j], z[i, j], vz[i, j]
             k = j - 1
             while k >= 0 and t[i, k] > tj:
                 t[i, k + 1] = t[i, k]
                 r[i, k + 1] = r[i, k]
                 vr[i, k + 1] = vr[i, k]
                 vt[i, k + 1] = vt[i, k]
+                z[i, k + 1] = z[i, k]
+                vz[i, k + 1] = vz[i, k]
                 k -= 1
             t[i, k + 1] = tj
             r[i, k + 1] = rj
             vr[i, k + 1] = vrj
             vt[i, k + 1] = vtj
+            z[i, k + 1] = zj
+            vz[i, k + 1] = vzj
 
 
 def linear_density(r, vr, vt, lam, factor, J2_15, Rp2, Rp, two_GM_Rp):
@@ -213,6 +246,6 @@ def crossed(rw, tw):
     return n > 0
 
 
-KERNELS = ['rt2xy', 'xy2rt', 'polar', 'shift', 'shift4', 'drift', 'sort_streamlines', 'linear_density', 'kick', 'wrap', 'crossed']
+KERNELS = ['rt2xy', 'xy2rt', 'polar', 'shift', 'shift4', 'shift1', 'drift', 'vertical_drift', 'sort_streamlines', 'linear_density', 'kick', 'wrap', 'crossed']
 SERIAL = {k: numba.njit(globals()[k]) for k in KERNELS}
 PARALLEL = {k: numba.njit(globals()[k], parallel=True) for k in KERNELS}

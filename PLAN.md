@@ -257,6 +257,13 @@ review the derivations (hand verification may continue in parallel with Phase 3)
 - Keep a `z ≡ 0` path that reproduces the 2D results exactly.
 - Remove the `fast_gravity` approximation; epi_int_3d uses exact streamline gravity only.
 
+**Status (2026-10-20, prompt 11):** the drift step is done (`notes/phase3/vertical_drift.md`): z, v_z in
+`fast/epi_int_3d.py`, the vertical drift as the rotation V8, inputs `inclination` and `node`, outputs
+`z.npy`, `vz.npy`. The in-plane results stay the reference's bit for bit, inclined or not, and z ≡ 0 stays
+exactly 0. Phase 4 tests done: z = 0 regression; single inclined test particles (`tests/inclined/`): i
+constant to 2e-13, nodes at Ω_a − ν_a to 3e-11 rad; versus exact 3D J2 integration the nodal rate is
+off by −4i² (= cos⁸i − 1, since a comes from h_z) plus O(e²). Next: vertical streamline gravity (2b).
+
 ## Phase 4 — Testing
 
 | Test | Expectation |

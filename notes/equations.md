@@ -8,7 +8,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 Ω is the longitude of ascending node. M_p and R_p are the planet's mass and radius (M is the
 mean anomaly).
 
-Sympy checks: `notes/sympy/vertical_motion.py` (V1–V7, H1–H3) and `notes/sympy/ring_pressure.py`
+Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
 (P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
@@ -19,6 +19,7 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V7, H1–H3) and `notes/sym
 | V4 | ΔΩ = (Ω_a − ν_a)Δt | drift | ✅ | ✅ | ☐ | nodal regression ≈ −(3/2)J₂(R_p/a)²Ω_a |
 | V5 | Φ(r,z) = Φ(r,0) + ½ν²(r)z² + O(z⁴), ν²(r) = (GM_p/r³)[1 + (9/2)J₂(R_p/r)²] | derivation of the vertical EOM | ✅ | ✅ | ☐ | Φ is even in z |
 | V6 | z̈ + ν_a²z ≃ (3GM_p/a³)[1 + (15/2)J₂(R_p/a)²] δ z, with r = a(1 + δ) | accuracy (O(e·i) residual) | ✅ | ✅ | ☐ | equals −a(dν²/da)δz |
+| V8 | drift of V2–V4 as a rotation: z′ = z cos(ν_aΔt) + (v_z/ν_a) sin(ν_aΔt), v_z′ = v_z cos(ν_aΔt) − ν_a z sin(ν_aΔt) | drift (`bookkeeping.vertical_drift`) | ✅ | ✅ | ☐ | λ − Ω advances by Ω_aΔt − (Ω_a − ν_a)Δt = ν_aΔt; equal to V2–V4 exactly; z = v_z = 0 stays 0 |
 | V7 | ∇²Φ = r⁻¹∂(r ∂Φ/∂r)/∂r + ∂²Φ/∂z² = 0, and κ_a² = 3Ω_a² + ∂²Φ/∂r², hence κ_a² + ν_a² = 2Ω_a² | frequency relation | ✅ | ✅ | ☐ | Laplace's equation outside the planet |
 | H1 | in-plane solution (hahn25 Eq. A9) conserves h = r v_θ = a²Ω_a exactly | paper Appendix A | published | ✅ | n/a | transcription check |
 | H2 | a = R_p[C + √(C² − 3J₂/2)], C = h²/2GM_pR_p | paper Appendix A, step 1 | published | ✅ | n/a | transcription check |

@@ -29,7 +29,7 @@ It is the same pattern as my other repos, applied to research rather than to a b
 
 *Work in progress — Phase 0b: epi_int_lite has been ported to Python 3 (the reference
 implementation, in `source/`), and faster drivers (`fast/`) give its results bit for bit.
-The vertical motion comes next.*
+The vertical motion has begun: inclined orbits drift correctly in the planet's potential.*
 
 epi_int_3d will extend the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
@@ -68,8 +68,10 @@ output to theory:
 - nominal: epi_int_3d's nominal ringlet, 1000 streamlines, eccentric with aligned periapses, inviscid,
   should stay smooth for 5×10⁴ orbits while self-gravity keeps J2 from winding it up, [nominal.ipynb](tests/nominal/nominal.ipynb)
   (about 3 h with `--fast` below, days with the reference driver; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
+- inclined: inclined test particles should keep their inclinations while their nodes regress at the
+  rate set by J2, [inclined.ipynb](tests/inclined/inclined.ipynb) (epi_int_3d only; see [notes/phase3/vertical_drift.md](notes/phase3/vertical_drift.md))
 
-To run all 23 epi_int_3d test simulations in parallel (about 3 h with `--fast`, set by the nominal ringlet;
+To run all 24 epi_int_3d test simulations in parallel (about 3 h with `--fast`, set by the nominal ringlet;
 run the nominal ringlet with `--fast`, since the reference driver would take days), or just one, or one
 with the faster driver (same results, bit for bit):
 
