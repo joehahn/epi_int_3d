@@ -283,6 +283,29 @@ $m_r$, semimajor axis $a$ and width $\Delta a$, with $\sigma \simeq m_r/2\pi a\D
 $\Delta \simeq \Delta a/N_r$. Adding streamlines to a given ringlet raises ${\cal R}$ in
 proportion to $N_r$.
 
+%O1-O5, sympy-checked in notes/sympy/viscous_overstability.py
+A viscous ringlet must also avoid the viscous overstability, the growth of axisymmetric epicyclic
+oscillations that viscous stresses drive when the shear stress rises steeply enough with surface
+density \citep{ST95, LR95, SSS01, S01, LO06, LO08}. For a cold ringlet with constant kinematic shear
+and bulk viscosities $\nu_s$ and $\nu_b$, as in epi\_int\_lite, and Keplerian $\kappa = \Omega$, a
+mode with oscillation frequency $\omega \simeq \kappa(1 - x)^{1/2}$ grows to first order in the
+viscosities at the rate
+\begin{equation}
+    \label{eqn:overstability}
+    \gamma = \frac{K}{6(1 - x)}\left[\nu_s(4x + 2) - 3\nu_b(1 - x)\right],
+\end{equation}
+where $K = k^2$ and $x = 2\pi G\sigma k/\kappa^2$ in the continuum. Without self-gravity ($x = 0$)
+the ringlet is stable when $\nu_b > 2\nu_s/3$, the onset found by \cite{ST95} and \cite{LSS17} for a
+viscosity independent of $\sigma$, while self-gravity is destabilizing \citep{LSS17}: a mode is
+stable only for $x < (3\nu_b - 2\nu_s)/(4\nu_s + 3\nu_b)$, which is $1/7$ for $\nu_b = \nu_s$ and
+$0.4$ for $\nu_b = 2\nu_s$. The streamline lattice follows Eqn.\ (\ref{eqn:overstability}) with the
+grid's versions of both terms: $K = \sin^2\phi/\Delta^2$, from the code's central differences of the
+viscous stresses, and $x = X(\phi)/\kappa^2$. Both stresses vanish at the zigzag, $\phi = \pi$, where
+self-gravity is strongest, $X(\pi)/\kappa^2 = {\cal R}/2$; so a viscous lattice is stable at every
+wavelength when ${\cal R} < 2/7$ for $\nu_b = \nu_s$, or ${\cal R} < 4/5$ for $\nu_b = 2\nu_s$, more
+stringent than Eqn.\ (\ref{eqn:zigzag_R}). Since $K\nu \sim \nu/\Delta^2$, an overstable lattice's
+modes grow faster the more streamlines it has.
+
 That limit matters because a ringlet's self-gravity must be strong enough to resist the
 differential precession due to $J_2$. Across a ringlet of width $\Delta a$, $J_2$ drives a
 differential precession $\propto J_2(R_p/a)^2\Omega_a\Delta a/a$, while for a small nonlinearity
@@ -300,16 +323,33 @@ $\sigma$ 1.25 times and $\Delta$ 0.8 times their ringlet-wide means) the ringlet
 self-gravity, rather than $J_2$, controls its shape: within about 1000 orbits it
 straightens the initial twist, and the ringlet's body then stays nearly aligned, as two sub-ringlets that precess slowly relative to each other. With $N_r = 300$ (${\cal R} \simeq 0.3$) and
 $N_r = 1000$ (${\cal R} \simeq 0.9$) it becomes ragged and its streamlines cross after about
-190 and 30 orbits. The growing disturbance is non-axisymmetric and starts in the ringlet's
-interior; it grows at the same rate with 40 or 241 particles per streamline, does not grow when
-ring gravity is turned off, and pressure with $Q \le 2$ delays the crossing by less than two
-orbits, as expected from Figure~\ref{fig:zigzag}b, where $\omega_p^2 \le 0.1\kappa^2$.
+190 and 30 orbits. At $N_r = 1000$ the disturbance starts in the ringlet's interior, grows at the
+same rate with 40 or 241 particles per streamline, and does not grow when ring gravity is turned
+off, consistent with the self-gravity-assisted overstability for $\nu_b = \nu_s$ at
+${\cal R} > 2/7$. Pressure with $Q \le 2$ delays the crossing by less than two orbits, as expected
+from Figure~\ref{fig:zigzag}b, where $\omega_p^2 \le 0.1\kappa^2$.
 
-So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only: the cold, eccentric, twisted
-ringlet goes unstable at ${\cal R} \simeq 0.3$, well inside the axisymmetrically stable range,
-presumably through non-axisymmetric modes that this analysis does not treat. In practice a
-simulated ringlet whose self-gravity matters should be run with ${\cal R} \lesssim 0.1$, and a
-ringlet that needs more streamlines must be made wider or less massive.
+The crossings near ${\cal R} \simeq 0.3$ are mostly a different, numerical, problem. The same
+ringlet without the initial twist, at $N_r = 333$ (${\cal R} \simeq 0.31$), crosses after 145
+orbits, and its code's own linearized axisymmetric modes, computed from the reference implementation's
+accelerations, grow by only $3.3\times10^{-3}$ per orbit, far too slowly. The disturbance that crosses is instead a sawtooth
+along each streamline with azimuthal wavenumber $m \simeq N_t/2$, where $N_t$ is the number of
+particles per streamline. It also grows in a circular ringlet, without ring gravity, and without
+viscosity, though more slowly (after about 220, 170 and 850 orbits), its onset varies
+non-monotonically with $N_t$ (with $N_t = 30$ or 50 the ringlet survives $10^4$ orbits, with 20, 40
+or 320 it does not), and pressure with $Q \le 10$ delays it by at most 20\%. It is presumably seeded by
+the 3-point Lagrange interpolation in longitude that couples neighbouring streamlines' particles,
+and it remains an open problem.
+
+So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only. In practice a simulated ringlet whose
+self-gravity matters should be run with ${\cal R} \lesssim 0.1$, viscous or not, and a ringlet that
+needs more streamlines must be made narrower and much less massive. Our nominal ringlet follows
+the scaling above: shrinking the tested ringlet's width tenfold, to $\Delta a = 0.00125a$, and its mass
+a thousandfold, to $m_r = 3\times10^{-11}M_p$, keeps ${\cal R} \simeq 0.09$ with $N_r = 1000$
+streamlines of 20 particles. With $e = 10^{-5}$, no initial twist and no viscosity or pressure, it stays smooth
+for $5\times10^4$ orbits: $J_2$ alone would twist its middle 80\% by about 5~rad, but self-gravity
+holds the twist within 0.4~rad, the twist and an eccentricity gradient oscillating with a period of
+a few $10^4$ orbits.
 
 \begin{figure*}
 \centering

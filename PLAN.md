@@ -359,3 +359,14 @@ comparison with Cassini data is out of scope for this paper.
   `ladder/`, `nominal/`, `taper/`, `pressure/` (~2.5 GB, the finished parameter search in
   `notes/phase0b/nominal.md`) and `twist0_n333_*` (~1.9 GB, the 333-streamline crash study); their
   launch scripts and notes stay, so any run can be regenerated.
+- **Idea (user, 2026-10-19): free m = 1 waves as alternate test ringlets.** Start a circular ringlet
+  with only its innermost streamline eccentric (e ~ 10⁻⁵) and let self-gravity carry the disturbance
+  across it as a free (unforced) m = 1 spiral density wave; once z ≠ 0 works, do the same with an
+  inclined innermost streamline for a free m = 1 spiral bending wave. A quick WKB reading, to be
+  derived and sympy-checked before use: for m = 1, (Ω_p − Ω)² = κ² − 2πGσ|k| gives
+  Ω_p − ϖ̇(a) ≈ πGσ|k|/κ > 0, so density waves live where ϖ̇(a) < Ω_p, outside the radius where the
+  pattern speed equals the local precession rate; the bending-wave analogue,
+  (Ω_p − Ω)² = ν_z² + 2πGσ|k|, gives Ω_p − Ω̇_node(a) ≈ −πGσ|k|/ν_z < 0, also outside its resonance
+  since |Ω̇_node| falls outward. With the pattern speed set near the inner edge's rate, both would
+  propagate outward. Related: hahn13 Sec. 3.3, the B-ring edge's free m = 1 mode, whose ILR lies
+  inside the edge. Also needs a ringlet wide enough, in wavelengths, to watch the wave travel.
