@@ -9,9 +9,7 @@ authors:
     email: jhahn@SpaceScience.org
 repository-code: "https://github.com/joehahn/epi_int_3d"
 url: "https://jmh-datasciences.com"
-license:
-  - CC-BY-4.0
-  - PolyForm-Noncommercial-1.0.0
+license: MIT
 references:
   - type: article
     authors:

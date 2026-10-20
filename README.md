@@ -8,7 +8,7 @@ planetary rings.
 
 **Author:** Joseph M. Hahn, Ph.D., an independent AI and machine learning consultant. [jmh-datasciences.com](https://jmh-datasciences.com) · [LinkedIn](https://www.linkedin.com/in/hahnjoe/) · joe.hahn@jmh-datasciences.com
 
-**License:** Writing [CC BY 4.0](LICENSE-docs.md) · code [PolyForm Noncommercial](LICENSE.md), [details](#license)  
+**License:** [MIT](LICENSE), [details](#license)  
 **Project:** Started 2026-Oct-11 · branch `main`  
 Built end-to-end with [Claude Code](https://claude.com/claude-code).
 
@@ -111,22 +111,8 @@ This repo applies an AI agent to research rather than to a business decision. Th
 
 ## License
 
-This repository is **dual-licensed**, split by file type.
-
-| What | License | Commercial use |
-|---|---|---|
-| **Documentation and writing**: every `*.md` file at any path, and the mock paper under `paper/` | [CC BY 4.0](LICENSE-docs.md) | **Yes**, with attribution |
-| **Everything else**: `source/`, `fast/`, `tools/`, `tests/`, `benchmark/`, `explore/`, sympy and numerics scripts, notebooks, config | [PolyForm Noncommercial 1.0.0](LICENSE.md) | No |
-
-The writing is meant to travel: quote it, adapt it, put a figure or an equation in your slides,
-commercially or not, as long as you credit the source. The requested form is *Joseph M. Hahn, Ph.D.,
-JMH DataSciences, https://jmh-datasciences.com, from the `epi_int_3d` project*. The code is free to
-use, modify, and share for any noncommercial purpose: research, experimentation, education, personal
-projects, and use by nonprofit or government organizations. Commercial rights to the code are
-reserved; [get in touch](https://jmh-datasciences.com) if you want them.
-
-Code samples embedded in documentation files stay under the code license, so a snippet lifted from
-this README carries the same terms as the file it came from.
+[MIT](LICENSE): anyone may use, change and redistribute this code and writing, commercially or not,
+as long as the copyright notice is kept.
 
 **Citing this work.** If you use the code or results in published research, please cite Hahn et al.
 (2025, ApJ, 986, 220) and this repository ([CITATION.cff](CITATION.cff); GitHub's "Cite this
@@ -134,4 +120,4 @@ repository" button gives the reference).
 
 **Third-party content.** The AASTeX class and bibliography style in `paper/` belong to the American
 Astronomical Society and are distributed under their own terms; `papers/hahn25.pdf` is published by
-the AAS under CC BY 4.0. They are not licensed by the author under either license above.
+the AAS under CC BY 4.0. They are not covered by the MIT license above.
