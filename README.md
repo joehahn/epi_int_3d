@@ -37,12 +37,13 @@ output to theory:
 - spreading: a viscous ringlet's surface density should spread like the analytic solution, [spreading.ipynb](tests/spreading/spreading.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/spreading/spreading.ipynb))
 - libration: 20 narrow and wide ringlets of differing mass should librate at the rate predicted by
   Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
-- nominal: epi_int_3d's nominal ringlet, eccentric with aligned periapses, should stay smooth for
-  5×10⁴ orbits (2.2 viscous timescales) while self-gravity keeps J2 from winding it up, [nominal.ipynb](tests/nominal/nominal.ipynb)
-  (about 2 h, or 16 min with `--fast` below; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
+- nominal: epi_int_3d's nominal ringlet, 1000 streamlines, eccentric with aligned periapses, inviscid,
+  should stay smooth for 5×10⁴ orbits while self-gravity keeps J2 from winding it up, [nominal.ipynb](tests/nominal/nominal.ipynb)
+  (about 3 h with `--fast` below, days with the reference driver; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
 
-To run all 23 epi_int_3d test simulations in parallel (about 2 h, set by the nominal ringlet), or just one,
-or one with the faster driver (same results, bit for bit):
+To run all 23 epi_int_3d test simulations in parallel (about 3 h with `--fast`, set by the nominal ringlet;
+run the nominal ringlet with `--fast`, since the reference driver would take days), or just one, or one
+with the faster driver (same results, bit for bit):
 
     uv run python tools/run_simulations.py
     uv run python tools/run_simulations.py tests/spreading
@@ -69,7 +70,7 @@ Time per timestep on an Apple M5 laptop, for a ringlet of Nr circular streamline
 | epi_int_lite, Python 3 port (1 core) | 0.47 ms | 6.3 ms | 450 ms |
 | + Numba gravity kernel, 10 threads (`fast/epi_int_fast.py`) | 0.14 ms | 0.88 ms | 14 ms |
 
-and for the nominal ringlet (eccentric, 40 particles per streamline; `--ringlet nominal`):
+and for the former nominal ringlet (eccentric, viscous, 40 particles per streamline; `--ringlet nominal`):
 
 | code | Nr = 33 | Nr = 100 | Nr = 333 |
 |---|---:|---:|---:|

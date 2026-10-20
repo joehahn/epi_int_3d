@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V7, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -31,3 +31,8 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V7, H1–H3) and `notes/sym
 | P6 | coded pressure on a radial mode ξ_j ∝ cos(jkΔ): ω_p² = (c/Δ)² sin²(kΔ) | stability of the scheme | ✅ | ✅ | ☐ | → c²k² as Δ → 0; = 0 for the zigzag kΔ = π (odd–even decoupling) |
 | P7 | coded gravity on that mode: X = (4Gσ/Δ)(πφ/2 − φ²/4), φ = kΔ; max π²Gσ/Δ at φ = π | stability of the scheme | ✅ | ✅ (P7 sum numerically) | ☐ | half the continuum 2πGσk at k = π/Δ; so ω² = κ² − X + ω_p² |
 | P8 | 𝓡 = λ_crit/2Δ = 2π²Gσ/κ²Δ ≃ πGm_rN_r/κ²aΔa²; cold lattice axisymmetrically stable iff 𝓡 < 2 | paper App. B (Eqs. B3–B6) | ✅ | ✅ | ☐ | P6, P7 are Eqs. B4, B3 |
+| O1 | cold viscous self-gravitating sheet, κ = Ω, constant ν (β = 0): s³ + (ν_b + 7ν_s/3)k²s² + [κ² − 2πGσk + (ν_b + 4ν_s/3)ν_sk⁴]s + ν_sk²(3Ω² − 2πGσk) = 0 | viscous overstability (paper App. B, planned) | ✅ | ✅ | ☐ | Eulerian; perturbation of the background shear stress ∝ (1 + β) |
+| O2 | the same in Lagrangian (Hill) form: ξ̈ − 2Ωẏ − 3Ω²ξ = gξ − (ν_b + 4ν_s/3)Kξ̇, ÿ + 2Ωξ̇ = −ν_sK(ẏ + 3Ωξ), with K = k², g = 2πGσk | as O1 | ✅ | ✅ | ☐ | equals O1 |
+| O3 | growth rate to first order in ν: γ = K[ν_s(4x + 2) − 3ν_b(1 − x)]/[6(1 − x)], x = g/κ²; stable iff ν_b/ν_s > (4x + 2)/3(1 − x) | as O1 | ✅ | ✅ | ☐ | marginal x = 1/7 for ν_b = ν_s, 2/5 for ν_b = 2ν_s; ν_b/ν_s > 2/3 without gravity. With β kept and no gravity, onset at β_c = (ν_b/ν_s − 2/3)/3, exactly the criterion of Lehmann et al. (2017, Sec. 2) and Schmit & Tscharnuter (1995) (check O3b) |
+| O4 | the code's viscous stencils on a lattice mode ∝ e^{ijφ}: A_θ = −ν_s(sin²φ/Δ²)(ẏ + 3Ωξ), A_r = −(ν_b + 4ν_s/3)(sin²φ/Δ²)ξ̇ | stability of the scheme | ✅ | ✅ | ☐ | so O2–O3 hold with K = sin²φ/Δ², = 0 at the zigzag φ = π; v_r/r term (O(Δ/a)) dropped; numerically confirmed by `notes/numerics/viscous_stability.py` (0.21 vs 0.23 per orbit) |
+| O5 | at the zigzag x = X(π)/κ² = 𝓡/2 (P7, P8); so the lattice is stable for 𝓡 < 2/7 with ν_b = ν_s, 𝓡 < 4/5 with ν_b = 2ν_s | as O1 | ✅ | ✅ | ☐ | lattice modes with sin²φ > 0 feel x < 𝓡/2 |

@@ -11,6 +11,10 @@ unchanged. Used by explore/run.py and by tests/nominal/inputs.py.
 - fix_edge='own' gives the outer streamline its own one-sided pressure or viscous flux at its own
   longitudes, the mirror image of the inner edge (issue 4); fix_edge='hahn13' instead uses hahn13's
   p(r - Delta), the inner neighbor's flux at the outer particles' longitudes.
+- fix_viscosity=True computes the viscous accelerations whenever either viscosity is on (issue 6):
+  the reference skips bulk viscosity when shear_viscosity = 0 and pressure is off, and skips shear
+  viscosity's radial stress when bulk_viscosity = 0. Runs with both viscosities on, or both off,
+  are unchanged bit for bit.
 
 Usage, before source/epi_int_lite.py runs `from helper_fns import *`:
     import patches; patches.apply(taper=0.2)
@@ -83,9 +87,48 @@ def A_P_own(lambda_, sd, P, t, delta_P, delta_r):
     return A
 
 
-def apply(taper=None, fix_edge=None):
-    """Patch helper_fns: the wrapped crossing check always, and optionally an edge taper and edge fix."""
+def accelerations(lambda_, G_ring, shear_viscosity, bulk_viscosity, c, r, t, vr, vt, fast_gravity, confine_inner_edge, confine_outer_edge):
+    """As helper_fns.accelerations, but sigma is computed when either viscosity is on, and the radial
+    viscous stress (bulk viscosity plus shear viscosity's radial part) when either is on (issue 6)."""
+    h = helper_fns
+    rw = h.wrap_ring(r, longitude=False)
+    tw = h.wrap_ring(t, longitude=True)
+    vrw = h.wrap_ring(vr, longitude=False)
+    vtw = h.wrap_ring(vt, longitude=False)
+    vw = np.sqrt(vrw*vrw + vtw*vtw)
+    lw = h.wrap_ring(lambda_, longitude=False)
+    Ar = 0
+    At = 0
+    if (G_ring > 0.0):
+        A = h.ring_gravity(lw, G_ring, rw, tw, vrw, vtw, fast_gravity)
+        Ar += A[0]
+        At += A[1]
+    if ((c > 0.0) or (shear_viscosity > 0.0) or (bulk_viscosity > 0.0)):          #was: c or shear only
+        delta_rw = h.delta_f(rw, tw)
+        sdw = h.surface_density(lw, delta_rw)
+        if (c > 0.0):
+            A = h.ring_pressure(c, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
+            Ar += A[0]
+            At += A[1]
+        if (shear_viscosity > 0.0):
+            At += h.ring_shear_viscosity(shear_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
+        if ((shear_viscosity > 0.0) or (bulk_viscosity > 0.0)):                     #was: bulk only
+            Ar += h.ring_bulk_viscosity(shear_viscosity, bulk_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
+    if (confine_inner_edge or confine_outer_edge):
+        At = h.edge_torques(rw, At, confine_inner_edge, confine_outer_edge)
+    if (type(Ar) != int):
+        Ar = Ar[:, 1:-1]
+    if (type(At) != int):
+        At = At[:, 1:-1]
+    return Ar, At
+
+
+def apply(taper=None, fix_edge=None, fix_viscosity=False):
+    """Patch helper_fns: the wrapped crossing check always, and optionally an edge taper, edge fix and viscosity fix."""
     helper_fns.monitor_streamlines = monitor_streamlines
+    if fix_viscosity:
+        print('viscosity gating fixed (issue 6)')
+        helper_fns.accelerations = accelerations
     if fix_edge is not None:
         print('outer-edge flux fixed (issue 4):', fix_edge)
         helper_fns.A_P = {'own': A_P_own, 'hahn13': A_P_hahn13}[fix_edge]

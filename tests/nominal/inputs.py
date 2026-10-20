@@ -2,14 +2,16 @@
 
 #inputs.py
 #
-#epi_int_3d's nominal ringlet, for benchmarking and testing (see notes/phase0b/nominal.md): an eccentric
-#ringlet with aligned periapses, massive enough that self-gravity rather than J2 keeps them nearly
-#aligned, with edges tapered so that viscous spreading stays smooth. It stays smooth for 5e4 orbits
-#(2.2 viscous timescales) while it spreads by x5.3 and its body circularizes.
+#epi_int_3d's nominal ringlet, for testing and as the starting point for the bending-wave runs (see
+#notes/phase0b/nominal.md): a narrow eccentric ringlet of 1000 streamlines with aligned periapses, light
+#enough to be well resolved (lambda_crit/2Delta ~ 0.09) yet massive enough that its self-gravity, not J2,
+#controls its periapse twist, with tapered edges. Viscosity and pressure are off, as in the first
+#bending-wave runs. It stays smooth for 5e4 orbits, its twist oscillating within ~0.5 rad where J2 alone
+#would wind it up by ~5 rad. About 2.8 h with fast/epi_int_fast.py.
 
 #set number of streamlins and particles per streamline
-number_of_streamlines = 100
-particles_per_streamline = 40
+number_of_streamlines = 1000
+particles_per_streamline = 20
 number_of_particles = number_of_streamlines*particles_per_streamline
 
 #set timestamp, timesteps per output, and total number of outputs (5e4 orbits, one output per 100)
@@ -18,18 +20,18 @@ timesteps_per_output = 1258
 total_number_of_outputs = 500
 
 #ring radial width assuming circular orbits
-radial_width = 0.0125
+radial_width = 0.00125
 
 #total ring mass
-total_ring_mass = 3.0e-8
+total_ring_mass = 3.0e-11
 
 #ring's gravitation constant is usually G_ring=1 but set G_ring < 0 to turn off ring gravity.
 G_ring = 1.0
 fast_gravity = False
 
 #ring kinematic shear and bulk viscosity, set < 0 to turn off
-shear_viscosity = 7.0e-11
-bulk_viscosity = shear_viscosity
+shear_viscosity = 0.0
+bulk_viscosity = 0.0
 
 #add fictitious torques at inner and/or outer streamlines, to oppose any radial spreading
 confine_inner_edge = False
@@ -45,7 +47,7 @@ J2 = 0.01
 #choose ringlet's initial orbits
 initial_orbits = {
     'shape':'eccentric',
-    'e':1.0e-4,
+    'e':1.0e-5,
     'e_prime':0.0,
     'w_prime':0.0            #no initial periapse twist
 }

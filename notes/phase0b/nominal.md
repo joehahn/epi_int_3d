@@ -1,6 +1,6 @@
 # epi_int_3d's nominal ringlet
 
-A ringlet for benchmarking and testing this project's code (`tests/nominal/`), found by the parameter
+A ringlet for testing this project's code and starting the bending-wave runs (`tests/nominal/`), found by the parameter
 search in `explore/` (2026-10-18/19). The goal was a ringlet that is eccentric, has a periapse twist that
 makes its self-gravity non-axisymmetric, is massive enough that self-gravity rather than J2 controls
 the twist, spreads viscously by about ×2, and stays smooth for 10⁴ orbits with as many streamlines as
@@ -13,10 +13,42 @@ q = a|Δ(e e^{iϖ})|/Δa, the largest over adjacent streamline pairs (they touch
 smallest gap between adjacent streamlines over the initial spacing; the raggedness, the largest rms
 residual of a streamline's r(θ) about a Fourier fit through m = 3, in spacings.
 
-## The nominal ringlet
+## The nominal ringlet (since 2026-10-19, evening)
 
-Since 2026-10-19 the nominal ringlet has no initial periapse twist; the π-twisted ringlet found first
-(below) is kept as a variant.
+The 100-streamline viscous ringlet below could not be run at more than ~300 streamlines (it crosses
+at 333, from the m ≈ Nt/2 tangential sawtooth along each streamline and the viscous terms; see issues 3
+and 6 in `notes/epi_int_lite_issues.md`). The bending-wave runs need ~1000 streamlines and will start
+with viscosity and pressure off, so the nominal ringlet is now a narrower, lighter ringlet that is well
+resolved at 1000 streamlines (screened in `explore/nominal1000/`, all four candidates smooth to 10³
+orbits; the chosen one is `explore/nominal1000/long_nt20_m3e-11`, whose output is the test's).
+
+| parameter | value |
+|---|---|
+| streamlines × particles | 1000 × 20 |
+| width Δa₀ | 0.00125, edges tapered (20% each side) |
+| mass | 3×10⁻¹¹ (λ_crit/2Δ ≈ 0.09 mid-ringlet) |
+| e, a de/da | 10⁻⁵, 0 |
+| periapse twist | none (`w_prime` = 0) |
+| ν_s, ν_b, pressure | off |
+| J2, R_p, dt | 0.01, 0.5, 0.5 |
+| run | 5×10⁴ orbits (629 000 steps, 500 outputs), 2.8 h with `fast/epi_int_fast.py` (the reference driver would take days) |
+
+Result (`tests/nominal/nominal.ipynb`): no crossing or NaN; max q 0.20; smallest gap 0.58 of the
+spacing (at ~3×10⁴ orbits, 0.83 at the end); |ΔL/L₀| ≤ 1.7×10⁻¹¹; width constant to 3×10⁻⁶. J2 alone
+would twist the middle 80% of the ringlet by ~5 rad over the run (differential precession
+≈ 0.08 rad per 10³ orbits); self-gravity holds the twist within 0.38 rad, the twist and an eccentricity
+gradient (e from ~0.5 to ~1.8×10⁻⁵ across the ringlet) oscillating with a period of ~2–4×10⁴ orbits, the
+ringlet staying one aligned body with no sub-ringlets. The raggedness grows from round-off (~10⁻⁹
+spacings) by ~10⁷ over the first 2×10⁴ orbits, then levels off at ≤ 0.05 spacings (median ~5×10⁻³ at
+the end). The largest q sits in narrow streaks that start near the taper boundaries, (a − ā₀)/Δa₀ ≈ ±0.3,
+and run inward across the ringlet, short-wavelength waves launched where the surface density profile
+bends. Neither is a threat over 5×10⁴ orbits, but both are noted for the bending-wave runs.
+
+## The former nominal ringlet (100 streamlines, viscous; now the benchmark's)
+
+Until the evening of 2026-10-19 the nominal ringlet was the one below; it is frozen in
+`benchmark/nominal_inputs.py` so that the nominal benchmark results stay valid. From earlier that day it
+had no initial periapse twist; the π-twisted ringlet found first (below) is kept as a variant.
 
 | parameter | value |
 |---|---|
@@ -40,7 +72,13 @@ to ~6×10⁻⁴ at the outer edge and ~10⁻⁵ at the inner edge by 10⁴ orbit
 (e ≈ 0 by ~3×10⁴ orbits, after which its periapses are meaningless), and only the outer few streamlines
 stay eccentric (e ≈ 4–5×10⁻⁴), carrying all the large q. At 333 streamlines (`explore/twist0_n333`,
 λ_crit/2Δ ≈ 0.31) it crosses at step 1825 (~145 orbits), like the π-twisted ringlet at 300, so the
-limit is resolution, not the twist.
+limit is resolution, not the twist. The reference code (`explore/twist0_n333_ref`, 3.0 min versus
+0.18 min with `fast/epi_int_fast.py`) crosses at the same step, with all outputs bit-for-bit identical. Ring pressure does not prevent it
+(`explore/twist0_n333_Q`): Q_ring = 0.5, 1, 2, 10 cross at steps 1829, 1835, 1836, 2210 (~176 orbits).
+The particles per streamline Nt matter, not monotonically (`explore/twist0_n333_Nt`, to 10³ orbits):
+Nt = 20, 40, 320 cross at ~375, 145, 473 orbits, while Nt = 30, 50, 60, 80, 160 do not, their
+raggedness levelling off at ~5×10⁻³, 10⁻³, 8×10⁻⁴, 3×10⁻⁴, 4×10⁻⁵ spacings. So 333 streamlines are
+marginal, and whether a run crosses depends on Nt; 100 streamlines stay well clear.
 
 **The π-twisted variant** (`w_prime` = π e ā/Δa₀ = 0.02529, 10⁴ orbits; `explore/taper/nr0100_pi`):
 no crossing; max q 0.39; smallest gap 0.97; raggedness ≤ 1.2×10⁻⁴ spacings; width ×2.66;

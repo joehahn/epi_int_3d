@@ -9,7 +9,7 @@ skipped unless --force is given.
 Run:  uv run python tools/run_simulations.py                     #all 22 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
       uv run python tools/run_simulations.py tests/libration -j 8  #the 20 libration runs
-      uv run python tools/run_simulations.py tests/nominal --fast  #16 min instead of ~2 h
+      uv run python tools/run_simulations.py tests/nominal --fast  #~3 h instead of days
 """
 import argparse
 import os

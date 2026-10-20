@@ -67,6 +67,16 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 - **Effect on epi_int_3d:** bending-wave runs have closely spaced streamlines with Nt ≈ 20, and
   satellite forcing makes them eccentric, so this needs to be understood before Phase 5. The
   Phase 0b benchmark uses circular streamlines meanwhile. Open.
+- **Update (2026-10-19), the nominal ringlet at 333 streamlines** (`explore/twist0_n333_*`): every
+  crossing checked (7 runs), except shear-only (issue 6), is a sawtooth along the streamlines at the particle
+  scale, azimuthal wavenumber m ≈ Nt/2 (Nt = 20: m = 9; 40: m = 17–20; 320: m = 157), growing near
+  (a − a_mid)/Δa₀ ≈ +0.2 from round-off. It needs neither eccentricity (circular streamlines crossed
+  at ~216 orbits, m = 20) nor self-gravity (~168 orbits) nor viscosity (~849 orbits), and more bulk
+  viscosity barely delays it. The code's axisymmetric modes (`notes/numerics/viscous_stability.py`,
+  exact interpolation) are stable for all these cases, so the instability lives in the discretization
+  along the streamlines, i.e. the 3-point Lagrange interpolation between neighbouring streamlines'
+  particles. That is also why it depends on Nt. The shear-only crossings are different: a viscous
+  overstability of the code's axisymmetric modes (growth 0.2–0.5 per orbit, wavelength ~4 spacings).
 
 ## 4. The outer-edge flux in `A_P()` is evaluated at the wrong longitudes
 
@@ -110,3 +120,25 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 
 Issues 4 and 5 are minor for the nominal simulation. Decision (2026-10-18): if the z ≠ 0 runs use
 pressure, pressure gets a deep dive then (physics and code) before it is relied on.
+
+## 6. Bulk viscosity is skipped when shear viscosity is zero, and vice versa for the radial stress
+
+- **Found:** switching viscosity terms off separately in the 333-streamline nominal ringlet
+  (`explore/twist0_n333_off`), 2026-10-19.
+- **What:** `accelerations()` in `source/helper_fns.py` computes the viscous accelerations only
+  `if ((c > 0.0) or (shear_viscosity > 0.0))`, so with pressure off and `shear_viscosity = 0` the
+  bulk viscosity is silently skipped: the bulk-only run is bit-for-bit the run with no viscosity.
+  Conversely the radial viscous stress, which carries shear viscosity's 4ν_s/3 and −2ν_s/3 parts as
+  well as the bulk terms, is computed only `if (bulk_viscosity > 0.0)`, so with `bulk_viscosity = 0`
+  shear viscosity exerts only its azimuthal stress.
+- **Effect on hahn25:** none: its runs have both viscosities on.
+- **Effect on epi_int_3d:** setting one viscosity to zero does not do what it says.
+- **Fix:** `tools/patches.py`, `apply(fix_viscosity=True)` (opt-in): σ is computed when any of c, ν_s,
+  ν_b is positive, and the radial stress when ν_s or ν_b is. Runs with both viscosities on are
+  unchanged bit for bit (checked, nominal ringlet, 300 steps). To build into the faster code, with a
+  test.
+- **What it showed** (333-streamline nominal ringlet, Nt = 40, gravity on, to 10³ orbits; this is
+  probably issue 3's instability): both viscosities, crossed at ~145 orbits; shear only, full stress,
+  ~57 orbits; shear's azimuthal stress only (the unfixed shear-only run), ~23 orbits; bulk only, no
+  crossing; no viscosity, ~849 orbits; viscosity but no gravity, ~168 orbits. So the shear stress
+  drives the crossing, and the radial stresses (shear's radial part, and bulk) slow it.

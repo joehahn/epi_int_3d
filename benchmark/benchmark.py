@@ -10,8 +10,8 @@ folder under benchmark/runs/; the time per step is the difference in wall-clock 
 n2 - n1, so start-up, initialization and output cancel. The n2 run's final state is the
 reference that faster code must reproduce.
 
-With --ringlet nominal it runs epi_int_3d's nominal ringlet (tests/nominal/inputs.py: eccentric, tapered
-edges, Nt = 40) at Nr = 33, 100 and 333 streamlines, with its width and mass fixed, so the streamline
+With --ringlet nominal it runs epi_int_3d's former nominal ringlet (benchmark/nominal_inputs.py: eccentric,
+tapered edges, viscous, Nt = 40) at Nr = 33, 100 and 333 streamlines, with its width and mass fixed, so the streamline
 spacing shrinks as Nr grows. (At Nr = 333 it goes unstable after ~1800 steps, far beyond the 250 timed.)
 
 Run:  uv run python benchmark/benchmark.py                  #time the reference implementation
@@ -46,7 +46,7 @@ CASES = [(10, 20, 200, 1200), (30, 20, 200, 1200), (100, 20, 100, 600), (300, 20
          (1000, 20, 50, 250), (100, 10, 100, 600), (100, 40, 100, 600)]
 REFERENCE_SIZES = {(10, 20), (100, 20), (1000, 20)}
 NOMINAL_CASES = [(33, 40, 200, 1200), (100, 40, 100, 600), (333, 40, 50, 250)]
-NOMINAL_INPUTS = REPO/'tests'/'nominal'/'inputs.py'
+NOMINAL_INPUTS = BENCH/'nominal_inputs.py'          #the nominal ringlet before 2026-10-19
 NOMINAL_WIDTH = 0.0125
 GOLDEN_RTOL = 1e-12
 

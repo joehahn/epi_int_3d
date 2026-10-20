@@ -161,6 +161,15 @@ conversions, sorting), so step 4 is next. The nominal ringlet is now the zero-tw
 and its outer edge stays eccentric. At 333 streamlines it crosses after ~145 orbits. Benchmarked at
 Nr = 33, 100, 333 (`--ringlet nominal`): ×2.8, ×7.4, ×16.5, final states identical.
 
+**Status (2026-10-19, evening):** the 333-streamline crossings are the m ≈ Nt/2 tangential sawtooth
+along each streamline (issue 3) plus, with shear viscosity alone, a code bug that drops bulk viscosity
+(issue 6, fixed opt-in in `tools/patches.py`); the viscous overstability theory (O1–O5) and the code's own
+linear modes (`notes/numerics/viscous_stability.py`) are recorded. The nominal ringlet is now 1000 × 20
+streamlines, width 0.00125, mass 3×10⁻¹¹ (λ_crit/2Δ ≈ 0.09), e = 10⁻⁵, zero twist, viscosity and
+pressure off: smooth for 5×10⁴ orbits (2.8 h with the fast driver), self-gravity holding its twist
+within 0.38 rad against J2's ~5 rad. The former nominal ringlet is frozen in
+`benchmark/nominal_inputs.py` for the benchmark.
+
 ## Phase 1 — Literature review
 
 - CC reads hahn13 and hahn25, plus key papers on epicyclic theory and bending waves:
@@ -338,4 +347,15 @@ comparison with Cassini data is out of scope for this paper.
 
 ## Open questions to settle
 
-*None at the moment.*
+- **To do, later: fix the tangential zigzag** (decided 2026-10-19, not analyzed further for now). At
+  333 streamlines the nominal ringlet's streamlines cross through a particle-scale sawtooth along each
+  streamline, azimuthal wavenumber m ≈ Nt/2, probably numerical (the Lagrange interpolation between
+  neighbouring streamlines' particles); it needs neither eccentricity, self-gravity nor viscosity.
+  Bending-wave runs (closely spaced streamlines, Nt ≈ 20) must not suffer it. See issue 3 in
+  `notes/epi_int_lite_issues.md`; candidate fixes: filter the m = Nt/2 component, or a different
+  interpolation stencil, after linearizing the interpolation to find the mechanism.
+- **To do, later: prune `explore/` outputs** once we are sure they are not needed (decided 2026-10-19).
+  `explore/` (~5 GB) and `.venv/` are excluded from Dropbox sync (`com.dropbox.ignored`). Candidates:
+  `ladder/`, `nominal/`, `taper/`, `pressure/` (~2.5 GB, the finished parameter search in
+  `notes/phase0b/nominal.md`) and `twist0_n333_*` (~1.9 GB, the 333-streamline crash study); their
+  launch scripts and notes stay, so any run can be regenerated.
