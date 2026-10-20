@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G6); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -37,3 +37,9 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | O3 | growth rate to first order in ν: γ = K[ν_s(4x + 2) − 3ν_b(1 − x)]/[6(1 − x)], x = g/κ²; stable iff ν_b/ν_s > (4x + 2)/3(1 − x) | as O1 | ✅ | ✅ | ☐ | marginal x = 1/7 for ν_b = ν_s, 2/5 for ν_b = 2ν_s; ν_b/ν_s > 2/3 without gravity. With β kept and no gravity, onset at β_c = (ν_b/ν_s − 2/3)/3, exactly the criterion of Lehmann et al. (2017, Sec. 2) and Schmit & Tscharnuter (1995) (check O3b) |
 | O4 | the code's viscous stencils on a lattice mode ∝ e^{ijφ}: A_θ = −ν_s(sin²φ/Δ²)(ẏ + 3Ωξ), A_r = −(ν_b + 4ν_s/3)(sin²φ/Δ²)ξ̇ | stability of the scheme | ✅ | ✅ | ☐ | so O2–O3 hold with K = sin²φ/Δ², = 0 at the zigzag φ = π; v_r/r term (O(Δ/a)) dropped; numerically confirmed by `notes/numerics/viscous_stability.py` (0.21 vs 0.23 per orbit) |
 | O5 | at the zigzag x = X(π)/κ² = 𝓡/2 (P7, P8); so the lattice is stable for 𝓡 < 2/7 with ν_b = ν_s, 𝓡 < 4/5 with ν_b = 2ν_s | as O1 | ✅ | ✅ | ☐ | lattice modes with sin²φ > 0 feel x < 𝓡/2 |
+| G1 | straight wire: A_g = 2Gλ D/\|D\|², D = d − (d·T̂)T̂, d = (Δ_r, 0, Δ_z), T̂ = (ε, 1, η)/√(1 + ε² + η²), ε = v_r′/v_θ′, η = v_z′/v_θ′ | vertical streamline gravity (planned kernel) | ✅ | ✅ | ☐ | 3D hahn13 Fig. 3 (`notes/phase2/streamline_gravity.md`); integral of the point-mass pull along the wire |
+| G2 | to first order in ε, η, any Δ_z/Δ_r: A_r = 2GλΔ_r/ρ², A_z = 2GλΔ_z/ρ², A_θ = −2Gλ(εΔ_r + ηΔ_z)/ρ², ρ² = Δ_r² + Δ_z² | as G1 | ✅ | ✅ | ☐ | A_θ has no O(slope²) term; A_r, A_z do (printed by the check) |
+| G3 | planar limit Δ_z = η = 0: exact wire A = (2Gλ/Δ_r)(1, −ε, 0); hahn13 Eq. 20's (2Gλ/Δ_r)(cos φ, −sin φ) is that /√(1 + ε²) | consistency with `kernels.ring_gravity` | ✅ | ✅ | ☐ | agree to O(e²) |
+| G4 | continuum sheet Z = Z₀ cos kr, \|Δ_z\| ≪ \|Δ_r\|: ΣA_z = 2GσZ₀∫(cos kx − 1)/x² dx = −2πGσ\|k\|Z | check of G2 against bending-wave theory | ✅ | ✅ | ☐ | the self-gravity term of (ω − mΩ)² = ν² + 2πGσ\|k\| |
+| G5 | lattice Z_j = Z₀ cos jφ: A_z = (4GσZ₀/Δ)Σ(cos nφ − 1)/n² = −X(φ)Z₀, X of P7 | stability of the scheme, vertical | ✅ | ✅ | ☐ | ω² = ν² + X; → 2πGσk as φ → 0 |
+| G6 | pattern rotating at Ω_p: v_r′/v_θ′ = (1 − Ω_p/Ω)(1/r)∂r′/∂θ, same for z | choice of the wire's direction | ✅ | ✅ | ☐ | velocity ≠ shape for m ≥ 2; `epi_int_lite_issues.md` issue 7 |

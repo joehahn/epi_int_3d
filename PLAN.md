@@ -212,6 +212,13 @@ particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in t
   In the wire approximation this is roughly A ≈ −2Gλ(Δr, Δz)/(Δr² + Δz²). That needs to be
   derived carefully, including the regime λ_b ≲ A where in-plane and vertical forcing couple
   (hahn25 Sec. 7, item 3).
+  **Status (2026-10-20, prompt 12):** derived and sympy-checked (G1–G6,
+  `notes/phase2/streamline_gravity.md`, with a 3D version of hahn13 Fig. 3). Exact straight-wire pull
+  2GλD/|D|²; to first order in the streamline's slopes, A_r = 2GλΔ_r/ρ², A_z = 2GλΔ_z/ρ²,
+  ρ² = Δ_r² + Δ_z², valid at any Δ_z/Δ_r (so it covers the λ_b ≲ A regime). Summed over a sheet it gives
+  the bending-wave term −2πGσ|k|Z, and on the lattice −X(φ)Z with P7's X. Found epi_int_lite issues 7
+  (wire direction from velocity, wrong for m ≥ 2) and 8 (λ of the wrong streamline). Next, after your
+  review: the kernel (Phase 3 step 2).
 - **2c. Satellite forcing.** Bending waves are launched by an inclined satellite at a vertical
   resonance. Existing code:
   - epi_int_lite `lindblad_resonance` branch: a "Fourier satellite", i.e. only the resonant

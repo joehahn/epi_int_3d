@@ -142,3 +142,30 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   ~57 orbits; shear's azimuthal stress only (the unfixed shear-only run), ~23 orbits; bulk only, no
   crossing; no viscosity, ~849 orbits; viscosity but no gravity, ~168 orbits. So the shear stress
   drives the crossing, and the radial stresses (shear's radial part, and bulk) slow it.
+
+## 7. The wire's direction comes from the velocity, not the streamline's shape
+
+- **Found:** deriving the vertical streamline gravity (`notes/phase2/streamline_gravity.md`, G6),
+  2026-10-20. Derived, not yet demonstrated in a simulation.
+- **What:** `ring_gravity()` (and hahn13 Fig. 3) tilts a perturbing streamline's pull by the angle
+  φ with sin φ = v_r′/v′, i.e. it takes the streamline's direction from its particles' velocity.
+  The gravity comes from the streamline's instantaneous shape. For a shape that rotates at pattern
+  speed Ω_p, v_r′/v_θ′ = (1 − Ω_p/Ω)(1/r)∂r′/∂θ.
+- **Effect on hahn25:** none to speak of. Its ringlets are m = 1 patterns, for which Ω_p is the slow
+  precession, so velocity and shape agree to O(J₂).
+- **Effect on epi_int_3d:** for an m-armed density wave near resonance, (1 − Ω_p/Ω) ≈ 1/m, so the
+  slope, and with it the first-order tangential force A_θ (the wave's torque), would be off by about
+  that factor (half at m = 2). That matters for the `lindblad_resonance` branch's density waves and
+  for any satellite-forced test here. Bending waves are not affected: the vertical slope enters
+  only A_θ, at second order.
+- **Fix (if needed):** take the slope from the Lagrange polynomial's derivative, (1/r)∂r′/∂θ,
+  instead of v_r′/v_θ′. That would change the in-plane results, so it would be opt-in. Open.
+
+## 8. Each perturbing streamline's gravity uses the perturbed particle's own λ
+
+- **Found:** as issue 7, 2026-10-20.
+- **What:** `ring_gravity()` computes A = 2Gλ/Δ_r with λ = `lambda_` of the perturbed particle,
+  m₁Ω/(2πv) evaluated at that particle, for every perturbing streamline. The pull of streamline a′
+  should use that streamline's own λ′ at the particle's longitude.
+- **Effect:** λ and λ′ differ at O(Δa/a) for equal-mass streamlines, so the two pulls between a pair
+  of streamlines are not equal and opposite at that order. Minor for narrow ringlets. Open.
