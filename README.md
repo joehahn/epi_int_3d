@@ -72,9 +72,12 @@ on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
   `pyproject.toml`, `.python-version` and `uv.lock`, and installed in this folder's `.venv/`
   only. Run scripts with `uv run python <script>`; `uv sync` rebuilds the environment.
-- LaTeX: the paper compiles with [tectonic](https://tectonic-typesetting.github.io/)
-  (`brew install tectonic`; `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class
-  and bibliography style are kept in `paper/`.
+- LaTeX: the draft paper, [paper/epi_int_3d.tex](paper/epi_int_3d.tex), is currently little more
+  than a collection of research notes and findings. It compiles with
+  [tectonic](https://tectonic-typesetting.github.io/) (`brew install tectonic`;
+  `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class and bibliography style are kept in
+  `paper/`. The author's own bibliography file is not in the repo, so citations that are not in
+  `paper/cc_added.bib` will show as unresolved.
 
 ### Tests:
 
