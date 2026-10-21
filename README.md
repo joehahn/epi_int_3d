@@ -46,12 +46,13 @@ running simulations, and drafting the journal paper.
 - Python 3 port of epi_int_lite, and how it compares with the Python 2 results:
   [notes/port_changes.md](notes/port_changes.md),
   [notes/phase0/port_comparison.md](notes/phase0/port_comparison.md)
-- Issues found in epi_int_lite: [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md)
 
-**Fixes to epi_int_lite.** `source/` stays a straight port of epi_int_lite, bugs included. Fixes are
-applied at run time (`tools/patches.py`) or in `fast/epi_int_3d.py`. All but the crossing-check fix
-are opt-in, so a default run reproduces epi_int_lite bit for bit. The list, with how to turn each fix
-on, is in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
+**Issues found in epi_int_lite.** Porting and extending epi_int_lite turned up a few bugs. All are
+minor, and none is known to change the findings of Hahn et al. (2025). `source/` stays a straight
+port, bugs included. The fixes are applied at run time (`tools/patches.py`) or in
+`fast/epi_int_3d.py`. All but the crossing-check fix are opt-in, so a default run reproduces
+epi_int_lite bit for bit. The list, each fix's effect on Hahn et al. (2025) and how to turn each fix
+on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 
 Setup (macOS or Linux):
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
