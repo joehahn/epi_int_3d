@@ -4,7 +4,9 @@
 end: reviewing the literature, deriving and symbolically checking the equations, porting and extending
 a published N-body code, testing it, running the simulations and drafting the journal paper. Along the
 way the author checks every equation and finding by hand, and every citation is checked against the
-literature database. The science: spiral bending waves in planetary rings, the vertical corrugations of
+literature database.
+
+**The science:** spiral bending waves in planetary rings, the vertical corrugations of
 the ring plane that inclined moons raise at their vertical resonances, seen throughout Saturn's rings.
 Simulated waves, compared with theory and with Cassini observations, can measure the rings' physical
 properties, such as their surface density and viscosity. A more speculative aim is to see whether
