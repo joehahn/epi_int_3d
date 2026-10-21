@@ -143,23 +143,16 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   crossing; no viscosity, ~849 orbits; viscosity but no gravity, ~168 orbits. So the shear stress
   drives the crossing, and the radial stresses (shear's radial part, and bulk) slow it.
 
-## 7. The wire's direction comes from the velocity, not the streamline's shape
+## 7. (Not an issue) The wire's direction comes from the velocity
 
-- **Found:** deriving the vertical streamline gravity (`notes/phase2/streamline_gravity.md`, G6),
-  2026-10-20. Derived, not yet demonstrated in a simulation.
-- **What:** `ring_gravity()` (and hahn13 Fig. 3) tilts a perturbing streamline's pull by the angle
-  φ with sin φ = v_r′/v′, i.e. it takes the streamline's direction from its particles' velocity.
-  The gravity comes from the streamline's instantaneous shape. For a shape that rotates at pattern
-  speed Ω_p, v_r′/v_θ′ = (1 − Ω_p/Ω)(1/r)∂r′/∂θ.
-- **Effect on hahn25:** none to speak of. Its ringlets are m = 1 patterns, for which Ω_p is the slow
-  precession, so velocity and shape agree to O(J₂).
-- **Effect on epi_int_3d:** for an m-armed density wave near resonance, (1 − Ω_p/Ω) ≈ 1/m, so the
-  slope, and with it the first-order tangential force A_θ (the wave's torque), would be off by about
-  that factor (half at m = 2). That matters for the `lindblad_resonance` branch's density waves and
-  for any satellite-forced test here. Bending waves are not affected: the vertical slope enters
-  only A_θ, at second order.
-- **Fix (if needed):** take the slope from the Lagrange polynomial's derivative, (1/r)∂r′/∂θ,
-  instead of v_r′/v_θ′. That would change the in-plane results, so it would be opt-in. Open.
+- **Raised:** deriving the vertical streamline gravity (`notes/phase2/streamline_gravity.md`, G6),
+  2026-10-20. **Closed** the same day: this is part of the model, not a bug.
+- **What:** `ring_gravity()` (hahn13 Fig. 3) tilts a perturbing streamline's pull by φ with
+  sin φ = v_r′/v′, so the wire's direction comes from its particles' velocity. For a shape rotating
+  at pattern speed Ω_p, the velocity's slope is (1 − Ω_p/Ω) times the shape's (G6).
+- **Why it stays:** hahn13 and hahn25 treat each streamline as an infinitely long wire along its
+  particles' motion. The tangent from the velocity is part of that approximation, and epi_int_3d
+  keeps it (JMH, 2026-10-20).
 
 ## 8. Each perturbing streamline's gravity uses the perturbed particle's own λ
 
@@ -167,5 +160,15 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
 - **What:** `ring_gravity()` computes A = 2Gλ/Δ_r with λ = `lambda_` of the perturbed particle,
   m₁Ω/(2πv) evaluated at that particle, for every perturbing streamline. The pull of streamline a′
   should use that streamline's own λ′ at the particle's longitude.
-- **Effect:** λ and λ′ differ at O(Δa/a) for equal-mass streamlines, so the two pulls between a pair
-  of streamlines are not equal and opposite at that order. Minor for narrow ringlets. Open.
+- **Effect:** λ′ − λ ≈ (a′ − a)∂λ/∂a, so each term is off by about 2G∂λ/∂a, whichever side a′ lies
+  on. For circular, equal-mass streamlines λ = m₁/(2πa), so the fix adds −Σ_{a′} Gm₁/(πaa′) ≈
+  −Gm_r/(πa²): a nearly uniform inward pull, about m_r/M_p of the planet's. That is the same order as
+  the streamlines' curvature, which the wire approximation already neglects.
+  - Nominal ringlet at 100 streamlines, 5000 orbits (`benchmark/runs/lamfix`, git-ignored): the
+    mean precession rate changes by 1.4×10⁻⁷ of itself, the periapse twist (oscillating between
+    −0.39 and −0.01 rad) by at most 9×10⁻⁶ rad, e by 6×10⁻⁵ of itself and a by 10⁻¹¹.
+- **Fix:** in `fast/epi_int_3d.py`, input `fix_lambda = True` (opt-in, default False so the
+  reference results stay bit for bit). The kernel `kernels.ring_gravity_lam_parallel` interpolates λ
+  of the perturbing streamline to the particle's longitude with the same Lagrange weights as r′.
+  Tested by `tests/test_kernels.py` (closed-form sums on a circular ringlet, including the
+  correction above). With the fix off, all benchmark final states still match the reference. Fixed.

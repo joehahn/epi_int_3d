@@ -16,6 +16,10 @@ without inclination; with z = vz = 0 they stay exactly 0.
 
 Optional inputs (inputs.py or -m): inclination i (default 0) and node (default 0), given to every
 particle at the start, with z = a i sin(lambda - node), vz = a nu_a i cos(lambda - node) (V2).
+Optional input fix_lambda (default False): each perturbing streamline pulls with its own linear
+density, interpolated to the perturbed particle's longitude, rather than the perturbed particle's
+(epi_int_lite issue 8, notes/epi_int_lite_issues.md); this changes the results, slightly, so it is
+off unless asked for.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
 and so is anything that inputs.py patches through tools/patches.py: initialization (the edge
@@ -63,11 +67,15 @@ def restore_output(output_folder):
     return r, t, z, vr, vt, vz, times, monitor
 
 
+GRAVITY = {False: kernels.ring_gravity_parallel, True: kernels.ring_gravity_lam_parallel}
+gravity_kernel = GRAVITY[False]    #main() sets it from the input fix_lambda
+
+
 def ring_gravity(lambda_, G_ring, r, t, vr, vt, fast_gravity):
     """Drop-in for helper_fns.ring_gravity; epi_int_3d always has fast_gravity = False."""
     if fast_gravity:
         raise ValueError('fast_gravity is not supported: set fast_gravity = False')
-    return kernels.ring_gravity_parallel(lambda_, G_ring, r, t, vr, vt)
+    return gravity_kernel(lambda_, G_ring, r, t, vr, vt)
 
 
 PARALLEL_MIN_PARTICLES = 50000     #below this the bookkeeping kernels run serially: with Numba's workqueue
@@ -211,8 +219,11 @@ def main():
     print("Toomre's Q_ring =", g['Q_ring'])
     g.setdefault('inclination', 0.0)
     g.setdefault('node', 0.0)
-    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'output_folder'):
+    g.setdefault('fix_lambda', False)
+    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'fix_lambda', 'output_folder'):
         print(k, '=', g[k])
+    global gravity_kernel
+    gravity_kernel = GRAVITY[bool(g['fix_lambda'])]
     helper_fns.ring_gravity = ring_gravity
     h = helper_fns
     r, t, vr, vt, c, monitor = h.initialize_streamline(g['number_of_streamlines'], g['particles_per_streamline'],

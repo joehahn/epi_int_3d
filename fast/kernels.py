@@ -17,48 +17,65 @@ The loop over shft sits outside the loop over j, so the innermost loop runs alon
 memory over independent particles, which LLVM can vectorize without reordering any sum. The
 outer loop over target streamlines i is a prange: with parallel=True each thread handles whole
 streamlines, which also leaves every sum's order unchanged.
+
+ring_gravity_lam_parallel (and _serial) fixes epi_int_lite issue 8 (notes/epi_int_lite_issues.md):
+the pull of streamline s uses s's own linear density, lambda_ of s interpolated to longitude t_ij
+with the same Lagrange weights, instead of the perturbed particle's lambda_ij. Otherwise it is the
+same arithmetic.
 """
 import numba
 import numpy as np
 
 
-def _ring_gravity(lambda_, G_ring, r, t, vr, vt):
-    Nr, W = r.shape
-    Ar = np.zeros((Nr, W))
-    At = np.zeros((Nr, W))
-    two_G = 2.0*G_ring
-    for i in numba.prange(Nr):
-        for shft in range(1, Nr):
-            s = i - shft
-            if s < 0:
-                s += Nr
-            for j in range(1, W - 1):
-                x = t[i, j]
-                x0 = t[s, j - 1]
-                x1 = t[s, j]
-                x2 = t[s, j + 1]
-                #lagrange_poly_fit's weights
-                dx0 = x - x0
-                dx1 = x - x1
-                dx2 = x - x2
-                dx10 = x1 - x0
-                dx20 = x2 - x0
-                dx21 = x2 - x1
-                l0 = (dx1*dx2)/(dx10*dx20)
-                l1 = -(dx0*dx2)/(dx10*dx21)
-                l2 = (dx0*dx1)/(dx20*dx21)
-                ri = r[s, j - 1]*l0 + r[s, j]*l1 + r[s, j + 1]*l2
-                vri = vr[s, j - 1]*l0 + vr[s, j]*l1 + vr[s, j + 1]*l2
-                vti = vt[s, j - 1]*l0 + vt[s, j]*l1 + vt[s, j + 1]*l2
-                dr = ri - r[i, j]
-                A = (two_G*lambda_[i, j])/dr
-                vi = np.sqrt(vri*vri + vti*vti)
-                cos_phi = vti/vi
-                sin_phi = vri/vi
-                Ar[i, j] += A*cos_phi
-                At[i, j] -= A*sin_phi
-    return Ar, At
+def _make_ring_gravity(perturber_lambda):
+    """The kernel, with lambda_ of the perturbed particle (the reference) or of the perturbing
+    streamline (issue 8); Numba freezes the closure's flag as a compile-time constant."""
+    def _ring_gravity(lambda_, G_ring, r, t, vr, vt):
+        Nr, W = r.shape
+        Ar = np.zeros((Nr, W))
+        At = np.zeros((Nr, W))
+        two_G = 2.0*G_ring
+        for i in numba.prange(Nr):
+            for shft in range(1, Nr):
+                s = i - shft
+                if s < 0:
+                    s += Nr
+                for j in range(1, W - 1):
+                    x = t[i, j]
+                    x0 = t[s, j - 1]
+                    x1 = t[s, j]
+                    x2 = t[s, j + 1]
+                    #lagrange_poly_fit's weights
+                    dx0 = x - x0
+                    dx1 = x - x1
+                    dx2 = x - x2
+                    dx10 = x1 - x0
+                    dx20 = x2 - x0
+                    dx21 = x2 - x1
+                    l0 = (dx1*dx2)/(dx10*dx20)
+                    l1 = -(dx0*dx2)/(dx10*dx21)
+                    l2 = (dx0*dx1)/(dx20*dx21)
+                    ri = r[s, j - 1]*l0 + r[s, j]*l1 + r[s, j + 1]*l2
+                    vri = vr[s, j - 1]*l0 + vr[s, j]*l1 + vr[s, j + 1]*l2
+                    vti = vt[s, j - 1]*l0 + vt[s, j]*l1 + vt[s, j + 1]*l2
+                    dr = ri - r[i, j]
+                    if perturber_lambda:
+                        lam = lambda_[s, j - 1]*l0 + lambda_[s, j]*l1 + lambda_[s, j + 1]*l2
+                    else:
+                        lam = lambda_[i, j]
+                    A = (two_G*lam)/dr
+                    vi = np.sqrt(vri*vri + vti*vti)
+                    cos_phi = vti/vi
+                    sin_phi = vri/vi
+                    Ar[i, j] += A*cos_phi
+                    At[i, j] -= A*sin_phi
+        return Ar, At
+
+    return _ring_gravity
 
 
+_ring_gravity = _make_ring_gravity(False)
 ring_gravity_serial = numba.njit(_ring_gravity)
 ring_gravity_parallel = numba.njit(_ring_gravity, parallel=True)
+ring_gravity_lam_serial = numba.njit(_make_ring_gravity(True))
+ring_gravity_lam_parallel = numba.njit(_make_ring_gravity(True), parallel=True)

@@ -216,9 +216,10 @@ particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in t
   `notes/phase2/streamline_gravity.md`, with a 3D version of hahn13 Fig. 3). Exact straight-wire pull
   2GλD/|D|²; to first order in the streamline's slopes, A_r = 2GλΔ_r/ρ², A_z = 2GλΔ_z/ρ²,
   ρ² = Δ_r² + Δ_z², valid at any Δ_z/Δ_r (so it covers the λ_b ≲ A regime). Summed over a sheet it gives
-  the bending-wave term −2πGσ|k|Z, and on the lattice −X(φ)Z with P7's X. Found epi_int_lite issues 7
-  (wire direction from velocity, wrong for m ≥ 2) and 8 (λ of the wrong streamline). Next, after your
-  review: the kernel (Phase 3 step 2).
+  the bending-wave term −2πGσ|k|Z, and on the lattice −X(φ)Z with P7's X. Issue 7 (wire direction from
+  the velocity) is part of the wire model and stays. Issue 8 (λ of the perturbed particle, not the
+  perturbing streamline) is fixed in `fast/epi_int_3d.py`, opt-in via `fix_lambda = True`. Next, after
+  your review: the kernel (Phase 3 step 2).
 - **2c. Satellite forcing.** Bending waves are launched by an inclined satellite at a vertical
   resonance. Existing code:
   - epi_int_lite `lindblad_resonance` branch: a "Fourier satellite", i.e. only the resonant
