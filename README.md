@@ -42,7 +42,7 @@ It is the same pattern as my other repos, applied to research rather than to a b
 
 *Work in progress — Phase 0b: epi_int_lite has been ported to Python 3 (the reference
 implementation, in `source/`), and faster drivers (`fast/`) give its results bit for bit.
-The vertical motion has begun: inclined orbits drift correctly in the planet's potential.*
+The vertical motion has begun: inclined orbits drift correctly in the planet's oblate gravitational potential.*
 
 epi_int_3d will extend the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
