@@ -6,11 +6,17 @@ a published N-body code, testing it, running the simulations and drafting the jo
 way the author checks every equation and finding by hand, and every citation is checked against the
 literature database.
 
-**The science:** spiral bending waves in planetary rings, the vertical corrugations of
-the ring plane that inclined moons raise at their vertical resonances, seen throughout Saturn's rings.
-Simulated waves, compared with theory and with Cassini observations, can measure the rings' physical
-properties, such as their surface density and viscosity. A more speculative aim is to see whether
-Claude can learn the Cassini data archive well enough to make that comparison directly.
+**The science:** This project simulates spiral bending waves, which are vertical corrugations of the
+ring plane that are ubiquitous in Saturn's rings. A bending wave is launched by a moon whose orbit is
+inclined to the rings, at the ring location where the moon's periodic vertical tug is in resonance with
+the ring particles' own vertical oscillation, and the wave then propagates away from that resonance as a
+tightly wound spiral. Comparing the simulated waves and bending-wave theory with Cassini spacecraft
+observations of those waves will then allow us to infer the rings' physical properties, such as their
+surface mass density and viscosity.
+
+A secondary and riskier subtask of this project is to test whether Claude can learn the Cassini data
+archive well enough to find the relevant observations of bending waves and then compare them with the
+epi_int_3d simulations directly, a task that has usually required the help of a Cassini data expert.
 
 **Author:** Joseph M. Hahn, Ph.D.  
 Research Scientist, [Space Science Institute](https://www.spacescience.org/bio.php?emp=JHAHN) (planetary ring dynamics) · jhahn@SpaceScience.org  
