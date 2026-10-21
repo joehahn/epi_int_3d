@@ -26,7 +26,7 @@ Independent AI and machine learning consultant, [JMH DataSciences](https://jmh-d
 **Project:** Started 2026-Oct-11 · branch `main`  
 Built end-to-end with [Claude Code](https://claude.com/claude-code).
 
-**For researchers:** epi_int_3d extends the streamline N-body code epi_int_lite (Hahn et al. 2025,
+**For researchers:** epi_int_3d extends the 2D streamline N-body code epi_int_lite (Hahn et al. 2025,
 ApJ, 986, 220) into the vertical direction, to simulate spiral bending waves in self-gravitating
 planetary rings. Its faster drivers reproduce the published code bit for bit, every derived equation
 has a symbolic (sympy) check, and the code, tests, notes and the draft paper are all open.
@@ -34,7 +34,8 @@ has a symbolic (sympy) check, and the code, tests, notes and the draft paper are
 **For R&D and industry:** this repo shows that an AI agent can carry a long, open-ended technical
 investigation when a domain expert builds the checks around it: symbolic algebra for every derivation,
 every citation checked against the literature database, regression against a reference
-implementation, and every prompt and hour of work logged ([prompts/](prompts/), [PLAN.md](PLAN.md)).
+implementation, and every prompt, hour and token of work logged ([prompts/](prompts/), [PLAN.md](PLAN.md),
+[tools/session_time.py](tools/session_time.py)).
 It is the same pattern as my other repos, applied to research rather than to a business decision.
 
 ---
