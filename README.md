@@ -14,8 +14,8 @@ tightly wound spiral. Comparing the simulated waves and bending-wave theory with
 observations of those waves will then allow us to infer the rings' physical properties, such as their
 surface mass density and viscosity.
 
-A secondary and riskier subtask of this project is to test whether Claude can learn the Cassini data
-archive well enough to find the relevant observations of bending waves and then compare them with the
+A secondary and riskier subtask of this project is to test whether Claude can learn the [Cassini data
+archive](https://pds-rings.seti.org/cassini/) (NASA PDS Ring-Moon Systems Node) well enough to find the relevant observations of bending waves and then compare them with the
 epi_int_3d simulations directly, a task that has usually required the help of a Cassini data expert.
 
 **Author:** Joseph M. Hahn, Ph.D.  
