@@ -54,7 +54,8 @@ port, bugs included. The fixes are applied at run time (`tools/patches.py`) or i
 epi_int_lite bit for bit. The list, each fix's effect on Hahn et al. (2025) and how to turn each fix
 on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 
-Setup (macOS or Linux):
+### Setup (macOS or Linux):
+
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
   `pyproject.toml`, `.python-version` and `uv.lock`, and installed in this folder's `.venv/`
   only. Run scripts with `uv run python <script>`; `uv sync` rebuilds the environment.
