@@ -4,7 +4,8 @@ How a perturbing streamline that lies off the particle's plane pulls on it, in t
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
 2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G6 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
-`wire_geometry.py`.
+`paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
+(`paper/epi_int_3d.tex`).
 
 ## The planar case (hahn13 Fig. 3)
 
@@ -17,7 +18,7 @@ interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ 
 
 ## The 3D geometry
 
-![wire geometry](wire_geometry.png)
+![wire geometry](../../paper/figures/wire_geometry.png)
 
 Use the local frame (r̂, θ̂, ẑ) at the particle. The perturbing streamline crosses the particle's
 meridional plane, at the particle's longitude, at (r′, z′). The separation from the particle to that
@@ -32,7 +33,7 @@ tangent
 
 with the slopes ε ~ e′ and η ~ i′ taken, as in hahn13, from the streamline's interpolated velocity
 (but see G6). Panel (a) shows the meridional plane: the wire pierces it at (r′, z′), a distance
-ρ = √(Δ_r² + Δ_z²) away, at angle ψ above the horizontal, tan ψ = Δ_z/Δ_r. Panel (b) shows the view from
+δ = √(Δ_r² + Δ_z²) away, at angle ψ above the horizontal, tan ψ = Δ_z/Δ_r. Panel (b) shows the view from
 outside the ring. The wire is tilted by χ, with tan χ = η, so the perpendicular Δ_⊥ to the wire leans
 back by χ, and A_g gains a small component along −θ̂. That is the vertical counterpart of the angle φ
 in hahn13 Fig. 3, which tilts A_g toward −θ̂ by an amount set by the radial slope ε.
@@ -47,18 +48,18 @@ The sympy check confirms that D ⊥ T̂, and that the integral along the wire ha
 
 **G2 (lowest order in the slopes).** To first order in ε and η, but exactly in Δ_z/Δ_r:
 
-  **A_r = 2Gλ Δ_r/ρ²,  A_z = 2Gλ Δ_z/ρ²,  A_θ = −2Gλ (ε Δ_r + η Δ_z)/ρ²,  ρ² = Δ_r² + Δ_z²**
+  **A_r = 2Gλ Δ_r/δ²,  A_z = 2Gλ Δ_z/δ²,  A_θ = −2Gλ (ε Δ_r + η Δ_z)/δ²,  δ² = Δ_r² + Δ_z²**
 
-or, with the angles of the figure, A_r = A_g cos ψ, A_z = A_g sin ψ, A_g = 2Gλ/ρ. The second-order
-terms are ±2Gλ(εΔ_r + ηΔ_z)(ηΔ_r − εΔ_z)Δ_{z,r}/ρ⁴ in A_r and A_z, and A_θ has none. So:
+or, with the angles of the figure, A_r = A_g cos ψ, A_z = A_g sin ψ, A_g = 2Gλ/δ. The second-order
+terms are ±2Gλ(εΔ_r + ηΔ_z)(ηΔ_r − εΔ_z)Δ_{z,r}/δ⁴ in A_r and A_z, and A_θ has none. So:
 
 - A_z and A_r come from the meridional picture, panel (a), alone. The wire's tilts change them only at
   second order.
 - The vertical force needs no small Δ_z/Δ_r. It stays valid when neighboring streamlines are
   displaced vertically by as much as their spacing, which is the regime λ_b ≲ amplitude that PLAN
   flags (hahn25 Sec. 7, item 3), where in-plane and vertical forcing couple. In that regime the
-  radial pull weakens by Δ_r²/ρ². This is the "modified radial" force.
-- The tilt η adds −2Gλ ηΔ_z/ρ² to A_θ (panel b). It is second order in the vertical amplitude, so it
+  radial pull weakens by Δ_r²/δ². This is the "modified radial" force.
+- The tilt η adds −2Gλ ηΔ_z/δ² to A_θ (panel b). It is second order in the vertical amplitude, so it
   is negligible in linear bending waves.
 - The second-order A_z term includes −2Gλ εη/Δ_r when Δ_z ≪ Δ_r, an O(e·i) coupling. Compared with
   the first-order A_z, it is of relative size εηΔ_r/Δ_z.
@@ -122,5 +123,5 @@ bending forces A_z do not depend on this choice.
   streamline, not λ′ of the perturbing one (`helper_fns.ring_gravity`, issue 7). It is fixed in
   `fast/epi_int_3d.py`, opt-in via `fix_lambda = True`: λ′ is interpolated to the particle's longitude
   like r′. The 3D kernel will use λ′ when `fix_lambda` is on. The 3D speed v in λ would add only O(i²).
-- **Validity.** The wire approximation needs ρ to be much smaller than the length over which the
+- **Validity.** The wire approximation needs δ to be much smaller than the length over which the
   streamline curves, r/m in azimuth, just as in 2D.
