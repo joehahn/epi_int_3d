@@ -75,9 +75,8 @@ on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 - LaTeX: the draft paper, [paper/epi_int_3d.pdf](paper/epi_int_3d.pdf), is currently little more
   than a collection of research notes and findings. It compiles with
   [tectonic](https://tectonic-typesetting.github.io/) (`brew install tectonic`;
-  `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class and bibliography style are kept in
-  `paper/`. The author's own bibliography file is not in the repo, so a fresh compile shows
-  unresolved citations for any that are not in `paper/cc_added.bib`.
+  `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class and bibliography style, and the paper's
+  bibliography, are kept in `paper/`.
 
 ### Tests:
 

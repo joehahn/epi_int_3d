@@ -6,7 +6,7 @@
 %AASTeX v7.0.2 (aastex702.cls, aasjournalv7.bst) is kept in this folder.
 %to compile (tectonic runs bibtex itself):
 %    tectonic epi_int_3d.tex
-%jmh_bibliography.bib is kept local and not committed; cc_added.bib holds entries added by Claude Code.
+%epi_int_3d.bib is made from the author's bibliography by ../tools/make_bib.py; rerun it when citations change.
 
 
 \documentclass[twocolumn]{aastex702}
@@ -361,7 +361,7 @@ $\kappa^2 + c^2k^2$ (dotted blue). A mode is unstable where $X$ exceeds $\kappa^
 \end{figure*}
 
 
-\bibliography{jmh_bibliography,cc_added}{}
+\bibliography{epi_int_3d}{}
 \bibliographystyle{aasjournalv7}  % v7.1 (June 2026) mislabels lone citations as "2006a"
 
 \end{document}

@@ -26,7 +26,8 @@ decisions, ground rules) and `README.md`.
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
-  `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix).
+  `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix),
+  `make_bib.py` (the paper's bibliography).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
   epi_int_3d's own driver, with vertical motion (so far the drift only: `notes/phase3/`); its input `fix_lambda = True` fixes epi_int_lite issue 7, Numba kernels for ring gravity (`kernels.py`)
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
@@ -69,8 +70,10 @@ decisions, ground rules) and `README.md`.
 - Every derived equation gets a sympy check before it is used in code, and is tracked in
   `notes/equations.md`; the user hand-verifies them later.
 - Check every new citation against SciX (scixplorer.org). The user's bibliography,
-  `paper/jmh_bibliography.bib`, stays local and is never committed; entries it lacks go in
-  `paper/cc_added.bib`.
+  `paper/jmh_bibliography.bib`, is the master copy: it stays local and is never committed. Add each
+  new entry there, with a `% SciX check: done <date>, ADS bibcode ...` line above it. The paper's
+  `paper/epi_int_3d.bib` is generated from it (`uv run python tools/make_bib.py`); rerun that when
+  citations change and commit it with the paper and its PDF.
 - epi_int (IDL) is treated as a 2D code.
 - Ask before creating or deleting any cloud resource.
 - Always run with `fast_gravity = False` and `Q_ring = -1`: the fast-gravity approximation and
