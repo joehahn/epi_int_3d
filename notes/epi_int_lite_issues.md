@@ -4,6 +4,23 @@ Problems found in epi_int_lite (master, commit 5e0942a) while porting and extend
 stays a straight port of epi_int_lite, so these are fixed in the faster code and epi_int_3d,
 not there, unless noted. Changes made by the Python 3 port itself are in `port_changes.md`.
 
+## Summary of the fixes
+
+The fixes are applied at run time (`tools/patches.py`, called from a test's `inputs.py`) or in the
+faster driver (`fast/epi_int_3d.py`). All but the crossing check are opt-in, so a default run gives
+epi_int_lite's results bit for bit.
+
+| issue | what is wrong | turn the fix on with | changes results? |
+|---|---|---|---|
+| 1 | the streamline-crossing check misfires near θ = ±π and stops runs | `patches.apply()` | no (only when a run stops) |
+| 4 | the outer edge's viscous/pressure flux is taken at the wrong longitudes | `patches.apply(fix_edge='own')` | slightly |
+| 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
+| 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
+
+Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
+(issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 2 was an outdated
+test input, fixed in this repo's copy.
+
 ## 1. The streamline-crossing check misfires near θ = ±π
 
 - **Found:** Phase 0b benchmark (`notes/phase0b/benchmark.md`), 2026-10-18.
