@@ -24,7 +24,9 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 - **Fix:** run the check on `wrap_ring()`-padded arrays, as `benchmark/benchmark.py`'s
   `min_separation()` does. To be made in the faster driver (Phase 0b), with tests that it does
   not misfire on the benchmark ringlet and still catches a ringlet whose streamlines do cross.
-  Not yet fixed.
+  **Done** in `tools/patches.py` (`patches.apply()`, used by `tests/nominal/inputs.py` and
+  `explore/run.py`); `fast/epi_int_3d.py` runs that wrapped check as a kernel. Runs whose inputs.py
+  does not call `patches.apply()` still use the original check. Fixed.
 
 ## 2. `tests/unperturbed/inputs.py` predates the current driver
 
@@ -103,7 +105,8 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
   inner edge and keeps the edges symmetric, while hahn13's literal p(r − Δ) does not. The only
   error is the longitudes, which adds a little raggedness (×3) and nothing else visible.
 - **Effect on hahn25:** probably negligible (smooth streamlines, Nt = 241); not checked.
-- **Fix:** `A[-1] = P[-1]/lambda_[-1]` in the faster code, with a test. Minor. Open.
+- **Fix:** `A[-1] = P[-1]/lambda_[-1]`: `tools/patches.py`, `apply(fix_edge='own')` (opt-in; the
+  table's second row). Not yet in a kernel or a regression test. Minor. Fixed (opt-in).
 
 ## 5. Ring-pressure scheme: omitted term and two properties of the discretization
 

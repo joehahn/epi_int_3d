@@ -46,7 +46,27 @@ running simulations, and drafting the journal paper.
 - Python 3 port of epi_int_lite, and how it compares with the Python 2 results:
   [notes/port_changes.md](notes/port_changes.md),
   [notes/phase0/port_comparison.md](notes/phase0/port_comparison.md)
-- Issues found in epi_int_lite: [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md)
+- Issues found in epi_int_lite: [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md),
+  summarized below
+
+### Fixes to epi_int_lite:
+
+`source/` stays a straight port of epi_int_lite, bugs included. The fixes are applied at run time
+(`tools/patches.py`, called from a test's `inputs.py`) or in the faster driver (`fast/epi_int_3d.py`),
+and all but the crossing check are opt-in, so a default run gives epi_int_lite's results bit for bit.
+Details, and each fix's effect on Hahn et al. (2025), are in
+[notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
+
+| issue | what is wrong | turn the fix on with | changes results? |
+|---|---|---|---|
+| 1 | the streamline-crossing check misfires near θ = ±π and stops runs | `patches.apply()` | no (only when a run stops) |
+| 4 | the outer edge's viscous/pressure flux is taken at the wrong longitudes | `patches.apply(fix_edge='own')` | slightly |
+| 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
+| 8 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
+
+Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
+(issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 2 was an outdated
+test input, and issue 7 turned out to be part of the streamline model.
 
 Setup (macOS or Linux):
 - Python: [uv](https://docs.astral.sh/uv/) manages the interpreter and packages, pinned in
