@@ -1,7 +1,7 @@
 #test_kernels.py
 #
 #Unit tests of fast/kernels.py's ring gravity on a circular ringlet, where the wire sums are known in
-#closed form: the reference kernel pulls with the perturbed particle's lambda (epi_int_lite issue 8),
+#closed form: the reference kernel pulls with the perturbed particle's lambda (epi_int_lite issue 7),
 #the fixed kernel with each perturbing streamline's own.
 #
 #Run:  uv run pytest tests/test_kernels.py

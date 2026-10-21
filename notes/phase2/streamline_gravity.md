@@ -99,7 +99,7 @@ at pattern speed Ω_p. Then
 For the m = 1 patterns of epi_int_lite's ringlets, Ω_p is the slow precession rate, so velocity and
 shape agree to O(J₂). For an m-armed pattern near resonance, the velocity's slope is about 1/m of the
 shape's. Taking the tangent from the velocity is part of the wire model of hahn13 and hahn25, and
-epi_int_3d keeps it (issue 7, closed). Vertically, η enters only A_θ, at second order, so the
+epi_int_3d keeps it. Vertically, η enters only A_θ, at second order, so the
 bending forces A_z do not depend on this choice.
 
 ## What this means for the code (Phase 3 step 2, after your review)
@@ -119,7 +119,7 @@ bending forces A_z do not depend on this choice.
   particle sits on that wire, so Δ_z = 0. Out-of-plane curvature of the streamline would add a vertical
   term of relative size about m²Δ_r/(kr) times a logarithm, which is small when Δ_r ≪ λ_b ≪ r.
 - **λ.** The reference uses the perturbed particle's own λ = m₁Ω/(2πv) for every perturbing
-  streamline, not λ′ of the perturbing one (`helper_fns.ring_gravity`, issue 8). It is fixed in
+  streamline, not λ′ of the perturbing one (`helper_fns.ring_gravity`, issue 7). It is fixed in
   `fast/epi_int_3d.py`, opt-in via `fix_lambda = True`: λ′ is interpolated to the particle's longitude
   like r′. The 3D kernel will use λ′ when `fix_lambda` is on. The 3D speed v in λ would add only O(i²).
 - **Validity.** The wire approximation needs ρ to be much smaller than the length over which the

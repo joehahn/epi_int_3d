@@ -18,7 +18,7 @@ memory over independent particles, which LLVM can vectorize without reordering a
 outer loop over target streamlines i is a prange: with parallel=True each thread handles whole
 streamlines, which also leaves every sum's order unchanged.
 
-ring_gravity_lam_parallel (and _serial) fixes epi_int_lite issue 8 (notes/epi_int_lite_issues.md):
+ring_gravity_lam_parallel (and _serial) fixes epi_int_lite issue 7 (notes/epi_int_lite_issues.md):
 the pull of streamline s uses s's own linear density, lambda_ of s interpolated to longitude t_ij
 with the same Lagrange weights, instead of the perturbed particle's lambda_ij. Otherwise it is the
 same arithmetic.
@@ -29,7 +29,7 @@ import numpy as np
 
 def _make_ring_gravity(perturber_lambda):
     """The kernel, with lambda_ of the perturbed particle (the reference) or of the perturbing
-    streamline (issue 8); Numba freezes the closure's flag as a compile-time constant."""
+    streamline (issue 7); Numba freezes the closure's flag as a compile-time constant."""
     def _ring_gravity(lambda_, G_ring, r, t, vr, vt):
         Nr, W = r.shape
         Ar = np.zeros((Nr, W))

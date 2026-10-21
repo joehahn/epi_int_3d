@@ -8,4 +8,5 @@ similar when deriving the vertical acceleration from a non-coplanar streamline.
 
 Follow-up: the assumption used in hahn25 and here is that streamlines are treated as infinitely long
 wires when deriving the acceleration due to gravity, A = 2Gλ/Δ_r, and thus the streamline's direction
-is taken from the velocity (so issue 7 stays as is). We do want to fix issue 8.
+is taken from the velocity (so that stays as is, and is not an epi_int_lite issue). We do want to fix
+the λ issue (epi_int_lite issue 7).

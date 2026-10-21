@@ -18,7 +18,7 @@ Optional inputs (inputs.py or -m): inclination i (default 0) and node (default 0
 particle at the start, with z = a i sin(lambda - node), vz = a nu_a i cos(lambda - node) (V2).
 Optional input fix_lambda (default False): each perturbing streamline pulls with its own linear
 density, interpolated to the perturbed particle's longitude, rather than the perturbed particle's
-(epi_int_lite issue 8, notes/epi_int_lite_issues.md); this changes the results, slightly, so it is
+(epi_int_lite issue 7, notes/epi_int_lite_issues.md); this changes the results, slightly, so it is
 off unless asked for.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),

@@ -28,7 +28,7 @@ decisions, ground rules) and `README.md`.
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
   `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
-  epi_int_3d's own driver, with vertical motion (so far the drift only: `notes/phase3/`); its input `fix_lambda = True` fixes epi_int_lite issue 8, Numba kernels for ring gravity (`kernels.py`)
+  epi_int_3d's own driver, with vertical motion (so far the drift only: `notes/phase3/`); its input `fix_lambda = True` fixes epi_int_lite issue 7, Numba kernels for ring gravity (`kernels.py`)
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
   with only ring gravity swapped for the kernel.
 - `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`

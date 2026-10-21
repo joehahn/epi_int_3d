@@ -146,20 +146,10 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   crossing; no viscosity, ~849 orbits; viscosity but no gravity, ~168 orbits. So the shear stress
   drives the crossing, and the radial stresses (shear's radial part, and bulk) slow it.
 
-## 7. (Not an issue) The wire's direction comes from the velocity
+## 7. Each perturbing streamline's gravity uses the perturbed particle's own λ
 
-- **Raised:** deriving the vertical streamline gravity (`notes/phase2/streamline_gravity.md`, G6),
-  2026-10-20. **Closed** the same day: this is part of the model, not a bug.
-- **What:** `ring_gravity()` (hahn13 Fig. 3) tilts a perturbing streamline's pull by φ with
-  sin φ = v_r′/v′, so the wire's direction comes from its particles' velocity. For a shape rotating
-  at pattern speed Ω_p, the velocity's slope is (1 − Ω_p/Ω) times the shape's (G6).
-- **Why it stays:** hahn13 and hahn25 treat each streamline as an infinitely long wire along its
-  particles' motion. The tangent from the velocity is part of that approximation, and epi_int_3d
-  keeps it (JMH, 2026-10-20).
-
-## 8. Each perturbing streamline's gravity uses the perturbed particle's own λ
-
-- **Found:** as issue 7, 2026-10-20.
+- **Found:** deriving the vertical streamline gravity (`notes/phase2/streamline_gravity.md`),
+  2026-10-20.
 - **What:** `ring_gravity()` computes A = 2Gλ/Δ_r with λ = `lambda_` of the perturbed particle,
   m₁Ω/(2πv) evaluated at that particle, for every perturbing streamline. The pull of streamline a′
   should use that streamline's own λ′ at the particle's longitude.
