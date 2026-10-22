@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G6; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G7; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -117,3 +117,26 @@ slope_r = sp.diff(f(s), s).subs(s, th - Omp*t_)/rr            # (1/r) dr'/dtheta
 slope_z = sp.diff(g(s), s).subs(s, th - Omp*t_)/rr
 check('G6: v_r/v_theta = (1 - Omega_p/Omega) (1/r) dr/dtheta', sp.diff(rr, t_)/(rr*Om) - (1 - Omp/Om)*slope_r)
 check('G6: v_z/v_theta = (1 - Omega_p/Omega) (1/r) dz/dtheta', sp.diff(zz, t_)/(rr*Om) - (1 - Omp/Om)*slope_z)
+
+# --- G7: hahn13's form plus two small modifications, to the same accuracy as G2 ---
+# A wire along theta-hat through (r', z') pulls with A_g = 2 G lam/delta along the meridional
+# direction (cos psi, 0, sin psi), delta^2 = dr^2 + dz^2, tan psi = dz/dr. Tilting the wire by phi in
+# the r-theta plane (hahn13: sin phi = v_r'/v') rotates the radial part toward -theta-hat by phi;
+# tilting it by chi in the theta-z plane (sin chi = v_z'/sqrt(v_theta'^2 + v_z'^2)) rotates the
+# vertical part toward -theta-hat by chi:
+#   A_r = A_g cos psi cos phi,  A_theta = -A_g (cos psi sin phi + sin psi sin chi),  A_z = A_g sin psi.
+delta = sp.sqrt(dr**2 + dz**2)
+cphi, sphi = 1/sp.sqrt(1 + eps**2), eps/sp.sqrt(1 + eps**2)
+schi = eta/sp.sqrt(1 + eta**2)
+Ag = 2*G*lam/delta
+A_G7 = sp.Matrix([Ag*(dr/delta)*cphi, -Ag*((dr/delta)*sphi + (dz/delta)*schi), Ag*dz/delta])
+A_G7t = A_G7.subs({eps: small*eps, eta: small*eta}, simultaneous=True)
+check('G7: hahn13 form + tilts = exact wire + O(eps^2, eta^2, eps eta)',
+      [sp.series(A_t[k] - A_G7t[k], small, 0, 2).removeO() for k in range(3)])
+check('G7: at dz = 0 it is hahn13 Eq. 20, cos phi and sin phi as coded', A_G7.subs(dz, 0) - A_hs13)
+# the coded form: q = dz/dr, A = 2 G lam/(dr (1 + q^2)), A_r = A cos phi, A_theta = -A (sin phi + q sin chi),
+# A_z = A q (valid for either sign of dr)
+q = dz/dr
+Acode = 2*G*lam/(dr*(1 + q**2))
+check('G7: = A (cos phi, -(sin phi + q sin chi), q), A = 2 G lam/(dr (1 + q^2))',
+      A_G7 - sp.Matrix([Acode*cphi, -Acode*(sphi + q*schi), Acode*q]))

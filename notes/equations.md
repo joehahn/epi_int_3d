@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G6); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G7); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -43,3 +43,4 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | G4 | continuum sheet Z = Z₀ cos kr, \|Δ_z\| ≪ \|Δ_r\|: ΣA_z = 2GσZ₀∫(cos kx − 1)/x² dx = −2πGσ\|k\|Z | check of G2 against bending-wave theory | ✅ | ✅ | ☐ | the self-gravity term of (ω − mΩ)² = ν² + 2πGσ\|k\| |
 | G5 | lattice Z_j = Z₀ cos jφ: A_z = (4GσZ₀/Δ)Σ(cos nφ − 1)/n² = −X(φ)Z₀, X of P7 | stability of the scheme, vertical | ✅ | ✅ | ☐ | ω² = ν² + X; → 2πGσk as φ → 0 |
 | G6 | pattern rotating at Ω_p: v_r′/v_θ′ = (1 − Ω_p/Ω)(1/r)∂r′/∂θ, same for z | choice of the wire's direction | ✅ | ✅ | ☐ | velocity ≠ shape for m ≥ 2; the velocity tangent is part of the wire model and is kept |
+| G7 | hahn13 form + tilts: A_r = A_g cos ψ cos φ, A_θ = −A_g(cos ψ sin φ + sin ψ sin χ), A_z = A_g sin ψ; A_g = 2Gλ/δ, tan ψ = Δ_z/Δ_r, sin φ = v_r′/v′, sin χ = v_z′/√(v_θ′² + v_z′²); coded as A = 2Gλ/(Δ_r(1 + q²)), A_r = A cos φ, A_θ = −A(sin φ + q sin χ), A_z = Aq | vertical streamline gravity (planned kernel); paper Sec. 3.1 | ✅ | ✅ | ☐ | = G1 + O(e′², i′², e′i′); hahn13 Eq. 20 exactly at Δ_z = 0 |

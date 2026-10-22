@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G6 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G7 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -16,11 +16,27 @@ the separation Δ_r = r′ − r at the particle's longitude, and takes the wire
 interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ ≃ A_g and A_θ = −A_g sin φ ≃
 −A_g v_r′/v_θ′, to lowest order in e′.
 
-## The 3D geometry
+## The 3D geometry, hahn13-style (G7, used in the paper)
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
 
-Use the local frame (r̂, θ̂, ẑ) at the particle. The perturbing streamline crosses the particle's
+**G7.** If the wire ran along θ̂ through (r′, z′), its perpendicular from the particle would lie in the
+meridional plane (panel a), with length δ = √(Δ_r² + Δ_z²) at angle ψ, tan ψ = Δ_z/Δ_r, and it would
+pull with A_g = 2Gλ/δ along (cos ψ, 0, sin ψ). The wire is tilted by φ in the ring plane (panel b,
+hahn13 Fig. 3, sin φ = v_r′/v′) and by χ in the θ–z plane (panel c, sin χ = v_z′/√(v_θ′² + v_z′²)).
+The tilt φ rotates the radial part of the pull toward −θ̂ by φ, and χ rotates the vertical part
+toward −θ̂ by χ:
+
+  **A_r = A_g cos ψ cos φ,  A_θ = −A_g (cos ψ sin φ + sin ψ sin χ),  A_z = A_g sin ψ.**
+
+This equals the exact wire (G1) to first order in the slopes, with errors O(e′², i′², e′i′), and at
+Δ_z = 0 it is hahn13 Eq. 20 exactly as coded. G1–G3 below are the longer derivation that checks it.
+
+## The exact wire (the check of G7)
+
+In the local frame (r̂, θ̂, ẑ) at the particle:
+
+The perturbing streamline crosses the particle's
 meridional plane, at the particle's longitude, at (r′, z′). The separation from the particle to that
 point is
 
@@ -110,10 +126,9 @@ bending forces A_z do not depend on this choice.
   bit to the present arithmetic at Δ_z = 0, so that z ≡ 0 still reproduces the reference:
   - q = Δ_z/Δ_r;
   - A = 2Gλ/(Δ_r(1 + q²)), which is the present 2Gλ/Δ_r when q = 0;
-  - A_r = A cos φ, A_θ = −A sin φ, A_z = A q.
+  - A_r = A cos φ, A_θ = −A(sin φ + q sin χ), A_z = A q, with z′ and v_z′ interpolated like r′, v_r′.
 
-  This keeps hahn13's cos φ and sin φ, so it differs from G2 only at O(ε²). It omits the
-  second-order η term of A_θ, which can be added later if wanted. Δ_r ≠ 0 holds because streamlines
+  This is G7 exactly (A = A_g cos ψ), so it keeps hahn13's cos φ and sin φ and the χ tilt term. Δ_r ≠ 0 holds because streamlines
   never cross radially, which the crossing check enforces.
 - **The particle's own streamline.** epi_int_lite leaves out the particle's own streamline (hahn13
   Eq. 21 is not in the code). In 3D its pull on the particle has no vertical part to lowest order: the
