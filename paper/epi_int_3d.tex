@@ -212,17 +212,28 @@ perturbing streamline that lies above or below the particle.
 \subsection{An inclined wire}
 \label{sec:wire}
 
-At the particle's longitude, let streamline $a'$ lie at $(r', z')$, interpolated just as $r'$ is now,
-a distance $\Delta_r = r' - r$ outward and $\Delta_z = z' - z$ above the particle
-(Figure~\ref{fig:wire}a). If the wire ran along $\hat{\theta}$, the perpendicular from the particle
-to it would lie in the particle's meridional plane, with length $\delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$
-at the angle $\psi$ above the ring plane, where $\tan\psi = \Delta_z/\Delta_r$, and the wire would pull
-with $A_g = 2G\lambda/\delta$ along $(\cos\psi, 0, \sin\psi)$. The wire is, however, tilted slightly
-away from $\hat{\theta}$: by the angle $\varphi$ in the ring plane, as in \cite{HS13}
-(Figure~\ref{fig:wire}b), and by the angle $\chi$ in the $\theta$--$z$ plane (Figure~\ref{fig:wire}c),
-where $\sin\chi = v_z'/(v_\theta'^2 + v_z'^2)^{1/2}$. Tilting the wire by $\varphi$ rotates the radial
-part of the pull toward $-\hat{\theta}$ by $\varphi$, and tilting it by $\chi$ rotates the vertical
-part toward $-\hat{\theta}$ by $\chi$, so
+Let the particle lie at $(r, \theta, z)$. Lagrange interpolation at the particle's longitude
+$\theta$ gives the spot $(r', \theta, z')$ on streamline $a'$ that lies a distance $\Delta_r = r' - r$
+outward and $\Delta_z = z' - z$ above the particle, so a distance
+$\delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$ from it. That spot lies in the $r$--$z$ plane at the
+particle's longitude, which contains the planet's spin axis (the particle's meridional plane;
+Figure~\ref{fig:wire}a). The wire crosses that plane nearly at right angles, so it pulls the particle
+with $A_g = 2G\lambda/\delta$ toward the spot, at the angle $\psi$ above the ring plane, where
+$\tan\psi = \Delta_z/\Delta_r$. That pull has an in-plane part $A_g\cos\psi$, along $\hat{r}$, and a
+vertical part $A_g\sin\psi$. The calculation then proceeds in two steps.
+
+First, the in-plane part is what epi\_int\_lite computes when $\Delta_z = 0$. As there, the wire's tilt
+$\varphi$ in the ring plane splits it into radial and tangential components (Figure~\ref{fig:wire}b):
+$A_r = A_g\cos\psi\cos\varphi$ and $A_{\theta,\varphi} = -A_g\cos\psi\sin\varphi$. Here
+$\cos\varphi = v_\theta'/v'$ and $\sin\varphi = v_r'/v'$, where $v' = (v_r'^2 + v_\theta'^2)^{1/2}$ is
+the in-plane speed of streamline $a'$, interpolated to the particle's longitude. \cite{HS13}
+approximate $\cos\varphi \simeq 1$ and $\sin\varphi \simeq v_r'/v_\theta'$, while epi\_int\_lite uses
+the ratios as written.
+
+Second, the wire is also tilted by the angle $\chi$ in the $\theta$--$z$ plane, where
+$\sin\chi = v_z'/(v_\theta'^2 + v_z'^2)^{1/2}$. That tilt tips the vertical part toward $-\hat{\theta}$
+by $\chi$ (Figure~\ref{fig:wire}c), adding $A_{\theta,\chi} = -A_g\sin\psi\sin\chi$ to the tangential
+acceleration. It changes $A_z = A_g\sin\psi$ only at second order. Altogether,
 \begin{eqnarray}
     \label{eqn:wire_first}
     A_r      &=& A_g\cos\psi\cos\varphi \nonumber\\
@@ -245,13 +256,15 @@ $\cos^2\psi = \Delta_r^2/\delta^2$.
 \centering
 \includegraphics[width=0.95\textwidth]{figures/wire_geometry.pdf}
 \caption{The gravity of a perturbing streamline $a'$, treated as a straight wire, on a particle
-that lies off the wire's plane, in three projections. (a) The particle's meridional plane: the wire,
-running into the page, crosses it at $(r', z')$, a distance $\delta$ from the particle at the angle
-$\psi$, and pulls the particle toward that point with $A_g = 2G\lambda/\delta$. (b) The ring plane:
-the wire is tilted by $\varphi$, where $\sin\varphi = v_r'/v'$, so the radial part of the pull leans
-toward $-\hat{\theta}$ by $\varphi$, as in Figure 3 of \cite{HS13}. (c) The $\theta$--$z$ plane,
-seen from outside the ring: the wire is tilted by $\chi$, where $\sin\chi = v_z'/(v_\theta'^2 + v_z'^2)^{1/2}$,
-so the vertical part of the pull leans toward $-\hat{\theta}$ by $\chi$ (Eqns.\ \ref{eqn:wire_first}).}
+that lies off the wire's plane, in three steps. (a) The $r$--$z$ plane at the particle's longitude:
+the wire, running into the page, crosses it at $(r', z')$, a distance $\delta$ from the particle at
+the angle $\psi$, and pulls the particle toward that spot with $A_g = 2G\lambda/\delta$ (red), whose
+in-plane and vertical parts are $A_g\cos\psi$ and $A_g\sin\psi$ (blue). (b) The ring plane: the wire
+is tilted by $\varphi$, so the in-plane part, perpendicular to the wire, has the components $A_r$ and
+$A_{\theta,\varphi}$, as in Figure 3 of \cite{HS13}. (c) The $\theta$--$z$ plane, seen from outside
+the ring: the wire is tilted by $\chi$, so the vertical part has the components $A_z$ and
+$A_{\theta,\chi}$. The tangential acceleration is $A_\theta = A_{\theta,\varphi} + A_{\theta,\chi}$
+(Eqns.\ \ref{eqn:wire_first}).}
 \label{fig:wire}
 \end{figure*}
 

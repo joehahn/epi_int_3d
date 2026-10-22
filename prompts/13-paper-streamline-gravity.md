@@ -8,3 +8,7 @@ Follow-up: the hahn13 derivation of Ag and corresponding figure seems much simpl
 derivation; can the new derivation be revised so that it is as simple as hahn13 + small modification
 for the out of plane motions? and ditto for figure? to same level of accuracy ie errors of order
 e'^2 and i'^2.
+
+Follow-up: (after the user's own version, A_g = 2Gλ'/D toward the spot, A_r = A_g cos φ,
+A_θ = −A_g sin φ, A_z = A_g sin Φ, was corrected by the cos Φ factor and the χ term) how can we make
+the above more transparent in the paper and plots? and what is meridional plane?

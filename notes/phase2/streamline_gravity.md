@@ -20,12 +20,17 @@ interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ 
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
 
-**G7.** If the wire ran along θ̂ through (r′, z′), its perpendicular from the particle would lie in the
-meridional plane (panel a), with length δ = √(Δ_r² + Δ_z²) at angle ψ, tan ψ = Δ_z/Δ_r, and it would
-pull with A_g = 2Gλ/δ along (cos ψ, 0, sin ψ). The wire is tilted by φ in the ring plane (panel b,
-hahn13 Fig. 3, sin φ = v_r′/v′) and by χ in the θ–z plane (panel c, sin χ = v_z′/√(v_θ′² + v_z′²)).
-The tilt φ rotates the radial part of the pull toward −θ̂ by φ, and χ rotates the vertical part
-toward −θ̂ by χ:
+**G7.** Lagrange interpolation at the particle's longitude gives the spot (r′, θ, z′) on streamline a′,
+Δ_r outward and Δ_z above the particle, δ = √(Δ_r² + Δ_z²) away, in the r–z plane at the particle's
+longitude (its meridional plane, which contains the planet's spin axis; panel a). The wire crosses that
+plane nearly at right angles, so it pulls with A_g = 2Gλ/δ toward the spot, at angle ψ, tan ψ = Δ_z/Δ_r:
+an in-plane part A_g cos ψ and a vertical part A_g sin ψ. Then two steps:
+1. the wire's tilt φ in the ring plane splits the in-plane part as in hahn13 (panel b):
+   A_r = A_g cos ψ cos φ, A_θ,φ = −A_g cos ψ sin φ, with cos φ = v_θ′/v′, sin φ = v_r′/v′ and
+   v′ = √(v_r′² + v_θ′²) the in-plane speed (hahn13 approximates cos φ ≃ 1, sin φ ≃ v_r′/v_θ′; the
+   code uses the ratios);
+2. the wire's tilt χ in the θ–z plane, sin χ = v_z′/√(v_θ′² + v_z′²), tips the vertical part toward −θ̂
+   (panel c): A_θ,χ = −A_g sin ψ sin χ, and A_z = A_g sin ψ to first order.
 
   **A_r = A_g cos ψ cos φ,  A_θ = −A_g (cos ψ sin φ + sin ψ sin χ),  A_z = A_g sin ψ.**
 
