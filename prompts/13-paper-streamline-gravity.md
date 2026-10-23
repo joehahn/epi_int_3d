@@ -27,3 +27,6 @@ added to paper?
 
 Follow-up: is there a simpler way to derive section 3.1? (Answer: Delta_r, Delta_z are the
 crossing-point separations to first order, and Delta.v' = 0 gives Delta_theta; then: yes.)
+
+Follow-up: (on keeping the v_z' term) angular momentum transfer between corrugated streamlines is
+probably important. Don't make any approximations that will be problematic for m >= 2 spiral waves.

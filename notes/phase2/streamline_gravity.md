@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G9 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G10 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -19,6 +19,16 @@ interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ 
 ## The 3D geometry in hahn13's notation (G9, used in the paper)
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
+
+**G10 (the wire along the shape; what the paper now uses).** No approximation may be problematic for
+m ≥ 2 spiral waves, so the wire runs along the streamline's *shape*, not its velocity: the tangent
+t̂′ ∝ (s_r, 1, s_z), with s_r = (1/r)∂r′/∂θ and s_z = (1/r)∂z′/∂θ from the derivatives of the same
+Lagrange polynomials that give r′ and z′. Then Δ_θ = −Δ_r s_r − Δ_z s_z, and in the plane
+Δ = Δ_r cos φ (cos φ, −sin φ, 0) exactly, tan φ = s_r. The velocity's slope is (1 − Ω_p/Ω_a) times the
+shape's (G6), which is ±1/m at an m-armed Lindblad or vertical resonance (checked in G10), so the
+velocity tangent would underestimate A_θ, and the angular momentum streamlines exchange, by about m.
+For m = 1 ringlets (hahn13, hahn25) the two agree to O(J2). Errors are O(s²), with s_r ~ m e′ and
+s_z ~ m i′. G9 below is the same derivation with the velocity tangent.
 
 **G9.** The paper keeps hahn13's notation: Δ is the perpendicular from the particle to the wire (the
 |D| of G1 below), and A_g = 2Gλ/Δ along it. In 3D the perpendicular is a vector Δ = (Δ_r, Δ_θ, Δ_z),
@@ -142,6 +152,16 @@ epi_int_3d keeps it. Vertically, η enters only A_θ, at second order, so the
 bending forces A_z do not depend on this choice.
 
 ## What this means for the code (Phase 3 step 2, after your review)
+
+- **Wire tangent (G10).** The kernel takes s_r and s_z from the derivative of the 3-point Lagrange
+  polynomial, cos φ = 1/√(1 + s_r²), sin φ = s_r cos φ, A_θ = −A(sin φ + q s_z). An input (e.g.
+  `wire_tangent = 'velocity'`) keeps epi_int_lite's v_r′/v′, v_θ′/v′ in the plane, so z ≡ 0 runs still
+  reproduce the reference bit for bit; m ≥ 2 runs use the shape. Needs N_θ ≫ m.
+- **λ for m ≥ 2 (open).** `helper_fns.get_lambda` uses λ = m₁Ω_a/(2πv), a mass-flux argument that holds
+  for a stationary streamline. For a pattern rotating at Ω_p the conserved flux is in the pattern's
+  frame, λ ∝ 1/(v − Ω_p r), so λ's variation along an m ≥ 2 streamline is underestimated by about m.
+  A geometric λ (particle mass over the arc length between neighbors) has no such assumption. To be
+  derived, sympy-checked and decided.
 
 - **What changes in the kernel.** `fast/kernels.py` gains Lagrange interpolation of z′, and v_z′ if
   the η term is kept, at the particle's longitude. It then applies G2 in a form that reduces bit for

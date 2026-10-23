@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G9; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G10; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -171,3 +171,29 @@ Dp = Dv.subs({dz: 0, vz_: 0})
 cph, sph = vt_/sp.sqrt(vr_**2 + vt_**2), vr_/sp.sqrt(vr_**2 + vt_**2)
 check('G9: planar Delta = Delta_r cos(phi) (cos(phi), -sin(phi), 0) (hahn13 Fig. 3, Eq. 20)',
       Dp - dr*cph*sp.Matrix([cph, -sph, 0]))
+
+# --- G10: the wire along the streamline's shape, not its velocity (for m >= 2 patterns, G6). The
+# Lagrange polynomial gives r'(theta), z'(theta); a step dtheta along the streamline moves
+# (dr', r dtheta, dz') in the local frame, so the tangent is t = (s_r, 1, s_z)/sqrt(1 + s_r^2 + s_z^2)
+# with slopes s_r = (1/r) dr'/dtheta, s_z = (1/r) dz'/dtheta. Then, to first order in the slopes,
+# Delta = (Delta_r, -(Delta_r s_r + Delta_z s_z), Delta_z), and in the plane Delta = Delta_r cos(phi)
+# (cos(phi), -sin(phi), 0) exactly with tan(phi) = s_r. ---
+s_r, s_z = sp.symbols('s_r s_z', real=True)
+tsh = sp.Matrix([s_r, 1, s_z])/sp.sqrt(1 + s_r**2 + s_z**2)
+Dsh = d - (d.T*tsh)[0]*tsh
+Dsh_t = Dsh.subs({s_r: small*s_r, s_z: small*s_z}, simultaneous=True)
+first_sh = sp.Matrix([dr, -small*(dr*s_r + dz*s_z), dz])
+check('G10: Delta = (Delta_r, -(Delta_r s_r + Delta_z s_z), Delta_z) + O(slope^2)',
+      [sp.series(Dsh_t[k] - first_sh[k], small, 0, 2).removeO() for k in range(3)])
+check('G10: Delta.t = 0 for that first-order Delta, to first order',
+      sp.series((first_sh.T*tsh.subs({s_r: small*s_r, s_z: small*s_z}, simultaneous=True))[0], small, 0, 2).removeO())
+Dsh_p = Dsh.subs({dz: 0, s_z: 0})
+cps, sps = 1/sp.sqrt(1 + s_r**2), s_r/sp.sqrt(1 + s_r**2)
+check('G10: planar Delta = Delta_r cos(phi) (cos(phi), -sin(phi), 0), tan(phi) = s_r',
+      Dsh_p - dr*cps*sp.Matrix([cps, -sps, 0]))
+# near an m-armed resonance, m (Omega - Omega_p) = +-kappa or +-nu, and kappa, nu = Omega to O(J2), so the
+# velocity's slope is (1 - Omega_p/Omega) = +-1/m times the shape's (G6)
+mm = sp.symbols('m', positive=True)
+for sgn in (1, -1):
+    Omp_res = sp.solve(sp.Eq(mm*(Om - Omp), sgn*Om), Omp)[0]
+    check(f'G10: at an m-armed resonance (sign {sgn:+d}), 1 - Omega_p/Omega = {sgn:+d}/m', 1 - Omp_res/Om - sgn/mm)

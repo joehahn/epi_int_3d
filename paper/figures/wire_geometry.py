@@ -2,11 +2,11 @@
 #
 #hahn13 Fig. 3 extended to 3D: the gravity that a perturbing streamline a', treated as a straight wire,
 #exerts on a particle, in hahn13's layout and notation (the paper's Section 3 and Figure 1;
-#notes/phase2/streamline_gravity.md, equation G9; Delta_theta from Delta.v' = 0):
-#(a) the r-theta plane, which is hahn13 Fig. 3: the wire is tilted by phi from theta-hat, along the
-#    streamline's velocity v', and the perpendicular Delta from the particle to it makes the angle phi
-#    with r-hat, so A_g has components A_g cos(phi) and -A_g sin(phi);
-#(b) the z-theta plane, the same construction with z in place of r: the slope v_z'/v_theta';
+#notes/phase2/streamline_gravity.md, equations G9-G10; Delta_theta from Delta.t' = 0):
+#(a) the r-theta plane, as hahn13 Fig. 3 but with the wire along the streamline's shape: tilted by
+#    phi from theta-hat, tan(phi) = s_r = dr'/(r dtheta), so the perpendicular Delta from the particle
+#    makes the angle phi with r-hat, and A_g has components A_g cos(phi) and -A_g sin(phi);
+#(b) the z-theta plane, the same construction with z in place of r: the slope s_z = dz'/(r dtheta);
 #(c) the r-z plane at the particle's longitude: Delta's components Delta_r and Delta_z.
 #
 #Run:  uv run python paper/figures/wire_geometry.py   (writes wire_geometry.pdf and .png alongside)
@@ -26,8 +26,8 @@ VEL = dict(arrowstyle='-|>', lw=1.5, mutation_scale=12, color='C0')
 
 def hahn13_panel(ax, x, xp, vx, angle, title):
     """hahn13 Fig. 3: the particle at the origin, the coordinate x (r or z) to the right and theta up.
-    The wire crosses the particle's longitude a distance Delta_x away and is tilted by angle from
-    theta-hat, along v'; the perpendicular Delta from the particle to it makes the same angle with x."""
+    The wire crosses the particle's longitude a distance Delta_x away and is tilted from theta-hat by
+    the streamline's slope (dx'/r dtheta); the perpendicular Delta from the particle makes the same angle with x."""
     ax.set_aspect('equal')
     ax.axis('off')
     ax.annotate('', xy=(3.3, 0), xytext=(-1.0, 0), arrowprops=AXIS)
@@ -51,14 +51,13 @@ def hahn13_panel(ax, x, xp, vx, angle, title):
         ax.add_patch(matplotlib.patches.Arc((0, 0), 1.9, 1.9, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
         ax.text(1.0, -0.3, r'$\varphi$', fontsize=11)
     ax.text(dx/2, 0.12, rf'$\Delta_{x}$', ha='center', fontsize=12)
-    #the streamline's velocity at the crossing, with its components
+    #a step along the streamline from the crossing: r dtheta along theta, dr' (or dz') outward
     V = 1.45*T
     ax.annotate('', xy=(dx + V[0], V[1]), xytext=(dx, 0), arrowprops=VEL)
-    ax.text(dx + V[0] + 0.12, V[1] - 0.25, "$v'$", color='C0', fontsize=12)
     ax.plot([dx, dx], [0, V[1]], ':', color='C0', lw=1)
     ax.plot([dx, dx + V[0]], [V[1], V[1]], ':', color='C0', lw=1)
-    ax.text(dx - 0.08, V[1]/2, r"$v_\theta'$", ha='right', color='C0', fontsize=11)
-    ax.text(dx + V[0]/2, V[1] + 0.1, f"$v_{vx}'$", ha='center', color='C0', fontsize=11)
+    ax.text(dx - 0.08, V[1]/2, r"$r\,d\theta$", ha='right', color='C0', fontsize=11)
+    ax.text(dx + V[0]/2, V[1] + 0.1, f"$d{vx}'$", ha='center', color='C0', fontsize=11)
     if x == 'r':
         ax.add_patch(matplotlib.patches.Arc((dx, 0), 1.1, 1.1, theta1=90 - np.degrees(angle), theta2=90, lw=1))
         ax.text(dx + 0.06, 0.62, r'$\varphi$', fontsize=10)
