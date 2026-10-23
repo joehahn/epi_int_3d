@@ -379,6 +379,11 @@ comparison with Cassini data is out of scope for this paper.
   Bending-wave runs (closely spaced streamlines, Nt ≈ 20) must not suffer it. See issue 3 in
   `notes/epi_int_lite_issues.md`; candidate fixes: filter the m = Nt/2 component, or a different
   interpolation stencil, after linearizing the interpolation to find the mechanism.
+- **To do, later: conserve angular momentum in the ring-gravity kicks** (2026-10-23). The wire forces
+  are not reciprocal: a few parts in 10⁶ of the streamlines' torques fail to cancel in a twisted
+  ringlet, a secular |ΔL|/L of about 2×10⁻¹⁶ per orbit for the nominal ringlet at 100 streamlines
+  (`notes/numerics/angular_momentum.md`). Neither λ′ nor the shape slope fixes it. A fix would compute
+  each streamline pair's interaction once and apply equal and opposite torques.
 - **To do, later: prune `explore/` outputs** once we are sure they are not needed (decided 2026-10-19).
   `explore/` (~5 GB) and `.venv/` are excluded from Dropbox sync (`com.dropbox.ignored`). Candidates:
   `ladder/`, `nominal/`, `taper/`, `pressure/` (~2.5 GB, the finished parameter search in
