@@ -18,8 +18,8 @@ epi_int_lite's results bit for bit.
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
-(issue 3), properties of the pressure and viscosity scheme (issue 5), and the missing pull of a
-particle's own streamline (issue 8). Issue 2 was an outdated
+(issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
+of a particle's own streamline, was a deliberate choice and stays as it is for now. Issue 2 was an outdated
 test input, fixed in this repo's copy.
 
 ## 1. The streamline-crossing check misfires near θ = ±π
@@ -189,15 +189,17 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   interpolating, and takes v_r′/v_θ′ the same way (marked "approximate"; the interpolated "exact"
   form is commented out).
 
-## 8. The pull of the particle's own streamline is left out
+## 8. The pull of the particle's own streamline is left out (deliberately)
 
 - **Found:** comparing with epi_int's 2D `ring_gravity` (same version as above), 2026-10-23.
 - **What:** hahn13 Eq. 21 adds the tangential pull of the particle's neighbors along its own
   streamline, A_θ = 2G(λ₊/Δ₊ − λ₋/Δ₋), with Δ± the distances to the leading and trailing neighbors.
   epi_int computes it, as `At_sl = 2*(lambda_plus/delta_plus - lambda_minus/delta_minus)`, and adds
-  `At_sl*vr/vt` to A_r. epi_int_lite's `ring_gravity()` sums over the other streamlines only.
+  `At_sl*vr/vt` to A_r. epi_int_lite's `ring_gravity()` sums over the other streamlines only. The
+  author dropped the term from epi_int_lite on purpose, but no longer recalls why (2026-10-23).
 - **Effect:** not assessed. The term vanishes for evenly spaced particles of equal λ. It is nonzero
   where particles bunch along a streamline, as in a wave that compresses the streamline along its
   length.
-- **Fix:** none yet; open.
+- **Decision:** leave it out of epi_int_3d too, for now (the user, 2026-10-23). Revisit if a test
+  needs the pull of along-streamline bunching.
 
