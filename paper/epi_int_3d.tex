@@ -196,105 +196,101 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The vertical gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G7, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_geometry.py
-In epi\_int and epi\_int\_lite, the gravity that a perturbing streamline $a'$ exerts on a particle
-in another streamline is that of an infinitely long straight wire of linear density $\lambda$,
-tangent to streamline $a'$ near the particle, which pulls with the acceleration $A_g = 2G\lambda/\Delta$
-toward the wire, where $\Delta$ is the particle's perpendicular distance from it (Section 2.3.2 and
-Figure 3 of \citealt{HS13}; Eqn.\ 1 of \citealt{H25}). The code locates the wire by Lagrange
-interpolation among the three particles of streamline $a'$ nearest the particle in longitude. It
-evaluates the radial separation $\Delta_r = r' - r$ at the particle's longitude, and takes the
-wire's direction from the velocity of streamline $a'$ interpolated to that longitude, at the angle
-$\varphi$ to $\hat{\theta}$ where $\sin\varphi = v_r'/v'$. Then $A_r = A_g\cos\varphi$ and
-$A_\theta = -A_g\sin\varphi$, with $A_g = 2G\lambda/\Delta_r$. This section extends that model to a
-perturbing streamline that lies above or below the particle.
+%equations G1-G9, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_geometry.py
+In epi\_int and epi\_int\_lite (Section 2.3.2 of \citealt{HS13}; Eqn.\ 1 of \citealt{H25}), the
+gravity that a perturbing streamline $a'$ exerts on a particle in another streamline is that of a
+straight and infinitely long wire of linear density $\lambda$, which pulls the particle toward it with
+\begin{equation}
+    \label{eqn:wire_Ag}
+    A_g = \frac{2G\lambda}{\Delta},
+\end{equation}
+where $\Delta$ is the particle's perpendicular distance from the wire (Eqn.\ 19 of \citealt{HS13}).
+Figure~\ref{fig:wire}a redraws Figure 3 of \cite{HS13}. The wire passes through the point where
+streamline $a'$ crosses the particle's longitude, a distance $\Delta_r = r' - r$ outward, which is
+found by fitting a Lagrange polynomial to the three particles of $a'$ nearest in longitude. The wire
+runs along the streamline's velocity $\mathbf{v}'$ there, also interpolated, at the angle $\varphi$ to
+$\hat{\theta}$, where $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$. The perpendicular
+from the particle to the wire then makes the same angle $\varphi$ with $\hat{r}$, so $A_g$ has the
+components
+\begin{eqnarray}
+    \label{eqn:wire_2d}
+    A_{g,r} &=& A_g\cos\varphi \nonumber\\
+    A_{g,\theta} &=& -A_g\sin\varphi,
+\end{eqnarray}
+which \cite{HS13} approximate as $A_{g,r} \simeq A_g$ and $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ to
+lowest order in the perturbing streamline's eccentricity $e'$ (their Eqns.\ 20).
 
 \subsection{An inclined wire}
 \label{sec:wire}
 
-Let the particle lie at $(r, \theta, z)$. Lagrange interpolation at the particle's longitude
-$\theta$ gives the spot $(r', \theta, z')$ on streamline $a'$ that lies a distance $\Delta_r = r' - r$
-outward and $\Delta_z = z' - z$ above the particle, so a distance
-$\delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$ from it. That spot lies in the $r$--$z$ plane at the
-particle's longitude, which contains the planet's spin axis (the particle's meridional plane;
-Figure~\ref{fig:wire}a). The wire crosses that plane nearly at right angles, so it pulls the particle
-with $A_g = 2G\lambda/\delta$ toward the spot, at the angle $\psi$ above the ring plane, where
-$\tan\psi = \Delta_z/\Delta_r$. That pull has an in-plane part $A_g\cos\psi$, along $\hat{r}$, and a
-vertical part $A_g\sin\psi$. The calculation then proceeds in two steps.
-
-First, the in-plane part is what epi\_int\_lite computes when $\Delta_z = 0$. As there, the wire's tilt
-$\varphi$ in the ring plane splits it into radial and tangential components (Figure~\ref{fig:wire}b):
-$A_r = A_g\cos\psi\cos\varphi$ and $A_{\theta,\varphi} = -A_g\cos\psi\sin\varphi$. Here
-$\cos\varphi = v_\theta'/v'$ and $\sin\varphi = v_r'/v'$, where $v' = (v_r'^2 + v_\theta'^2)^{1/2}$ is
-the in-plane speed of streamline $a'$, interpolated to the particle's longitude. \cite{HS13}
-approximate $\cos\varphi \simeq 1$ and $\sin\varphi \simeq v_r'/v_\theta'$, while epi\_int\_lite uses
-the ratios as written.
-
-Second, the wire is also tilted by the angle $\chi$ in the $\theta$--$z$ plane, where
-$\sin\chi = v_z'/(v_\theta'^2 + v_z'^2)^{1/2}$. That tilt tips the vertical part toward $-\hat{\theta}$
-by $\chi$ (Figure~\ref{fig:wire}c), adding $A_{\theta,\chi} = -A_g\sin\psi\sin\chi$ to the tangential
-acceleration. It changes $A_z = A_g\sin\psi$ only at second order. Altogether,
+In three dimensions the perturbing streamline also crosses the particle's longitude a height
+$\Delta_z = z' - z$ above the particle, with $z'$ interpolated in the same way as $r'$, and its
+velocity there has a vertical component $v_z'$. Eqn.\ (\ref{eqn:wire_Ag}) still holds, with the pull
+directed along the perpendicular $\boldsymbol{\Delta} = (\Delta_r, \Delta_\theta, \Delta_z)$ from the
+particle to the wire, so that
 \begin{eqnarray}
-    \label{eqn:wire_first}
-    A_r      &=& A_g\cos\psi\cos\varphi \nonumber\\
-    A_\theta &=& -A_g\left(\cos\psi\sin\varphi + \sin\psi\sin\chi\right) \nonumber\\
-    A_z      &=& A_g\sin\psi.
+    \label{eqn:wire_3d}
+    A_{g,r} &=& A_g\Delta_r/\Delta \nonumber\\
+    A_{g,\theta} &=& A_g\Delta_\theta/\Delta \nonumber\\
+    A_{g,z} &=& A_g\Delta_z/\Delta.
 \end{eqnarray}
-Eqns.\ (\ref{eqn:wire_first}) are the first-order form of a compact exact result. Let
-$\boldsymbol{\Delta} = (\Delta_r, 0, \Delta_z)$ be the separation from the particle to the spot, and
-$\hat{\mathbf{v}}' = \mathbf{v}'/|\mathbf{v}'|$ the direction of the wire, with both expressed in the local frame
-$(\hat{r}, \hat{\theta}, \hat{z})$, which is the same at the particle and at the spot since they share
-a longitude. The perpendicular from the particle to the wire is the part of $\boldsymbol{\Delta}$
-normal to $\hat{\mathbf{v}}'$,
+The perpendicular is the part of the separation $\mathbf{d} = (r' - r, 0, z' - z)$ from the particle
+to the crossing point that is normal to the wire's direction $\hat{\mathbf{v}}' = \mathbf{v}'/v'$,
 \begin{equation}
     \label{eqn:wire_D}
-    \mathbf{D} = \boldsymbol{\Delta} - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'
-               = \hat{\mathbf{v}}'\times(\boldsymbol{\Delta}\times\hat{\mathbf{v}}'),
+    \boldsymbol{\Delta} = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'
+                        = \hat{\mathbf{v}}'\times(\mathbf{d}\times\hat{\mathbf{v}}'),
 \end{equation}
-and summing the point-mass pull along the infinite wire gives
-\begin{equation}
-    \label{eqn:wire_exact}
-    \mathbf{A}_g = \frac{2G\lambda\mathbf{D}}{|\mathbf{D}|^2}
-                 = 2G\lambda\,\frac{\boldsymbol{\Delta} - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'}
-                                   {\delta^2 - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')^2},
-\end{equation}
-where $\delta = |\boldsymbol{\Delta}|$. Since $\boldsymbol{\Delta}$ has no
-$\hat{\theta}$ component, $\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}' = {\cal O}(e', i')\,\delta$, so
-$|\mathbf{D}| = \delta$ and $\mathbf{D} = (\Delta_r, -\Delta_r\sin\varphi - \Delta_z\sin\chi, \Delta_z)$
-to first order, which is Eqns.\ (\ref{eqn:wire_first}). Since $\varphi \sim e'$ and $\chi \sim i'$,
-Eqns.\ (\ref{eqn:wire_first}) are thus accurate to first order in the perturbing streamline's
-eccentricity and inclination, with errors of order $e'^2$, $i'^2$ and $e'i'$. When $\Delta_z = 0$,
-they are exactly Eqn.\ 20 of \cite{HS13}, as epi\_int\_lite computes it. epi\_int\_3d uses
-Eqns.\ (\ref{eqn:wire_first}) rather than Eqn.\ (\ref{eqn:wire_exact}), because in the ring plane the
-two differ by the factor $\cos\varphi$, at ${\cal O}(e'^2)$, and only the former reproduces
-epi\_int\_lite exactly.
+with all vectors expressed in the local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which is the same at
+the particle and at the crossing point since they share a longitude. Eqns.\ (\ref{eqn:wire_Ag}),
+(\ref{eqn:wire_3d}) and (\ref{eqn:wire_D}), i.e.\ $\mathbf{A}_g = 2G\lambda\boldsymbol{\Delta}/\Delta^2$,
+are exact for a straight wire. The component of $\mathbf{d}$ along the wire,
+$\mathbf{d}\cdot\hat{\mathbf{v}}' = [(r' - r)v_r' + (z' - z)v_z']/v'$, is first order in $e'$ and the
+inclination $i'$, so to first order
+\begin{eqnarray}
+    \label{eqn:wire_perp}
+    \Delta_r &=& r' - r, \qquad \Delta_z = z' - z, \nonumber\\
+    \Delta_\theta &=& -\Delta_r\sin\varphi - \Delta_z\sin\chi, \nonumber\\
+    \Delta &=& (\Delta_r^2 + \Delta_z^2)^{1/2},
+\end{eqnarray}
+where $\sin\chi = v_z'/v'$. Eqns.\ (\ref{eqn:wire_Ag}), (\ref{eqn:wire_3d}) and (\ref{eqn:wire_perp})
+are thus accurate to first order in the perturbing streamline's eccentricity and inclination, with
+errors of order $e'^2$, $i'^2$ and $e'i'$.
+
+The angle $\chi$ is the vertical counterpart of $\varphi$. Figure~\ref{fig:wire}b is
+Figure~\ref{fig:wire}a with $z$ in place of $r$: viewed from outside the ring, the wire is tilted by
+$\chi$ from $\hat{\theta}$, along $\mathbf{v}'$, so the perpendicular leans toward $-\hat{\theta}$ by
+$\chi$. Figure~\ref{fig:wire}c shows the $r$--$z$ plane at the particle's longitude (the particle's
+meridional plane), where the wire crosses at $(r', z')$, nearly at right angles. When $\Delta_z = 0$,
+$\Delta_r/\Delta = \cos\varphi$ and $\Delta_\theta/\Delta = -\sin\varphi$, which is Eqn.\
+(\ref{eqn:wire_2d}). In that case the planar $\Delta = \Delta_r\cos\varphi$ exactly, which
+Eqn.\ (\ref{eqn:wire_perp}) approximates by $\Delta_r$.
 
 The vertical acceleration does not require $|\Delta_z| \ll |\Delta_r|$, so it remains valid when
 neighbouring streamlines are displaced vertically by as much as their spacing. That happens when a
 bending wave's amplitude approaches its wavelength, and it is where the in-plane and vertical motions
-couple: there the radial pull $A_r \simeq (2G\lambda/\Delta_r)\cos^2\psi$ is weakened by the factor
-$\cos^2\psi = \Delta_r^2/\delta^2$.
+couple: there the radial pull $A_{g,r} = 2G\lambda\Delta_r/\Delta^2$ is weaker than the planar
+$2G\lambda/\Delta_r$ by the factor $\Delta_r^2/\Delta^2$.
 
 \begin{figure*}
 \centering
 \includegraphics[width=0.95\textwidth]{figures/wire_geometry.pdf}
-\caption{The gravity of a perturbing streamline $a'$, treated as a straight wire, on a particle
-that lies off the wire's plane, in three steps. (a) The $r$--$z$ plane at the particle's longitude:
-the wire, running into the page, crosses it at $(r', z')$, a distance $\delta$ from the particle at
-the angle $\psi$, and pulls the particle toward that spot with $A_g = 2G\lambda/\delta$ (red), whose
-in-plane and vertical parts are $A_g\cos\psi$ and $A_g\sin\psi$ (blue). (b) The ring plane: the wire
-is tilted by $\varphi$, so the in-plane part, perpendicular to the wire, has the components $A_r$ and
-$A_{\theta,\varphi}$, as in Figure 3 of \cite{HS13}. (c) The $\theta$--$z$ plane, seen from outside
-the ring: the wire is tilted by $\chi$, so the vertical part has the components $A_z$ and
-$A_{\theta,\chi}$. The tangential acceleration is $A_\theta = A_{\theta,\varphi} + A_{\theta,\chi}$
-(Eqns.\ \ref{eqn:wire_first}).}
+\caption{The gravity of a perturbing streamline $a'$, treated as a straight wire, on a particle.
+(a) The $r$--$\theta$ plane, as in Figure 3 of \cite{HS13}: the wire crosses the particle's longitude
+a distance $\Delta_r$ away and runs along the streamline's velocity $\mathbf{v}'$, tilted by
+$\varphi$ from $\hat{\theta}$, so the perpendicular $\Delta$ from the particle to the wire, along which
+it pulls with $A_g = 2G\lambda/\Delta$, makes the angle $\varphi$ with $\hat{r}$. (b) The same in
+the $z$--$\theta$ plane, seen from outside the ring: the wire crosses a height $\Delta_z$ above the
+particle, tilted by $\chi$ from $\hat{\theta}$ by $v_z'$. (c) The $r$--$z$ plane at the particle's
+longitude, which the wire crosses at $(r', z')$, running into the page: to first order
+$\Delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$ (Eqns.\ \ref{eqn:wire_perp}).}
 \label{fig:wire}
 \end{figure*}
 
 \subsection{The restoring force of a bending wave}
 \label{sec:wire_continuum}
 
-Eqns.\ (\ref{eqn:wire_first}) recover the self-gravity of a bending wave. Consider a sheet of
+Eqns.\ (\ref{eqn:wire_3d}) recover the self-gravity of a bending wave. Consider a sheet of
 surface density $\sigma$ made of streamlines with $\lambda = \sigma\,dr'$, displaced vertically to
 $Z(r) = Z_0\cos kr$. When $|\Delta_z| \ll |\Delta_r|$, the sum of $A_z$ over the sheet is
 \begin{equation}
@@ -340,16 +336,20 @@ case $\chi$ enters only $A_\theta$, so the vertical accelerations do not depend 
 \label{sec:wire_code}
 
 %TODO: Phase 3 step 2; the kernel is not yet coded, so this subsection describes the plan
-epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_first}) in a form that reduces exactly to
-epi\_int\_lite's arithmetic when all streamlines lie in the plane. With $q = \Delta_z/\Delta_r = \tan\psi$,
+epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_3d}) in a form that reduces exactly to epi\_int\_lite's
+arithmetic when all streamlines lie in the plane. epi\_int\_lite computes Eqns.\ (\ref{eqn:wire_2d})
+with $A_g = 2G\lambda/\Delta_r$, i.e. with $\Delta_r$ in place of the planar $\Delta = \Delta_r\cos\varphi$,
+and with $v' = (v_r'^2 + v_\theta'^2)^{1/2}$; both differ from the exact wire at ${\cal O}(e'^2)$.
+Extended in the same way, with $q = \Delta_z/\Delta_r$,
 \begin{eqnarray}
     \label{eqn:wire_code}
-    A &=& \frac{2G\lambda}{\Delta_r(1 + q^2)} = A_g\cos\psi \nonumber\\
-    A_r &=& A\cos\varphi \nonumber\\
-    A_\theta &=& -A(\sin\varphi + q\sin\chi) \nonumber\\
-    A_z &=& Aq,
+    A &=& \frac{2G\lambda}{\Delta_r(1 + q^2)} = \frac{2G\lambda\Delta_r}{\Delta^2} \nonumber\\
+    A_{g,r} &=& A\cos\varphi \nonumber\\
+    A_{g,\theta} &=& -A(\sin\varphi + q\sin\chi) \nonumber\\
+    A_{g,z} &=& Aq,
 \end{eqnarray}
-where $z'$ and $v_z'$ are interpolated to the particle's longitude in the same way as $r'$ and $v_r'$.
+which is Eqns.\ (\ref{eqn:wire_3d}) and (\ref{eqn:wire_perp}) to first order, and where $z'$ and
+$v_z'$ are interpolated to the particle's longitude in the same way as $r'$ and $v_r'$.
 $\Delta_r$ never vanishes, since streamlines may not cross. As in epi\_int\_lite, the particle's own streamline
 exerts no force on it. In three dimensions that streamline's pull would have no vertical part to
 lowest order, because the particle lies on it, so $\Delta_z = 0$. Its out-of-plane curvature would
@@ -358,7 +358,7 @@ $\Delta_r \ll 2\pi/k \ll r$. epi\_int\_lite evaluates $\lambda$ at the perturbed
 than on the perturbing streamline. epi\_int\_3d can instead interpolate the perturbing streamline's
 own $\lambda'$ to the particle's longitude, as it does $r'$. In the eccentric ringlets of \cite{H25}
 this changes the precession rate by about $10^{-7}$ of itself. The wire approximation requires that
-$\delta$ be much smaller than the length $r/m$ over which the streamline curves in longitude, as in
+$\Delta$ be much smaller than the length $r/m$ over which the streamline curves in longitude, as in
 two dimensions.
 
 

@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G8 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G9 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -16,9 +16,21 @@ the separation Δ_r = r′ − r at the particle's longitude, and takes the wire
 interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ ≃ A_g and A_θ = −A_g sin φ ≃
 −A_g v_r′/v_θ′, to lowest order in e′.
 
-## The 3D geometry, hahn13-style (G7, used in the paper)
+## The 3D geometry in hahn13's notation (G9, used in the paper)
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
+
+**G9.** The paper keeps hahn13's notation: Δ is the perpendicular from the particle to the wire (the
+|D| of G1 below), and A_g = 2Gλ/Δ along it. In 3D the perpendicular is a vector Δ = (Δ_r, Δ_θ, Δ_z),
+so A_g,r = A_g Δ_r/Δ, A_g,θ = A_g Δ_θ/Δ, A_g,z = A_g Δ_z/Δ. Exactly, Δ = d − (d·v̂′)v̂′ = v̂′ × (d × v̂′)
+with d = (r′ − r, 0, z′ − z) the separation to where the wire crosses the particle's longitude (G8).
+To first order Δ_r = r′ − r, Δ_z = z′ − z, Δ_θ = −Δ_r sin φ − Δ_z sin χ (sin φ = v_r′/v′,
+sin χ = v_z′/v′) and Δ = √(Δ_r² + Δ_z²). In the plane Δ = Δ_r cos φ (cos φ, −sin φ, 0) exactly, which
+is hahn13 Fig. 3 and Eq. 20; epi_int_lite uses Δ_r for hahn13's Δ = Δ_r cos φ. Panels (a) and (b) are
+hahn13 Fig. 3 in the r–θ and z–θ planes; panel (c) is the r–z plane at the particle's longitude.
+Below, δ is this first-order Δ, and G7 is the same result written with angles.
+
+## The same result with angles (G7)
 
 **G7.** Lagrange interpolation at the particle's longitude gives the spot (r′, θ, z′) on streamline a′,
 Δ_r outward and Δ_z above the particle, δ = √(Δ_r² + Δ_z²) away, in the r–z plane at the particle's

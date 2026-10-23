@@ -17,3 +17,7 @@ Follow-up: suppose vec(Ag) = Ag hat(n) is the force on the particle at vec(r) du
 vec(r') with velocity vec(v'), and vec(Delta) = vec(r') - vec(r). Is there a simple vector identity
 that derives the force direction from r, r', v'? (Answer: D = Delta - (Delta.v)v = v x (Delta x v);
 then: yes, add it to Section 3.1 as the exact result that the angle form approximates.)
+
+Follow-up: Delta_r = separation between r' and r when both are projected to the z=0 plane? wait, I
+thought Delta_r = Delta seen in Fig 3 of hahn13, which doesn't share longitude theta. Can the paper use
+the notation and derivation and Fig 3 [of hahn13] as much as possible when extending to 3d?

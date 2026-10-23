@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G8; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G9; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -148,3 +148,26 @@ check('G8: v x (Delta x v) = Delta - (Delta.v) v = D', cross - D)
 check('G8: A_g = 2 G lam (Delta - (Delta.v)v)/(Delta^2 - (Delta.v)^2) = G1',
       2*G*lam*(d - c*T)/(dr**2 + dz**2 - c**2) - A_exact)
 check('G8: in the ring plane, G7 (as coded) = exact x cos(phi)', (A_G7 - A_exact*cphi).subs({dz: 0, eta: 0}))
+
+# --- G9: hahn13's notation in 3D. Delta = D is the perpendicular from the particle to the wire
+# (hahn13 Fig. 3), A_g = 2 G lam/|Delta| along it. With the wire's unit direction v = (v_r, v_theta,
+# v_z)/v', to first order its components are Delta_r = r' - r, Delta_z = z' - z and
+# Delta_theta = -(Delta_r v_r' + Delta_z v_z')/v', where (r', z') is where the wire crosses the
+# particle's longitude, and |Delta| = sqrt(Delta_r^2 + Delta_z^2). ---
+vr_, vt_, vz_ = sp.symbols("v_r' v_theta' v_z'", real=True)
+vhat = sp.Matrix([vr_, vt_, vz_])/sp.sqrt(vr_**2 + vt_**2 + vz_**2)
+Dv = d - (d.T*vhat)[0]*vhat
+Dv_t = Dv.subs({vr_: small*vr_, vz_: small*vz_}, simultaneous=True)
+first = sp.Matrix([dr, -(dr*vr_ + dz*vz_)/vt_, dz])          # v' = v_theta' to first order
+check('G9: Delta = (Delta_r, -(Delta_r v_r + Delta_z v_z)/v, Delta_z) + O(slope^2)',
+      [sp.series(Dv_t[k] - first.subs({vr_: small*vr_, vz_: small*vz_}, simultaneous=True)[k], small, 0, 2).removeO()
+       for k in range(3)])
+check('G9: |Delta|^2 = Delta_r^2 + Delta_z^2 + O(slope^2)',
+      sp.series((Dv_t.T*Dv_t)[0] - dr**2 - dz**2, small, 0, 2).removeO())
+# in the plane, Delta = Delta_r cos(phi) (cos(phi), -sin(phi), 0) exactly, cos(phi) = v_theta'/v',
+# sin(phi) = v_r'/v': hahn13's perpendicular distance is |Delta| = Delta_r cos(phi), and A_g along
+# Delta has hahn13 Eq. 20's components A_g cos(phi), -A_g sin(phi)
+Dp = Dv.subs({dz: 0, vz_: 0})
+cph, sph = vt_/sp.sqrt(vr_**2 + vt_**2), vr_/sp.sqrt(vr_**2 + vt_**2)
+check('G9: planar Delta = Delta_r cos(phi) (cos(phi), -sin(phi), 0) (hahn13 Fig. 3, Eq. 20)',
+      Dp - dr*cph*sp.Matrix([cph, -sph, 0]))
