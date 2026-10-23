@@ -44,3 +44,9 @@ we'll deal with the inconsistency between the code and the 2013 paper later.
 Follow-up: don't keep referring to the Lagrange polynomial for interpolation. Maybe early on say that
 r' and v' at the site in question are determined by Lagrange polynomial, then thereafter write as if
 r' and v' are known exactly.
+
+Follow-up: I wonder if we can get an even easier derivation. What if we start with Fig. 3 of hahn13?
+To adapt it to the z != 0 case, we have to move Fig. 3 up by amount z, which doesn't change that
+figure; then also move the perturbing streamline upwards by amount z' - z; and then tilt the
+streamline's velocity vector vertically to account for vz'. Can those transformations be used to make
+the derivation conceptually simpler? (Then: yes.)

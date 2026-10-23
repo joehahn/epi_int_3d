@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G11; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G12; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -215,3 +215,25 @@ check('G11: |Delta|^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z)', (Dl.T*Dl)[0] - (
 check('G11: = G1 (the exact wire) with T = t/|t|', Dl - Dsh.subs({dr: d_r, dz: d_z}))
 A_pl = (2*G*lam*Dl/(Dl.T*Dl)[0]).subs({d_z: 0, s_z: 0})
 check('G11: planar A_g = (2 G lam/d_r)(1, -s_r, 0)', A_pl - sp.Matrix([2*G*lam/d_r, -2*G*lam*s_r/d_r, 0]))
+
+# --- G12: the paper's derivation, hahn13 Fig. 3 moved and tilted. (1) Raising particle and wire by z
+# changes nothing. (2) Raising the wire by d_z, still horizontal and tilted by phi (tan phi = s_r) in its
+# plane: the perpendicular is hahn13's in-plane one, length Delta_h = d_r cos(phi) along
+# (cos phi, -sin phi), plus the vertical leg d_z -- exact. (3) Tilting the wire by its vertical slope s_z
+# adds -d_z s_z to Delta_theta; the remaining errors are O(s_r s_z, s_z^2). ---
+cph2, sph2 = 1/sp.sqrt(1 + s_r**2), s_r/sp.sqrt(1 + s_r**2)
+Dh = d_r*cph2
+D12 = sp.Matrix([Dh*cph2, -Dh*sph2, d_z])
+check('G12: step 2 (horizontal raised wire) is exact: = G11 at s_z = 0', D12 - Dl.subs(s_z, 0))
+check('G12: step 2, |Delta|^2 = d_r^2 cos^2(phi) + d_z^2', (D12.T*D12)[0] - (d_r**2*cph2**2 + d_z**2))
+D123 = D12 + sp.Matrix([0, -d_z*s_z, 0])
+err12 = (Dl - D123).subs(s_z, small*s_z)
+check('G12: step 3 matches G11 to first order in s_z, up to O(s_r s_z)',
+      [sp.series(sp.series(err12[k], small, 0, 2).removeO().coeff(small, 1), s_r, 0, 1).removeO() for k in range(3)])
+check('G12: and exactly at O(s_z^0)', [sp.series(err12[k], small, 0, 1).removeO() for k in range(3)])
+# the accelerations of the paper, 2 G lam Delta/Delta^2 with |Delta|^2 to the same order
+Dsq = d_r**2*cph2**2 + d_z**2
+A12 = 2*G*lam*sp.Matrix([d_r*cph2**2, -(d_r*sph2*cph2 + d_z*s_z), d_z])/Dsq
+check('G12: A = 2 G lam (d_r cos^2 phi, -(d_r sin phi cos phi + d_z s_z), d_z)/Delta^2', A12 - 2*G*lam*D123/Dsq)
+check('G12: in the plane, A = (2 G lam/d_r)(1, -s_r, 0), Eqn. 14 with Delta = d_r cos(phi)',
+      A12.subs(d_z, 0) - sp.Matrix([2*G*lam/d_r, -2*G*lam*s_r/d_r, 0]))

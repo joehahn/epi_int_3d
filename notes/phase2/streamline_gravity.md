@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G11 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G12 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -16,9 +16,22 @@ the separation Δ_r = r′ − r at the particle's longitude, and takes the wire
 interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ ≃ A_g and A_θ = −A_g sin φ ≃
 −A_g v_r′/v_θ′, to lowest order in e′.
 
-## The paper's derivation (G11): the exact straight wire
+## The paper's derivation (G12): hahn13 Fig. 3 moved and tilted
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
+
+**G12.** (1) Raising particle and wire together by z changes nothing (|z| ≪ r). (2) Raising the wire by
+d_z, still horizontal: from above it is hahn13 Fig. 3 (tan φ = s_r), with horizontal perpendicular
+Δ_h = d_r cos φ along (cos φ, −sin φ); the full perpendicular adds the vertical leg d_z,
+Δ = (Δ_h cos φ, −Δ_h sin φ, d_z), Δ² = d_r² cos²φ + d_z², exactly. (3) Tilting the wire by its vertical
+slope s_z adds −d_z s_z to Δ_θ; the other changes are O(s_r s_z, s_z²), the order of the drift's
+neglected e·i and i² terms. So
+
+  **A_r = 2Gλ d_r cos²φ/Δ²,  A_θ = −2Gλ(d_r sin φ cos φ + d_z s_z)/Δ²,  A_z = 2Gλ d_z/Δ².**
+
+In the plane, (2Gλ/d_r)(1, −s_r) exactly. G11 (below) is the exact wire this approximates.
+
+## The exact straight wire (G11)
 
 **G11.** Only two approximations: the perturbing streamline is, near the particle, a straight infinite
 wire of linear density λ, and |r′ − r|, |z′ − z| ≪ r, so the local frame (r̂, θ̂, ẑ) is Cartesian there.
