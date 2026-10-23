@@ -237,7 +237,8 @@ wire, so that
 The Lagrange polynomial provides the point where the wire crosses the particle's longitude, rather
 than the point of the wire nearest the particle, and $\boldsymbol{\Delta}$ follows from it in three
 steps, each to first order in the perturbing streamline's eccentricity $e'$ and inclination $i'$.
-First, the nearest point lies a distance of order $e'$ or $i'$ times the separation along the wire from
+Since $|r' - r|$ and $|z' - z|$ are much smaller than $r$, all vectors are expressed in the particle's
+local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which is also the frame at the crossing point. First, the nearest point lies a distance of order $e'$ or $i'$ times the separation along the wire from
 the crossing point, and along that short stretch the wire's $r$ and $z$ change only by a further
 factor $v_r'/v'$ or $v_z'/v'$, which is second order. So the nearest point differs from the crossing
 point only in longitude, and
@@ -260,7 +261,9 @@ Eqns.\ (\ref{eqn:wire_Ag})--(\ref{eqn:wire_dist}) are thus accurate to first ord
 with errors of order $e'^2$, $i'^2$ and $e'i'$. When $\Delta_z = 0$ they are Eqns.\ (20) of
 \cite{HS13}, $A_{g,r} = A_g$ and $A_{g,\theta} = -A_gv_r'/v_\theta'$, and the vertical term
 $-\Delta_zv_z'/v_\theta'$ of $\Delta_\theta$ is the counterpart of the radial term
-$-\Delta_rv_r'/v_\theta'$.
+$-\Delta_rv_r'/v_\theta'$. That term is second order in the vertical displacements, but it is the
+model's only azimuthal pull between vertically displaced streamlines, and so is how their mutual
+gravity transfers angular momentum between them.
 
 Figure~\ref{fig:wire}b is Figure~\ref{fig:wire}a with $z$ in place of $r$: viewed from outside the
 ring, the wire runs along $\mathbf{v}'$ with the slope $v_z'/v_\theta'$, so the perpendicular leans
