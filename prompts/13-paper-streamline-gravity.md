@@ -24,3 +24,6 @@ the notation and derivation and Fig 3 [of hahn13] as much as possible when exten
 
 Follow-up: should [the derivation of the nearest point, s = -d.v, from the crossing point and v'] be
 added to paper?
+
+Follow-up: is there a simpler way to derive section 3.1? (Answer: Delta_r, Delta_z are the
+crossing-point separations to first order, and Delta.v' = 0 gives Delta_theta; then: yes.)

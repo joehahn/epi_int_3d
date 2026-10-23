@@ -2,11 +2,11 @@
 #
 #hahn13 Fig. 3 extended to 3D: the gravity that a perturbing streamline a', treated as a straight wire,
 #exerts on a particle, in hahn13's layout and notation (the paper's Section 3 and Figure 1;
-#notes/phase2/streamline_gravity.md, equation G9):
+#notes/phase2/streamline_gravity.md, equation G9; Delta_theta from Delta.v' = 0):
 #(a) the r-theta plane, which is hahn13 Fig. 3: the wire is tilted by phi from theta-hat, along the
 #    streamline's velocity v', and the perpendicular Delta from the particle to it makes the angle phi
 #    with r-hat, so A_g has components A_g cos(phi) and -A_g sin(phi);
-#(b) the z-theta plane, the same construction with z in place of r: the tilt chi from v_z';
+#(b) the z-theta plane, the same construction with z in place of r: the slope v_z'/v_theta';
 #(c) the r-z plane at the particle's longitude: Delta's components Delta_r and Delta_z.
 #
 #Run:  uv run python paper/figures/wire_geometry.py   (writes wire_geometry.pdf and .png alongside)
@@ -47,8 +47,9 @@ def hahn13_panel(ax, x, xp, vx, angle, title):
     u = F/np.hypot(*F)
     ax.annotate('', xy=0.9*u, xytext=(0, 0), arrowprops=PULL)
     ax.text(*(0.9*u + np.array([-0.55, -0.4])), r'$A_g$', color='C3', fontsize=11)
-    ax.add_patch(matplotlib.patches.Arc((0, 0), 1.9, 1.9, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
-    ax.text(1.0, -0.3, r'$\varphi$' if x == 'r' else r'$\chi$', fontsize=11)
+    if x == 'r':                                             #hahn13's angle phi; panel (b) shows the slope only
+        ax.add_patch(matplotlib.patches.Arc((0, 0), 1.9, 1.9, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
+        ax.text(1.0, -0.3, r'$\varphi$', fontsize=11)
     ax.text(dx/2, 0.12, rf'$\Delta_{x}$', ha='center', fontsize=12)
     #the streamline's velocity at the crossing, with its components
     V = 1.45*T
@@ -58,8 +59,9 @@ def hahn13_panel(ax, x, xp, vx, angle, title):
     ax.plot([dx, dx + V[0]], [V[1], V[1]], ':', color='C0', lw=1)
     ax.text(dx - 0.08, V[1]/2, r"$v_\theta'$", ha='right', color='C0', fontsize=11)
     ax.text(dx + V[0]/2, V[1] + 0.1, f"$v_{vx}'$", ha='center', color='C0', fontsize=11)
-    ax.add_patch(matplotlib.patches.Arc((dx, 0), 1.1, 1.1, theta1=90 - np.degrees(angle), theta2=90, lw=1))
-    ax.text(dx + 0.06, 0.62, r'$\varphi$' if x == 'r' else r'$\chi$', fontsize=10)
+    if x == 'r':
+        ax.add_patch(matplotlib.patches.Arc((dx, 0), 1.1, 1.1, theta1=90 - np.degrees(angle), theta2=90, lw=1))
+        ax.text(dx + 0.06, 0.62, r'$\varphi$', fontsize=10)
     ax.plot(0, 0, 'ko', ms=9, zorder=5)
     ax.text(-0.15, 0.15, 'particle', ha='right', fontsize=10)
     ax.set_xlim(-1.3, 3.7)

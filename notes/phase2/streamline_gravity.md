@@ -24,8 +24,9 @@ interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ 
 |D| of G1 below), and A_g = 2Gλ/Δ along it. In 3D the perpendicular is a vector Δ = (Δ_r, Δ_θ, Δ_z),
 so A_g,r = A_g Δ_r/Δ, A_g,θ = A_g Δ_θ/Δ, A_g,z = A_g Δ_z/Δ. Exactly, Δ = d − (d·v̂′)v̂′ = v̂′ × (d × v̂′)
 with d = (r′ − r, 0, z′ − z) the separation to where the wire crosses the particle's longitude (G8).
-To first order Δ_r = r′ − r, Δ_z = z′ − z, Δ_θ = −Δ_r sin φ − Δ_z sin χ (sin φ = v_r′/v′,
-sin χ = v_z′/v′) and Δ = √(Δ_r² + Δ_z²). In the plane Δ = Δ_r cos φ (cos φ, −sin φ, 0) exactly, which
+The paper derives the first-order form in three steps: the nearest point is only O(e′, i′)Δ along
+the wire from the crossing point, so Δ_r = r′ − r and Δ_z = z′ − z; perpendicularity, Δ·v′ = 0, gives
+Δ_θ = −(Δ_r v_r′ + Δ_z v_z′)/v_θ′; and Δ_θ² is second order, so Δ = √(Δ_r² + Δ_z²). In the plane Δ = Δ_r cos φ (cos φ, −sin φ, 0) exactly, which
 is hahn13 Fig. 3 and Eq. 20; epi_int_lite uses Δ_r for hahn13's Δ = Δ_r cos φ. Panels (a) and (b) are
 hahn13 Fig. 3 in the r–θ and z–θ planes; panel (c) is the r–z plane at the particle's longitude.
 Below, δ is this first-order Δ, and G7 is the same result written with angles.

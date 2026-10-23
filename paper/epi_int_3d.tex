@@ -224,52 +224,51 @@ lowest order in the perturbing streamline's eccentricity $e'$ (their Eqns.\ 20).
 \label{sec:wire}
 
 In three dimensions the perturbing streamline also crosses the particle's longitude a height
-$\Delta_z = z' - z$ above the particle, with $z'$ interpolated in the same way as $r'$, and its
-velocity there has a vertical component $v_z'$. Eqn.\ (\ref{eqn:wire_Ag}) still holds, with the pull
-directed along the perpendicular $\boldsymbol{\Delta} = (\Delta_r, \Delta_\theta, \Delta_z)$ from the
-particle to the wire, so that
+$z' - z$ above the particle, with $z'$ interpolated in the same way as $r'$, and its velocity there
+has a vertical component $v_z'$. Eqn.\ (\ref{eqn:wire_Ag}) still holds, with the pull directed along
+the perpendicular $\boldsymbol{\Delta} = (\Delta_r, \Delta_\theta, \Delta_z)$ from the particle to the
+wire, so that
 \begin{eqnarray}
     \label{eqn:wire_3d}
     A_{g,r} &=& A_g\Delta_r/\Delta \nonumber\\
     A_{g,\theta} &=& A_g\Delta_\theta/\Delta \nonumber\\
     A_{g,z} &=& A_g\Delta_z/\Delta.
 \end{eqnarray}
-The Lagrange polynomial provides the crossing point rather than the nearest point of the wire, so the
-perpendicular follows from the separation $\mathbf{d} = (r' - r, 0, z' - z)$ from the particle to the
-crossing point and the wire's direction $\hat{\mathbf{v}}' = \mathbf{v}'/v'$. Points on the wire lie
-at $\mathbf{d} + s\hat{\mathbf{v}}'$ from the particle, where $s$ is the distance along the wire from
-the crossing point, and the nearest of them is where that separation is normal to the wire,
-$(\mathbf{d} + s\hat{\mathbf{v}}')\cdot\hat{\mathbf{v}}' = 0$, i.e.\ at
-$s = -\mathbf{d}\cdot\hat{\mathbf{v}}'$. So
+The Lagrange polynomial provides the point where the wire crosses the particle's longitude, rather
+than the point of the wire nearest the particle, and $\boldsymbol{\Delta}$ follows from it in three
+steps, each to first order in the perturbing streamline's eccentricity $e'$ and inclination $i'$.
+First, the nearest point lies a distance of order $e'$ or $i'$ times the separation along the wire from
+the crossing point, and along that short stretch the wire's $r$ and $z$ change only by a further
+factor $v_r'/v'$ or $v_z'/v'$, which is second order. So the nearest point differs from the crossing
+point only in longitude, and
 \begin{equation}
-    \label{eqn:wire_D}
-    \boldsymbol{\Delta} = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'
-                        = \hat{\mathbf{v}}'\times(\mathbf{d}\times\hat{\mathbf{v}}'),
+    \label{eqn:wire_rz}
+    \Delta_r = r' - r, \qquad \Delta_z = z' - z.
 \end{equation}
-with all vectors expressed in the local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which is the same at
-the particle and at the crossing point since they share a longitude. Eqns.\ (\ref{eqn:wire_Ag}),
-(\ref{eqn:wire_3d}) and (\ref{eqn:wire_D}), i.e.\ $\mathbf{A}_g = 2G\lambda\boldsymbol{\Delta}/\Delta^2$,
-are exact for a straight wire. The component of $\mathbf{d}$ along the wire,
-$\mathbf{d}\cdot\hat{\mathbf{v}}' = [(r' - r)v_r' + (z' - z)v_z']/v'$, is first order in $e'$ and the
-inclination $i'$, so to first order
-\begin{eqnarray}
-    \label{eqn:wire_perp}
-    \Delta_r &=& r' - r, \qquad \Delta_z = z' - z, \nonumber\\
-    \Delta_\theta &=& -\Delta_r\sin\varphi - \Delta_z\sin\chi, \nonumber\\
-    \Delta &=& (\Delta_r^2 + \Delta_z^2)^{1/2},
-\end{eqnarray}
-where $\sin\chi = v_z'/v'$. Eqns.\ (\ref{eqn:wire_Ag}), (\ref{eqn:wire_3d}) and (\ref{eqn:wire_perp})
-are thus accurate to first order in the perturbing streamline's eccentricity and inclination, with
-errors of order $e'^2$, $i'^2$ and $e'i'$.
+Second, $\boldsymbol{\Delta}$ is perpendicular to the wire, which runs along $\mathbf{v}'$, so
+$\boldsymbol{\Delta}\cdot\mathbf{v}' = \Delta_rv_r' + \Delta_\theta v_\theta' + \Delta_zv_z' = 0$, or
+\begin{equation}
+    \label{eqn:wire_theta}
+    \Delta_\theta = -\frac{\Delta_rv_r' + \Delta_zv_z'}{v_\theta'}.
+\end{equation}
+Third, $\Delta_\theta^2$ is second order, so
+\begin{equation}
+    \label{eqn:wire_dist}
+    \Delta = (\Delta_r^2 + \Delta_z^2)^{1/2}.
+\end{equation}
+Eqns.\ (\ref{eqn:wire_Ag})--(\ref{eqn:wire_dist}) are thus accurate to first order in $e'$ and $i'$,
+with errors of order $e'^2$, $i'^2$ and $e'i'$. When $\Delta_z = 0$ they are Eqns.\ (20) of
+\cite{HS13}, $A_{g,r} = A_g$ and $A_{g,\theta} = -A_gv_r'/v_\theta'$, and the vertical term
+$-\Delta_zv_z'/v_\theta'$ of $\Delta_\theta$ is the counterpart of the radial term
+$-\Delta_rv_r'/v_\theta'$.
 
-The angle $\chi$ is the vertical counterpart of $\varphi$. Figure~\ref{fig:wire}b is
-Figure~\ref{fig:wire}a with $z$ in place of $r$: viewed from outside the ring, the wire is tilted by
-$\chi$ from $\hat{\theta}$, along $\mathbf{v}'$, so the perpendicular leans toward $-\hat{\theta}$ by
-$\chi$. Figure~\ref{fig:wire}c shows the $r$--$z$ plane at the particle's longitude (the particle's
-meridional plane), where the wire crosses at $(r', z')$, nearly at right angles. When $\Delta_z = 0$,
-$\Delta_r/\Delta = \cos\varphi$ and $\Delta_\theta/\Delta = -\sin\varphi$, which is Eqn.\
-(\ref{eqn:wire_2d}). In that case the planar $\Delta = \Delta_r\cos\varphi$ exactly, which
-Eqn.\ (\ref{eqn:wire_perp}) approximates by $\Delta_r$.
+Figure~\ref{fig:wire}b is Figure~\ref{fig:wire}a with $z$ in place of $r$: viewed from outside the
+ring, the wire runs along $\mathbf{v}'$ with the slope $v_z'/v_\theta'$, so the perpendicular leans
+toward $-\hat{\theta}$. Figure~\ref{fig:wire}c shows the $r$--$z$ plane at the particle's longitude
+(the particle's meridional plane), which the wire crosses at $(r', z')$, nearly at right angles.
+The exact perpendicular, $\boldsymbol{\Delta} = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'$
+with $\mathbf{d} = (r' - r, 0, z' - z)$ and $\hat{\mathbf{v}}' = \mathbf{v}'/v'$, reduces to
+Eqns.\ (\ref{eqn:wire_rz})--(\ref{eqn:wire_dist}) to first order.
 
 The vertical acceleration does not require $|\Delta_z| \ll |\Delta_r|$, so it remains valid when
 neighbouring streamlines are displaced vertically by as much as their spacing. That happens when a
@@ -286,9 +285,9 @@ a distance $\Delta_r$ away and runs along the streamline's velocity $\mathbf{v}'
 $\varphi$ from $\hat{\theta}$, so the perpendicular $\Delta$ from the particle to the wire, along which
 it pulls with $A_g = 2G\lambda/\Delta$, makes the angle $\varphi$ with $\hat{r}$. (b) The same in
 the $z$--$\theta$ plane, seen from outside the ring: the wire crosses a height $\Delta_z$ above the
-particle, tilted by $\chi$ from $\hat{\theta}$ by $v_z'$. (c) The $r$--$z$ plane at the particle's
+particle, along $\mathbf{v}'$ with the slope $v_z'/v_\theta'$. (c) The $r$--$z$ plane at the particle's
 longitude, which the wire crosses at $(r', z')$, running into the page: to first order
-$\Delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$ (Eqns.\ \ref{eqn:wire_perp}).}
+$\Delta = (\Delta_r^2 + \Delta_z^2)^{1/2}$ (Eqn.\ \ref{eqn:wire_dist}).}
 \label{fig:wire}
 \end{figure*}
 
@@ -335,7 +334,7 @@ and likewise for $v_z'/v_\theta'$. For the $m = 1$ eccentric ringlets of \cite{H
 the slow precession rate, so the velocity and the shape agree to ${\cal O}(J_2)$. For an $m$-armed
 pattern near its resonance, the velocity's slope is about $1/m$ times the shape's. epi\_int\_3d
 keeps the velocity tangent, which is part of the wire model of \cite{HS13} and \cite{H25}. In any
-case $\chi$ enters only $A_\theta$, so the vertical accelerations do not depend on this choice.
+case $v_z'$ enters only $A_\theta$, so the vertical accelerations do not depend on this choice.
 
 \subsection{Implementation}
 \label{sec:wire_code}
@@ -350,10 +349,10 @@ Extended in the same way, with $q = \Delta_z/\Delta_r$,
     \label{eqn:wire_code}
     A &=& \frac{2G\lambda}{\Delta_r(1 + q^2)} = \frac{2G\lambda\Delta_r}{\Delta^2} \nonumber\\
     A_{g,r} &=& A\cos\varphi \nonumber\\
-    A_{g,\theta} &=& -A(\sin\varphi + q\sin\chi) \nonumber\\
+    A_{g,\theta} &=& -A(\sin\varphi + qv_z'/v') \nonumber\\
     A_{g,z} &=& Aq,
 \end{eqnarray}
-which is Eqns.\ (\ref{eqn:wire_3d}) and (\ref{eqn:wire_perp}) to first order, and where $z'$ and
+which is Eqns.\ (\ref{eqn:wire_3d})--(\ref{eqn:wire_dist}) to first order, and where $z'$ and
 $v_z'$ are interpolated to the particle's longitude in the same way as $r'$ and $v_r'$.
 $\Delta_r$ never vanishes, since streamlines may not cross. As in epi\_int\_lite, the particle's own streamline
 exerts no force on it. In three dimensions that streamline's pull would have no vertical part to
