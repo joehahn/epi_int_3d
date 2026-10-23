@@ -1,6 +1,6 @@
 # Angular momentum conservation of the ring-gravity kicks
 
-Measured 2026-10-23. Scripts: `dL.py` and `torque.py` (session scratch, not kept). Runs:
+Measured 2026-10-23 with `angular_momentum_drift.py` and `net_torque.py` (in this folder; run from the repo root). Runs:
 `benchmark/runs/lamfix/{off,on}` and `benchmark/runs/Lgrav/{on,off}` (git-ignored).
 
 ## What was measured
