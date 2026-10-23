@@ -36,3 +36,7 @@ wires having linear mass density lambda, and follow that assumption to its logic
 spiral wave theory. The other reasonable approximation is that the perturbed particle is close to the
 perturber, |r'-r| << r and |z'-z| << r. Then derive in the simplest/easiest way possible the
 accelerations Ar, At, Az consistent with those approximations.
+
+Follow-up: the 2013 paper approximates A_g,r = A_g and A_g,theta = -A_g v_r'/v_theta' (its Eqns. 20),
+but epi_int_lite didn't make that approximation, correct? So in the new paper assume Eqn. (14), and
+we'll deal with the inconsistency between the code and the 2013 paper later.

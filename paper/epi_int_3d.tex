@@ -213,10 +213,8 @@ $\cos\varphi = v_\theta'/v'$, so its pull has the components
 \begin{eqnarray}
     \label{eqn:wire_2d}
     A_{g,r} &=& A_g\cos\varphi \nonumber\\
-    A_{g,\theta} &=& -A_g\sin\varphi,
+    A_{g,\theta} &=& -A_g\sin\varphi.
 \end{eqnarray}
-which \cite{HS13} approximate as $A_{g,r} \simeq A_g$ and $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$
-(their Eqns.\ 20). epi\_int\_lite evaluates these with $\Delta \simeq d_r$.
 
 \subsection{A wire in three dimensions}
 \label{sec:wire}
@@ -267,8 +265,8 @@ and the wire's pull, $A_g = 2G\lambda/\Delta$ along $\boldsymbol{\Delta}$, has t
     A_{g,z} &=& \frac{2G\lambda(d_z - cs_z)}{\Delta^2}.
 \end{eqnarray}
 In the plane, $d_z = s_z = 0$, these are $A_{g,r} = 2G\lambda/d_r$ and
-$A_{g,\theta} = -2G\lambda s_r/d_r$: Eqns.\ (20) of \cite{HS13}, exactly, with the velocity's slope
-$v_r'/v_\theta'$ replaced by the shape's $s_r$. The wire is tangent to the streamline, so its direction
+$A_{g,\theta} = -2G\lambda s_r/d_r$, which is Eqn.\ (\ref{eqn:wire_2d}) exactly, with
+$\tan\varphi = s_r$ and $\Delta = d_r\cos\varphi$. The wire is tangent to the streamline, so its direction
 is taken from the streamline's shape; the velocity is tangent to the streamline only when the
 streamline's shape is stationary. In three dimensions the tangential pull also includes the term
 $-2G\lambda d_zs_z/\Delta^2$, due to the wire's vertical slope, through which vertically displaced
