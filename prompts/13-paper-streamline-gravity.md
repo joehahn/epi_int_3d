@@ -40,3 +40,7 @@ accelerations Ar, At, Az consistent with those approximations.
 Follow-up: the 2013 paper approximates A_g,r = A_g and A_g,theta = -A_g v_r'/v_theta' (its Eqns. 20),
 but epi_int_lite didn't make that approximation, correct? So in the new paper assume Eqn. (14), and
 we'll deal with the inconsistency between the code and the 2013 paper later.
+
+Follow-up: don't keep referring to the Lagrange polynomial for interpolation. Maybe early on say that
+r' and v' at the site in question are determined by Lagrange polynomial, then thereafter write as if
+r' and v' are known exactly.

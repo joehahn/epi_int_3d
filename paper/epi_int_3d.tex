@@ -205,11 +205,12 @@ straight and infinitely long wire of linear density $\lambda$, which pulls the p
     A_g = \frac{2G\lambda}{\Delta},
 \end{equation}
 where $\Delta$ is the particle's perpendicular distance from the wire (Eqn.\ 19 of \citealt{HS13}).
-In Figure 3 of \cite{HS13}, the wire passes through the point where streamline $a'$ crosses the
-particle's longitude, a distance $d_r = r' - r$ outward, which is found by fitting a Lagrange
-polynomial to the three particles of $a'$ nearest in longitude. The wire runs along the streamline's
-interpolated velocity, at the angle $\varphi$ to $\hat{\theta}$, where $\sin\varphi = v_r'/v'$ and
-$\cos\varphi = v_\theta'/v'$, so its pull has the components
+The perturbing streamline's position, shape and velocity at the particle's longitude are found by
+fitting Lagrange polynomials to the three particles of $a'$ nearest in longitude \citep{HS13}, and are
+treated as known below. In Figure 3 of \cite{HS13}, the wire passes through the point where
+streamline $a'$ crosses the particle's longitude, a distance $d_r = r' - r$ outward, and runs along
+the streamline's velocity $\mathbf{v}'$ there, at the angle $\varphi$ to $\hat{\theta}$, where
+$\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$, so its pull has the components
 \begin{eqnarray}
     \label{eqn:wire_2d}
     A_{g,r} &=& A_g\cos\varphi \nonumber\\
@@ -225,9 +226,8 @@ $|r' - r| \ll r$ and $|z' - z| \ll r$. The second lets the geometry be worked in
 frame $(\hat{r}, \hat{\theta}, \hat{z})$, treated as Cartesian. Nothing else is assumed, and the
 result below is exact for such a wire, whatever its tilt.
 
-The Lagrange polynomials through the three particles of $a'$ nearest in longitude give the
-streamline's $r'(\theta)$ and $z'(\theta)$ there. At the particle's longitude they give the point
-where the wire crosses it, at the separation
+Near the particle's longitude the perturbing streamline lies at $r'(\theta)$ and $z'(\theta)$. At
+the particle's longitude these give the point where the wire crosses it, at the separation
 \begin{equation}
     \label{eqn:wire_d}
     \mathbf{d} = (d_r, 0, d_z) = (r' - r, 0, z' - z)
@@ -329,17 +329,16 @@ counterpart.
 
 %TODO: Phase 3 step 2; the kernel is not yet coded, so this subsection describes the plan
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_c})--(\ref{eqn:wire_3d}) directly, with $r'$, $z'$,
-$s_r$ and $s_z$ from the 3-point Lagrange polynomials and their derivatives. For regression it can
+epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_c})--(\ref{eqn:wire_3d}) directly. For regression it can
 instead use epi\_int\_lite's in-plane arithmetic, $(2G\lambda/d_r)(\cos\varphi, -\sin\varphi)$ with
-$\varphi$ from the interpolated velocity, so that a run with all streamlines in the plane reproduces
+$\varphi$ from the velocity $\mathbf{v}'$, so that a run with all streamlines in the plane reproduces
 epi\_int\_lite exactly; when the streamline's shape is stationary, that differs from
 Eqns.\ (\ref{eqn:wire_3d}) by the factor $\cos\varphi$, at second order in $s_r$. $\Delta$ never
 vanishes, since streamlines may not cross. As in epi\_int\_lite, the particle's own streamline exerts
 no force on it; in three dimensions that streamline's pull would have no vertical part, because the
 particle lies on it. epi\_int\_lite evaluates $\lambda$ at the perturbed particle rather than on the
-perturbing streamline. epi\_int\_3d can instead interpolate the perturbing streamline's own $\lambda'$
-to the particle's longitude, as it does $r'$. In the eccentric ringlets of \cite{H25} this changes the
+perturbing streamline. epi\_int\_3d can instead use the perturbing streamline's own $\lambda'$ at the
+particle's longitude. In the eccentric ringlets of \cite{H25} this changes the
 precession rate by about $10^{-7}$ of itself. The wire approximation requires that $\Delta$ be much
 smaller than the streamline's radius of curvature, and the slopes require that the streamline be
 well sampled by its particles.
