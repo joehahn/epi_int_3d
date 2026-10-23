@@ -2,12 +2,12 @@
 #
 #hahn13 Fig. 3 extended to 3D: the gravity that a perturbing streamline a', treated as a straight wire,
 #exerts on a particle, in hahn13's layout and notation (the paper's Section 3 and Figure 1;
-#notes/phase2/streamline_gravity.md, equations G9-G10; Delta_theta from Delta.t' = 0):
+#notes/phase2/streamline_gravity.md, equations G10-G11):
 #(a) the r-theta plane, as hahn13 Fig. 3 but with the wire along the streamline's shape: tilted by
 #    phi from theta-hat, tan(phi) = s_r = dr'/(r dtheta), so the perpendicular Delta from the particle
 #    makes the angle phi with r-hat, and A_g has components A_g cos(phi) and -A_g sin(phi);
 #(b) the z-theta plane, the same construction with z in place of r: the slope s_z = dz'/(r dtheta);
-#(c) the r-z plane at the particle's longitude: Delta's components Delta_r and Delta_z.
+#(c) the r-z plane at the particle's longitude: the separation d = (d_r, 0, d_z) to the crossing point.
 #
 #Run:  uv run python paper/figures/wire_geometry.py   (writes wire_geometry.pdf and .png alongside)
 
@@ -26,7 +26,7 @@ VEL = dict(arrowstyle='-|>', lw=1.5, mutation_scale=12, color='C0')
 
 def hahn13_panel(ax, x, xp, vx, angle, title):
     """hahn13 Fig. 3: the particle at the origin, the coordinate x (r or z) to the right and theta up.
-    The wire crosses the particle's longitude a distance Delta_x away and is tilted from theta-hat by
+    The wire crosses the particle's longitude a distance d_x away and is tilted from theta-hat by
     the streamline's slope (dx'/r dtheta); the perpendicular Delta from the particle makes the same angle with x."""
     ax.set_aspect('equal')
     ax.axis('off')
@@ -50,7 +50,7 @@ def hahn13_panel(ax, x, xp, vx, angle, title):
     if x == 'r':                                             #hahn13's angle phi; panel (b) shows the slope only
         ax.add_patch(matplotlib.patches.Arc((0, 0), 1.9, 1.9, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
         ax.text(1.0, -0.3, r'$\varphi$', fontsize=11)
-    ax.text(dx/2, 0.12, rf'$\Delta_{x}$', ha='center', fontsize=12)
+    ax.text(dx/2, 0.12, rf'$d_{x}$', ha='center', fontsize=12)
     #a step along the streamline from the crossing: r dtheta along theta, dr' (or dz') outward
     V = 1.45*T
     ax.annotate('', xy=(dx + V[0], V[1]), xytext=(dx, 0), arrowprops=VEL)
@@ -81,13 +81,10 @@ ax3.annotate('', xy=(0, 2.4), xytext=(0, -1.5), arrowprops=AXIS)
 ax3.text(0, 2.5, '$z$', ha='center', fontsize=13)
 W = np.array([2.0, 1.3])
 ax3.plot([W[0], W[0]], [0, W[1]], 'k:', lw=1)
-ax3.plot([0, W[0]], [0, W[1]], 'k-', lw=1)
-ax3.text(W[0]/2, -0.35, r'$\Delta_r$', ha='center', fontsize=12)
-ax3.text(W[0] + 0.1, W[1]/2, r'$\Delta_z$', va='center', fontsize=12)
-ax3.text(W[0]*0.72 - 0.2, W[1]*0.72 + 0.12, r'$\Delta$', fontsize=12)
-u = W/np.hypot(*W)
-ax3.annotate('', xy=0.95*u, xytext=(0, 0), arrowprops=PULL)
-ax3.text(*(0.95*u + np.array([-0.35, 0.12])), r'$A_g$', color='C3', fontsize=11)
+ax3.annotate('', xy=W, xytext=(0, 0), arrowprops=dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k', shrinkB=7))
+ax3.text(W[0]/2, -0.35, r'$d_r$', ha='center', fontsize=12)
+ax3.text(W[0] + 0.1, W[1]/2, r'$d_z$', va='center', fontsize=12)
+ax3.text(W[0]*0.5 - 0.2, W[1]*0.5 + 0.12, r'$\mathbf{d}$', fontsize=12)
 ax3.plot(*W, 'o', ms=13, mfc='white', mec='k', mew=1.5)
 ax3.plot(*W, 'kx', ms=8, mew=1.5)
 ax3.text(W[0] - 0.45, W[1] + 0.3, "$a'$ at $(r', z')$", fontsize=11)

@@ -30,3 +30,9 @@ crossing-point separations to first order, and Delta.v' = 0 gives Delta_theta; t
 
 Follow-up: (on keeping the v_z' term) angular momentum transfer between corrugated streamlines is
 probably important. Don't make any approximations that will be problematic for m >= 2 spiral waves.
+
+Follow-up: wire approximation doesn't care about spiral wave theory. Assume infinitely long straight
+wires having linear mass density lambda, and follow that assumption to its logical conclusion; ignore
+spiral wave theory. The other reasonable approximation is that the perturbed particle is close to the
+perturber, |r'-r| << r and |z'-z| << r. Then derive in the simplest/easiest way possible the
+accelerations Ar, At, Az consistent with those approximations.

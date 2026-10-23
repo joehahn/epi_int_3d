@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G10); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G11); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -47,3 +47,4 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | G8 | vector form of G1: D = Δ − (Δ·v̂′)v̂′ = v̂′ × (Δ × v̂′), A_g = 2Gλ(Δ − (Δ·v̂′)v̂′)/(δ² − (Δ·v̂′)²); in the ring plane G7 = this × cos φ | exact result that G7 approximates; paper Sec. 3.1 | ✅ | ✅ | ☐ | BAC − CAB identity; kernel keeps G7 for bit-for-bit agreement with epi_int_lite |
 | G9 | hahn13 notation: Δ = perpendicular to the wire, A_g = 2Gλ/Δ along it, A_g,i = A_g Δ_i/Δ; to first order Δ_r = r′ − r, Δ_z = z′ − z, Δ_θ = −(Δ_r v_r′ + Δ_z v_z′)/v_θ′ (from Δ·v′ = 0), Δ = √(Δ_r² + Δ_z²); planar Δ = Δ_r cos φ (cos φ, −sin φ, 0) exactly | paper Sec. 3.1, Fig. 1 | ✅ | ✅ | ☐ | same content as G7; epi_int_lite uses Δ_r for hahn13's Δ |
 | G10 | wire along the shape: t̂′ ∝ (s_r, 1, s_z), s_r = ∂r′/r∂θ, s_z = ∂z′/r∂θ; Δ_θ = −Δ_r s_r − Δ_z s_z; planar Δ = Δ_r cos φ (cos φ, −sin φ, 0), tan φ = s_r; at an m-armed resonance 1 − Ω_p/Ω = ±1/m | paper Sec. 3.1, 3.3, Fig. 1 | ✅ | ✅ | ☐ | replaces the velocity tangent (G9) so m ≥ 2 waves are not off by ~m |
+| G11 | exact straight wire, local frame: d = (r′ − r, 0, z′ − z), t = (s_r, 1, s_z), c = (d_r s_r + d_z s_z)/(1 + s_r² + s_z²), Δ = d − c t, Δ² = d_r² + d_z² − c(d_r s_r + d_z s_z), A = 2GλΔ/Δ²; planar A = (2Gλ/d_r)(1, −s_r, 0) | paper Sec. 3.1 (Eqns. 15–20), planned kernel | ✅ | ✅ | ☐ | only approximations: straight infinite wire, \|r′ − r\|, \|z′ − z\| ≪ r |

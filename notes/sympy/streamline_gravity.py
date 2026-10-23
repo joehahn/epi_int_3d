@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G10; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G11; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -197,3 +197,21 @@ mm = sp.symbols('m', positive=True)
 for sgn in (1, -1):
     Omp_res = sp.solve(sp.Eq(mm*(Om - Omp), sgn*Om), Omp)[0]
     check(f'G10: at an m-armed resonance (sign {sgn:+d}), 1 - Omega_p/Omega = {sgn:+d}/m', 1 - Omp_res/Om - sgn/mm)
+
+# --- G11: the closed form used in the paper (exact for a straight wire, any slopes). The wire passes
+# through the crossing point at separation d = (d_r, 0, d_z) from the particle, along t = (s_r, 1, s_z)
+# (not normalized). With c = (d.t)/(t.t), the perpendicular from the particle to the wire is
+# Delta = d - c t = (d_r - c s_r, -c, d_z - c s_z), |Delta|^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z),
+# and A_g = 2 G lam Delta/|Delta|^2 (G1). In the plane, A_g = (2 G lam/d_r)(1, -s_r, 0) exactly. ---
+d_r, d_z = sp.symbols('d_r d_z', real=True)
+dd = sp.Matrix([d_r, 0, d_z])
+tt = sp.Matrix([s_r, 1, s_z])
+cc = (d_r*s_r + d_z*s_z)/(1 + s_r**2 + s_z**2)
+Dl = sp.Matrix([d_r - cc*s_r, -cc, d_z - cc*s_z])
+check('G11: c = (d.t)/(t.t)', cc - (dd.T*tt)[0]/(tt.T*tt)[0])
+check('G11: Delta = d - c t', Dl - (dd - cc*tt))
+check('G11: Delta is perpendicular to the wire', (Dl.T*tt)[0])
+check('G11: |Delta|^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z)', (Dl.T*Dl)[0] - (d_r**2 + d_z**2 - cc*(d_r*s_r + d_z*s_z)))
+check('G11: = G1 (the exact wire) with T = t/|t|', Dl - Dsh.subs({dr: d_r, dz: d_z}))
+A_pl = (2*G*lam*Dl/(Dl.T*Dl)[0]).subs({d_z: 0, s_z: 0})
+check('G11: planar A_g = (2 G lam/d_r)(1, -s_r, 0)', A_pl - sp.Matrix([2*G*lam/d_r, -2*G*lam*s_r/d_r, 0]))

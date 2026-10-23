@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G10 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G11 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -16,9 +16,24 @@ the separation Δ_r = r′ − r at the particle's longitude, and takes the wire
 interpolated velocity of a′, with sin φ = v_r′/v′. Then A_r = A_g cos φ ≃ A_g and A_θ = −A_g sin φ ≃
 −A_g v_r′/v_θ′, to lowest order in e′.
 
-## The 3D geometry in hahn13's notation (G9, used in the paper)
+## The paper's derivation (G11): the exact straight wire
 
 ![wire geometry](../../paper/figures/wire_geometry.png)
+
+**G11.** Only two approximations: the perturbing streamline is, near the particle, a straight infinite
+wire of linear density λ, and |r′ − r|, |z′ − z| ≪ r, so the local frame (r̂, θ̂, ẑ) is Cartesian there.
+No small slopes and no spiral-wave theory. The Lagrange polynomials give the crossing point at
+d = (d_r, 0, d_z) = (r′ − r, 0, z′ − z) and the wire's direction t = (s_r, 1, s_z), s_r = ∂r′/r∂θ,
+s_z = ∂z′/r∂θ. The nearest point is d + u t with (d + u t)·t = 0, u = −c, c = (d_r s_r + d_z s_z)/(1 + s_r² + s_z²):
+
+  **Δ = d − c t = (d_r − c s_r, −c, d_z − c s_z),  Δ² = d_r² + d_z² − c(d_r s_r + d_z s_z),**
+  **A_r = 2Gλ(d_r − c s_r)/Δ²,  A_θ = −2Gλc/Δ²,  A_z = 2Gλ(d_z − c s_z)/Δ².**
+
+Exact for the wire at any tilt; in the plane A = (2Gλ/d_r)(1, −s_r, 0), hahn13 Eq. 20 with the shape's
+slope. epi_int_lite's (2Gλ/d_r)(cos φ, −sin φ) with the velocity φ is kept only as a regression option.
+G9 and G10 below are first-order versions of the same thing.
+
+## First-order versions (G9, G10)
 
 **G10 (the wire along the shape; what the paper now uses).** No approximation may be problematic for
 m ≥ 2 spiral waves, so the wire runs along the streamline's *shape*, not its velocity: the tangent
