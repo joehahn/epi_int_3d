@@ -21,3 +21,6 @@ then: yes, add it to Section 3.1 as the exact result that the angle form approxi
 Follow-up: Delta_r = separation between r' and r when both are projected to the z=0 plane? wait, I
 thought Delta_r = Delta seen in Fig 3 of hahn13, which doesn't share longitude theta. Can the paper use
 the notation and derivation and Fig 3 [of hahn13] as much as possible when extending to 3d?
+
+Follow-up: should [the derivation of the nearest point, s = -d.v, from the crossing point and v'] be
+added to paper?

@@ -234,8 +234,13 @@ particle to the wire, so that
     A_{g,\theta} &=& A_g\Delta_\theta/\Delta \nonumber\\
     A_{g,z} &=& A_g\Delta_z/\Delta.
 \end{eqnarray}
-The perpendicular is the part of the separation $\mathbf{d} = (r' - r, 0, z' - z)$ from the particle
-to the crossing point that is normal to the wire's direction $\hat{\mathbf{v}}' = \mathbf{v}'/v'$,
+The Lagrange polynomial provides the crossing point rather than the nearest point of the wire, so the
+perpendicular follows from the separation $\mathbf{d} = (r' - r, 0, z' - z)$ from the particle to the
+crossing point and the wire's direction $\hat{\mathbf{v}}' = \mathbf{v}'/v'$. Points on the wire lie
+at $\mathbf{d} + s\hat{\mathbf{v}}'$ from the particle, where $s$ is the distance along the wire from
+the crossing point, and the nearest of them is where that separation is normal to the wire,
+$(\mathbf{d} + s\hat{\mathbf{v}}')\cdot\hat{\mathbf{v}}' = 0$, i.e.\ at
+$s = -\mathbf{d}\cdot\hat{\mathbf{v}}'$. So
 \begin{equation}
     \label{eqn:wire_D}
     \boldsymbol{\Delta} = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'
