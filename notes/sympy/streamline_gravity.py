@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G7; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G8; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -140,3 +140,11 @@ q = dz/dr
 Acode = 2*G*lam/(dr*(1 + q**2))
 check('G7: = A (cos phi, -(sin phi + q sin chi), q), A = 2 G lam/(dr (1 + q^2))',
       A_G7 - sp.Matrix([Acode*cphi, -Acode*(sphi + q*schi), Acode*q]))
+
+# --- G8: the exact wire in vector form: D = Delta - (Delta.v)v = v x (Delta x v), with v the wire's
+# unit direction (the paper's Eqns. for D and A_g); here v = T and Delta = d ---
+cross = T.cross(d.cross(T))
+check('G8: v x (Delta x v) = Delta - (Delta.v) v = D', cross - D)
+check('G8: A_g = 2 G lam (Delta - (Delta.v)v)/(Delta^2 - (Delta.v)^2) = G1',
+      2*G*lam*(d - c*T)/(dr**2 + dz**2 - c**2) - A_exact)
+check('G8: in the ring plane, G7 (as coded) = exact x cos(phi)', (A_G7 - A_exact*cphi).subs({dz: 0, eta: 0}))

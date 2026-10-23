@@ -12,3 +12,8 @@ e'^2 and i'^2.
 Follow-up: (after the user's own version, A_g = 2Gλ'/D toward the spot, A_r = A_g cos φ,
 A_θ = −A_g sin φ, A_z = A_g sin Φ, was corrected by the cos Φ factor and the χ term) how can we make
 the above more transparent in the paper and plots? and what is meridional plane?
+
+Follow-up: suppose vec(Ag) = Ag hat(n) is the force on the particle at vec(r) due to the streamline at
+vec(r') with velocity vec(v'), and vec(Delta) = vec(r') - vec(r). Is there a simple vector identity
+that derives the force direction from r, r', v'? (Answer: D = Delta - (Delta.v)v = v x (Delta x v);
+then: yes, add it to Section 3.1 as the exact result that the angle form approximates.)

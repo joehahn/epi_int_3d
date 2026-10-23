@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G7 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G8 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -38,6 +38,10 @@ This equals the exact wire (G1) to first order in the slopes, with errors O(e′
 Δ_z = 0 it is hahn13 Eq. 20 exactly as coded. G1–G3 below are the longer derivation that checks it.
 
 ## The exact wire (the check of G7)
+
+**G8 (vector form).** With Δ = (Δ_r, 0, Δ_z) and the wire's direction v̂′ = v′/v′, in the shared local
+frame: D = Δ − (Δ·v̂′)v̂′ = v̂′ × (Δ × v̂′) and A_g = 2Gλ D/|D|² = 2Gλ(Δ − (Δ·v̂′)v̂′)/(δ² − (Δ·v̂′)²).
+This is G1 below; G7 is its first-order form, and in the ring plane G7 as coded is it times cos φ.
 
 In the local frame (r̂, θ̂, ẑ) at the particle:
 

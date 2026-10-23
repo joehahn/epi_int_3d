@@ -240,11 +240,34 @@ acceleration. It changes $A_z = A_g\sin\psi$ only at second order. Altogether,
     A_\theta &=& -A_g\left(\cos\psi\sin\varphi + \sin\psi\sin\chi\right) \nonumber\\
     A_z      &=& A_g\sin\psi.
 \end{eqnarray}
-Since $\varphi \sim e'$ and $\chi \sim i'$, these are accurate to first order in the perturbing
-streamline's eccentricity and inclination, with errors of order $e'^2$, $i'^2$ and $e'i'$; a symbolic
-comparison with the exact pull of a straight wire, $2G\lambda\mathbf{D}/|\mathbf{D}|^2$ where
-$\mathbf{D}$ is the perpendicular from the particle to the wire, confirms this. When $\Delta_z = 0$,
-Eqns.\ (\ref{eqn:wire_first}) are exactly Eqn.\ 20 of \cite{HS13}, as epi\_int\_lite computes it.
+Eqns.\ (\ref{eqn:wire_first}) are the first-order form of a compact exact result. Let
+$\boldsymbol{\Delta} = (\Delta_r, 0, \Delta_z)$ be the separation from the particle to the spot, and
+$\hat{\mathbf{v}}' = \mathbf{v}'/|\mathbf{v}'|$ the direction of the wire, with both expressed in the local frame
+$(\hat{r}, \hat{\theta}, \hat{z})$, which is the same at the particle and at the spot since they share
+a longitude. The perpendicular from the particle to the wire is the part of $\boldsymbol{\Delta}$
+normal to $\hat{\mathbf{v}}'$,
+\begin{equation}
+    \label{eqn:wire_D}
+    \mathbf{D} = \boldsymbol{\Delta} - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'
+               = \hat{\mathbf{v}}'\times(\boldsymbol{\Delta}\times\hat{\mathbf{v}}'),
+\end{equation}
+and summing the point-mass pull along the infinite wire gives
+\begin{equation}
+    \label{eqn:wire_exact}
+    \mathbf{A}_g = \frac{2G\lambda\mathbf{D}}{|\mathbf{D}|^2}
+                 = 2G\lambda\,\frac{\boldsymbol{\Delta} - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')\hat{\mathbf{v}}'}
+                                   {\delta^2 - (\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}')^2},
+\end{equation}
+where $\delta = |\boldsymbol{\Delta}|$. Since $\boldsymbol{\Delta}$ has no
+$\hat{\theta}$ component, $\boldsymbol{\Delta}\cdot\hat{\mathbf{v}}' = {\cal O}(e', i')\,\delta$, so
+$|\mathbf{D}| = \delta$ and $\mathbf{D} = (\Delta_r, -\Delta_r\sin\varphi - \Delta_z\sin\chi, \Delta_z)$
+to first order, which is Eqns.\ (\ref{eqn:wire_first}). Since $\varphi \sim e'$ and $\chi \sim i'$,
+Eqns.\ (\ref{eqn:wire_first}) are thus accurate to first order in the perturbing streamline's
+eccentricity and inclination, with errors of order $e'^2$, $i'^2$ and $e'i'$. When $\Delta_z = 0$,
+they are exactly Eqn.\ 20 of \cite{HS13}, as epi\_int\_lite computes it. epi\_int\_3d uses
+Eqns.\ (\ref{eqn:wire_first}) rather than Eqn.\ (\ref{eqn:wire_exact}), because in the ring plane the
+two differ by the factor $\cos\varphi$, at ${\cal O}(e'^2)$, and only the former reproduces
+epi\_int\_lite exactly.
 
 The vertical acceleration does not require $|\Delta_z| \ll |\Delta_r|$, so it remains valid when
 neighbouring streamlines are displaced vertically by as much as their spacing. That happens when a
