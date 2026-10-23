@@ -50,3 +50,9 @@ To adapt it to the z != 0 case, we have to move Fig. 3 up by amount z, which doe
 figure; then also move the perturbing streamline upwards by amount z' - z; and then tilt the
 streamline's velocity vector vertically to account for vz'. Can those transformations be used to make
 the derivation conceptually simpler? (Then: yes.)
+
+Follow-up: will doing gravity more correctly improve the code's angular momentum conservation (~1e-5
+or -6)? [Measured: no; the wire forces are not reciprocal.] Yes, log it. What is the fast/easy/most
+correct way forward: keep the code as is, i.e. evaluate forces at the crossing point not the near
+point, but fix the lambda' issue? Revise the paper accordingly; I'll keep reviewing, then we'll start
+coding the kernel. Push.

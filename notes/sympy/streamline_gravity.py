@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G12; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G13; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -237,3 +237,13 @@ A12 = 2*G*lam*sp.Matrix([d_r*cph2**2, -(d_r*sph2*cph2 + d_z*s_z), d_z])/Dsq
 check('G12: A = 2 G lam (d_r cos^2 phi, -(d_r sin phi cos phi + d_z s_z), d_z)/Delta^2', A12 - 2*G*lam*D123/Dsq)
 check('G12: in the plane, A = (2 G lam/d_r)(1, -s_r, 0), Eqn. 14 with Delta = d_r cos(phi)',
       A12.subs(d_z, 0) - sp.Matrix([2*G*lam/d_r, -2*G*lam*s_r/d_r, 0]))
+
+# --- G13: the planned kernel, with the distance taken at the crossing point:
+# Delta^2 = d_r^2 + d_z^2, A = 2 G lam (d_r cos phi, -(d_r sin phi + d_z s_z), d_z)/Delta^2. It equals
+# G12 (the paper's Eqn. 17) to first order in the slopes, and in the plane it is epi_int_lite's
+# (2 G lam/d_r)(cos phi, -sin phi). ---
+Akern = 2*G*lam*sp.Matrix([d_r*cph2, -(d_r*sph2 + d_z*s_z), d_z])/(d_r**2 + d_z**2)
+dk = (Akern - A12).subs({s_r: small*s_r, s_z: small*s_z}, simultaneous=True)
+check('G13: kernel = G12 + O(slope^2)', [sp.series(dk[k], small, 0, 2).removeO() for k in range(3)])
+check("G13: in the plane, kernel = epi_int_lite's (2 G lam/d_r)(cos phi, -sin phi, 0)",
+      Akern.subs(d_z, 0) - 2*G*lam/d_r*sp.Matrix([cph2, -sph2, 0]))

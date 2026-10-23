@@ -196,7 +196,7 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The vertical gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G12, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_geometry.py
+%equations G1-G13, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_geometry.py
 In epi\_int and epi\_int\_lite (Section 2.3.2 of \citealt{HS13}; Eqn.\ 1 of \citealt{H25}), the
 gravity that a perturbing streamline $a'$ exerts on a particle in another streamline is that of a
 straight and infinitely long wire of linear density $\lambda$, which pulls the particle toward it with
@@ -321,20 +321,31 @@ counterpart.
 
 %TODO: Phase 3 step 2; the kernel is not yet coded, so this subsection describes the plan
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_raised}) and (\ref{eqn:wire_3d}) directly. For regression it can
-instead use epi\_int\_lite's in-plane arithmetic, $(2G\lambda/d_r)(\cos\varphi, -\sin\varphi)$ with
-$\varphi$ from the velocity $\mathbf{v}'$, so that a run with all streamlines in the plane reproduces
-epi\_int\_lite exactly; when the streamline's shape is stationary, that differs from
-Eqns.\ (\ref{eqn:wire_3d}) by the factor $\cos\varphi$, at second order in $s_r$. $\Delta$ never
-vanishes, since streamlines may not cross. As in epi\_int\_lite, the particle's own streamline exerts
-no force on it; in three dimensions that streamline's pull would have no vertical part, because the
-particle lies on it. epi\_int\_lite evaluates $\lambda$ at the perturbed particle rather than on the
-perturbing streamline. epi\_int\_3d can instead use the perturbing streamline's own $\lambda'$ at the
-particle's longitude. In the eccentric ringlets of \cite{H25} this changes the
-precession rate by about $10^{-7}$ of itself. The wire approximation requires that $\Delta$ be much
-smaller than the streamline's radius of curvature, and the slopes require that the streamline be
-well sampled by its particles.
-
+epi\_int\_3d is to compute Eqns.\ (\ref{eqn:wire_3d}) with the distance evaluated at the crossing
+point rather than at the wire's nearest point,
+\begin{eqnarray}
+    \label{eqn:wire_code}
+    \Delta^2 &=& d_r^2 + d_z^2 \nonumber\\
+    A_{g,r} &=& \frac{2G\lambda'd_r\cos\varphi}{\Delta^2} \nonumber\\
+    A_{g,\theta} &=& -\frac{2G\lambda'(d_r\sin\varphi + d_zs_z)}{\Delta^2} \nonumber\\
+    A_{g,z} &=& \frac{2G\lambda'd_z}{\Delta^2}.
+\end{eqnarray}
+These agree with Eqns.\ (\ref{eqn:wire_3d}) to first order in the slopes. The difference, a factor
+of about $1/\cos\varphi$ in the planar pull, is second order in $s_r$, which is $\sim\!10^{-10}$ in a
+planetary ring. In the plane, Eqns.\ (\ref{eqn:wire_code}) are epi\_int\_lite's arithmetic,
+$(2G\lambda/d_r)(\cos\varphi, -\sin\varphi)$. By default $\cos\varphi = v_\theta'/v'$ and
+$\sin\varphi = v_r'/v'$ are taken from the velocity, as in epi\_int\_lite, so that a run with all
+streamlines in the plane reproduces it exactly. For patterns with $m \ge 2$ arms in the plane they can
+instead be taken from the shape, $\tan\varphi = s_r$. The vertical slope $s_z$ is always taken from the
+shape. That term is what lets vertically displaced streamlines exchange angular momentum, and the
+velocity would underestimate it by a factor of about $m$ for an $m$-armed pattern. It also vanishes
+in the plane, so it does not affect that test. $\lambda'$ is the perturbing streamline's own linear
+density at the particle's longitude. epi\_int\_lite instead uses the perturbed particle's $\lambda$,
+which epi\_int\_3d can also do for regression; in the eccentric ringlets of \cite{H25} the difference
+changes the precession rate by about $10^{-7}$ of itself. $\Delta$ never vanishes, since streamlines
+may not cross. As in epi\_int\_lite, the particle's own streamline exerts no force on it. The wire
+approximation requires that $\Delta$ be much smaller than the streamline's radius of curvature, and
+the slopes require that the streamline be well sampled by its particles.
 
 \appendix
 

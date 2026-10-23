@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G12 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G13 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).
@@ -180,6 +180,12 @@ epi_int_3d keeps it. Vertically, η enters only A_θ, at second order, so the
 bending forces A_z do not depend on this choice.
 
 ## What this means for the code (Phase 3 step 2, after your review)
+
+- **Decided 2026-10-23 (G13, paper Sec. 3.3):** keep epi_int_lite's crossing-point evaluation,
+  Δ² = d_r² + d_z², A_r = 2Gλ′d_r cos φ/Δ², A_θ = −2Gλ′(d_r sin φ + d_z s_z)/Δ², A_z = 2Gλ′d_z/Δ²;
+  λ′ (fix_lambda) on by default for epi_int_3d runs; cos φ, sin φ from the velocity by default (so
+  z ≡ 0 is bit for bit epi_int_lite), from the shape as an option for in-plane m ≥ 2 runs; s_z always
+  from the shape (the Lagrange derivative). The bullets below are the earlier plan.
 
 - **Wire tangent (G10).** The kernel takes s_r and s_z from the derivative of the 3-point Lagrange
   polynomial, cos φ = 1/√(1 + s_r²), sin φ = s_r cos φ, A_θ = −A(sin φ + q s_z). An input (e.g.
