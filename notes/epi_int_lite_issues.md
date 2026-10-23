@@ -18,7 +18,8 @@ epi_int_lite's results bit for bit.
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
-(issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 2 was an outdated
+(issue 3), properties of the pressure and viscosity scheme (issue 5), and the missing pull of a
+particle's own streamline (issue 8). Issue 2 was an outdated
 test input, fixed in this repo's copy.
 
 ## 1. The streamline-crossing check misfires near θ = ±π
@@ -182,3 +183,21 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   of the perturbing streamline to the particle's longitude with the same Lagrange weights as r′.
   Tested by `tests/test_kernels.py` (closed-form sums on a circular ringlet, including the
   correction above). With the fix off, all benchmark final states still match the reference. Fixed.
+- **Origin:** new in epi_int_lite. epi_int's 2D `ring_gravity` (IDL, `subroutines.pro`,
+  github.com/joehahn/epi_int commit df16977, 2015) uses the perturbing streamline's own λ′,
+  `g = 2*shift(lambda, 0, -j)/(r_j - r)`. It takes λ′ from the same-index particle, without
+  interpolating, and takes v_r′/v_θ′ the same way (marked "approximate"; the interpolated "exact"
+  form is commented out).
+
+## 8. The pull of the particle's own streamline is left out
+
+- **Found:** comparing with epi_int's 2D `ring_gravity` (same version as above), 2026-10-23.
+- **What:** hahn13 Eq. 21 adds the tangential pull of the particle's neighbors along its own
+  streamline, A_θ = 2G(λ₊/Δ₊ − λ₋/Δ₋), with Δ± the distances to the leading and trailing neighbors.
+  epi_int computes it, as `At_sl = 2*(lambda_plus/delta_plus - lambda_minus/delta_minus)`, and adds
+  `At_sl*vr/vt` to A_r. epi_int_lite's `ring_gravity()` sums over the other streamlines only.
+- **Effect:** not assessed. The term vanishes for evenly spaced particles of equal λ. It is nonzero
+  where particles bunch along a streamline, as in a wave that compresses the streamline along its
+  length.
+- **Fix:** none yet; open.
+
