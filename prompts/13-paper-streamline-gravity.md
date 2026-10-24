@@ -67,3 +67,11 @@ crossing point without changing the direction of A_g, i.e. a force with Delta = 
 be to compute A_g,r and A_g,theta correctly at the near point, inferred from the streamline's shape
 rather than velocity? A quick remedy is Delta = d_r cos phi; the next fix is phi from the shape. I'd like
 to get the 2D version of the code working the way we want, then deal with the z != 0 case.
+
+Follow-up: for the paper, document these 3 fixes in an appendix (the lambda' fix, the shape inferred
+from the streamline's shape rather than from v', and the Delta fix), and include hahn13 Fig. 3 in that
+appendix so the discussion can refer to it; then the earlier parts of the paper generalize that appendix
+to z != 0. We won't backtest this solution against epi_int_lite; we'll instead backtest by comparing
+simulations of linear density and spiral bending waves to theory. [Agreed: redraw the figure (it is
+(c) AAS); keep the bit-for-bit regression as a software check.] Yes, make the fixes the default, then
+draft the appendix, push.

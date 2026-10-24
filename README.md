@@ -63,8 +63,11 @@ running simulations, and drafting the journal paper.
 **Issues found in epi_int_lite.** Porting and extending epi_int_lite turned up a few bugs. All are
 minor, and none is known to change the findings of Hahn et al. (2025). `source/` stays a straight
 port, bugs included. The fixes are applied at run time (`tools/patches.py`) or in
-`fast/epi_int_3d.py`. All but the crossing-check fix are opt-in, so a default run reproduces
-epi_int_lite bit for bit. The list, each fix's effect on Hahn et al. (2025) and how to turn each fix
+`fast/epi_int_3d.py`. epi_int_3d's ring gravity has its three fixes on by default (the paper's
+Appendix B); its input `epi_int_lite_gravity = True` turns them off. The other fixes, except the
+crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py` with
+`epi_int_lite_gravity = True` (as the regression tests and `run_simulations.py --fast` set it),
+reproduce epi_int_lite bit for bit. The list, each fix's effect on Hahn et al. (2025) and how to turn each fix
 on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 
 ### Setup (macOS or Linux):

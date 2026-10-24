@@ -2,14 +2,12 @@
 #
 #hahn13 Fig. 3 moved and tilted into 3D: the gravity that a perturbing streamline a', treated as a
 #straight wire, exerts on a particle (the paper's Section 3 and Figure 1; equation G12 of
-#notes/sympy/streamline_gravity.py):
-#(a) hahn13 Fig. 3, seen from above: the wire, raised a height d_z above the particle but still
-#    horizontal, crosses the particle's longitude a distance d_r away, tilted from theta-hat by phi,
-#    tan(phi) = s_r = dr'/(r dtheta); the horizontal perpendicular from the particle to it is
-#    Delta_h = d_r cos(phi), at the angle phi to r-hat;
-#(b) the vertical plane through that horizontal perpendicular: the full perpendicular Delta is the
+#notes/sympy/streamline_gravity.py). Seen from above, the wire raised a height d_z above the particle
+#but still horizontal is the planar geometry of the paper's Appendix B (wire_planar.py), with the
+#horizontal perpendicular Delta_h = d_r cos(phi). Then:
+#(a) the vertical plane through that horizontal perpendicular: the full perpendicular Delta is the
 #    hypotenuse of Delta_h and d_z, and A_g = 2 G lambda/Delta acts along it;
-#(c) the theta-z plane, seen from outside the ring: tilting the wire by its vertical slope
+#(b) the theta-z plane, seen from outside the ring: tilting the wire by its vertical slope
 #    s_z = dz'/(r dtheta) moves the nearest point along theta by -d_z s_z.
 #
 #Run:  uv run python paper/figures/wire_geometry.py   (writes wire_geometry.pdf and .png alongside)
@@ -44,36 +42,10 @@ def particle(ax):
     ax.text(-0.15, 0.15, 'particle', ha='right', fontsize=10)
 
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10.5, 3.8))
+fig, (ax2, ax3) = plt.subplots(1, 2, figsize=(7.2, 3.8))
 
-#(a) hahn13 Fig. 3: r to the right, theta up
-frame(ax1, '$r$', r'$\theta$', '(a) seen from above')
-dx, phi = 2.0, np.radians(25)
-T = np.array([np.sin(phi), np.cos(phi)])
-s = np.array([-1.5, 2.2])
-ax1.plot(dx + s*T[0], s*T[1], 'k-', lw=1.6)
-for q in (-1.4, 1.95):
-    ax1.plot(dx + q*T[0], q*T[1], 'ko', ms=6)
-ax1.text(dx + 2.25*T[0], 2.25*T[1], "$a'$", fontsize=12)
-F = np.array([dx, 0]) - (np.array([dx, 0]) @ T)*T
-ax1.plot([0, F[0]], [0, F[1]], 'k-', lw=1)
-ax1.text(*(0.7*F + np.array([0.05, -0.42])), r'$\Delta_h$', fontsize=12)
-u = F/np.hypot(*F)
-ax1.add_patch(matplotlib.patches.Arc((0, 0), 1.9, 1.9, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
-ax1.text(1.0, -0.3, r'$\varphi$', fontsize=11)
-ax1.text(dx/2, 0.12, r'$d_r$', ha='center', fontsize=12)
-V = 1.45*T
-ax1.annotate('', xy=(dx + V[0], V[1]), xytext=(dx, 0), arrowprops=STEP)
-ax1.plot([dx, dx], [0, V[1]], ':', color='C0', lw=1)
-ax1.plot([dx, dx + V[0]], [V[1], V[1]], ':', color='C0', lw=1)
-ax1.text(dx - 0.08, V[1]/2, r'$r\,d\theta$', ha='right', color='C0', fontsize=11)
-ax1.text(dx + V[0]/2, V[1] + 0.1, "$dr'$", ha='center', color='C0', fontsize=11)
-ax1.add_patch(matplotlib.patches.Arc((dx, 0), 1.1, 1.1, theta1=90 - np.degrees(phi), theta2=90, lw=1))
-ax1.text(dx + 0.06, 0.62, r'$\varphi$', fontsize=10)
-particle(ax1)
-
-#(b) the vertical plane through the horizontal perpendicular Delta_h; the wire runs into the page
-frame(ax2, r'along $\Delta_h$', '$z$', '(b) the wire raised by $d_z$', xsize=10)
+#(a) the vertical plane through the horizontal perpendicular Delta_h; the wire runs into the page
+frame(ax2, r'along $\Delta_h$', '$z$', '(a) the wire raised by $d_z$', xsize=10)
 W = np.array([2.0, 1.3])
 ax2.plot([W[0], W[0]], [0, W[1]], 'k:', lw=1)
 ax2.plot([0, W[0]], [0, W[1]], 'k-', lw=1)
@@ -88,8 +60,8 @@ ax2.plot(*W, 'kx', ms=8, mew=1.5)
 ax2.text(W[0] - 0.15, W[1] + 0.3, "$a'$", fontsize=12)
 particle(ax2)
 
-#(c) theta to the right, z up, seen from outside the ring: the raised wire (dotted), then tilted by s_z
-frame(ax3, r'$\theta$', '$z$', '(c) the wire tilted by $s_z$')
+#(b) theta to the right, z up, seen from outside the ring: the raised wire (dotted), then tilted by s_z
+frame(ax3, r'$\theta$', '$z$', '(b) the wire tilted by $s_z$')
 dz, chi = 1.1, np.radians(25)
 ax3.plot([-1.1, 3.1], [dz, dz], ':', color='0.5', lw=1.2)
 T = np.array([np.cos(chi), np.sin(chi)])
