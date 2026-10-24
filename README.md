@@ -66,7 +66,8 @@ port, bugs included. The fixes are applied at run time (`tools/patches.py`) or i
 `fast/epi_int_3d.py`. epi_int_3d's ring gravity has its three fixes on by default (the paper's
 Appendix B); its input `epi_int_lite_gravity = True` turns them off. The other fixes, except the
 crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py` with
-`epi_int_lite_gravity = True` (as the regression tests and `run_simulations.py --fast` set it),
+`epi_int_lite_gravity = True` (as the regression tests set it, and `run_simulations.py --fast` for
+the tests ported from epi_int_lite),
 reproduce epi_int_lite bit for bit. The list, each fix's effect on Hahn et al. (2025) and how to turn each fix
 on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
 
@@ -92,17 +93,19 @@ output to theory:
   Borderies, Goldreich & Tremaine, [libration_frequency.ipynb](tests/libration/libration_frequency.ipynb) (compare to [the same test run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/tests/libration/libration_frequency.ipynb))
 - nominal: epi_int_3d's nominal ringlet, 1000 streamlines, eccentric with aligned periapses, inviscid,
   should stay smooth for 5×10⁴ orbits while self-gravity keeps J2 from winding it up, [nominal.ipynb](tests/nominal/nominal.ipynb)
-  (about 3 h with `--fast` below, days with the reference driver; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
+  (about 3 h; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
 - inclined: inclined test particles should keep their inclinations while their nodes regress at the
   rate set by J2, [inclined.ipynb](tests/inclined/inclined.ipynb) (epi_int_3d only; see [notes/phase3/vertical_drift.md](notes/phase3/vertical_drift.md))
 
-To run all 24 epi_int_3d test simulations in parallel (about 3 h with `--fast`, set by the nominal ringlet;
-run the nominal ringlet with `--fast`, since the reference driver would take days), or just one, or one
-with the faster driver (same results, bit for bit):
+To run all 24 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
+one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,
+libration) run with the reference driver, or with `--fast` with `fast/epi_int_3d.py` set to give the
+same results bit for bit. epi_int_3d's own tests (nominal, inclined) always run with
+`fast/epi_int_3d.py` and its default ring gravity, as described in the paper:
 
     uv run python tools/run_simulations.py
     uv run python tools/run_simulations.py tests/spreading
-    uv run python tools/run_simulations.py tests/nominal --fast
+    uv run python tools/run_simulations.py tests/spreading --fast
 
 then use Jupyter to inspect a test's output, e.g.
 

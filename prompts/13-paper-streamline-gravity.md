@@ -75,3 +75,8 @@ to z != 0. We won't backtest this solution against epi_int_lite; we'll instead b
 simulations of linear density and spiral bending waves to theory. [Agreed: redraw the figure (it is
 (c) AAS); keep the bit-for-bit regression as a software check.] Yes, make the fixes the default, then
 draft the appendix, push.
+
+Follow-up: when a new user uses epi_int_3d, do they need to set a flag to run as described in the main
+part of the paper, or is a flag set to run the epi_int_lite equivalent? [No flag; but run_simulations.py
+gave the planar tests epi_int_lite's gravity.] Yes, make that change (epi_int_3d's own tests run with
+its default gravity) and push.

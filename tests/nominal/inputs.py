@@ -7,7 +7,8 @@
 #enough to be well resolved (lambda_crit/2Delta ~ 0.09) yet massive enough that its self-gravity, not J2,
 #controls its periapse twist, with tapered edges. Viscosity and pressure are off, as in the first
 #bending-wave runs. It stays smooth for 5e4 orbits, its twist oscillating within ~0.5 rad where J2 alone
-#would wind it up by ~5 rad. About 2.8 h with fast/epi_int_fast.py.
+#would wind it up by ~5 rad. About 2.8 h with fast/epi_int_fast.py. tools/run_simulations.py runs it with
+#fast/epi_int_3d.py and its default ring gravity (since 2026-10-24; notes/phase0b/nominal.md used the reference's).
 
 #set number of streamlins and particles per streamline
 number_of_streamlines = 1000
