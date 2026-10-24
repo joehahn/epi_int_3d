@@ -20,6 +20,11 @@ Optional input fix_lambda (default False): each perturbing streamline pulls with
 density, interpolated to the perturbed particle's longitude, rather than the perturbed particle's
 (epi_int_lite issue 7, notes/epi_int_lite_issues.md); this changes the results, slightly, so it is
 off unless asked for.
+Optional inputs nearpoint and shape_slope (default False) correct the wire's geometry in the plane
+(fast/kernels.py, notes/equations.md G14): nearpoint pulls with 2 G lambda/Delta, Delta the
+perpendicular distance to the wire, rather than the radial gap at the particle's longitude;
+shape_slope takes the wire's direction from the perturbing streamline's shape rather than its
+velocity, which is needed for m >= 2 patterns. Both also change the results slightly.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
 and so is anything that inputs.py patches through tools/patches.py: initialization (the edge
@@ -67,8 +72,7 @@ def restore_output(output_folder):
     return r, t, z, vr, vt, vz, times, monitor
 
 
-GRAVITY = {False: kernels.ring_gravity_parallel, True: kernels.ring_gravity_lam_parallel}
-gravity_kernel = GRAVITY[False]    #main() sets it from the input fix_lambda
+gravity_kernel = kernels.ring_gravity_parallel    #main() sets it from fix_lambda, nearpoint, shape_slope
 
 
 def ring_gravity(lambda_, G_ring, r, t, vr, vt, fast_gravity):
@@ -219,11 +223,13 @@ def main():
     print("Toomre's Q_ring =", g['Q_ring'])
     g.setdefault('inclination', 0.0)
     g.setdefault('node', 0.0)
-    g.setdefault('fix_lambda', False)
-    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'fix_lambda', 'output_folder'):
+    for k in ('fix_lambda', 'nearpoint', 'shape_slope'):
+        g.setdefault(k, False)
+    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'fix_lambda', 'nearpoint', 'shape_slope',
+              'output_folder'):
         print(k, '=', g[k])
     global gravity_kernel
-    gravity_kernel = GRAVITY[bool(g['fix_lambda'])]
+    gravity_kernel = kernels.get_kernel(g['fix_lambda'], g['nearpoint'], g['shape_slope'])
     helper_fns.ring_gravity = ring_gravity
     h = helper_fns
     r, t, vr, vt, c, monitor = h.initialize_streamline(g['number_of_streamlines'], g['particles_per_streamline'],

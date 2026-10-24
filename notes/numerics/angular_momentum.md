@@ -47,3 +47,19 @@ twisted.
   PLAN.md.
 
 Caveats: one ringlet, one snapshot, and the crude 3-point slope.
+
+## Update 2026-10-24: the wire-geometry options
+
+The same 5000-orbit run with `fix_lambda` on, and the kernel options of epi_int_lite issue 9
+(`benchmark/runs/wire`, git-ignored):
+
+| `nearpoint` | `shape_slope` | total \|ΔL\|/L at the end |
+|---|---|---|
+| off | off | −1.12×10⁻¹² |
+| on | off | −1.11×10⁻¹² |
+| off | on | +2.2×10⁻¹³ |
+| on | on | +2.2×10⁻¹³ |
+
+So the shape slope cuts the drift by about 5 over the run, although it made the one twisted
+snapshot's torque imbalance above slightly worse. The drift is still not zero: the forces are still
+not reciprocal.

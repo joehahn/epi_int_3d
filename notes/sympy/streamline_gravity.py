@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G13; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G14; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -247,3 +247,30 @@ dk = (Akern - A12).subs({s_r: small*s_r, s_z: small*s_z}, simultaneous=True)
 check('G13: kernel = G12 + O(slope^2)', [sp.series(dk[k], small, 0, 2).removeO() for k in range(3)])
 check("G13: in the plane, kernel = epi_int_lite's (2 G lam/d_r)(cos phi, -sin phi, 0)",
       Akern.subs(d_z, 0) - 2*G*lam/d_r*sp.Matrix([cph2, -sph2, 0]))
+
+# --- G14: the 2D kernel options (fast/kernels.py, nearpoint and shape_slope). The shape slope
+# s_r = (dr'/dtheta)/r' at the crossing point is the derivative of lagrange_poly_fit's 2nd-order
+# polynomial through (x0, y0), (x1, y1), (x2, y2), whose weights' derivatives are
+# dl0 = (dx1 + dx2)/(dx10 dx20), dl1 = -(dx0 + dx2)/(dx10 dx21), dl2 = (dx0 + dx1)/(dx20 dx21),
+# with dxk = x - xk and dxkl = xk - xl as coded. (r' rather than r, since tan(phi) = dr'/(r' dtheta)
+# is the polar curve's own tangent; they differ at O(d_r/r), which the wire model drops.) ---
+X0, X1, X2, Xx, Y0, Y1, Y2 = sp.symbols('x0 x1 x2 x y0 y1 y2', real=True)
+dx0, dx1, dx2 = Xx - X0, Xx - X1, Xx - X2
+dx10, dx20, dx21 = X1 - X0, X2 - X0, X2 - X1
+l0, l1, l2 = (dx1*dx2)/(dx10*dx20), -(dx0*dx2)/(dx10*dx21), (dx0*dx1)/(dx20*dx21)
+poly = Y0*l0 + Y1*l1 + Y2*l2
+check('G14: lagrange_poly_fit passes through its three points',
+      [poly.subs(Xx, X0) - Y0, poly.subs(Xx, X1) - Y1, poly.subs(Xx, X2) - Y2])
+dl0, dl1, dl2 = (dx1 + dx2)/(dx10*dx20), -(dx0 + dx2)/(dx10*dx21), (dx0 + dx1)/(dx20*dx21)
+check('G14: d/dx of lagrange_poly_fit = y0 dl0 + y1 dl1 + y2 dl2', sp.diff(poly, Xx) - (Y0*dl0 + Y1*dl1 + Y2*dl2))
+# The options' planar pulls, A = (2 G lam/d_r) x (as coded):
+#   reference (epi_int_lite):          (cos phi, -sin phi),  tan phi = v_r'/v_theta'
+#   shape_slope:                       (cos phi, -sin phi),  tan phi = s_r
+#   nearpoint:                         (1, -tan phi),        tan phi = v_r'/v_theta' (hahn13 Eq. 20)
+#   nearpoint + shape_slope:           (1, -s_r)             (= G11, G12 in the plane)
+# nearpoint is G3's exact planar wire; with tan phi = s_r it is G12's planar limit:
+tph = sp.symbols('tau', real=True)
+check('G14: nearpoint = exact planar wire (G3) with eps = tan phi',
+      sp.Matrix([2*G*lam/dr, -2*G*lam*tph/dr, 0]) - A_2D.subs(eps, tph))
+check('G14: the cos phi, sin phi options = nearpoint x cos phi',
+      sp.Matrix([1/sp.sqrt(1 + tph**2), -tph/sp.sqrt(1 + tph**2)]) - sp.Matrix([1, -tph])/sp.sqrt(1 + tph**2))

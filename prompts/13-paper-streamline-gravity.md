@@ -56,3 +56,14 @@ or -6)? [Measured: no; the wire forces are not reciprocal.] Yes, log it. What is
 correct way forward: keep the code as is, i.e. evaluate forces at the crossing point not the near
 point, but fix the lambda' issue? Revise the paper accordingly; I'll keep reviewing, then we'll start
 coding the kernel. Push.
+
+Follow-up: I want to confirm my understanding of hahn13 and epi_int_lite. epi_int_lite uses Eqn 19 for
+the magnitude of A_g and Fig. 3 for A_g,r = A_g cos phi, A_g,theta = -A_g sin phi, sin phi = v_r'/v', at
+the perturbing streamline's near point; it doesn't use the approximations (22a,b), correct? Yet the code
+seems to treat the middle particle of the perturbing streamline as the near point? [No: Eqns 20 are the
+approximations; 22 is the own-streamline term; the code evaluates at the crossing point.] Is it
+effectively setting phi = 0? [Only in the distance.] So epi_int_lite slides the near point to the
+crossing point without changing the direction of A_g, i.e. a force with Delta = r' - r? How hard would it
+be to compute A_g,r and A_g,theta correctly at the near point, inferred from the streamline's shape
+rather than velocity? A quick remedy is Delta = d_r cos phi; the next fix is phi from the shape. I'd like
+to get the 2D version of the code working the way we want, then deal with the z != 0 case.

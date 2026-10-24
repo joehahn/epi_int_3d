@@ -22,14 +22,26 @@ ring_gravity_lam_parallel (and _serial) fixes epi_int_lite issue 7 (notes/epi_in
 the pull of streamline s uses s's own linear density, lambda_ of s interpolated to longitude t_ij
 with the same Lagrange weights, instead of the perturbed particle's lambda_ij. Otherwise it is the
 same arithmetic.
+
+Two more options correct the wire's geometry in the plane (notes/equations.md G14; G3, G12):
+- nearpoint: the pull is 2 G lambda/Delta along the wire's normal, with Delta = dr cos(phi) the
+  perpendicular distance to the wire's near point, i.e. A = (2 G lambda/dr)(1, -tan(phi)), which is
+  hahn13 Eq. 20 without approximation. The reference uses Delta = dr, the gap at the crossing point,
+  and so pulls weaker by cos(phi) = 1 - O(phi^2).
+- shape_slope: the wire's direction comes from streamline s's shape, tan(phi) = s_r = (dr'/dtheta)/r',
+  the derivative of the same Lagrange polynomial at t_ij, instead of its velocity, tan(phi) =
+  v_r'/v_theta'. The two agree only for a stationary shape; for a pattern rotating at Omega_p the
+  velocity's slope is smaller by 1 - Omega_p/Omega (G6), about 1/m at an m-armed resonance.
+With all options off the kernel is the reference's, bit for bit.
 """
 import numba
 import numpy as np
 
 
-def _make_ring_gravity(perturber_lambda):
+def _make_ring_gravity(perturber_lambda, nearpoint=False, shape_slope=False):
     """The kernel, with lambda_ of the perturbed particle (the reference) or of the perturbing
-    streamline (issue 7); Numba freezes the closure's flag as a compile-time constant."""
+    streamline (issue 7), and the nearpoint and shape_slope options; Numba freezes the closure's
+    flags as compile-time constants."""
     def _ring_gravity(lambda_, G_ring, r, t, vr, vt):
         Nr, W = r.shape
         Ar = np.zeros((Nr, W))
@@ -64,11 +76,28 @@ def _make_ring_gravity(perturber_lambda):
                     else:
                         lam = lambda_[i, j]
                     A = (two_G*lam)/dr
-                    vi = np.sqrt(vri*vri + vti*vti)
-                    cos_phi = vti/vi
-                    sin_phi = vri/vi
-                    Ar[i, j] += A*cos_phi
-                    At[i, j] -= A*sin_phi
+                    tan_phi = 0.0
+                    if shape_slope:
+                        #(dr'/dtheta)/r', from the derivatives of the Lagrange weights
+                        dl0 = (dx1 + dx2)/(dx10*dx20)
+                        dl1 = -(dx0 + dx2)/(dx10*dx21)
+                        dl2 = (dx0 + dx1)/(dx20*dx21)
+                        tan_phi = (r[s, j - 1]*dl0 + r[s, j]*dl1 + r[s, j + 1]*dl2)/ri
+                    elif nearpoint:
+                        tan_phi = vri/vti
+                    if nearpoint:
+                        Ar[i, j] += A
+                        At[i, j] -= A*tan_phi
+                    elif shape_slope:
+                        cos_phi = 1.0/np.sqrt(1.0 + tan_phi*tan_phi)
+                        Ar[i, j] += A*cos_phi
+                        At[i, j] -= A*(tan_phi*cos_phi)
+                    else:
+                        vi = np.sqrt(vri*vri + vti*vti)
+                        cos_phi = vti/vi
+                        sin_phi = vri/vi
+                        Ar[i, j] += A*cos_phi
+                        At[i, j] -= A*sin_phi
         return Ar, At
 
     return _ring_gravity
@@ -79,3 +108,15 @@ ring_gravity_serial = numba.njit(_ring_gravity)
 ring_gravity_parallel = numba.njit(_ring_gravity, parallel=True)
 ring_gravity_lam_serial = numba.njit(_make_ring_gravity(True))
 ring_gravity_lam_parallel = numba.njit(_make_ring_gravity(True), parallel=True)
+
+
+def get_kernel(perturber_lambda=False, nearpoint=False, shape_slope=False, parallel=True):
+    """The kernel with these options (compiled on first call)."""
+    key = (bool(perturber_lambda), bool(nearpoint), bool(shape_slope), bool(parallel))
+    if key not in _KERNELS:
+        _KERNELS[key] = numba.njit(_make_ring_gravity(*key[:3]), parallel=key[3])
+    return _KERNELS[key]
+
+
+_KERNELS = {(False, False, False, False): ring_gravity_serial, (False, False, False, True): ring_gravity_parallel,
+            (True, False, False, False): ring_gravity_lam_serial, (True, False, False, True): ring_gravity_lam_parallel}

@@ -2,7 +2,7 @@
 
 How a perturbing streamline that lies off the particle's plane pulls on it, in the straight-wire
 approximation that epi_int and epi_int_lite use in 2D (Hahn & Spitale 2013, hereafter hahn13, Sec.
-2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G13 are checked by
+2.3.2, Fig. 3, Eqs. 19–20; Hahn et al. 2025, Eq. 1). Equations G1–G14 are checked by
 `notes/sympy/streamline_gravity.py` and tracked in `notes/equations.md`. The figure is made by
 `paper/figures/wire_geometry.py`. This derivation is Section 3 and Figure 1 of the draft paper
 (`paper/epi_int_3d.tex`).

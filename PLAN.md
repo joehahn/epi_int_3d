@@ -220,6 +220,9 @@ particles with Numba's workqueue layer. Next: the vertical drift (Phase 2a) in t
   the velocity is part of the wire model and stays. epi_int_lite issue 7 (λ of the perturbed particle,
   not the perturbing streamline) is fixed in `fast/epi_int_3d.py`, opt-in via `fix_lambda = True`. Next, after
   your review: the kernel (Phase 3 step 2).
+  **2026-10-24:** first the 2D kernel the way we want it (epi_int_lite issue 9): inputs `nearpoint`
+  (the exact planar wire, (2Gλ/d_r)(1, −tan φ)) and `shape_slope` (tan φ from the shape, needed for
+  m ≥ 2), both opt-in, G14. Then the z ≠ 0 case.
 - **2c. Satellite forcing.** Bending waves are launched by an inclined satellite at a vertical
   resonance. Existing code:
   - epi_int_lite `lindblad_resonance` branch: a "Fourier satellite", i.e. only the resonant

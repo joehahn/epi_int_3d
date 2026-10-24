@@ -16,6 +16,7 @@ epi_int_lite's results bit for bit.
 | 4 | the outer edge's viscous/pressure flux is taken at the wrong longitudes | `patches.apply(fix_edge='own')` | slightly |
 | 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
+| 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint = True`, `shape_slope = True` (`fast/epi_int_3d.py` only) | slightly (m = 1); by ~m for m ≥ 2 |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
@@ -203,3 +204,28 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
 - **Decision:** leave it out of epi_int_3d too, for now (the user, 2026-10-23). Revisit if a test
   needs the pull of along-streamline bunching.
 
+## 9. The wire's distance and direction
+
+- **Found:** reviewing epi_int_lite's `ring_gravity()` against hahn13 Fig. 3 (the user), 2026-10-24.
+- **What:** two approximations in the wire's geometry.
+  - *Distance:* hahn13 Fig. 3 and Eq. 19 take A_g = 2Gλ/Δ with Δ the perpendicular distance to the
+    wire's nearest point, Δ = d_r cos φ, where d_r = r′ − r is the radial gap at the particle's longitude
+    (the crossing point). `ring_gravity()` uses Δ = d_r but keeps the near point's direction,
+    A = (2Gλ/d_r)(cos φ, −sin φ). The exact wire is (2Gλ/d_r)(1, −tan φ) (`notes/equations.md` G3,
+    G14), which is hahn13 Eq. 20 without its small-e approximation. So epi_int_lite's pull is too weak by
+    cos φ = 1 − O(φ²), about 10⁻¹⁰ in a planetary ring. epi_int (IDL) coded (2Gλ′/d_r)(1, −v_r′/v_θ′), the
+    exact form.
+  - *Direction:* tan φ = v_r′/v_θ′, the perturbing streamline's velocity at the crossing point. That is
+    the streamline's tangent only if its shape is stationary. For a pattern rotating at Ω_p the velocity's
+    slope is smaller than the shape's by 1 − Ω_p/Ω (G6), about 1/m at an m-armed resonance, so the torques
+    between the streamlines of an m ≥ 2 wave would be too small by about m. For epi_int_lite's slowly
+    precessing m = 1 ringlets the error is O(ϖ̇/Ω).
+- **Fix:** in `fast/epi_int_3d.py`, inputs `nearpoint = True` (Δ = d_r cos φ) and `shape_slope = True`
+  (tan φ = s_r = (∂r′/∂θ)/r′, the derivative of the same Lagrange polynomial). Both are opt-in, so the
+  reference results stay bit for bit. Tested by `tests/test_kernels.py` (m = 2 streamlines whose
+  velocities are along half the shape's slope).
+- **Effect** (nominal ringlet, 100 streamlines, 5000 orbits, `fix_lambda` on, `benchmark/runs/wire`,
+  git-ignored): `nearpoint` changes r by 2×10⁻⁹ of the ringlet's width and e by 10⁻⁸ of itself;
+  `shape_slope` changes r by 4×10⁻⁸ of the width and e by 2×10⁻⁶ of itself. With `shape_slope` the
+  total angular momentum drifts 2×10⁻¹³ over the run, against 1.1×10⁻¹² with the velocity slope
+  (`notes/numerics/angular_momentum.md`). Same run time.
