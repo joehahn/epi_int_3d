@@ -13,6 +13,7 @@ Run:  uv run python tools/run_simulations.py                     #all 24 test si
       uv run python tools/run_simulations.py tests/nominal --fast  #~3 h instead of days
 """
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -33,8 +34,11 @@ def needs_3d(folder):
 
 def run(folder, driver=DRIVER):
     t0 = time.time()
+    cmd = [sys.executable, str(driver)]
+    if driver == FAST_DRIVER and not needs_3d(folder):
+        cmd += ['-m', json.dumps({'epi_int_lite_gravity': True})]     #so --fast gives the reference's results
     with open(folder/'output.log', 'w') as log:
-        rc = subprocess.run([sys.executable, str(driver)], cwd=folder, stdout=log,
+        rc = subprocess.run(cmd, cwd=folder, stdout=log,
                             stderr=subprocess.STDOUT).returncode
     return folder, rc, time.time() - t0
 

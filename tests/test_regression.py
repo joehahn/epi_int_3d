@@ -35,6 +35,8 @@ def run_sim(test_folder, output_folder, **params):
 
     Warnings (e.g. NumPy deprecations) are raised as errors."""
     params['output_folder'] = str(output_folder)
+    if DRIVER.name == 'epi_int_3d.py':
+        params['epi_int_lite_gravity'] = True      #epi_int_3d's own ring gravity has fixes the reference lacks
     cmd = [sys.executable, '-W', 'error', str(DRIVER),
            '-m', json.dumps(params)]
     result = subprocess.run(cmd, cwd=test_folder, capture_output=True, text=True)

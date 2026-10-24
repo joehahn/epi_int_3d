@@ -74,7 +74,10 @@ def run(driver, Nr, Nt, steps, profile=None, ringlet='benchmark'):
     cmd = [sys.executable]
     if profile:
         cmd += ['-m', 'cProfile', '-o', str(profile)]
-    cmd += [str(driver), '-m', json.dumps(params(Nr, Nt, steps, ringlet))]
+    prm = params(Nr, Nt, steps, ringlet)
+    if Path(driver).name == 'epi_int_3d.py':
+        prm['epi_int_lite_gravity'] = True         #so its final states can match the reference's
+    cmd += [str(driver), '-m', json.dumps(prm)]
     env = dict(os.environ, PYTHONPATH=str(Path(driver).resolve().parent))
     t0 = time.perf_counter()
     with open(folder/'output.log', 'w') as log:

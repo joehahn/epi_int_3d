@@ -11,20 +11,22 @@ them in the planet's potential (notes/equations.md V1-V4, coded as the rotation 
 orbits keep their inclination and their nodes regress at Omega_a - nu_a; z and vz also take part
 in the barycentric bookkeeping (coordinate kick, mixed <-> planetocentric velocities). There are
 no vertical ring forces yet, and ring gravity acts as if every particle were at z = 0. The
-in-plane arithmetic is untouched, so the in-plane results are the reference's bit for bit, with or
-without inclination; with z = vz = 0 they stay exactly 0.
+in-plane arithmetic is otherwise untouched, so with epi_int_lite_gravity = True (below) the in-plane
+results are the reference's bit for bit, with or without inclination; with z = vz = 0 they stay
+exactly 0.
 
 Optional inputs (inputs.py or -m): inclination i (default 0) and node (default 0), given to every
 particle at the start, with z = a i sin(lambda - node), vz = a nu_a i cos(lambda - node) (V2).
-Optional input fix_lambda (default False): each perturbing streamline pulls with its own linear
-density, interpolated to the perturbed particle's longitude, rather than the perturbed particle's
-(epi_int_lite issue 7, notes/epi_int_lite_issues.md); this changes the results, slightly, so it is
-off unless asked for.
-Optional inputs nearpoint and shape_slope (default False) correct the wire's geometry in the plane
-(fast/kernels.py, notes/equations.md G14): nearpoint pulls with 2 G lambda/Delta, Delta the
-perpendicular distance to the wire, rather than the radial gap at the particle's longitude;
-shape_slope takes the wire's direction from the perturbing streamline's shape rather than its
-velocity, which is needed for m >= 2 patterns. Both also change the results slightly.
+Ring gravity has three fixes of epi_int_lite's (notes/epi_int_lite_issues.md issues 7 and 9), each
+an optional input, on by default:
+- fix_lambda: each perturbing streamline pulls with its own linear density, interpolated to the
+  perturbed particle's longitude, rather than the perturbed particle's;
+- nearpoint: the pull is 2 G lambda/Delta with Delta the perpendicular distance to the wire, rather
+  than the radial gap at the particle's longitude (fast/kernels.py, notes/equations.md G14);
+- shape_slope: the wire's direction comes from the perturbing streamline's shape rather than its
+  velocity, which m >= 2 patterns need.
+Optional input epi_int_lite_gravity (default False): True turns all three off, unless set
+explicitly, giving epi_int_lite's ring gravity, as the regression tests against the reference use.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
 and so is anything that inputs.py patches through tools/patches.py: initialization (the edge
@@ -223,10 +225,11 @@ def main():
     print("Toomre's Q_ring =", g['Q_ring'])
     g.setdefault('inclination', 0.0)
     g.setdefault('node', 0.0)
+    g.setdefault('epi_int_lite_gravity', False)
     for k in ('fix_lambda', 'nearpoint', 'shape_slope'):
-        g.setdefault(k, False)
-    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'fix_lambda', 'nearpoint', 'shape_slope',
-              'output_folder'):
+        g.setdefault(k, not g['epi_int_lite_gravity'])
+    for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'epi_int_lite_gravity', 'fix_lambda',
+              'nearpoint', 'shape_slope', 'output_folder'):
         print(k, '=', g[k])
     global gravity_kernel
     gravity_kernel = kernels.get_kernel(g['fix_lambda'], g['nearpoint'], g['shape_slope'])

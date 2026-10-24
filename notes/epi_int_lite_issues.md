@@ -7,16 +7,18 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 ## Summary of the fixes
 
 The fixes are applied at run time (`tools/patches.py`, called from a test's `inputs.py`) or in the
-faster driver (`fast/epi_int_3d.py`). All but the crossing check are opt-in, so a default run gives
-epi_int_lite's results bit for bit.
+faster driver (`fast/epi_int_3d.py`). The ring-gravity fixes (issues 7 and 9) are on by default in
+`fast/epi_int_3d.py` since 2026-10-24; its input `epi_int_lite_gravity = True` turns them off. The
+others, except the crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py`
+with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 
-| issue | what is wrong | turn the fix on with | changes results? |
+| issue | what is wrong | fix | changes results? |
 |---|---|---|---|
 | 1 | the streamline-crossing check misfires near θ = ±π and stops runs | `patches.apply()` | no (only when a run stops) |
 | 4 | the outer edge's viscous/pressure flux is taken at the wrong longitudes | `patches.apply(fix_edge='own')` | slightly |
 | 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
-| 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda = True` (`fast/epi_int_3d.py` only) | slightly |
-| 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint = True`, `shape_slope = True` (`fast/epi_int_3d.py` only) | slightly (m = 1); by ~m for m ≥ 2 |
+| 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
+| 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
@@ -179,8 +181,8 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   - Nominal ringlet at 100 streamlines, 5000 orbits (`benchmark/runs/lamfix`, git-ignored): the
     mean precession rate changes by 1.4×10⁻⁷ of itself, the periapse twist (oscillating between
     −0.39 and −0.01 rad) by at most 9×10⁻⁶ rad, e by 6×10⁻⁵ of itself and a by 10⁻¹¹.
-- **Fix:** in `fast/epi_int_3d.py`, input `fix_lambda = True` (opt-in, default False so the
-  reference results stay bit for bit). The kernel `kernels.ring_gravity_lam_parallel` interpolates λ
+- **Fix:** in `fast/epi_int_3d.py`, input `fix_lambda = True` (on by default since 2026-10-24;
+  `epi_int_lite_gravity = True` turns it off, so the reference results stay reproducible bit for bit). The kernel `kernels.ring_gravity_lam_parallel` interpolates λ
   of the perturbing streamline to the particle's longitude with the same Lagrange weights as r′.
   Tested by `tests/test_kernels.py` (closed-form sums on a circular ringlet, including the
   correction above). With the fix off, all benchmark final states still match the reference. Fixed.
@@ -221,8 +223,8 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
     between the streamlines of an m ≥ 2 wave would be too small by about m. For epi_int_lite's slowly
     precessing m = 1 ringlets the error is O(ϖ̇/Ω).
 - **Fix:** in `fast/epi_int_3d.py`, inputs `nearpoint = True` (Δ = d_r cos φ) and `shape_slope = True`
-  (tan φ = s_r = (∂r′/∂θ)/r′, the derivative of the same Lagrange polynomial). Both are opt-in, so the
-  reference results stay bit for bit. Tested by `tests/test_kernels.py` (m = 2 streamlines whose
+  (tan φ = s_r = (∂r′/∂θ)/r′, the derivative of the same Lagrange polynomial). Both are on by default;
+  `epi_int_lite_gravity = True` turns them off, for bit-for-bit regression against the reference. Tested by `tests/test_kernels.py` (m = 2 streamlines whose
   velocities are along half the shape's slope).
 - **Effect** (nominal ringlet, 100 streamlines, 5000 orbits, `fix_lambda` on, `benchmark/runs/wire`,
   git-ignored): `nearpoint` changes r by 2×10⁻⁹ of the ringlet's width and e by 10⁻⁸ of itself;
