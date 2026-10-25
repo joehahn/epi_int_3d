@@ -289,3 +289,8 @@ to the near point into two legs" to "across two legs", and to "travels from the 
 insert "r'(0) points at the crossing point" into the discussion? [Yes: "The first leg, d0 = r'(0) - r,
 travels from the particle to the crossing point r'(0), where the streamline crosses the particle's
 longitude (the cross in Fig. 1)".]
+
+Follow-up: change to "the crossing point r'(0) which is where" and to "then runs along the streamline
+from the crossing point". Should the paragraph state that r'(0) = (r'(0), 0, z'(0))? [Yes, but as
+r'(0) = (r'(0), θ, z'(0)) in cylindrical coordinates: its longitude is the particle's θ, not 0, which is
+why d0 has no θ-component.]
