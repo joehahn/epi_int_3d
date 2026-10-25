@@ -59,6 +59,8 @@ ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when draf
 ## Figures and captions
 
 - Text cites figures as sentence subjects: "Figure 1 shows…", "Figure 20 plots…", "see Figures 5–6".
+- In this paper: "Figure 1" when the reference starts a sentence, "Fig. 1" otherwise (the author's
+  choice, 2026-10-25), as for equations.
 - Captions are full and explanatory: what is plotted against what, in which units, what each color or
   line style is, the run's parameters, and often what the reader should conclude ("…and show that
   higher-e ringlets settle into self-confinement sooner").

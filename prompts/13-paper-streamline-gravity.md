@@ -226,3 +226,9 @@ prose is terser and more symbol-dense than the author's. Proposed: capitalize se
 names, "Fig." to "Figure", "neighbouring" to "neighboring", the past-tense "We tested"; then a style
 pass on Sec. 3.1 (physical reasons first, fewer colon chains, "acceleration" for "pull").] Yes. [Done;
 Sec. 3.1 pass for review.]
+
+Follow-up: change to "Epi_int and epi_int_lite assume that the gravitational acceleration of a particle
+by perturbing streamline a' is that due to a straight and infinitely long wire:" and to "Δ is the
+separation of the particle to the streamline's nearest point, designated the near point in Fig. 1."
+Also start sentences with Figure but abbreviate Fig elsewhere. [Done; no figure reference starts a
+sentence, so all 13 are now "Fig."; style guide and memory updated.]

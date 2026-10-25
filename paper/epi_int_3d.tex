@@ -198,15 +198,15 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \label{sec:gravity}
 
 %equations G1-G16, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-Epi\_int and epi\_int\_lite treat the gravity that a perturbing streamline $a'$ exerts on a
-particle as that of a straight and infinitely long wire, which results in the acceleration
+Epi\_int and epi\_int\_lite assume that the gravitational acceleration of a particle by perturbing
+streamline $a'$ is that due to a straight and infinitely long wire:
 \begin{equation}
     \label{eqn:wire_Ag}
     \mathbf{A}_g = \frac{2G\lambda'\boldsymbol{\Delta}}{\Delta^2},
 \end{equation}
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
-separation of the particle from the streamline's near point, its point nearest the particle
-(Figure~\ref{fig:wire_planar}). Its magnitude is
+separation of the particle to the streamline's nearest point, designated the near point in
+Fig.~\ref{fig:wire_planar}. Its magnitude is
 $A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
 epi\_int\_lite.
@@ -218,7 +218,7 @@ A particle in a narrow ring is always close to the nearby portions of the other 
 perturbing streamline can be regarded as straight in the particle's vicinity. The task is then to find
 the point of that streamline that is nearest the particle, its near point, since that point sets both
 the distance $\Delta$ and the direction of the acceleration $\mathbf{A}_g$. In the ring plane this is
-the geometry of Figure 3 of \cite{HS13}, and the following generalizes it to a streamline that is also
+the geometry of Fig.~3 of \cite{HS13}, and the following generalizes it to a streamline that is also
 displaced and tilted vertically.
 
 In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$, and the points of
@@ -232,7 +232,7 @@ $|z' - z| \ll r$ and $|\delta\theta'| \ll 1$, so the particle's local frame
 $(\hat{r}, \hat{\theta}, \hat{z})$ can be treated as Cartesian.
 
 The vector from the particle to the streamline's near point (the black square in
-Figure~\ref{fig:wire_planar}) is then
+Fig.~\ref{fig:wire_planar}) is then
 \begin{equation}
     \label{eqn:wire_d}
     \boldsymbol{\Delta} = \mathbf{r}'(\delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
@@ -240,7 +240,7 @@ Figure~\ref{fig:wire_planar}) is then
 where $\delta\theta'$ is the near point's longitude relative to the particle's longitude. This splits
 the trip to the near point into two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(0) - \mathbf{r}$,
 goes from the particle to where the streamline crosses the particle's longitude (the cross in
-Figure~\ref{fig:wire_planar}), so $\mathbf{d}_0 = (d_r, 0, d_z)$ in the local frame, where
+Fig.~\ref{fig:wire_planar}), so $\mathbf{d}_0 = (d_r, 0, d_z)$ in the local frame, where
 $d_r = r'(0) - r$ and $d_z = z'(0) - z$. The second leg,
 $\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$, then runs along the streamline from
 that crossing point to the near point. That stretch of streamline is short and locally straight, so
@@ -280,8 +280,8 @@ point lies much closer to the crossing point than the spacing of the streamline'
 Inserting $\boldsymbol{\Delta}$ into Equation (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle.
 
-In the ring plane $d_z = s_z = 0$, and the above reduces to the geometry of Figure 3 of \cite{HS13},
-which is redrawn here as Figure~\ref{fig:wire_planar}. Let $\varphi$ be the angle at which the
+In the ring plane $d_z = s_z = 0$, and the above reduces to the geometry of Fig.~3 of \cite{HS13},
+which is redrawn here as Fig.~\ref{fig:wire_planar}. Let $\varphi$ be the angle at which the
 streamline crosses $\hat{\theta}$, so that $s_r = \tan\varphi$. Then $c = d_r\sin\varphi\cos\varphi$
 and $\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi, -\sin\varphi, 0)$, i.e., the perpendicular has
 length $\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$. The acceleration is
@@ -310,7 +310,7 @@ $5\times10^{-4}$ for a streamline $\Delta = 10^{-4}R$ away, and smaller still fo
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
-\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Figure 3 of
+\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
 $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
 $\mathbf{d}_0 = d_r\hat{r}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r\,\delta\theta'$ along
@@ -408,7 +408,7 @@ with $a$, $e$ and $\tilde{\omega}$ constant. Equations (\ref{eqn:inplane}) are i
 
 %equations G3, G6, G10, G14 of notes/sympy/streamline_gravity.py; epi_int_lite issues 7 and 9
 In the plane, the pull of Section \ref{sec:wire} reduces to Eqns.\ (\ref{eqn:wire_2d}), the pull of
-Figure 3 of \cite{HS13} (Figure~\ref{fig:wire_planar}). \cite{HS13} give its components as
+Fig.~3 of \cite{HS13} (Fig.~\ref{fig:wire_planar}). \cite{HS13} give its components as
 $A_{g,r} = A_g\cos\varphi$ and $A_{g,\theta} = -A_g\sin\varphi$, with $A_g = 2G\lambda/\Delta$ and
 $\Delta$ the perpendicular distance, and approximate them as $A_{g,r} \simeq A_g$ and
 $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ (their Eqns.\ 20), to lowest order in the streamline's
@@ -430,7 +430,7 @@ cost no more.
 
 \paragraph{Direction} Epi\_int\_lite takes the wire's direction from the streamline's velocity at
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
-(Figure~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
+(Fig.~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
 particles orbit at $\Omega$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega)s_r$, where $s_r$ is the
 slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad resonance
@@ -454,7 +454,7 @@ checked against epi\_int\_lite's exactly.
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{figures/wire_velocity.pdf}
-\caption{The perturbing streamline at its crossing point (Figure~\ref{fig:wire_planar}). Its shape
+\caption{The perturbing streamline at its crossing point (Fig.~\ref{fig:wire_planar}). Its shape
 has the slope $\tan\varphi = s_r$: a step $r\,d\theta$ along $\hat{\theta}$ moves it $dr'$ outward.
 Its velocity $\mathbf{v}'$ (dashed), which epi\_int\_lite takes as the wire's direction, is tilted
 less when the shape rotates, here by half as much, as for an $m = 2$ pattern.}
@@ -479,7 +479,7 @@ difference $A_j = -(p_{j+1} - p_{j-1})/2\lambda$, which tends to $-\sigma^{-1}\p
 as $\Delta \rightarrow 0$. Displace the streamlines radially by $\xi_j = \xi\cos(j\phi)$, where
 $\phi = k\Delta$ and $k$ is the radial wavenumber, so that $0 < \phi \le \pi$; $\phi = \pi$ is
 the shortest wave the lattice can carry, the zigzag $\xi_j = (-1)^j\xi$ of
-Figure~\ref{fig:zigzag}a. Linearizing in $\xi$, the streamlines at $j = \pm n$ add
+Fig.~\ref{fig:zigzag}a. Linearizing in $\xi$, the streamlines at $j = \pm n$ add
 $4G\lambda(1 - \cos n\phi)\xi/(n\Delta)^2$ to the acceleration of streamline 0, and summing over
 $n$ with $\sigma = \lambda/\Delta$ gives
 \begin{equation}
@@ -501,7 +501,7 @@ For $\phi \ll 1$ these recover the continuum terms $X \rightarrow 2\pi G\sigma k
 $\omega_p^2 \rightarrow c^2k^2$, and Eqn.\ (\ref{eqn:zigzag_disp}) becomes the dispersion relation
 of a pressure-supported self-gravitating sheet, which is stable at all $k$ when
 $Q = c\kappa/\pi G\sigma \ge 1$ \citep{T64, BT87}. At the grid scale the lattice departs from
-the continuum in two ways (Figure~\ref{fig:zigzag}b). Self-gravity peaks at
+the continuum in two ways (Fig.~\ref{fig:zigzag}b). Self-gravity peaks at
 $X(\pi) = \pi^2G\sigma/\Delta$, half the continuum value $2\pi G\sigma k$ at $k = \pi/\Delta$.
 And pressure vanishes there: in the zigzag, streamlines $j \pm 1$ move together, so
 $r_{j+1} - r_{j-1}$ and hence $\sigma_j$ and $p_j$ do not change. The viscous fluxes of
@@ -564,7 +564,7 @@ $N_r = 1000$ (${\cal R} \simeq 0.9$) it becomes ragged and its streamlines cross
 same rate with 40 or 241 particles per streamline, and does not grow when ring gravity is turned
 off, consistent with the self-gravity-assisted overstability for $\nu_b = \nu_s$ at
 ${\cal R} > 2/7$. Pressure with $Q \le 2$ delays the crossing by less than two orbits, as expected
-from Figure~\ref{fig:zigzag}b, where $\omega_p^2 \le 0.1\kappa^2$.
+from Fig.~\ref{fig:zigzag}b, where $\omega_p^2 \le 0.1\kappa^2$.
 
 The crossings near ${\cal R} \simeq 0.3$ are mostly a different, numerical, problem. The same
 ringlet without the initial twist, at $N_r = 333$ (${\cal R} \simeq 0.31$), crosses after 145
