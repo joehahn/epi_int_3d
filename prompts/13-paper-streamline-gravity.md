@@ -165,3 +165,6 @@ particle: Delta = [r'(dtheta') - r, r dtheta', z'(dtheta') - z].]
 
 Follow-up: should that discussion instead start with Delta = r1 - r = d0 + d1, where d0 = (d_r, 0, d_z)?
 [Yes, as Delta = r' - r ~ [r' - r, r dtheta', z' - z] = d0 + d1 in the local frame.]
+
+Follow-up: should the ends of the r and r1 vectors be shown in Fig. 1? [Labelled: particle at r, nearest
+point at r'.] r'

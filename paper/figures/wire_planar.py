@@ -65,9 +65,9 @@ ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center'
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
 ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
-ax.text(F[0] + 0.12, F[1] - 0.05, 'nearest\npoint', fontsize=9, va='top')
+ax.text(F[0] + 0.12, F[1] - 0.05, "nearest\npoint, $\\mathbf{r}'$", fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
-ax.text(-0.15, 0.15, 'particle', ha='right', fontsize=10)
+ax.text(-0.15, 0.15, r'particle, $\mathbf{r}$', ha='right', fontsize=10)
 save(fig, 'wire_planar')
 
 #Appendix B: the shape's slope and the velocity at the crossing point
