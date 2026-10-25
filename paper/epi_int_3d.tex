@@ -199,15 +199,14 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 
 %equations G1-G16, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
 Epi\_int and epi\_int\_lite treat the gravity that a perturbing streamline $a'$ exerts on a
-particle in another streamline as that of a straight and infinitely long wire, which results in the
-acceleration
+particle as that of a straight and infinitely long wire, which results in the acceleration
 \begin{equation}
     \label{eqn:wire_Ag}
     \mathbf{A}_g = \frac{2G\lambda'\boldsymbol{\Delta}}{\Delta^2},
 \end{equation}
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
-perpendicular from the particle to the streamline's near point, the point of the streamline nearest
-the particle. Its magnitude is
+separation of the particle from the streamline's near point, its point nearest the particle
+(Fig.~\ref{fig:wire_planar}). Its magnitude is
 $A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
 epi\_int\_lite.

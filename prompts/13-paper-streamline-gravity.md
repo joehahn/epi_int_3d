@@ -206,3 +206,9 @@ tangent to the streamline only when the streamline's shape is stationary." be de
 Follow-up: delete "(Section 2.3.2 of J. M. Hahn & J. N. Spitale 2013; Eqn. 1 of J. M. Hahn et al. 2025)"
 and say that those codes treat the gravity that a perturbing streamline exerts on a particle as a
 wire, resulting in the acceleration of Eqn 13. [Done.]
+
+Follow-up: delete "in another streamline" and change "Δ is the perpendicular from the particle to the
+streamline's near point, the point of the streamline nearest the particle" to something like "Δ is the
+distance from the particle to the streamline's near point, Fig 1". [Done, as "Δ is the separation of the
+particle from the streamline's near point, its point nearest the particle (Fig. 1)": bold Δ is a vector,
+and the near point is defined only here.]
