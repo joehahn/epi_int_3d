@@ -146,3 +146,5 @@ point" a smidge right.
 
 Follow-up: make the vector labels (Delta etc.) less heavy. Should the theta and r axis labels have hats?
 [Yes: they are the local frame's directions.]
+
+Follow-up: move Delta closer to its line and phi midway along its arc; move "nearest point" up a smidge.
