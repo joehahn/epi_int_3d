@@ -56,8 +56,8 @@ ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when draf
 - But not as a stack of parentheticals at the start of a paragraph or sentence (the author cut one
   from Section 3's opening, 2026-10-25). Put the citation where the specific fact is used.
 
-- In-text citations print without first initials, "Hahn & Spitale (2013)" (the author's choice,
-  2026-10-25; `paper/aasjournalv7_jmh.bst`). The AASTeX 7 style, and ApJ since 2024, adds them.
+- Citations use the ApJ reference style as AASTeX 7 prints it, with first initials in the text
+  ("J. M. Hahn & J. N. Spitale (2013)"), as in hahn25 (the author's choice, 2026-10-25).
 
 ## Figures and captions
 

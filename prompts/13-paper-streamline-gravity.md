@@ -259,3 +259,6 @@ be referred to as Hahn & Spitale (2013)? Doesn't aastex manage the reference tex
 sentence: "The following builds upon the treatment of Hahn & Spitale (2013)." AASTeX does manage it:
 aasjournalv7.bst adds first initials to in-text citations on purpose (AAS house style since 2024, as in
 hahn25). paper/aasjournalv7_jmh.bst is a copy without them.]
+
+Follow-up: use ApJ reference style. [aasjournalv7_jmh.bst removed; back to aasjournalv7.bst, with
+first initials in in-text citations.]
