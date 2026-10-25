@@ -221,18 +221,19 @@ $\delta\theta'$ that are treated as known below.
 
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. Let $\mathbf{d}(\delta\theta')$ be the vector from the
-particle to the point of the streamline at the longitude offset $\delta\theta'$,
+$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle to the nearest point on
+streamline $a'$ (the black square in Figure~\ref{fig:wire_planar}) is
 \begin{equation}
     \label{eqn:wire_d}
-    \mathbf{d}(\delta\theta') = \mathbf{d}_0 + \mathbf{d}_1(\delta\theta').
+    \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1(\delta\theta'),
 \end{equation}
-Here $\mathbf{d}_0 = (d_r, 0, d_z)$, with $d_r = r'(0) - r$ and $d_z = z'(0) - z$, points to where the
-streamline crosses the particle's longitude (the open circle in Figure~\ref{fig:wire_planar}), and
+where $\delta\theta'$ is the nearest point's longitude offset. Here $\mathbf{d}_0 = (d_r, 0, d_z)$, with
+$d_r = r'(0) - r$ and $d_z = z'(0) - z$, points from the particle to where the streamline crosses the
+particle's longitude (the open circle in Figure~\ref{fig:wire_planar}), and
 $\mathbf{d}_1 = [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
-(s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
-$\delta\theta'$, along the short, locally straight stretch of streamline near the crossing point,
-whose unit tangent is
+(s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ points from there to the
+nearest point, to first order in $\delta\theta'$, along the short, locally straight stretch of
+streamline between them, whose unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
@@ -247,8 +248,8 @@ at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials. 
 taken from the streamline's shape rather than its velocity, which is tangent to the streamline only
 when the streamline's shape is stationary (Appendix \ref{sec:appendix_wire2d}).
 
-The perpendicular $\boldsymbol{\Delta}$ from the particle to the streamline is $\mathbf{d}$ at the
-nearest point, where $\mathbf{d}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
+At the nearest point $\boldsymbol{\Delta}$ is perpendicular to the streamline,
+$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
 \hat{\mathbf{t}}$ that condition is $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$, so the
 nearest point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
 (d_rs_r + d_zs_z)/N^2$, and
@@ -280,7 +281,7 @@ of \cite{HS13}, redrawn here as Figure~\ref{fig:wire_planar}. The pull is then
 Out of the plane, $A_{g,\theta} = -2G\lambda'c/\Delta^2$ includes the term $-2G\lambda'd_zs_z/N^2\Delta^2$,
 through which vertically displaced streamlines exchange angular momentum.
 
-Eqns.\ (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_D}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
+Eqns.\ (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_d}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
 streamline's curvature $1/R$, where $R \simeq r$. First, the streamline bends away from its tangent
 between the crossing point and the nearest point, which rotates $\boldsymbol{\Delta}$ by the angle
 $(\mathbf{d}_0\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
@@ -298,7 +299,7 @@ $\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same orde
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ is a straight wire that crosses that
 longitude (open circle) a distance $d_r$ from the particle, along the streamline's shape, tilted from
 $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$ (a step $r\,d\theta$ along $\hat{\theta}$
-moves it $dr'$ outward). The perpendicular to the wire's nearest point (square),
+moves it $dr'$ outward). The perpendicular to the wire's nearest point (black square),
 $\Delta = d_r\cos\varphi$, makes the angle $\varphi$ with $\hat{r}$, and the wire pulls along it with
 $A_g = 2G\lambda'/\Delta$ (Eqns.\ \ref{eqn:wire_2d}). The streamline's velocity $\mathbf{v}'$ (dashed),
 which epi\_int\_lite takes as the wire's direction, is tilted less than its shape when the shape

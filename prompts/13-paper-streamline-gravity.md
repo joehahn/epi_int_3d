@@ -122,3 +122,9 @@ Follow-up: should "d = (d_r, 0, d_z) from the particle, where d_r = r'(0) - r an
 indicate that d points from the particle to the open circle in Fig. 1? Would the discussion be simpler
 if we set d = d0 + d1, where d0 = (d_r, 0, d_z) and d1 = [r'(dtheta') - r'(0), r dtheta',
 z'(dtheta') - z'(0)]? Yes, rewrite it that way.
+
+Follow-up: "Let d(delta theta') be the vector from the particle to the point of the streamline at the
+longitude offset delta theta'" should be "the vector from the particle to the nearest point on streamline
+a', which is the black symbol in Fig. 1", and make that symbol more prominent; then d = d0 + d1, where
+d0 points from the particle to where the streamline crosses the particle's longitude. [That vector is
+Delta itself, so it is written Delta = d0 + d1(delta theta').]

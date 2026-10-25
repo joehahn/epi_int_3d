@@ -42,11 +42,13 @@ for q in (-1.4, 1.95):
 ax.text(dx + 2.25*T[0], 2.25*T[1], "$a'$", fontsize=12)
 #the crossing point, and the radial gap d_r to it
 ax.plot(dx, 0, 'o', ms=7, mfc='white', mec='k', mew=1.3, zorder=4)
+ax.text(dx + 0.12, -0.2, 'crossing\npoint', fontsize=9, va='top')
 ax.text(dx/2, 0.12, r'$d_r$', ha='center', fontsize=12)
 #the perpendicular Delta = d_r cos(phi) to the near point, and the pull along it
 F = np.array([dx, 0]) - (np.array([dx, 0]) @ T)*T
 ax.plot([0, F[0]], [0, F[1]], 'k-', lw=1)
-ax.plot(*F, 'ks', ms=4)
+ax.plot(*F, 'ks', ms=9, zorder=5)
+ax.text(F[0] + 0.12, F[1] - 0.12, 'nearest\npoint', fontsize=9, va='top')
 ax.text(0.45, -1.1, r'$\Delta = d_r\cos\varphi$', fontsize=11)
 u = F/np.hypot(*F)
 ax.annotate('', xy=0.85*u, xytext=(0, 0), arrowprops=PULL)
