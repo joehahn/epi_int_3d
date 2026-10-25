@@ -277,3 +277,9 @@ estimate that near point. [Done.]
 
 Follow-up: and "while the perturbing streamline's coordinates r' = (r', θ', z') are to be regarded as
 functions of its longitude θ' = θ + δθ'" relative to the particle's longitude θ. [Done.]
+
+Follow-up: change to "Streamline a' is sampled by its particles, so, as in J. M. Hahn & J. N. Spitale
+(2013), Lagrange polynomials are fit to the three particles in a' that are nearest in longitude", and
+"r'(δθ'), z'(δθ') and the linear density λ'(δθ') as smooth functions of δθ', which allows the
+streamline's near point to be estimated below" to "which allows r'(δθ'), z'(δθ') and the linear density
+λ'(δθ') to be regarded as smooth functions of δθ'". [Done.]
