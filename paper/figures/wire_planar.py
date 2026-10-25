@@ -4,8 +4,8 @@
 #exerts on a particle in the ring plane (the paper's Section 3.1 and Appendix B; equations G3, G6, G14 of
 #notes/sympy/streamline_gravity.py). The wire crosses the particle's longitude a distance d_r away,
 #along the streamline's shape, tilted from theta-hat by phi, tan(phi) = s_r = dr'/(r dtheta); the
-#perpendicular from the particle to it, D = d_r cos(phi), makes the angle phi with r-hat, and the
-#wire pulls along it with A_g = 2 G lambda'/D. The streamline's velocity v' (dashed) is tilted by
+#perpendicular from the particle to it, Delta = d_r cos(phi), makes the angle phi with r-hat, and the
+#wire pulls along it with A_g = 2 G lambda'/Delta. The streamline's velocity v' (dashed) is tilted by
 #less than phi when its shape rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
 #
 #Run:  uv run python paper/figures/wire_planar.py   (writes wire_planar.pdf and .png alongside)
@@ -47,7 +47,7 @@ ax.text(dx/2, 0.12, r'$d_r$', ha='center', fontsize=12)
 F = np.array([dx, 0]) - (np.array([dx, 0]) @ T)*T
 ax.plot([0, F[0]], [0, F[1]], 'k-', lw=1)
 ax.plot(*F, 'ks', ms=4)
-ax.text(0.45, -1.1, r'$D = d_r\cos\varphi$', fontsize=11)
+ax.text(0.45, -1.1, r'$\Delta = d_r\cos\varphi$', fontsize=11)
 u = F/np.hypot(*F)
 ax.annotate('', xy=0.85*u, xytext=(0, 0), arrowprops=PULL)
 ax.text(0.2, -0.62, r'$A_g$', color='C3', fontsize=11)

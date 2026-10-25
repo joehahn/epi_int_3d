@@ -98,3 +98,5 @@ edits.
 Follow-up: merge the relevant parts of Appendix B with Section 3 to derive the 3D pull, then let a
 revised Appendix B speak to how that solution reduces to epi_int_lite's z = 0 solution after accounting
 for the discrepancies. Yes, do the restructure.
+
+Follow-up: shouldn't D be Delta, to be consistent with past papers? [Yes; changed.]

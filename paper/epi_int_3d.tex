@@ -203,9 +203,9 @@ gravity that a perturbing streamline $a'$ exerts on a particle in another stream
 straight and infinitely long wire, which pulls the particle toward it with
 \begin{equation}
     \label{eqn:wire_Ag}
-    A_g = \frac{2G\lambda'}{D},
+    A_g = \frac{2G\lambda'}{\Delta},
 \end{equation}
-where $\lambda'$ is the perturbing streamline's linear density and $D$ is the particle's
+where $\lambda'$ is the perturbing streamline's linear density and $\Delta$ is the particle's
 perpendicular distance from the wire (Eqn.\ 19 of \citealt{HS13}). This section derives that pull
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
 epi\_int\_lite. The perturbing streamline's position and linear density at longitudes
@@ -236,52 +236,52 @@ at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials. 
 taken from the streamline's shape rather than its velocity, which is tangent to the streamline only
 when the streamline's shape is stationary (Appendix \ref{sec:appendix_wire2d}).
 
-The perpendicular $\mathbf{D}$ from the particle to the streamline meets it where
-$\mathbf{D}\cdot\hat{\mathbf{t}} = 0$. That point is close to the crossing point, so over the short
+The perpendicular $\boldsymbol{\Delta}$ from the particle to the streamline meets it where
+$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. That point is close to the crossing point, so over the short
 stretch between them the streamline can be taken as straight, and
 \begin{equation}
     \label{eqn:wire_D}
-    \mathbf{D} = \hat{\mathbf{t}}\times(\mathbf{d}\times\hat{\mathbf{t}})
+    \boldsymbol{\Delta} = \hat{\mathbf{t}}\times(\mathbf{d}\times\hat{\mathbf{t}})
     = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
 \end{equation}
 the perpendicular from a point to a line. In components,
 \begin{eqnarray}
     \label{eqn:wire_Dcomp}
-    \mathbf{D} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
-    D^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z),
+    \boldsymbol{\Delta} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
+    \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z),
 \end{eqnarray}
 where $c = (d_rs_r + d_zs_z)/N^2$. The nearest point thus lies at $\delta\theta' = -c/r$, which is
 much less than the spacing of the streamline's particles in longitude, since
 $|c| \le |d_rs_r| + |d_zs_z| \ll r$. Near the particle the streamline then pulls like a straight,
-infinitely long wire, with $A_g$ of Eqn.\ (\ref{eqn:wire_Ag}) along $\mathbf{D}$:
+infinitely long wire, with $A_g$ of Eqn.\ (\ref{eqn:wire_Ag}) along $\boldsymbol{\Delta}$:
 \begin{equation}
     \label{eqn:wire_3d}
-    \mathbf{A}_g = \frac{2G\lambda'\mathbf{D}}{D^2}.
+    \mathbf{A}_g = \frac{2G\lambda'\boldsymbol{\Delta}}{\Delta^2}.
 \end{equation}
 
 In the plane, $d_z = s_z = 0$. Let $\varphi$ be the angle at which the streamline crosses
 $\hat{\theta}$, so that $s_r = \tan\varphi$. Then $c = d_r\sin\varphi\cos\varphi$ and
-$\mathbf{D} = d_r\cos\varphi(\cos\varphi, -\sin\varphi, 0)$: the perpendicular has length
-$D = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$, which is the geometry of Figure 3
+$\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi, -\sin\varphi, 0)$: the perpendicular has length
+$\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$, which is the geometry of Figure 3
 of \cite{HS13}, redrawn here as Figure~\ref{fig:wire_planar}. The pull is then
 \begin{eqnarray}
     \label{eqn:wire_2d}
     A_{g,r} &=& \frac{2G\lambda'}{d_r} \nonumber\\
     A_{g,\theta} &=& -\frac{2G\lambda'\tan\varphi}{d_r}.
 \end{eqnarray}
-Out of the plane, $A_{g,\theta} = -2G\lambda'c/D^2$ includes the term $-2G\lambda'd_zs_z/N^2D^2$,
+Out of the plane, $A_{g,\theta} = -2G\lambda'c/\Delta^2$ includes the term $-2G\lambda'd_zs_z/N^2\Delta^2$,
 through which vertically displaced streamlines exchange angular momentum.
 
 Eqns.\ (\ref{eqn:wire_D}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
 streamline's curvature $1/R$, where $R \simeq r$. First, the streamline bends away from its tangent
-between the crossing point and the nearest point, which rotates $\mathbf{D}$ by the angle
+between the crossing point and the nearest point, which rotates $\boldsymbol{\Delta}$ by the angle
 $(\mathbf{d}\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
-$(\mathbf{d}\cdot\hat{\mathbf{t}})^2/2RD$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
-$D/R$ and $s_r^2D/R$. Second, a curved streamline does not pull exactly like a straight wire: a
-circular ring of matter pulls a point in its plane a distance $D$ away with
-$(2G\lambda'/D)[1 \pm (D/2R)(\ln(8R/D) - 2)]$, the sign $+$ outside the ring and $-$ inside. This is
+$(\mathbf{d}\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
+$\Delta/R$ and $s_r^2\Delta/R$. Second, a curved streamline does not pull exactly like a straight wire: a
+circular ring of matter pulls a point in its plane a distance $\Delta$ away with
+$(2G\lambda'/\Delta)[1 \pm (\Delta/2R)(\ln(8R/\Delta) - 2)]$, the sign $+$ outside the ring and $-$ inside. This is
 the error of the wire approximation itself \citep{HS13}, about $5\times10^{-4}$ for a streamline
-$D = 10^{-4}R$ away and smaller for nearer ones, and it is of the same order as the first.
+$\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same order as the first.
 
 \begin{figure}
 \centering
@@ -291,8 +291,8 @@ $D = 10^{-4}R$ away and smaller for nearer ones, and it is of the same order as 
 longitude (open circle) a distance $d_r$ from the particle, along the streamline's shape, tilted from
 $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$ (a step $r\,d\theta$ along $\hat{\theta}$
 moves it $dr'$ outward). The perpendicular to the wire's nearest point (square),
-$D = d_r\cos\varphi$, makes the angle $\varphi$ with $\hat{r}$, and the wire pulls along it with
-$A_g = 2G\lambda'/D$ (Eqns.\ \ref{eqn:wire_2d}). The streamline's velocity $\mathbf{v}'$ (dashed),
+$\Delta = d_r\cos\varphi$, makes the angle $\varphi$ with $\hat{r}$, and the wire pulls along it with
+$A_g = 2G\lambda'/\Delta$ (Eqns.\ \ref{eqn:wire_2d}). The streamline's velocity $\mathbf{v}'$ (dashed),
 which epi\_int\_lite takes as the wire's direction, is tilted less than its shape when the shape
 rotates, here by half as much, as for an $m = 2$ pattern (Appendix \ref{sec:appendix_wire2d}).}
 \label{fig:wire_planar}
@@ -339,7 +339,7 @@ linear density at the particle's longitude, and both slopes $s_r$ and $s_z$ take
 of the Lagrange polynomials that give $r'$ and $z'$ there. In the plane it is
 Eqns.\ (\ref{eqn:wire_2d}). For regression tests, epi\_int\_3d can instead use epi\_int\_lite's
 ring gravity (Eqns.\ \ref{eqn:wire_lite}), with which it reproduces epi\_int\_lite's results
-exactly. $D$ never vanishes, since streamlines may not cross. As in epi\_int\_lite, the
+exactly. $\Delta$ never vanishes, since streamlines may not cross. As in epi\_int\_lite, the
 particle's own streamline exerts no force on it. The slopes require that the streamline be well
 sampled by its particles.
 
