@@ -94,3 +94,7 @@ are found by fitting Lagrange polynomials ..."] means that the perturbing stream
 regarded as functions of delta theta', the longitude relative to the perturbed particle's, correct?
 Should the paper introduce that relative longitude, perhaps via the symbol delta theta'? Yes, make those
 edits.
+
+Follow-up: merge the relevant parts of Appendix B with Section 3 to derive the 3D pull, then let a
+revised Appendix B speak to how that solution reduces to epi_int_lite's z = 0 solution after accounting
+for the discrepancies. Yes, do the restructure.
