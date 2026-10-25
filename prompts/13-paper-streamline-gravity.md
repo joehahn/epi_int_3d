@@ -202,3 +202,7 @@ d_z = z'(0) - z".
 
 Follow-up: can "The tangent is thus taken from the streamline's shape rather than its velocity, which is
 tangent to the streamline only when the streamline's shape is stationary." be deleted? [Yes.]
+
+Follow-up: delete "(Section 2.3.2 of J. M. Hahn & J. N. Spitale 2013; Eqn. 1 of J. M. Hahn et al. 2025)"
+and say that those codes treat the gravity that a perturbing streamline exerts on a particle as a
+wire, resulting in the acceleration of Eqn 13. [Done.]
