@@ -100,3 +100,6 @@ revised Appendix B speak to how that solution reduces to epi_int_lite's z = 0 so
 for the discrepancies. Yes, do the restructure.
 
 Follow-up: shouldn't D be Delta, to be consistent with past papers? [Yes; changed.]
+
+Follow-up: should Eqn. (13) refer to vector Delta, then explain how the Lagrange polynomial is used to
+solve for vec(Delta), which points to the near point? Yes, make that change.
