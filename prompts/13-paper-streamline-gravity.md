@@ -183,3 +183,6 @@ the cylindrical coordinates (r'(dtheta'), theta + dtheta', z'(dtheta'))" be "r'(
 parameterized by dtheta'"? Note that I used nearpoint rather than nearest point; if that works then
 change the paper and figure accordingly. [Used "near point", defined once as the point nearest the
 particle.]
+
+Follow-up: should angle dtheta' be indicated in Fig. 1? [As the offset r dtheta' along theta-hat between
+the r and r' arrows; the angle itself is subtended at the planet, off the figure.]
