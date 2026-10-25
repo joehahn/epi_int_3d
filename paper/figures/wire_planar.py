@@ -2,7 +2,7 @@
 #
 #hahn13 Fig. 3, redrawn, in two figures (equations G3, G6, G14, G16 of notes/sympy/streamline_gravity.py):
 #wire_planar: the paper's Figure 1 (Section 3.1). The perturbing streamline a' crosses the particle's
-#    longitude at d0 = d_r r-hat (the crossing point, open circle), tilted from theta-hat by phi; the
+#    longitude at d0 = d_r r-hat (the crossing point, x), tilted from theta-hat by phi; the
 #    nearest point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
 #    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
 #    Vectors are drawn heavier than the streamline.
@@ -49,7 +49,7 @@ X = np.array([dx, 0.0])                               #the crossing point
 F = X - (X @ T)*T                                     #the nearest point
 s = np.array([-1.5, 2.2])
 ax.plot(dx + s*T[0], s*T[1], 'k-', lw=1.0)
-for q in (-1.4, 1.95):
+for q in (-1.4, 0.85, 1.95):                          #the three particles of a' nearest in longitude
     ax.plot(dx + q*T[0], q*T[1], 'ko', ms=6)
 ax.text(dx + 2.25*T[0], 2.25*T[1], "$a'$", fontsize=12)
 ax.annotate('', xy=X, xytext=(0, 0), arrowprops=dict(VEC, shrinkB=5))
@@ -62,7 +62,7 @@ ax.text(*(0.5*F + 0.14*np.array([u[1], -u[0]])), r'$\boldsymbol{\Delta}$', fonts
 ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
 am = np.arctan2(u[1], u[0])/2                         #midway along the arc
 ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
-ax.plot(*X, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
+ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
 ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
 ax.text(F[0] + 0.12, F[1] - 0.05, 'nearest\npoint', fontsize=9, va='top')
@@ -92,6 +92,6 @@ phv = np.arctan(0.5*np.tan(phi))
 Vv = 1.0*np.array([np.sin(phv), np.cos(phv)])
 ax.annotate('', xy=Vv, xytext=(0, 0), arrowprops=dict(arrowstyle='-|>', lw=1.3, ls='--', mutation_scale=11, color='C2'))
 ax.text(Vv[0] + 0.03, Vv[1] - 0.1, "$\\mathbf{v}'$", color='C2', fontsize=12)
-ax.plot(0, 0, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
+ax.plot(0, 0, 'kx', ms=9, mew=2, zorder=5)
 ax.text(0.1, -0.12, 'crossing point', fontsize=9, va='top')
 save(fig, 'wire_velocity')

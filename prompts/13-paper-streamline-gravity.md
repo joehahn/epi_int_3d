@@ -150,3 +150,6 @@ Follow-up: make the vector labels (Delta etc.) less heavy. Should the theta and 
 Follow-up: move Delta closer to its line and phi midway along its arc; move "nearest point" up a smidge.
 
 Follow-up: move phi slightly closer to its arc, and push.
+
+Follow-up: should there be a 3rd particle shown in a'? And should the crossing point be a non-circle so it
+doesn't get confused with a particle? [Yes to both: three particles, crossing point marked x.]
