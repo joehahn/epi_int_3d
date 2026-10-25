@@ -209,16 +209,17 @@ where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{
 perpendicular from the particle to the streamline's nearest point. Its magnitude is
 $A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
-epi\_int\_lite. The streamline's nearest point lies at a longitude $\theta' = \theta + \delta\theta'$
-slightly offset from the particle's longitude $\theta$. To find it, the perturbing streamline's
-position and linear density near $\theta$ are found by fitting Lagrange polynomials to the three
-particles of $a'$ nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$,
-$z'(\delta\theta')$ and $\lambda'(\delta\theta')$ as smooth functions of the longitude offset
-$\delta\theta'$ that are treated as known below.
+epi\_int\_lite.
 
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
+The perturbing streamline's nearest point to the particle lies at a longitude
+$\theta' = \theta + \delta\theta'$ slightly offset from the particle's longitude $\theta$. To find it,
+the streamline's position and linear density near $\theta$ are found by fitting Lagrange polynomials to the three
+particles of $a'$ nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$,
+$z'(\delta\theta')$ and $\lambda'(\delta\theta')$ as smooth functions of the longitude offset
+$\delta\theta'$ that are treated as known below.
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
 $|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle, at $\mathbf{r}$, to the

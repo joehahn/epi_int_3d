@@ -168,3 +168,6 @@ Follow-up: should that discussion instead start with Delta = r1 - r = d0 + d1, w
 
 Follow-up: should the ends of the r and r1 vectors be shown in Fig. 1? [Labelled: particle at r, nearest
 point at r'.] r'
+
+Follow-up: should "The streamline's nearest point lies at a longitude theta' = theta + dtheta' ... as
+smooth functions of the longitude offset" be in Section 3.1? [Yes; moved.]
