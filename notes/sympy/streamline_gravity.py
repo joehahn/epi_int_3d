@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G15; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G16; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -304,3 +304,21 @@ for _D, _tol in ((1e-2, 0.03), (1e-3, 0.005)):
         _pred = _sgn*(_D/2)*(_np.log(8/_D) - 2)
         assert abs(_eps/_pred - 1) < _tol, (_D, _sgn, _eps, _pred)
 print('PASS  G15: a ring pulls like a straight wire to within (D/2R)(ln(8R/D) - 2), by quadrature')
+
+# --- G16: the paper's Sec. 3.1 solve. d(dtheta') = d0 + d1, d1 = N r dtheta' t to first order; the
+# nearest point, d.t = 0, is at dtheta' = -c/r, c = (d0.t)/N = (d_r s_r + d_z s_z)/N^2, and there
+# d = d0 - (d0.t)t = t x (d0 x t), with components (d_r - c s_r, -c, d_z - c s_z). ---
+d_r0, d_z0, s_r0, s_z0, rr0, dth = sp.symbols('d_r d_z s_r s_z r dtheta', real=True)
+N0 = sp.sqrt(1 + s_r0**2 + s_z0**2)
+t0 = sp.Matrix([s_r0, 1, s_z0])/N0
+d00 = sp.Matrix([d_r0, 0, d_z0])
+dvec = d00 + N0*rr0*dth*t0
+dth_n = sp.solve(dvec.dot(t0), dth)[0]
+c0 = (d_r0*s_r0 + d_z0*s_z0)/N0**2
+check('G16: nearest point at dtheta\' = -c/r', dth_n + c0/rr0)
+Dn = dvec.subs(dth, dth_n)
+check('G16: there d = d0 - (d0.t)t', Dn - (d00 - d00.dot(t0)*t0))
+check('G16: = t x (d0 x t)', Dn - t0.cross(d00.cross(t0)))
+check('G16: components (d_r - c s_r, -c, d_z - c s_z)', Dn - sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0]))
+check('G16: Delta^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z)',
+      (Dn.T*Dn)[0] - (d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))

@@ -197,7 +197,7 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G15, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
+%equations G1-G16, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
 In epi\_int and epi\_int\_lite (Section 2.3.2 of \citealt{HS13}; Eqn.\ 1 of \citealt{H25}), the
 gravity that a perturbing streamline $a'$ exerts on a particle in another streamline is that of a
 straight and infinitely long wire, which pulls the particle toward it with the acceleration
@@ -221,13 +221,18 @@ $\delta\theta'$ that are treated as known below.
 
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The streamline crosses the particle's longitude at
-$\delta\theta' = 0$, and that crossing point lies at $\mathbf{d} = (d_r, 0, d_z)$ from the particle,
-where $d_r = r'(0) - r$ and $d_z = z'(0) - z$. Other points on that locally straight streamline can be
-parameterized by the small longitudinal offset $\delta\theta'$: they lie at
-$\mathbf{d} + [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
-\mathbf{d} + (s_r, 1, s_z)\,r\,\delta\theta'$ from the particle, to first order in $\delta\theta'$, so
-the streamline's unit tangent is
+$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. Let $\mathbf{d}(\delta\theta')$ be the vector from the
+particle to the point of the streamline at the longitude offset $\delta\theta'$,
+\begin{equation}
+    \label{eqn:wire_d}
+    \mathbf{d}(\delta\theta') = \mathbf{d}_0 + \mathbf{d}_1(\delta\theta').
+\end{equation}
+Here $\mathbf{d}_0 = (d_r, 0, d_z)$, with $d_r = r'(0) - r$ and $d_z = z'(0) - z$, points to where the
+streamline crosses the particle's longitude (the open circle in Figure~\ref{fig:wire_planar}), and
+$\mathbf{d}_1 = [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
+(s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
+$\delta\theta'$, along the short, locally straight stretch of streamline near the crossing point,
+whose unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
@@ -242,23 +247,25 @@ at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials. 
 taken from the streamline's shape rather than its velocity, which is tangent to the streamline only
 when the streamline's shape is stationary (Appendix \ref{sec:appendix_wire2d}).
 
-The perpendicular $\boldsymbol{\Delta}$ from the particle to the streamline meets it where
-$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. That point is close to the crossing point, so over the short
-stretch between them the streamline can be taken as straight, and
+The perpendicular $\boldsymbol{\Delta}$ from the particle to the streamline is $\mathbf{d}$ at the
+nearest point, where $\mathbf{d}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
+\hat{\mathbf{t}}$ that condition is $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$, so the
+nearest point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
+(d_rs_r + d_zs_z)/N^2$, and
 \begin{equation}
     \label{eqn:wire_D}
-    \boldsymbol{\Delta} = \hat{\mathbf{t}}\times(\mathbf{d}\times\hat{\mathbf{t}})
-    = \mathbf{d} - (\mathbf{d}\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
+    \boldsymbol{\Delta} = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}
+    = \hat{\mathbf{t}}\times(\mathbf{d}_0\times\hat{\mathbf{t}}).
 \end{equation}
-the perpendicular from a point to a line. In components,
+In components,
 \begin{eqnarray}
     \label{eqn:wire_Dcomp}
     \boldsymbol{\Delta} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
-    \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z),
+    \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z).
 \end{eqnarray}
-where $c = (d_rs_r + d_zs_z)/N^2$. The nearest point thus lies at $\delta\theta' = -c/r$, which is
-much less than the spacing of the streamline's particles in longitude, since
-$|c| \le |d_rs_r| + |d_zs_z| \ll r$. Eqn.\ (\ref{eqn:wire_Ag}) then gives the pull.
+The nearest point is much closer to the crossing point than the spacing of the streamline's
+particles in longitude, since $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as
+assumed. Eqn.\ (\ref{eqn:wire_Ag}) then gives the pull.
 
 In the plane, $d_z = s_z = 0$. Let $\varphi$ be the angle at which the streamline crosses
 $\hat{\theta}$, so that $s_r = \tan\varphi$. Then $c = d_r\sin\varphi\cos\varphi$ and
@@ -276,8 +283,8 @@ through which vertically displaced streamlines exchange angular momentum.
 Eqns.\ (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_D}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
 streamline's curvature $1/R$, where $R \simeq r$. First, the streamline bends away from its tangent
 between the crossing point and the nearest point, which rotates $\boldsymbol{\Delta}$ by the angle
-$(\mathbf{d}\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
-$(\mathbf{d}\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
+$(\mathbf{d}_0\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
+$(\mathbf{d}_0\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
 $\Delta/R$ and $s_r^2\Delta/R$. Second, a curved streamline does not pull exactly like a straight wire: a
 circular ring of matter pulls a point in its plane a distance $\Delta$ away with
 $(2G\lambda'/\Delta)[1 \pm (\Delta/2R)(\ln(8R/\Delta) - 2)]$, the sign $+$ outside the ring and $-$ inside. This is

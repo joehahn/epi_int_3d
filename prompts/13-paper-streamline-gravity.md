@@ -117,3 +117,8 @@ delta theta' = 0, at the separation d = (d_r, 0, d_z)" to "The streamline crosse
 longitude at delta theta' = 0, and that crossing point lies at d = (d_r, 0, d_z)", and "A point on the
 streamline at a small offset delta theta'" to "other points on that locally straight streamline can be
 parameterized by the small longitudinal offset delta theta'".
+
+Follow-up: should "d = (d_r, 0, d_z) from the particle, where d_r = r'(0) - r and d_z = z'(0) - z"
+indicate that d points from the particle to the open circle in Fig. 1? Would the discussion be simpler
+if we set d = d0 + d1, where d0 = (d_r, 0, d_z) and d1 = [r'(dtheta') - r'(0), r dtheta',
+z'(dtheta') - z'(0)]? Yes, rewrite it that way.
