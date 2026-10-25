@@ -206,7 +206,8 @@ straight and infinitely long wire, which pulls the particle toward it with the a
     \mathbf{A}_g = \frac{2G\lambda'\boldsymbol{\Delta}}{\Delta^2},
 \end{equation}
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
-perpendicular from the particle to the streamline's nearest point. Its magnitude is
+perpendicular from the particle to the streamline's near point, the point of the streamline nearest
+the particle. Its magnitude is
 $A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
 epi\_int\_lite.
@@ -214,26 +215,27 @@ epi\_int\_lite.
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
-The perturbing streamline's nearest point to the particle lies at a longitude
+The perturbing streamline's near point lies at a longitude
 $\theta' = \theta + \delta\theta'$ slightly offset from the particle's longitude $\theta$. To find it,
 the streamline's position and linear density near $\theta$ are found by fitting Lagrange polynomials to the three
 particles of $a'$ nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$,
 $z'(\delta\theta')$ and $\lambda'(\delta\theta')$ as smooth functions of the longitude offset
-$\delta\theta'$ that are treated as known below.
+$\delta\theta'$.
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
-since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
+since the particle is close to the perturbing streamline's near point: $|r' - r| \ll r$,
 $|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. Let $\mathbf{r}$ be the particle's position and
-$\mathbf{r}'(\delta\theta')$ the point of streamline $a'$ at the cylindrical coordinates
-$(r'(\delta\theta'), \theta + \delta\theta', z'(\delta\theta'))$. The vector from the particle to the
-streamline's nearest point (the black square in Figure~\ref{fig:wire_planar}) is then
+$\mathbf{r}'(\delta\theta') = (r'(\delta\theta'), \theta + \delta\theta', z'(\delta\theta'))$, in
+cylindrical coordinates, the point of streamline $a'$ parameterized by $\delta\theta'$. The vector
+from the particle to the streamline's near point (the black square in Figure~\ref{fig:wire_planar})
+is then
 \begin{equation}
     \label{eqn:wire_d}
     \boldsymbol{\Delta} = \mathbf{r}'(\delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
 \end{equation}
-where $\delta\theta'$ is now the nearest point's longitude offset,
+where $\delta\theta'$ is now the near point's longitude offset,
 $\mathbf{d}_0 = \mathbf{r}'(0) - \mathbf{r}$ points from the particle to where the streamline crosses
 the particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
-$\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$ points from the crossing to the nearest
+$\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$ points from the crossing to the near
 point. In the local frame, $\mathbf{d}_0 = (d_r, 0, d_z)$, with $d_r = r'(0) - r$ and
 $d_z = z'(0) - z$, and
 $\mathbf{d}_1 \simeq [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
@@ -253,10 +255,10 @@ at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials. 
 taken from the streamline's shape rather than its velocity, which is tangent to the streamline only
 when the streamline's shape is stationary (Appendix \ref{sec:appendix_wire2d}).
 
-At the nearest point $\boldsymbol{\Delta}$ is perpendicular to the streamline,
+At the near point $\boldsymbol{\Delta}$ is perpendicular to the streamline,
 $\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
 \hat{\mathbf{t}}$ that condition is $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$, so the
-nearest point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
+near point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
 (d_rs_r + d_zs_z)/N^2$, and
 \begin{equation}
     \label{eqn:wire_D}
@@ -269,7 +271,7 @@ In components,
     \boldsymbol{\Delta} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z).
 \end{eqnarray}
-The nearest point is much closer to the crossing point than the spacing of the streamline's
+The near point is much closer to the crossing point than the spacing of the streamline's
 particles in longitude, since $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as
 assumed. Eqn.\ (\ref{eqn:wire_Ag}) then gives the pull.
 
@@ -288,7 +290,7 @@ through which vertically displaced streamlines exchange angular momentum.
 
 Eqns.\ (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_d}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
 streamline's curvature $1/R$, where $R \simeq r$. First, the streamline bends away from its tangent
-between the crossing point and the nearest point, which rotates $\boldsymbol{\Delta}$ by the angle
+between the crossing point and the near point, which rotates $\boldsymbol{\Delta}$ by the angle
 $(\mathbf{d}_0\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
 $(\mathbf{d}_0\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
 $\Delta/R$ and $s_r^2\Delta/R$. Second, a curved streamline does not pull exactly like a straight wire: a
@@ -303,10 +305,10 @@ $\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same orde
 \caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Figure 3 of
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
 $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
-$\mathbf{d}_0 = d_r\hat{r}$ from the particle (cross). Its nearest point (black square) lies
+$\mathbf{d}_0 = d_r\hat{r}$ from the particle (cross). Its near point (black square) lies
 $\mathbf{d}_1$ further along it, and the perpendicular $\boldsymbol{\Delta} = \mathbf{r}' -
 \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$ (Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and
-$\mathbf{r}'$ are the positions of the particle and the nearest point (the planet is far off to the
+$\mathbf{r}'$ are the positions of the particle and the near point (the planet is far off to the
 left), has length $\Delta = d_r\cos\varphi$ and makes the angle
 $\varphi$ with $\hat{r}$. The wire pulls along it with $A_g = 2G\lambda'/\Delta$
 (Eqns.\ \ref{eqn:wire_2d}).}
@@ -407,7 +409,7 @@ are Eqns.\ (\ref{eqn:wire_2d}) without approximation. epi\_int\_lite \citep{H25}
 Eqns.\ (\ref{eqn:wire_2d}) in three ways, which epi\_int\_3d corrects.
 
 \paragraph{Distance} epi\_int\_lite evaluates the pull's magnitude at the crossing point,
-$\Delta = d_r$, but keeps its direction toward the nearest point,
+$\Delta = d_r$, but keeps its direction toward the near point,
 \begin{eqnarray}
     \label{eqn:wire_lite}
     A_{g,r} &=& \frac{2G\lambda\cos\varphi}{d_r} \nonumber\\

@@ -3,7 +3,7 @@
 #hahn13 Fig. 3, redrawn, in two figures (equations G3, G6, G14, G16 of notes/sympy/streamline_gravity.py):
 #wire_planar: the paper's Figure 1 (Section 3.1). The perturbing streamline a' crosses the particle's
 #    longitude at d0 = d_r r-hat (the crossing point, x), tilted from theta-hat by phi; the
-#    nearest point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
+#    near point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
 #    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
 #    r and r' come from the planet, far off to the left.
 #    Vectors are drawn heavier than the streamline.
@@ -47,7 +47,7 @@ ax.text(0, 2.3, r'$\hat{\theta}$', ha='center', fontsize=13)
 ax.set_xlim(-1.35, 3.7)
 ax.set_ylim(-1.7, 2.6)
 X = np.array([dx, 0.0])                               #the crossing point
-F = X - (X @ T)*T                                     #the nearest point
+F = X - (X @ T)*T                                     #the near point
 s = np.array([-1.5, 2.2])
 ax.plot(dx + s*T[0], s*T[1], 'k-', lw=1.0)
 for q in (-1.4, 0.85, 1.95):                          #the three particles of a' nearest in longitude
@@ -66,9 +66,9 @@ ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center'
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
 ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
-ax.text(F[0] + 0.12, F[1] - 0.05, 'nearest\npoint', fontsize=9, va='top')
+ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint', fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
-#r and r', from the planet far off to the left, to the particle and the nearest point
+#r and r', from the planet far off to the left, to the particle and the near point
 RV = dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k', shrinkA=0, shrinkB=6)
 ax.annotate('', xy=(0, 0), xytext=(-1.25, 0), arrowprops=RV)
 ax.text(-0.95, 0.07, r'$\mathbf{r}$', fontsize=10, va='bottom')

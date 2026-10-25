@@ -176,3 +176,10 @@ Follow-up: see the desktop photo of a sketch of how I think the vectors should b
 paper (r and r'(dtheta') from off the figure to the particle and the nearest point; r'(dtheta') =
 (r'(dtheta'), dtheta', z'(dtheta')); d0 = r'(dtheta' = 0) - r), what do you think? [Agreed, with
 r'(dtheta') at cylindrical coordinates (r', theta + dtheta', z').] Yes, make both changes.
+
+Follow-up: delete "that are treated as known below." Should "r'(dtheta') the point of streamline a' at
+the cylindrical coordinates (r'(dtheta'), theta + dtheta', z'(dtheta'))" be "r'(dtheta') =
+(r'(dtheta'), theta + dtheta', z'(dtheta')) represent the nearpoint in cylindrical coordinates, which is
+parameterized by dtheta'"? Note that I used nearpoint rather than nearest point; if that works then
+change the paper and figure accordingly. [Used "near point", defined once as the point nearest the
+particle.]
