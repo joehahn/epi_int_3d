@@ -252,3 +252,10 @@ ring". Can "The task is then to find the point of that streamline that is neares
 the following generalizes it to a streamline that is also displaced and tilted vertically." be deleted?
 [Yes: the Sec. 3 opening defines the near point and says Δ is derived in 3D, and the planar-limit
 paragraph cites HS13 Fig. 3. Deleted.]
+
+Follow-up: should "All epi_int_3d simulations span only a narrow annulus ... as that due to a straight
+wire." then say that we'll build upon the treatment of J. M. Hahn & J. N. Spitale (2013), which should
+be referred to as Hahn & Spitale (2013)? Doesn't aastex manage the reference text for you? [Yes to the
+sentence: "The following builds upon the treatment of Hahn & Spitale (2013)." AASTeX does manage it:
+aasjournalv7.bst adds first initials to in-text citations on purpose (AAS house style since 2024, as in
+hahn25). paper/aasjournalv7_jmh.bst is a copy without them.]
