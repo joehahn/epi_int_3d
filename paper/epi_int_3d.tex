@@ -206,16 +206,16 @@ streamline $a'$ is that due to a straight and infinitely long wire:
 \end{equation}
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
 separation of the particle to the streamline's nearest point, designated the near point in
-Fig.~\ref{fig:wire_planar}. Its magnitude is
-$A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
-in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
+Fig.~\ref{fig:wire_planar}. The following derives $\boldsymbol{\Delta}$ in three dimensions, and
+Appendix \ref{sec:appendix_wire2d} relates that result to the co-planar limit examined by epi\_int and
 epi\_int\_lite.
 
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
-A particle in a narrow ring is always close to the nearby portions of the other streamlines, so a
-perturbing streamline can be regarded as straight in the particle's vicinity. The task is then to find
+All epi\_int\_3d simulations are of a narrow annulus within a broader planetary ring, so every
+particle is radially close to the nearby portions of all perturbing streamlines, and a perturbing
+streamline can be regarded as straight in the particle's vicinity. The task is then to find
 the point of that streamline that is nearest the particle, its near point, since that point sets both
 the distance $\Delta$ and the direction of the acceleration $\mathbf{A}_g$. In the ring plane this is
 the geometry of Fig.~3 of \cite{HS13}, and the following generalizes it to a streamline that is also

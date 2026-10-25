@@ -232,3 +232,11 @@ by perturbing streamline a' is that due to a straight and infinitely long wire:"
 separation of the particle to the streamline's nearest point, designated the near point in Fig. 1."
 Also start sentences with Figure but abbreviate Fig elsewhere. [Done; no figure reference starts a
 sentence, so all 13 are now "Fig."; style guide and memory updated.]
+
+Follow-up: delete "Its magnitude is Ag = 2Gλ'/Δ (Eqn. 19 of Hahn & Spitale 2013)." and change "This
+section finds Δ in three dimensions, and Appendix B relates its planar limit to epi_int and
+epi_int_lite." to "The following derives Δ in three dimensions, and Appendix B relates that result to
+the co-planar limit examined by epi_int and epi_int_lite." Change "A particle in a narrow ring is always
+close to the nearby portions of the other streamlines" to say that all epi_int_3d simulations are of
+narrow annuli in a broader ring, so all particles are radially close to the near parts of all
+perturbing streamlines. [Done.]
