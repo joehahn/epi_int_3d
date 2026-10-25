@@ -148,3 +148,5 @@ Follow-up: make the vector labels (Delta etc.) less heavy. Should the theta and 
 [Yes: they are the local frame's directions.]
 
 Follow-up: move Delta closer to its line and phi midway along its arc; move "nearest point" up a smidge.
+
+Follow-up: move phi slightly closer to its arc, and push.

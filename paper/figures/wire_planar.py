@@ -61,7 +61,7 @@ u = F/np.hypot(*F)
 ax.text(*(0.5*F + 0.14*np.array([u[1], -u[0]])), r'$\boldsymbol{\Delta}$', fontsize=10, ha='center', va='center')
 ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
 am = np.arctan2(u[1], u[0])/2                         #midway along the arc
-ax.text(1.33*np.cos(am), 1.33*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
+ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
 ax.plot(*X, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
 ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
