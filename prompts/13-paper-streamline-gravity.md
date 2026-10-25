@@ -107,3 +107,7 @@ solve for vec(Delta), which points to the near point? Yes, make that change.
 Follow-up: the sentence "The perturbing streamline's position and linear density at longitudes
 theta' = theta + delta theta' ..." should be revised to indicate that delta theta' gives the near point's
 longitude relative to theta.
+
+Follow-up: I'm not sure what "The pull of a displaced streamline" means; maybe change to "The perturbing
+streamline's geometry"? Does "|r' - r| << r and |z' - z| << r" need to say |delta theta'| << 1? And what
+is "it" in "Near there it lies at d + (s_r, 1, s_z) r delta theta', so its unit tangent is"?
