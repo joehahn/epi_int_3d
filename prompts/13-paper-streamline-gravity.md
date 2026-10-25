@@ -131,3 +131,6 @@ Delta itself, so it is written Delta = d0 + d1(delta theta').]
 
 Follow-up: should Eqn. 14 be Delta = Delta_0 + Delta_1(dtheta')? [Recommended keeping d0, d1.] Should
 d0 and d1 be shown as vectors in Fig. 1? [Yes.]
+
+Follow-up: in Fig. 1 change d0 = d_r hat(r) to just vec(d0), move "crossing point" above the r axis,
+move d1 to the other side of its vector, and change purple to black.
