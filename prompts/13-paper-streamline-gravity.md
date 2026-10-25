@@ -186,3 +186,6 @@ particle.]
 
 Follow-up: should angle dtheta' be indicated in Fig. 1? [As the offset r dtheta' along theta-hat between
 the r and r' arrows; the angle itself is subtended at the planet, off the figure.]
+
+Follow-up: should vec(r') = (r', theta', z') refer to points on a', and should that be introduced near
+"The perturbing streamline's near point lies at a longitude theta' = theta + dtheta' ..."? [Yes.]

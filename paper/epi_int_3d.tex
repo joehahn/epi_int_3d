@@ -220,14 +220,13 @@ $\theta' = \theta + \delta\theta'$ slightly offset from the particle's longitude
 the streamline's position and linear density near $\theta$ are found by fitting Lagrange polynomials to the three
 particles of $a'$ nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$,
 $z'(\delta\theta')$ and $\lambda'(\delta\theta')$ as smooth functions of the longitude offset
-$\delta\theta'$.
+$\delta\theta'$. The points of $a'$ near the particle are then
+$\mathbf{r}'(\delta\theta') = (r', \theta', z')$ in cylindrical coordinates, and the particle is at
+$\mathbf{r} = (r, \theta, z)$.
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's near point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. Let $\mathbf{r}$ be the particle's position and
-$\mathbf{r}'(\delta\theta') = (r'(\delta\theta'), \theta + \delta\theta', z'(\delta\theta'))$, in
-cylindrical coordinates, the point of streamline $a'$ parameterized by $\delta\theta'$. The vector
-from the particle to the streamline's near point (the black square in Figure~\ref{fig:wire_planar})
-is then
+$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle to the streamline's near point (the black square in
+Figure~\ref{fig:wire_planar}) is then
 \begin{equation}
     \label{eqn:wire_d}
     \boldsymbol{\Delta} = \mathbf{r}'(\delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
