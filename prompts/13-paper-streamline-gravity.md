@@ -80,3 +80,11 @@ Follow-up: when a new user uses epi_int_3d, do they need to set a flag to run as
 part of the paper, or is a flag set to run the epi_int_lite equivalent? [No flag; but run_simulations.py
 gave the planar tests epi_int_lite's gravity.] Yes, make that change (epi_int_3d's own tests run with
 its default gravity) and push.
+
+Follow-up: Section 3 still seems too complex. Can we not set vec(D) = vec(r') - vec(r), let hat(t) be the
+unit vector tangent to streamline a' at the near point so that vec(D) . hat(t) = 0, and use conventional
+vector geometry to solve for hat(t) and then vec(D)? Don't assume the streamline is a straight wire; the
+Lagrange polynomials can be used to compute hat(t), so it can be regarded as known, correct? From BAC-CAB
+and vec(D) . hat(t) = 0 I get hat(t) x (r x r') = -(hat(t) . r) vec(D), please confirm. [Confirmed, but
+r' there must be the unknown near point, and t . r ~ r s_r is nearly 0; with the origin at the crossing
+point it becomes D = t x (d x t).] Rewrite Section 3.1 that way; note the accuracy in the paper.

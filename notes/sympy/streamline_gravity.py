@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G14; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G15; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -274,3 +274,33 @@ check('G14: nearpoint = exact planar wire (G3) with eps = tan phi',
       sp.Matrix([2*G*lam/dr, -2*G*lam*tph/dr, 0]) - A_2D.subs(eps, tph))
 check('G14: the cos phi, sin phi options = nearpoint x cos phi',
       sp.Matrix([1/sp.sqrt(1 + tph**2), -tph/sp.sqrt(1 + tph**2)]) - sp.Matrix([1, -tph])/sp.sqrt(1 + tph**2))
+
+# --- G15: accuracy of D = t x (d x t) = d - (d.t)t (G8, G11) for a curved streamline. In the plane of
+# the streamline's curvature, with the particle at the origin, write the crossing point d = p t + q n
+# (t the unit tangent there, n the unit normal, p = d.t) and the streamline near it as
+# P(u) = d + u t + (kappa/2) u^2 n, kappa = 1/R its curvature. The nearest point, P.P' = 0, is at
+# u = -p + kappa p q + O(kappa^2), so the true perpendicular is D = (kappa p q) t + (q + kappa p^2/2) n:
+# the straight-line D = q n is rotated by the angle kappa p = c/R, and its length is off by the
+# fraction kappa p^2/(2 q) = c^2/(2 R D). Relative to the components of A_g these are O(D/R). ---
+pp, qq, kap, uu = sp.symbols('p q kappa u', real=True)
+Pc = sp.Matrix([pp + uu, qq + kap*uu**2/2])
+cond_c = Pc.dot(sp.diff(Pc, uu))
+u1s = sp.solve(sp.expand(sp.series(cond_c.subs(uu, -pp + kap*sp.Symbol('w')), kap, 0, 2).removeO()).coeff(kap, 1),
+               sp.Symbol('w'))[0]
+check('G15: near point on a curved streamline at u = -p + kappa p q + O(kappa^2)', u1s - pp*qq)
+Dc = Pc.subs(uu, -pp + kap*pp*qq)
+check('G15: D = (kappa p q, q + kappa p^2/2) + O(kappa^2)',
+      [sp.series(Dc[i], kap, 0, 2).removeO() - [kap*pp*qq, qq + kap*pp**2/2][i] for i in range(2)])
+# The force law: a circular ring of matter (radius R) pulls a point in its plane a distance D from it
+# with 2 G lam/D x [1 +- (D/2R)(ln(8R/D) - 2)] (+ outside, - inside), checked here by quadrature.
+import numpy as _np
+from scipy import integrate as _integrate
+for _D, _tol in ((1e-2, 0.03), (1e-3, 0.005)):
+    for _sgn in (1, -1):
+        _rho = 1 + _sgn*_D
+        _Ar = _integrate.quad(lambda th: (_np.cos(th) - _rho)/(1 + _rho**2 - 2*_rho*_np.cos(th))**1.5,
+                              -_np.pi, _np.pi, points=[0], limit=2000, epsabs=1e-14)[0]
+        _eps = _Ar/(-_sgn*2/_D) - 1
+        _pred = _sgn*(_D/2)*(_np.log(8/_D) - 2)
+        assert abs(_eps/_pred - 1) < _tol, (_D, _sgn, _eps, _pred)
+print('PASS  G15: a ring pulls like a straight wire to within (D/2R)(ln(8R/D) - 2), by quadrature')

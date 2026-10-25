@@ -1,8 +1,9 @@
 #wire_geometry.py
 #
+#No longer in the paper (its Section 3.1 now uses the vector form D = t x (d x t), 2026-10-25); kept
+#for notes/phase2/streamline_gravity.md.
 #hahn13 Fig. 3 moved and tilted into 3D: the gravity that a perturbing streamline a', treated as a
-#straight wire, exerts on a particle (the paper's Section 3 and Figure 1; equation G12 of
-#notes/sympy/streamline_gravity.py). Seen from above, the wire raised a height d_z above the particle
+#straight wire, exerts on a particle (equation G12 of notes/sympy/streamline_gravity.py). Seen from above, the wire raised a height d_z above the particle
 #but still horizontal is the planar geometry of the paper's Appendix B (wire_planar.py), with the
 #horizontal perpendicular Delta_h = d_r cos(phi). Then:
 #(a) the vertical plane through that horizontal perpendicular: the full perpendicular Delta is the
