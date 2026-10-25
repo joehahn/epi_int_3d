@@ -197,7 +197,7 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G16, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
+%equations G1-G16, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
 In epi\_int and epi\_int\_lite (Section 2.3.2 of \citealt{HS13}; Eqn.\ 1 of \citealt{H25}), the
 gravity that a perturbing streamline $a'$ exerts on a particle in another streamline is that of a
 straight and infinitely long wire, which pulls the particle toward it with the acceleration
@@ -296,15 +296,13 @@ $\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same orde
 \centering
 \includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
 \caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Figure 3 of
-\cite{HS13}, redrawn. Near the particle's longitude, $a'$ is a straight wire that crosses that
-longitude at $\mathbf{d}_0 = d_r\hat{r}$ from the particle (open circle), along the streamline's
-shape, tilted from $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$ (a step $r\,d\theta$ along
-$\hat{\theta}$ moves it $dr'$ outward). The perpendicular to the wire's nearest point (black square),
-$\boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1$ (Eqn.\ \ref{eqn:wire_d}), has length
-$\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$, and the wire pulls along it with
-$A_g = 2G\lambda'/\Delta$ (Eqns.\ \ref{eqn:wire_2d}). The streamline's velocity $\mathbf{v}'$ (dashed),
-which epi\_int\_lite takes as the wire's direction, is tilted less than its shape when the shape
-rotates, here by half as much, as for an $m = 2$ pattern (Appendix \ref{sec:appendix_wire2d}).}
+\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line) is straight, tilted from
+$\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
+$\mathbf{d}_0 = d_r\hat{r}$ from the particle (open circle). Its nearest point (black square) lies
+$\mathbf{d}_1$ further along it, and the perpendicular $\boldsymbol{\Delta} = \mathbf{d}_0 +
+\mathbf{d}_1$ (Eqn.\ \ref{eqn:wire_d}) has length $\Delta = d_r\cos\varphi$ and makes the angle
+$\varphi$ with $\hat{r}$. The wire pulls along it with $A_g = 2G\lambda'/\Delta$
+(Eqns.\ \ref{eqn:wire_2d}).}
 \label{fig:wire_planar}
 \end{figure}
 
@@ -415,7 +413,7 @@ cost no more.
 
 \paragraph{Direction} epi\_int\_lite takes the wire's direction from the streamline's velocity at
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
-(Figure~\ref{fig:wire_planar}, dashed). The velocity is tangent to the streamline only when the
+(Figure~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
 particles orbit at $\Omega$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega)s_r$, where $s_r$ is the
 slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad resonance
@@ -435,6 +433,16 @@ than $10^{-4}$ of themselves over 5000 orbits. Only the second matters for spira
 changes the torque between streamlines by a factor of about $m$. epi\_int\_3d keeps
 epi\_int\_lite's ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
 checked against epi\_int\_lite's exactly.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.3\textwidth]{figures/wire_velocity.pdf}
+\caption{The perturbing streamline at its crossing point (Figure~\ref{fig:wire_planar}). Its shape
+has the slope $\tan\varphi = s_r$: a step $r\,d\theta$ along $\hat{\theta}$ moves it $dr'$ outward.
+Its velocity $\mathbf{v}'$ (dashed), which epi\_int\_lite takes as the wire's direction, is tilted
+less when the shape rotates, here by half as much, as for an $m = 2$ pattern.}
+\label{fig:wire_velocity}
+\end{figure}
 
 
 \section{Resolution limit of the streamline method}

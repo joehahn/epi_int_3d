@@ -134,3 +134,8 @@ d0 and d1 be shown as vectors in Fig. 1? [Yes.]
 
 Follow-up: in Fig. 1 change d0 = d_r hat(r) to just vec(d0), move "crossing point" above the r axis,
 move d1 to the other side of its vector, and change purple to black.
+
+Follow-up: drop the d1 arrow and put d1's arrowhead on the line in question; use thick lines to indicate
+vectors, so the line downward of the near point should be less thick. Does Fig. 1 need the v' vector and
+the dr', r dtheta triangle? If not, drop them or move them to the appendix. [Moved to a new Appendix B
+figure.]

@@ -1,14 +1,16 @@
 #wire_planar.py
 #
-#hahn13 Fig. 3, redrawn: the gravity that a perturbing streamline a', treated as a straight wire,
-#exerts on a particle in the ring plane (the paper's Section 3.1 and Appendix B; equations G3, G6, G14 of
-#notes/sympy/streamline_gravity.py). The wire crosses the particle's longitude a distance d_r away,
-#along the streamline's shape, tilted from theta-hat by phi, tan(phi) = s_r = dr'/(r dtheta); the
-#perpendicular from the particle to it, Delta = d_r cos(phi), makes the angle phi with r-hat, and the
-#wire pulls along it with A_g = 2 G lambda'/Delta. The streamline's velocity v' (dashed) is tilted by
-#less than phi when its shape rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
+#hahn13 Fig. 3, redrawn, in two figures (equations G3, G6, G14, G16 of notes/sympy/streamline_gravity.py):
+#wire_planar: the paper's Figure 1 (Section 3.1). The perturbing streamline a' crosses the particle's
+#    longitude at d0 = d_r r-hat (the crossing point, open circle), tilted from theta-hat by phi; the
+#    nearest point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
+#    streamline, with length d_r cos(phi) and at the angle phi to r-hat. The wire pulls along it with
+#    A_g = 2 G lambda'/Delta. Vectors are drawn thick, the streamline thin.
+#wire_velocity: the paper's Appendix B figure. At the crossing point the streamline's shape has the slope
+#    tan(phi) = s_r = dr'/(r dtheta), while its velocity v' (dashed) is tilted less when the shape
+#    rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
 #
-#Run:  uv run python paper/figures/wire_planar.py   (writes wire_planar.pdf and .png alongside)
+#Run:  uv run python paper/figures/wire_planar.py   (writes wire_planar and wire_velocity .pdf and .png)
 
 from pathlib import Path
 
@@ -19,68 +21,78 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 AXIS = dict(arrowstyle='->', lw=1)
-PULL = dict(arrowstyle='-|>', lw=2.0, mutation_scale=14, color='C3')
+VEC = dict(arrowstyle='-|>', lw=2.4, mutation_scale=16, color='k', shrinkA=0, shrinkB=0)
+PULL = dict(arrowstyle='-|>', lw=2.4, mutation_scale=16, color='C3', shrinkA=0, shrinkB=0)
 STEP = dict(arrowstyle='-|>', lw=1.5, mutation_scale=12, color='C0')
+dx, phi = 2.0, np.radians(25)
+T = np.array([np.sin(phi), np.cos(phi)])              #the streamline's direction, tilted phi from theta-hat
 
-fig, ax = plt.subplots(figsize=(4.6, 4.2))
+
+def save(fig, name):
+    fig.tight_layout()
+    for ext in ('pdf', 'png'):
+        fig.savefig(HERE/f'{name}.{ext}', dpi=130)
+        print('wrote', HERE/f'{name}.{ext}')
+
+
+#Figure 1: d0, d1 and Delta
+fig, ax = plt.subplots(figsize=(4.6, 4.0))
 ax.set_aspect('equal')
 ax.axis('off')
-#r to the right, theta up
 ax.annotate('', xy=(3.3, 0), xytext=(-1.0, 0), arrowprops=AXIS)
 ax.text(3.38, 0, '$r$', va='center', fontsize=13)
-ax.annotate('', xy=(0, 2.4), xytext=(0, -1.5), arrowprops=AXIS)
-ax.text(0, 2.5, r'$\theta$', ha='center', fontsize=13)
+ax.annotate('', xy=(0, 2.2), xytext=(0, -1.5), arrowprops=AXIS)
+ax.text(0, 2.3, r'$\theta$', ha='center', fontsize=13)
 ax.set_xlim(-1.3, 3.7)
-ax.set_ylim(-1.7, 2.8)
-
-dx, phi = 2.0, np.radians(25)
-T = np.array([np.sin(phi), np.cos(phi)])
+ax.set_ylim(-1.7, 2.6)
+X = np.array([dx, 0.0])                               #the crossing point
+F = X - (X @ T)*T                                     #the nearest point
 s = np.array([-1.5, 2.2])
-ax.plot(dx + s*T[0], s*T[1], 'k-', lw=1.6)
+ax.plot(dx + s*T[0], s*T[1], 'k-', lw=1.0)
 for q in (-1.4, 1.95):
     ax.plot(dx + q*T[0], q*T[1], 'ko', ms=6)
 ax.text(dx + 2.25*T[0], 2.25*T[1], "$a'$", fontsize=12)
-#the crossing point, and the radial gap d_r to it
-ax.plot(dx, 0, 'o', ms=7, mfc='white', mec='k', mew=1.3, zorder=4)
-ax.text(dx + 0.25, 0.08, 'crossing\npoint', fontsize=9, va='bottom')
-VEC = dict(arrowstyle='-|>', lw=1.6, mutation_scale=13, color='k', shrinkA=0, shrinkB=4)
-ax.annotate('', xy=(dx, 0), xytext=(0, 0), arrowprops=VEC)
+ax.annotate('', xy=X, xytext=(0, 0), arrowprops=dict(VEC, shrinkB=5))
 ax.text(dx/2, 0.12, r'$\mathbf{d}_0$', ha='center', fontsize=12)
-#the perpendicular Delta = d_r cos(phi) to the near point, and the pull along it
-F = np.array([dx, 0]) - (np.array([dx, 0]) @ T)*T
-ax.annotate('', xy=F, xytext=(0, 0), arrowprops=dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k',
-            shrinkA=0, shrinkB=5))
-ax.plot(*F, 'ks', ms=9, zorder=5)
-#d_1, from the crossing point to the nearest point along the streamline (drawn just beside it)
-off = 0.1*np.array([T[1], -T[0]])
-ax.annotate('', xy=F + off, xytext=np.array([dx, 0]) + off, arrowprops=dict(VEC, shrinkB=2))
-ax.text(*((np.array([dx, 0]) + F)/2 + 1.8*off), r'$\mathbf{d}_1$', fontsize=12, va='center', ha='left')
-ax.text(F[0] + 0.12, F[1] - 0.12, 'nearest\npoint', fontsize=9, va='top')
-ax.text(0.15, -1.1, r'$\boldsymbol{\Delta}$, $\Delta = d_r\cos\varphi$', fontsize=11)
+ax.annotate('', xy=F, xytext=X, arrowprops=dict(VEC, shrinkA=5, shrinkB=6))
+ax.text(*((X + F)/2 + 0.15*np.array([T[1], -T[0]])), r'$\mathbf{d}_1$', fontsize=12, va='center')
+ax.annotate('', xy=F, xytext=(0, 0), arrowprops=dict(VEC, shrinkB=6))
 u = F/np.hypot(*F)
-ax.annotate('', xy=0.85*u, xytext=(0, 0), arrowprops=PULL)
-ax.text(0.2, -0.62, r'$A_g$', color='C3', fontsize=11)
+ax.annotate('', xy=0.8*u, xytext=(0, 0), arrowprops=PULL)
+ax.text(0.15, -0.62, r'$A_g$', color='C3', fontsize=11)
+ax.text(0.15, -1.1, r'$\boldsymbol{\Delta}$, $\Delta = d_r\cos\varphi$', fontsize=11)
 ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
 ax.text(1.2, -0.22, r'$\varphi$', fontsize=11)
-#the shape's slope at the crossing point: a step r dtheta moves the streamline dr'
-V = 1.45*T
-ax.annotate('', xy=(dx + V[0], V[1]), xytext=(dx, 0), arrowprops=STEP)
-ax.plot([dx, dx], [0, V[1]], ':', color='C0', lw=1)
-ax.plot([dx, dx + V[0]], [V[1], V[1]], ':', color='C0', lw=1)
-ax.text(dx - 0.08, V[1]/2, r'$r\,d\theta$', ha='right', color='C0', fontsize=11)
-ax.text(dx + V[0]/2, V[1] + 0.1, "$dr'$", ha='center', color='C0', fontsize=11)
-ax.add_patch(matplotlib.patches.Arc((dx, 0), 1.1, 1.1, theta1=90 - np.degrees(phi), theta2=90, lw=1))
-ax.text(dx + 0.06, 0.62, r'$\varphi$', fontsize=10)
-#the velocity, tilted by less when the shape rotates
-phv = np.arctan(0.5*np.tan(phi))
-Vv = 1.0*np.array([np.sin(phv), np.cos(phv)])
-ax.annotate('', xy=(dx + Vv[0], Vv[1]), xytext=(dx, 0),
-            arrowprops=dict(arrowstyle='-|>', lw=1.3, ls='--', mutation_scale=11, color='C2'))
-ax.text(dx + Vv[0] - 0.12, Vv[1] + 0.06, "$\\mathbf{v}'$", color='C2', fontsize=12)
+ax.plot(*X, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
+ax.text(dx + 0.15, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
+ax.plot(*F, 'ks', ms=9, zorder=5)
+ax.text(F[0] + 0.12, F[1] - 0.15, 'nearest\npoint', fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
 ax.text(-0.15, 0.15, 'particle', ha='right', fontsize=10)
+save(fig, 'wire_planar')
 
-fig.tight_layout()
-for ext in ('pdf', 'png'):
-    fig.savefig(HERE/f'wire_planar.{ext}', dpi=130)
-    print('wrote', HERE/f'wire_planar.{ext}')
+#Appendix B: the shape's slope and the velocity at the crossing point
+fig, ax = plt.subplots(figsize=(2.6, 3.0))
+ax.set_aspect('equal')
+ax.axis('off')
+ax.set_xlim(-0.6, 1.4)
+ax.set_ylim(-0.5, 2.0)
+s = np.array([-0.45, 1.85])
+ax.plot(s*T[0], s*T[1], 'k-', lw=1.6)
+ax.text(1.88*T[0] + 0.05, 1.88*T[1], "$a'$", fontsize=12)
+ax.plot([0, 0], [-0.4, 1.8], ':', color='0.5', lw=1)
+ax.text(-0.05, 1.8, r'$\hat{\theta}$', ha='right', color='0.4', fontsize=11)
+V = 1.45*T
+ax.annotate('', xy=V, xytext=(0, 0), arrowprops=STEP)
+ax.plot([0, V[0]], [V[1], V[1]], ':', color='C0', lw=1)
+ax.text(-0.06, V[1]/2, r'$r\,d\theta$', ha='right', color='C0', fontsize=11)
+ax.text(V[0]/2, V[1] + 0.07, "$dr'$", ha='center', color='C0', fontsize=11)
+ax.add_patch(matplotlib.patches.Arc((0, 0), 1.0, 1.0, theta1=90 - np.degrees(phi), theta2=90, lw=1))
+ax.text(0.07, 0.56, r'$\varphi$', fontsize=10)
+phv = np.arctan(0.5*np.tan(phi))
+Vv = 1.0*np.array([np.sin(phv), np.cos(phv)])
+ax.annotate('', xy=Vv, xytext=(0, 0), arrowprops=dict(arrowstyle='-|>', lw=1.3, ls='--', mutation_scale=11, color='C2'))
+ax.text(Vv[0] + 0.03, Vv[1] - 0.1, "$\\mathbf{v}'$", color='C2', fontsize=12)
+ax.plot(0, 0, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
+ax.text(0.1, -0.12, 'crossing point', fontsize=9, va='top')
+save(fig, 'wire_velocity')
