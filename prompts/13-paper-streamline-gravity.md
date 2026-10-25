@@ -128,3 +128,6 @@ longitude offset delta theta'" should be "the vector from the particle to the ne
 a', which is the black symbol in Fig. 1", and make that symbol more prominent; then d = d0 + d1, where
 d0 points from the particle to where the streamline crosses the particle's longitude. [That vector is
 Delta itself, so it is written Delta = d0 + d1(delta theta').]
+
+Follow-up: should Eqn. 14 be Delta = Delta_0 + Delta_1(dtheta')? [Recommended keeping d0, d1.] Should
+d0 and d1 be shown as vectors in Fig. 1? [Yes.]

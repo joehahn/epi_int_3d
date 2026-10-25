@@ -43,13 +43,20 @@ ax.text(dx + 2.25*T[0], 2.25*T[1], "$a'$", fontsize=12)
 #the crossing point, and the radial gap d_r to it
 ax.plot(dx, 0, 'o', ms=7, mfc='white', mec='k', mew=1.3, zorder=4)
 ax.text(dx + 0.12, -0.2, 'crossing\npoint', fontsize=9, va='top')
-ax.text(dx/2, 0.12, r'$d_r$', ha='center', fontsize=12)
+VEC = dict(arrowstyle='-|>', lw=1.6, mutation_scale=13, color='C4', shrinkA=0, shrinkB=4)
+ax.annotate('', xy=(dx, 0), xytext=(0, 0), arrowprops=VEC)
+ax.text(dx/2, 0.12, r'$\mathbf{d}_0 = d_r\hat{r}$', ha='center', color='C4', fontsize=12)
 #the perpendicular Delta = d_r cos(phi) to the near point, and the pull along it
 F = np.array([dx, 0]) - (np.array([dx, 0]) @ T)*T
-ax.plot([0, F[0]], [0, F[1]], 'k-', lw=1)
+ax.annotate('', xy=F, xytext=(0, 0), arrowprops=dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k',
+            shrinkA=0, shrinkB=5))
 ax.plot(*F, 'ks', ms=9, zorder=5)
+#d_1, from the crossing point to the nearest point along the streamline (drawn just beside it)
+off = 0.1*np.array([T[1], -T[0]])
+ax.annotate('', xy=F + off, xytext=np.array([dx, 0]) + off, arrowprops=dict(VEC, shrinkB=2))
+ax.text(*((np.array([dx, 0]) + F)/2 - 1.6*off), r'$\mathbf{d}_1$', color='C4', fontsize=12, va='center', ha='right')
 ax.text(F[0] + 0.12, F[1] - 0.12, 'nearest\npoint', fontsize=9, va='top')
-ax.text(0.45, -1.1, r'$\Delta = d_r\cos\varphi$', fontsize=11)
+ax.text(0.15, -1.1, r'$\boldsymbol{\Delta}$, $\Delta = d_r\cos\varphi$', fontsize=11)
 u = F/np.hypot(*F)
 ax.annotate('', xy=0.85*u, xytext=(0, 0), arrowprops=PULL)
 ax.text(0.2, -0.62, r'$A_g$', color='C3', fontsize=11)
