@@ -246,3 +246,9 @@ and epi_int_lite" and change to "so every particle is radially close to the near
 perturbing streamlines. Which allows us to treat the acceleration of that due to a perturbing streamline
 as that due to a straight wire". [Done, reading "the particle's acceleration due to a perturbing
 streamline".]
+
+Follow-up: change to "All epi_int_3d simulations span only a narrow annulus within a broader planetary
+ring". Can "The task is then to find the point of that streamline that is nearest the particle, ... and
+the following generalizes it to a streamline that is also displaced and tilted vertically." be deleted?
+[Yes: the Sec. 3 opening defines the near point and says Δ is derived in 3D, and the planar-limit
+paragraph cites HS13 Fig. 3. Deleted.]
