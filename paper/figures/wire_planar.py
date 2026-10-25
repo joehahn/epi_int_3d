@@ -5,6 +5,7 @@
 #    longitude at d0 = d_r r-hat (the crossing point, x), tilted from theta-hat by phi; the
 #    nearest point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
 #    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
+#    r and r' come from the planet, far off to the left.
 #    Vectors are drawn heavier than the streamline.
 #wire_velocity: the paper's Appendix B figure. At the crossing point the streamline's shape has the slope
 #    tan(phi) = s_r = dr'/(r dtheta), while its velocity v' (dashed) is tilted less when the shape
@@ -39,11 +40,11 @@ def save(fig, name):
 fig, ax = plt.subplots(figsize=(4.6, 4.0))
 ax.set_aspect('equal')
 ax.axis('off')
-ax.annotate('', xy=(3.3, 0), xytext=(-1.0, 0), arrowprops=AXIS)
+ax.annotate('', xy=(3.3, 0), xytext=(0, 0), arrowprops=AXIS)
 ax.text(3.38, 0, r'$\hat{r}$', va='center', fontsize=13)
 ax.annotate('', xy=(0, 2.2), xytext=(0, -1.5), arrowprops=AXIS)
 ax.text(0, 2.3, r'$\hat{\theta}$', ha='center', fontsize=13)
-ax.set_xlim(-1.3, 3.7)
+ax.set_xlim(-1.35, 3.7)
 ax.set_ylim(-1.7, 2.6)
 X = np.array([dx, 0.0])                               #the crossing point
 F = X - (X @ T)*T                                     #the nearest point
@@ -65,9 +66,15 @@ ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center'
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
 ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
-ax.text(F[0] + 0.12, F[1] - 0.05, "nearest\npoint, $\\mathbf{r}'$", fontsize=9, va='top')
+ax.text(F[0] + 0.12, F[1] - 0.05, 'nearest\npoint', fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
-ax.text(-0.15, 0.15, r'particle, $\mathbf{r}$', ha='right', fontsize=10)
+#r and r', from the planet far off to the left, to the particle and the nearest point
+RV = dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k', shrinkA=0, shrinkB=6)
+ax.annotate('', xy=(0, 0), xytext=(-1.25, 0), arrowprops=RV)
+ax.text(-0.95, 0.07, r'$\mathbf{r}$', fontsize=10, va='bottom')
+ax.annotate('', xy=F, xytext=(-1.25, F[1]), arrowprops=RV)
+ax.text(-0.95, F[1] + 0.07, r"$\mathbf{r}'$", fontsize=10, va='bottom')
+ax.text(-0.12, 0.3, 'particle', ha='right', fontsize=10)
 save(fig, 'wire_planar')
 
 #Appendix B: the shape's slope and the velocity at the crossing point

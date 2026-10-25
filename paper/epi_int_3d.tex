@@ -222,21 +222,23 @@ $z'(\delta\theta')$ and $\lambda'(\delta\theta')$ as smooth functions of the lon
 $\delta\theta'$ that are treated as known below.
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle, at $\mathbf{r}$, to the
-nearest point on streamline $a'$, at $\mathbf{r}'$ (the black square in Figure~\ref{fig:wire_planar}),
-is then
+$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. Let $\mathbf{r}$ be the particle's position and
+$\mathbf{r}'(\delta\theta')$ the point of streamline $a'$ at the cylindrical coordinates
+$(r'(\delta\theta'), \theta + \delta\theta', z'(\delta\theta'))$. The vector from the particle to the
+streamline's nearest point (the black square in Figure~\ref{fig:wire_planar}) is then
 \begin{equation}
     \label{eqn:wire_d}
-    \boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} \simeq [r'(\delta\theta') - r, r\,\delta\theta',
-    z'(\delta\theta') - z] = \mathbf{d}_0 + \mathbf{d}_1
+    \boldsymbol{\Delta} = \mathbf{r}'(\delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
 \end{equation}
-in the local frame, where $\delta\theta'$ is the nearest point's longitude offset. Here
-$\mathbf{d}_0 = (d_r, 0, d_z)$, with $d_r = r'(0) - r$ and $d_z = z'(0) - z$, points from the particle to where the
-streamline crosses the particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
-$\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = [r'(\delta\theta') - r'(0), r\,\delta\theta',
-z'(\delta\theta') - z'(0)] \simeq (s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$
-points from the crossing to the nearest point, to first order in $\delta\theta'$, along the short,
-locally straight stretch of streamline between them, whose unit tangent is
+where $\delta\theta'$ is now the nearest point's longitude offset,
+$\mathbf{d}_0 = \mathbf{r}'(0) - \mathbf{r}$ points from the particle to where the streamline crosses
+the particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
+$\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$ points from the crossing to the nearest
+point. In the local frame, $\mathbf{d}_0 = (d_r, 0, d_z)$, with $d_r = r'(0) - r$ and
+$d_z = z'(0) - z$, and
+$\mathbf{d}_1 \simeq [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
+(s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
+$\delta\theta'$, along the short, locally straight stretch of streamline between them, whose unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
@@ -302,8 +304,10 @@ $\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same orde
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
 $\hat{\theta}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
 $\mathbf{d}_0 = d_r\hat{r}$ from the particle (cross). Its nearest point (black square) lies
-$\mathbf{d}_1$ further along it, and the perpendicular $\boldsymbol{\Delta} = \mathbf{d}_0 +
-\mathbf{d}_1$ (Eqn.\ \ref{eqn:wire_d}) has length $\Delta = d_r\cos\varphi$ and makes the angle
+$\mathbf{d}_1$ further along it, and the perpendicular $\boldsymbol{\Delta} = \mathbf{r}' -
+\mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$ (Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and
+$\mathbf{r}'$ are the positions of the particle and the nearest point (the planet is far off to the
+left), has length $\Delta = d_r\cos\varphi$ and makes the angle
 $\varphi$ with $\hat{r}$. The wire pulls along it with $A_g = 2G\lambda'/\Delta$
 (Eqns.\ \ref{eqn:wire_2d}).}
 \label{fig:wire_planar}

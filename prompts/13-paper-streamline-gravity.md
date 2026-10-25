@@ -171,3 +171,8 @@ point at r'.] r'
 
 Follow-up: should "The streamline's nearest point lies at a longitude theta' = theta + dtheta' ... as
 smooth functions of the longitude offset" be in Section 3.1? [Yes; moved.]
+
+Follow-up: see the desktop photo of a sketch of how I think the vectors should be represented in the
+paper (r and r'(dtheta') from off the figure to the particle and the nearest point; r'(dtheta') =
+(r'(dtheta'), dtheta', z'(dtheta')); d0 = r'(dtheta' = 0) - r), what do you think? [Agreed, with
+r'(dtheta') at cylindrical coordinates (r', theta + dtheta', z').] Yes, make both changes.
