@@ -262,3 +262,8 @@ hahn25). paper/aasjournalv7_jmh.bst is a copy without them.]
 
 Follow-up: use ApJ reference style. [aasjournalv7_jmh.bst removed; back to aasjournalv7.bst, with
 first initials in in-text citations.]
+
+Follow-up: change to "Which allows us to treat the particle's acceleration due to a perturbing
+streamline as that due to a straight wire, and the following 3D builds treatment is an extension of the
+2D force calculations used in J. M. Hahn & J. N. Spitale (2013)." [Done, reading "the following 3D
+treatment is an extension of".]
