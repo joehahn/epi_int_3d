@@ -283,3 +283,9 @@ Follow-up: change to "Streamline a' is sampled by its particles, so, as in J. M.
 "r'(δθ'), z'(δθ') and the linear density λ'(δθ') as smooth functions of δθ', which allows the
 streamline's near point to be estimated below" to "which allows r'(δθ'), z'(δθ') and the linear density
 λ'(δθ') to be regarded as smooth functions of δθ'". [Done.]
+
+Follow-up: delete "J. M. Hahn & J. N. Spitale (2013)," from that sentence, change "This splits the trip
+to the near point into two legs" to "across two legs", and to "travels from the particle to". Should we
+insert "r'(0) points at the crossing point" into the discussion? [Yes: "The first leg, d0 = r'(0) - r,
+travels from the particle to the crossing point r'(0), where the streamline crosses the particle's
+longitude (the cross in Fig. 1)".]
