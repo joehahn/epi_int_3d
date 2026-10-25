@@ -297,3 +297,7 @@ why d0 has no θ-component.]
 
 Follow-up: ∂δθ' looks awkward. [Eqn. 16 now s_r = (1/r) dr'/dθ', s_z = (1/r) dz'/dθ' at θ' = θ: r' and z'
 are functions of one variable, and d/dθ' = d/dδθ' since θ is fixed.]
+
+Follow-up: should r'(δθ') be written as r'(θ') where θ' = θ + δθ'? [Yes: it matches Eqn. 16's d/dθ', and
+the crossing point reads r'(θ) rather than the misleading r'(0). The near point is r'(θ + δθ'); δθ'
+stays as the offset that is solved for.]
