@@ -103,3 +103,7 @@ Follow-up: shouldn't D be Delta, to be consistent with past papers? [Yes; change
 
 Follow-up: should Eqn. (13) refer to vector Delta, then explain how the Lagrange polynomial is used to
 solve for vec(Delta), which points to the near point? Yes, make that change.
+
+Follow-up: the sentence "The perturbing streamline's position and linear density at longitudes
+theta' = theta + delta theta' ..." should be revised to indicate that delta theta' gives the near point's
+longitude relative to theta.
