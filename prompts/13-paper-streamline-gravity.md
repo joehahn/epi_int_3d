@@ -294,3 +294,6 @@ Follow-up: change to "the crossing point r'(0) which is where" and to "then runs
 from the crossing point". Should the paragraph state that r'(0) = (r'(0), 0, z'(0))? [Yes, but as
 r'(0) = (r'(0), θ, z'(0)) in cylindrical coordinates: its longitude is the particle's θ, not 0, which is
 why d0 has no θ-component.]
+
+Follow-up: ∂δθ' looks awkward. [Eqn. 16 now s_r = (1/r) dr'/dθ', s_z = (1/r) dz'/dθ' at θ' = θ: r' and z'
+are functions of one variable, and d/dθ' = d/dδθ' since θ is fixed.]
