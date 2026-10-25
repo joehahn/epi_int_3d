@@ -220,3 +220,9 @@ pushed or kept local? [Committed to the repo, pushed when the author says "push"
 
 Follow-up: Equation (13) when that starts the sentence, Eqn otherwise; guide looks good. [Six
 sentence-initial references changed to "Equation(s) (n)"; guide, CLAUDE.md and a memory updated.]
+
+Follow-up: leave ("Eqn. 15") for now. Is the paper consistent with my style? [Partly: mechanics match,
+prose is terser and more symbol-dense than the author's. Proposed: capitalize sentence-initial code
+names, "Fig." to "Figure", "neighbouring" to "neighboring", the past-tense "We tested"; then a style
+pass on Sec. 3.1 (physical reasons first, fewer colon chains, "acceleration" for "pull").] Yes. [Done;
+Sec. 3.1 pass for review.]

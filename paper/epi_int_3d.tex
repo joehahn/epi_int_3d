@@ -206,7 +206,7 @@ particle as that of a straight and infinitely long wire, which results in the ac
 \end{equation}
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
 separation of the particle from the streamline's near point, its point nearest the particle
-(Fig.~\ref{fig:wire_planar}). Its magnitude is
+(Figure~\ref{fig:wire_planar}). Its magnitude is
 $A_g = 2G\lambda'/\Delta$ (Eqn.\ 19 of \citealt{HS13}). This section finds $\boldsymbol{\Delta}$
 in three dimensions, and Appendix \ref{sec:appendix_wire2d} relates its planar limit to epi\_int and
 epi\_int\_lite.
@@ -214,86 +214,98 @@ epi\_int\_lite.
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
+A particle in a narrow ring is always close to the nearby portions of the other streamlines, so a
+perturbing streamline can be regarded as straight in the particle's vicinity. The task is then to find
+the point of that streamline that is nearest the particle, its near point, since that point sets both
+the distance $\Delta$ and the direction of the acceleration $\mathbf{A}_g$. In the ring plane this is
+the geometry of Figure 3 of \cite{HS13}, and the following generalizes it to a streamline that is also
+displaced and tilted vertically.
+
 In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$, and the points of
 streamline $a'$ near it are at $\mathbf{r}'(\delta\theta') = (r', \theta', z')$, where
-$\theta' = \theta + \delta\theta'$ is offset from the particle's longitude by $\delta\theta'$. The
-streamline's position and linear density near $\theta$ are found by fitting Lagrange polynomials to
-the three particles of $a'$ nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$,
-$z'(\delta\theta')$ and the linear density $\lambda'(\delta\theta')$ as smooth functions of
-$\delta\theta'$. The
-streamline's near point lies at a small offset $\delta\theta'$, found below.
-Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
-since the particle is close to the perturbing streamline's near point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle to the streamline's near point (the black square in
+$\theta' = \theta + \delta\theta'$ is offset from the particle's longitude by $\delta\theta'$. As in
+\cite{HS13}, the streamline's position and linear density near $\theta$ are found by fitting Lagrange
+polynomials to the three particles of $a'$ that are nearest in longitude, which provides
+$r'(\delta\theta')$, $z'(\delta\theta')$ and the linear density $\lambda'(\delta\theta')$ as smooth
+functions of $\delta\theta'$. And because the particle is close to the streamline, $|r' - r| \ll r$,
+$|z' - z| \ll r$ and $|\delta\theta'| \ll 1$, so the particle's local frame
+$(\hat{r}, \hat{\theta}, \hat{z})$ can be treated as Cartesian.
+
+The vector from the particle to the streamline's near point (the black square in
 Figure~\ref{fig:wire_planar}) is then
 \begin{equation}
     \label{eqn:wire_d}
     \boldsymbol{\Delta} = \mathbf{r}'(\delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
 \end{equation}
-where $\delta\theta'$ is the near point's longitude relative to the particle's longitude,
-$\mathbf{d}_0 = \mathbf{r}'(0) - \mathbf{r}$ points from the particle to where the streamline crosses
-the particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
-$\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$ points from the crossing to the near
-point. In the local frame, $\mathbf{d}_0 = (d_r, 0, d_z)$, where $d_r = r'(0) - r$ and
-$d_z = z'(0) - z$, and
+where $\delta\theta'$ is the near point's longitude relative to the particle's longitude. This splits
+the trip to the near point into two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(0) - \mathbf{r}$,
+goes from the particle to where the streamline crosses the particle's longitude (the cross in
+Figure~\ref{fig:wire_planar}), so $\mathbf{d}_0 = (d_r, 0, d_z)$ in the local frame, where
+$d_r = r'(0) - r$ and $d_z = z'(0) - z$. The second leg,
+$\mathbf{d}_1 = \mathbf{r}'(\delta\theta') - \mathbf{r}'(0)$, then runs along the streamline from
+that crossing point to the near point. That stretch of streamline is short and locally straight, so
 $\mathbf{d}_1 \simeq [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
 (s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
-$\delta\theta'$, along the short, locally straight stretch of streamline between them, whose unit tangent is
+$\delta\theta'$, where the streamline's unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
 \end{equation}
-with the slopes
+and its slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
     s_r = \frac{1}{r}\frac{\partial r'}{\partial\delta\theta'}, \qquad
     s_z = \frac{1}{r}\frac{\partial z'}{\partial\delta\theta'}
 \end{equation}
-at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials.
+at $\delta\theta' = 0$, which are taken from the derivatives of the Lagrange polynomials.
 
-At the near point $\boldsymbol{\Delta}$ is perpendicular to the streamline,
+The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
 $\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
-\hat{\mathbf{t}}$ that condition is $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$, so the
-near point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
+\hat{\mathbf{t}}$, that condition becomes $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$,
+so the near point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
 (d_rs_r + d_zs_z)/N^2$, and
 \begin{equation}
     \label{eqn:wire_D}
     \boldsymbol{\Delta} = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}
-    = \hat{\mathbf{t}}\times(\mathbf{d}_0\times\hat{\mathbf{t}}).
+    = \hat{\mathbf{t}}\times(\mathbf{d}_0\times\hat{\mathbf{t}}),
 \end{equation}
-In components,
+which is simply $\mathbf{d}_0$ with its component along the streamline removed. In components,
 \begin{eqnarray}
     \label{eqn:wire_Dcomp}
     \boldsymbol{\Delta} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z).
 \end{eqnarray}
-The near point is much closer to the crossing point than the spacing of the streamline's
-particles in longitude, since $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as
-assumed. Equation (\ref{eqn:wire_Ag}) then gives the pull.
+Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as assumed, and the near
+point lies much closer to the crossing point than the spacing of the streamline's particles.
+Inserting $\boldsymbol{\Delta}$ into Equation (\ref{eqn:wire_Ag}) then provides the acceleration that
+streamline $a'$ exerts on the particle.
 
-In the plane, $d_z = s_z = 0$. Let $\varphi$ be the angle at which the streamline crosses
-$\hat{\theta}$, so that $s_r = \tan\varphi$. Then $c = d_r\sin\varphi\cos\varphi$ and
-$\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi, -\sin\varphi, 0)$: the perpendicular has length
-$\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$, which is the geometry of Figure 3
-of \cite{HS13}, redrawn here as Figure~\ref{fig:wire_planar}. The pull is then
+In the ring plane $d_z = s_z = 0$, and the above reduces to the geometry of Figure 3 of \cite{HS13},
+which is redrawn here as Figure~\ref{fig:wire_planar}. Let $\varphi$ be the angle at which the
+streamline crosses $\hat{\theta}$, so that $s_r = \tan\varphi$. Then $c = d_r\sin\varphi\cos\varphi$
+and $\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi, -\sin\varphi, 0)$, i.e., the perpendicular has
+length $\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{r}$. The acceleration is
+then
 \begin{eqnarray}
     \label{eqn:wire_2d}
     A_{g,r} &=& \frac{2G\lambda'}{d_r} \nonumber\\
     A_{g,\theta} &=& -\frac{2G\lambda'\tan\varphi}{d_r}.
 \end{eqnarray}
-Out of the plane, $A_{g,\theta} = -2G\lambda'c/\Delta^2$ includes the term $-2G\lambda'd_zs_z/N^2\Delta^2$,
-through which vertically displaced streamlines exchange angular momentum.
+Out of the plane, the tangential acceleration $A_{g,\theta} = -2G\lambda'c/\Delta^2$ also includes the
+term $-2G\lambda'd_zs_z/N^2\Delta^2$, which is due to the streamline's vertical tilt, and this is how
+vertically displaced streamlines exchange angular momentum.
 
-Equations (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_d}--\ref{eqn:wire_2d}) are exact for a straight wire. Two errors come from the
-streamline's curvature $1/R$, where $R \simeq r$. First, the streamline bends away from its tangent
-between the crossing point and the near point, which rotates $\boldsymbol{\Delta}$ by the angle
-$(\mathbf{d}_0\cdot\hat{\mathbf{t}})/R$ and changes its length by the fraction
-$(\mathbf{d}_0\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to $A_{g,\theta}$ and $A_{g,r}$ these are of order
-$\Delta/R$ and $s_r^2\Delta/R$. Second, a curved streamline does not pull exactly like a straight wire: a
-circular ring of matter pulls a point in its plane a distance $\Delta$ away with
-$(2G\lambda'/\Delta)[1 \pm (\Delta/2R)(\ln(8R/\Delta) - 2)]$, the sign $+$ outside the ring and $-$ inside. This is
-the error of the wire approximation itself \citep{HS13}, about $5\times10^{-4}$ for a streamline
-$\Delta = 10^{-4}R$ away and smaller for nearer ones, and it is of the same order as the first.
+Equations (\ref{eqn:wire_Ag}) and (\ref{eqn:wire_d}--\ref{eqn:wire_2d}) are exact for a straight wire.
+But the streamline is curved, with a radius of curvature $R \simeq r$, and that curvature introduces two
+errors. First, the streamline bends away from its tangent between the crossing point and the near
+point, which rotates $\boldsymbol{\Delta}$ by the angle $(\mathbf{d}_0\cdot\hat{\mathbf{t}})/R$ and
+changes its length by the fraction $(\mathbf{d}_0\cdot\hat{\mathbf{t}})^2/2R\Delta$. Relative to
+$A_{g,\theta}$ and $A_{g,r}$, these errors are of order $\Delta/R$ and $s_r^2\Delta/R$. Second, a curved
+streamline does not pull exactly like a straight wire. For instance, a circular ring of matter exerts
+the acceleration $(2G\lambda'/\Delta)[1 \pm (\Delta/2R)(\ln(8R/\Delta) - 2)]$ on a point in its plane a
+distance $\Delta$ away, with the sign $+$ outside the ring and $-$ inside. This is the error of the wire
+approximation itself \citep{HS13}, which is of the same order as the first error: about
+$5\times10^{-4}$ for a streamline $\Delta = 10^{-4}R$ away, and smaller still for nearer streamlines.
 
 \begin{figure}
 \centering
@@ -306,7 +318,7 @@ $\hat{\theta}$ from the crossing point (here $\delta\theta' < 0$). The perpendic
 $\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
 (Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
 the near point (the planet is far off to the left), has length $\Delta = d_r\cos\varphi$ and makes the angle
-$\varphi$ with $\hat{r}$. The wire pulls along it with $A_g = 2G\lambda'/\Delta$
+$\varphi$ with $\hat{r}$. The wire's acceleration $A_g = 2G\lambda'/\Delta$ points along it
 (Eqns.\ \ref{eqn:wire_2d}).}
 \label{fig:wire_planar}
 \end{figure}
@@ -347,7 +359,7 @@ counterpart.
 
 %TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-epi\_int\_3d computes Eqn.\ (\ref{eqn:wire_Ag}), with $\lambda'$ the perturbing streamline's own
+Epi\_int\_3d computes Eqn.\ (\ref{eqn:wire_Ag}), with $\lambda'$ the perturbing streamline's own
 linear density at the particle's longitude, and both slopes $s_r$ and $s_z$ taken from the derivatives
 of the Lagrange polynomials that give $r'$ and $z'$ there. In the plane it is
 Eqns.\ (\ref{eqn:wire_2d}). For regression tests, epi\_int\_3d can instead use epi\_int\_lite's
@@ -401,10 +413,10 @@ $A_{g,r} = A_g\cos\varphi$ and $A_{g,\theta} = -A_g\sin\varphi$, with $A_g = 2G\
 $\Delta$ the perpendicular distance, and approximate them as $A_{g,r} \simeq A_g$ and
 $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ (their Eqns.\ 20), to lowest order in the streamline's
 eccentricity. With $\Delta$ read as the radial gap $d_r$ and $\tan\varphi = v_r'/v_\theta'$, those
-are Eqns.\ (\ref{eqn:wire_2d}) without approximation. epi\_int\_lite \citep{H25} differs from
+are Eqns.\ (\ref{eqn:wire_2d}) without approximation. Epi\_int\_lite \citep{H25} differs from
 Eqns.\ (\ref{eqn:wire_2d}) in three ways, which epi\_int\_3d corrects.
 
-\paragraph{Distance} epi\_int\_lite evaluates the pull's magnitude at the crossing point,
+\paragraph{Distance} Epi\_int\_lite evaluates the pull's magnitude at the crossing point,
 $\Delta = d_r$, but keeps its direction toward the near point,
 \begin{eqnarray}
     \label{eqn:wire_lite}
@@ -416,7 +428,7 @@ This pull is weaker than Eqns.\ (\ref{eqn:wire_2d}) by the factor $\cos\varphi =
 the difference is $\sim\!10^{-10}$ and of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d})
 cost no more.
 
-\paragraph{Direction} epi\_int\_lite takes the wire's direction from the streamline's velocity at
+\paragraph{Direction} Epi\_int\_lite takes the wire's direction from the streamline's velocity at
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
 (Figure~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
@@ -425,9 +437,9 @@ slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed
 $1 - \Omega_p/\Omega \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
 tangential pull that transports angular momentum between streamlines, by a factor of about $m$. For
 the slowly precessing $m = 1$ ringlets of \cite{H25}, $\Omega_p$ is the precession rate and the error
-is negligible. epi\_int\_3d takes the direction from the shape (Eqn.\ \ref{eqn:wire_t}).
+is negligible. Epi\_int\_3d takes the direction from the shape (Eqn.\ \ref{eqn:wire_t}).
 
-\paragraph{Linear density} epi\_int\_lite evaluates every perturbing streamline's pull with the
+\paragraph{Linear density} Epi\_int\_lite evaluates every perturbing streamline's pull with the
 perturbed particle's own linear density $\lambda$, rather than the perturbing streamline's
 $\lambda'$. The difference, $\lambda' - \lambda \simeq (a' - a)\partial\lambda/\partial a$, adds a
 nearly uniform pull of order the ring's mass over the planet's; in the eccentric ringlets of
@@ -435,7 +447,7 @@ nearly uniform pull of order the ring's mass over the planet's; in the eccentric
 
 In an eccentric ringlet the three corrections together change the streamlines' eccentricities by less
 than $10^{-4}$ of themselves over 5000 orbits. Only the second matters for spiral waves, where it
-changes the torque between streamlines by a factor of about $m$. epi\_int\_3d keeps
+changes the torque between streamlines by a factor of about $m$. Epi\_int\_3d keeps
 epi\_int\_lite's ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
 checked against epi\_int\_lite's exactly.
 
@@ -539,8 +551,8 @@ where $\Delta\tilde{\omega}$ is the periapse twist across it (cf.\ Eqn.\ C1 of \
 %TODO: this scaling is an order-of-magnitude estimate that fits the runs below; derive it properly
 So keeping $J_2$ from winding up the ringlet requires $m_r \propto J_2\Delta a^3/\Delta\tilde{\omega}$,
 and then ${\cal R} \propto J_2\Delta a N_r/\Delta\tilde{\omega}$: a wider ringlet does not help, and
-for a given planet more streamlines can be afforded only by a narrower ringlet. We tested this
-with a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
+for a given planet more streamlines can be afforded only by a narrower ringlet. This is tested
+here with simulations of a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
 eccentricity $e = 10^{-4}$, periapses twisted by $\pi$ from its inner to outer edge, and kinematic
 viscosity $\nu = 7\times10^{-11}a^2\Omega_a$, with no pressure, $R_p = 0.5a$ and $J_2 = 0.01$. With
 $N_r = 100$ streamlines (${\cal R} \simeq 0.09$ in the ringlet's middle, where the taper makes
@@ -563,7 +575,7 @@ particles per streamline. It also grows in a circular ringlet, without ring grav
 viscosity, though more slowly (after about 220, 170 and 850 orbits), its onset varies
 non-monotonically with $N_t$ (with $N_t = 30$ or 50 the ringlet survives $10^4$ orbits, with 20, 40
 or 320 it does not), and pressure with $Q \le 10$ delays it by at most 20\%. It is presumably seeded by
-the 3-point Lagrange interpolation in longitude that couples neighbouring streamlines' particles,
+the 3-point Lagrange interpolation in longitude that couples neighboring streamlines' particles,
 and it remains an open problem.
 
 So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only. In practice a simulated ringlet whose
