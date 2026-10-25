@@ -157,3 +157,8 @@ doesn't get confused with a particle? [Yes to both: three particles, crossing po
 Follow-up: change "points from there to the nearest point" to "points from the crossing to the nearest
 point". Should the approx-equal in d1 = [...] ~ (s_r, 1, s_z) r dtheta' be an equality, with approx-equal
 used in Eqns. 16 instead? [Recommended keeping it as is.]
+
+Follow-up: should we instead say Delta = (r'(theta'), theta', z'(theta')), d0 = (r'(0), 0, z'(0) - z), so
+Delta = d0 + [(r'(theta'), theta', z'(theta')) - d0] = d0 + d1, where d1 = [r'(dtheta') - r'(0),
+r dtheta', z'(dtheta') - z'(0)] ~ (s_r, 1, s_z) r dtheta'? [Yes, with the components measured from the
+particle: Delta = [r'(dtheta') - r, r dtheta', z'(dtheta') - z].]

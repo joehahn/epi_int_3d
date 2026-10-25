@@ -221,19 +221,20 @@ $\delta\theta'$ that are treated as known below.
 
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline's nearest point: $|r' - r| \ll r$,
-$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. The vector from the particle to the nearest point on
-streamline $a'$ (the black square in Figure~\ref{fig:wire_planar}) is
+$|z' - z| \ll r$, and $|\delta\theta'| \ll 1$. In that frame, the vector from the particle to the
+nearest point on streamline $a'$ (the black square in Figure~\ref{fig:wire_planar}) is
 \begin{equation}
     \label{eqn:wire_d}
-    \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1(\delta\theta'),
+    \boldsymbol{\Delta} = [r'(\delta\theta') - r, r\,\delta\theta', z'(\delta\theta') - z],
 \end{equation}
-where $\delta\theta'$ is the nearest point's longitude offset. Here $\mathbf{d}_0 = (d_r, 0, d_z)$, with
-$d_r = r'(0) - r$ and $d_z = z'(0) - z$, points from the particle to where the streamline crosses the
-particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
-$\mathbf{d}_1 = [r'(\delta\theta') - r'(0), r\,\delta\theta', z'(\delta\theta') - z'(0)] \simeq
-(s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ points from the crossing to the
-nearest point, to first order in $\delta\theta'$, along the short, locally straight stretch of
-streamline between them, whose unit tangent is
+where $\delta\theta'$ is the nearest point's longitude offset. Split it at the crossing point,
+$\boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1$, where $\mathbf{d}_0 = \boldsymbol{\Delta}(0) =
+(d_r, 0, d_z)$, with $d_r = r'(0) - r$ and $d_z = z'(0) - z$, points from the particle to where the
+streamline crosses the particle's longitude (the cross in Figure~\ref{fig:wire_planar}), and
+$\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = [r'(\delta\theta') - r'(0), r\,\delta\theta',
+z'(\delta\theta') - z'(0)] \simeq (s_r, 1, s_z)\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$
+points from the crossing to the nearest point, to first order in $\delta\theta'$, along the short,
+locally straight stretch of streamline between them, whose unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
