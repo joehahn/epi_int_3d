@@ -274,3 +274,6 @@ where θ' = θ + δθ' is offset from the particle's longitude by δθ'" to say 
 streamline's cylindrical coordinates r' = (r', θ', z') are to be regarded as functions of θ' = θ + δθ'
 since streamline a' is sampled by its particles, which allows us to use Lagrange interpolation to
 estimate that near point. [Done.]
+
+Follow-up: and "while the perturbing streamline's coordinates r' = (r', θ', z') are to be regarded as
+functions of its longitude θ' = θ + δθ'" relative to the particle's longitude θ. [Done.]
