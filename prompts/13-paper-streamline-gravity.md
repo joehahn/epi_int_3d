@@ -111,3 +111,9 @@ longitude relative to theta.
 Follow-up: I'm not sure what "The pull of a displaced streamline" means; maybe change to "The perturbing
 streamline's geometry"? Does "|r' - r| << r and |z' - z| << r" need to say |delta theta'| << 1? And what
 is "it" in "Near there it lies at d + (s_r, 1, s_z) r delta theta', so its unit tangent is"?
+
+Follow-up: can "as shown below, " be dropped? Change "The streamline crosses the particle's longitude,
+delta theta' = 0, at the separation d = (d_r, 0, d_z)" to "The streamline crosses the particle's
+longitude at delta theta' = 0, and that crossing point lies at d = (d_r, 0, d_z)", and "A point on the
+streamline at a small offset delta theta'" to "other points on that locally straight streamline can be
+parameterized by the small longitudinal offset delta theta'".
