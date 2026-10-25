@@ -199,3 +199,6 @@ lambda'(dtheta')", to avoid confusion with a longitude? [Yes.]
 Follow-up: change "dtheta' is now the near point's longitude offset" to "dtheta' is the near point's
 longitude relative to the particle's longitude", and to "d0 = (d_r, 0, d_z) where d_r = r'(0) - r and
 d_z = z'(0) - z".
+
+Follow-up: can "The tangent is thus taken from the streamline's shape rather than its velocity, which is
+tangent to the streamline only when the streamline's shape is stationary." be deleted? [Yes.]
