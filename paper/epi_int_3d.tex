@@ -207,7 +207,7 @@ streamline $a'$ is that due to a straight and infinitely long wire:
 where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
 separation of the particle to the streamline's nearest point, designated the near point in
 Fig.~\ref{fig:wire_planar}. The following derives $\boldsymbol{\Delta}$ in three dimensions, and
-Appendix \ref{sec:appendix_wire2d} relates that result to the co-planar problem considered by epi\_int and
+Appendix \ref{sec:appendix_wire2d} relates that to the co-planar problem considered by epi\_int and
 epi\_int\_lite.
 
 \subsection{The perturbing streamline's geometry}
@@ -218,13 +218,13 @@ particle is radially close to the nearby portions of all perturbing streamlines.
 treat the particle's acceleration due to a perturbing streamline as that due to a straight wire, and
 the following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
 
-In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$, and the points of
-streamline $a'$ near it are at $\mathbf{r}'(\delta\theta') = (r', \theta', z')$, where
-$\theta' = \theta + \delta\theta'$ is offset from the particle's longitude by $\delta\theta'$. As in
-\cite{HS13}, the streamline's position and linear density near $\theta$ are found by fitting Lagrange
-polynomials to the three particles of $a'$ that are nearest in longitude, which provides
-$r'(\delta\theta')$, $z'(\delta\theta')$ and the linear density $\lambda'(\delta\theta')$ as smooth
-functions of $\delta\theta'$. And because the particle is close to the streamline, $|r' - r| \ll r$,
+In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$, and the perturbing
+streamline's coordinates $\mathbf{r}' = (r', \theta', z')$ are regarded as functions of its longitude
+$\theta' = \theta + \delta\theta'$, which is offset from the particle's longitude by $\delta\theta'$.
+Streamline $a'$ is sampled by its particles, so, as in \cite{HS13}, Lagrange polynomials fitted to the
+three particles of $a'$ that are nearest in longitude provide $r'(\delta\theta')$, $z'(\delta\theta')$
+and the linear density $\lambda'(\delta\theta')$ as smooth functions of $\delta\theta'$, which allows
+the streamline's near point to be estimated below. And because the particle is close to the streamline, $|r' - r| \ll r$,
 $|z' - z| \ll r$ and $|\delta\theta'| \ll 1$, so the particle's local frame
 $(\hat{r}, \hat{\theta}, \hat{z})$ can be treated as Cartesian.
 

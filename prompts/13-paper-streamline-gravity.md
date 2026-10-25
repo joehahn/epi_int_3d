@@ -267,3 +267,10 @@ Follow-up: change to "Which allows us to treat the particle's acceleration due t
 streamline as that due to a straight wire, and the following 3D builds treatment is an extension of the
 2D force calculations used in J. M. Hahn & J. N. Spitale (2013)." [Done, reading "the following 3D
 treatment is an extension of".]
+
+Follow-up: change to "relates that to the co-planar problem" and revise "In cylindrical coordinates the
+particle is at r = (r, θ, z), and the points of streamline a' near it are at r'(δθ') = (r', θ', z'),
+where θ' = θ + δθ' is offset from the particle's longitude by δθ'" to say that the perturbing
+streamline's cylindrical coordinates r' = (r', θ', z') are to be regarded as functions of θ' = θ + δθ'
+since streamline a' is sampled by its particles, which allows us to use Lagrange interpolation to
+estimate that near point. [Done.]
