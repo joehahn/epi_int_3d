@@ -240,3 +240,9 @@ the co-planar limit examined by epi_int and epi_int_lite." Change "A particle in
 close to the nearby portions of the other streamlines" to say that all epi_int_3d simulations are of
 narrow annuli in a broader ring, so all particles are radially close to the near parts of all
 perturbing streamlines. [Done.]
+
+Follow-up: change to "and Appendix B relates that result to the co-planar problem considered by epi_int
+and epi_int_lite" and change to "so every particle is radially close to the nearby portions of all
+perturbing streamlines. Which allows us to treat the acceleration of that due to a perturbing streamline
+as that due to a straight wire". [Done, reading "the particle's acceleration due to a perturbing
+streamline".]
