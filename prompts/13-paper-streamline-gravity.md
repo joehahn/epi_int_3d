@@ -212,3 +212,8 @@ streamline's near point, the point of the streamline nearest the particle" to so
 distance from the particle to the streamline's near point, Fig 1". [Done, as "Δ is the separation of the
 particle from the streamline's near point, its point nearest the particle (Fig. 1)": bold Δ is a vector,
 and the near point is defined only here.]
+
+Follow-up: should hahn13 and hahn25 be reviewed so this paper can be written in my style? [Yes:
+extract a one-page style guide, apply it to new text, and propose any style pass on existing sections
+separately.] Then: yes, write the style guide. [notes/writing_style.md.] Should the style guide be
+pushed or kept local? [Committed to the repo, pushed when the author says "push".]
