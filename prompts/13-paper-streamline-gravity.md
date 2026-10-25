@@ -153,3 +153,7 @@ Follow-up: move phi slightly closer to its arc, and push.
 
 Follow-up: should there be a 3rd particle shown in a'? And should the crossing point be a non-circle so it
 doesn't get confused with a particle? [Yes to both: three particles, crossing point marked x.]
+
+Follow-up: change "points from there to the nearest point" to "points from the crossing to the nearest
+point". Should the approx-equal in d1 = [...] ~ (s_r, 1, s_z) r dtheta' be an equality, with approx-equal
+used in Eqns. 16 instead? [Recommended keeping it as is.]
