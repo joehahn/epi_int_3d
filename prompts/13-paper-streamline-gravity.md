@@ -139,3 +139,7 @@ Follow-up: drop the d1 arrow and put d1's arrowhead on the line in question; use
 vectors, so the line downward of the near point should be less thick. Does Fig. 1 need the v' vector and
 the dr', r dtheta triangle? If not, drop them or move them to the appendix. [Moved to a new Appendix B
 figure.]
+
+Follow-up: indicate the Delta vector, drop "Delta = d_r cos phi", drop the red vector, make the vectors
+less heavy but heavier than the non-vector lines. Should "nearest point" be "near point"? Move "crossing
+point" a smidge right.

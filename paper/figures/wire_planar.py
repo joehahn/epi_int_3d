@@ -4,8 +4,8 @@
 #wire_planar: the paper's Figure 1 (Section 3.1). The perturbing streamline a' crosses the particle's
 #    longitude at d0 = d_r r-hat (the crossing point, open circle), tilted from theta-hat by phi; the
 #    nearest point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
-#    streamline, with length d_r cos(phi) and at the angle phi to r-hat. The wire pulls along it with
-#    A_g = 2 G lambda'/Delta. Vectors are drawn thick, the streamline thin.
+#    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
+#    Vectors are drawn heavier than the streamline.
 #wire_velocity: the paper's Appendix B figure. At the crossing point the streamline's shape has the slope
 #    tan(phi) = s_r = dr'/(r dtheta), while its velocity v' (dashed) is tilted less when the shape
 #    rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
@@ -21,7 +21,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 AXIS = dict(arrowstyle='->', lw=1)
-VEC = dict(arrowstyle='-|>', lw=2.4, mutation_scale=16, color='k', shrinkA=0, shrinkB=0)
+VEC = dict(arrowstyle='-|>', lw=1.8, mutation_scale=14, color='k', shrinkA=0, shrinkB=0)
 PULL = dict(arrowstyle='-|>', lw=2.4, mutation_scale=16, color='C3', shrinkA=0, shrinkB=0)
 STEP = dict(arrowstyle='-|>', lw=1.5, mutation_scale=12, color='C0')
 dx, phi = 2.0, np.radians(25)
@@ -58,13 +58,11 @@ ax.annotate('', xy=F, xytext=X, arrowprops=dict(VEC, shrinkA=5, shrinkB=6))
 ax.text(*((X + F)/2 + 0.15*np.array([T[1], -T[0]])), r'$\mathbf{d}_1$', fontsize=12, va='center')
 ax.annotate('', xy=F, xytext=(0, 0), arrowprops=dict(VEC, shrinkB=6))
 u = F/np.hypot(*F)
-ax.annotate('', xy=0.8*u, xytext=(0, 0), arrowprops=PULL)
-ax.text(0.15, -0.62, r'$A_g$', color='C3', fontsize=11)
-ax.text(0.15, -1.1, r'$\boldsymbol{\Delta}$, $\Delta = d_r\cos\varphi$', fontsize=11)
+ax.text(*(0.5*F + np.array([-0.2, -0.32])), r'$\boldsymbol{\Delta}$', fontsize=13)
 ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arctan2(u[1], u[0])), theta2=0, lw=1))
 ax.text(1.2, -0.22, r'$\varphi$', fontsize=11)
 ax.plot(*X, 'o', ms=8, mfc='white', mec='k', mew=1.3, zorder=5)
-ax.text(dx + 0.15, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
+ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
 ax.text(F[0] + 0.12, F[1] - 0.15, 'nearest\npoint', fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
