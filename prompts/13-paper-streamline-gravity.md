@@ -195,3 +195,7 @@ introduced early in that paragraph.
 
 Follow-up: should "r'(dtheta'), z'(dtheta') and lambda'(dtheta')" be "... and linear density
 lambda'(dtheta')", to avoid confusion with a longitude? [Yes.]
+
+Follow-up: change "dtheta' is now the near point's longitude offset" to "dtheta' is the near point's
+longitude relative to the particle's longitude", and to "d0 = (d_r, 0, d_z) where d_r = r'(0) - r and
+d_z = z'(0) - z".
