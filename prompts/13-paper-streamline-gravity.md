@@ -192,3 +192,6 @@ Follow-up: should vec(r') = (r', theta', z') refer to points on a', and should t
 
 Follow-up: 'The points of a' near the particle are then r'(dtheta') = (r', theta', z')' should be
 introduced early in that paragraph.
+
+Follow-up: should "r'(dtheta'), z'(dtheta') and lambda'(dtheta')" be "... and linear density
+lambda'(dtheta')", to avoid confusion with a longitude? [Yes.]
