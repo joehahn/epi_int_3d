@@ -17,7 +17,7 @@ decisions, ground rules) and `README.md`.
   test particles), `tests/vertical_analysis.py` and `tests/test_vertical.py` test the vertical motion,
   which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels.
 - `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
-  `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
+  `equations.md` (equation verification tracker), `writing_style.md` (the author's style for the paper), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
 - `benchmark/`: the Phase 0b benchmark (`benchmark.py`, `line_profile.py`, the benchmark ringlet's
   `inputs.py`), its results (`results/`) and the reference final states that faster code must

@@ -2,7 +2,7 @@
 
 The author's style, taken from Hahn & Spitale (2013, ApJ 772, 122; "hahn13") and Hahn et al. (2025,
 ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when drafting text for
-`paper/epi_int_3d.tex`. Drafted 2026-10-25; pending the author's review.
+`paper/epi_int_3d.tex`. Drafted and approved by the author 2026-10-25.
 
 ## Voice and tense
 
@@ -40,9 +40,9 @@ ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when draf
   streamline."
 - Every new symbol is defined in a "where" clause right after the equation.
 - Derivations are short and verbal; longer ones go to an appendix ("detailed in Appendix A").
-- Equations are cited as "Equation (19)" and "Equations (20)–(21)" in text (the journal's style).
-  Figure legends may use "Eqn (B11)". *Open question for this paper, which uses "Eqn. 13": switch to
-  "Equation (13)"?*
+- Equation references in this paper: "Equation (13)" / "Equations (13)–(15)" when the reference
+  starts a sentence, "Eqn. (13)" / "Eqns. (13)" otherwise (the author's choice, 2026-10-25). Its
+  journal papers use "Equation (19)" throughout, and "Eqn (B11)" in figure legends.
 
 ## Citations
 

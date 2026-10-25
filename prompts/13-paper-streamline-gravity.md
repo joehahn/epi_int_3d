@@ -217,3 +217,6 @@ Follow-up: should hahn13 and hahn25 be reviewed so this paper can be written in 
 extract a one-page style guide, apply it to new text, and propose any style pass on existing sections
 separately.] Then: yes, write the style guide. [notes/writing_style.md.] Should the style guide be
 pushed or kept local? [Committed to the repo, pushed when the author says "push".]
+
+Follow-up: Equation (13) when that starts the sentence, Eqn otherwise; guide looks good. [Six
+sentence-initial references changed to "Equation(s) (n)"; guide, CLAUDE.md and a memory updated.]
