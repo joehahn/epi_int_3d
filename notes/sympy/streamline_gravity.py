@@ -322,3 +322,12 @@ check('G16: = t x (d0 x t)', Dn - t0.cross(d00.cross(t0)))
 check('G16: components (d_r - c s_r, -c, d_z - c s_z)', Dn - sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0]))
 check('G16: Delta^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z)',
       (Dn.T*Dn)[0] - (d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))
+# Eqn. 14's local-frame form: in the particle's frame (r-hat, theta-hat, z-hat at longitude theta),
+# r' - r = [r' cos(dtheta') - r, r' sin(dtheta'), z' - z]; with r' = r(1 + eps a), dtheta' = eps b it
+# equals [r' - r, r dtheta', z' - z] to first order in the small quantities.
+eps_, a_, b_, rp_ = sp.symbols('epsilon a b r_p', real=True)
+r_loc = rr0*(1 + eps_*a_)
+exact = sp.Matrix([r_loc*sp.cos(eps_*b_) - rr0, r_loc*sp.sin(eps_*b_)])
+approx = sp.Matrix([r_loc - rr0, rr0*eps_*b_])
+check("G16: r' - r = [r' - r, r dtheta', z' - z] + O(second order)",
+      [sp.series((exact - approx)[k], eps_, 0, 2).removeO() for k in range(2)])
