@@ -206,9 +206,10 @@ straight and infinitely long wire of linear density $\lambda$, which pulls the p
     A_g = \frac{2G\lambda}{\Delta},
 \end{equation}
 where $\Delta$ is the particle's perpendicular distance from the wire (Eqn.\ 19 of \citealt{HS13}).
-The perturbing streamline's position, shape and velocity at the particle's longitude are found by
-fitting Lagrange polynomials to the three particles of $a'$ nearest in longitude \citep{HS13}, and are
-treated as known below. Appendix \ref{sec:appendix_wire2d} works out this pull in the ring plane, from
+The perturbing streamline's position at longitudes $\theta' = \theta + \delta\theta'$ near the
+particle's longitude $\theta$ is found by fitting Lagrange polynomials to the three particles of $a'$
+nearest in longitude \citep{HS13}, which gives $r'(\delta\theta')$ and $z'(\delta\theta')$ as smooth
+functions that are treated as known below. Appendix \ref{sec:appendix_wire2d} works out this pull in the ring plane, from
 Figure 3 of \cite{HS13}, and describes three corrections to epi\_int\_lite's implementation of it,
 which epi\_int\_3d adopts: $\lambda$ is the perturbing streamline's own linear density, the wire's
 direction is taken from the streamline's shape rather than its velocity, and $\Delta$ is the distance
@@ -229,9 +230,9 @@ that are displaced vertically.
 
 Work in the particle's local frame $(\hat{r}, \hat{\theta}, \hat{z})$, which can be treated as Cartesian
 since the particle is close to the perturbing streamline, $|r' - r| \ll r$ and $|z' - z| \ll r$. The
-streamline crosses the particle's longitude at the separation $\mathbf{d} = (d_r, 0, d_z)$ from the
-particle, where $d_r = r' - r$ and $d_z = z' - z$. A step $d\theta$ along the streamline there moves
-it by $(dr', r\,d\theta, dz')$, so its unit tangent is
+streamline crosses the particle's longitude, $\delta\theta' = 0$, at the separation
+$\mathbf{d} = (d_r, 0, d_z)$ from the particle, where $d_r = r'(0) - r$ and $d_z = z'(0) - z$. Near
+there it lies at $\mathbf{d} + (s_r, 1, s_z)\,r\,\delta\theta'$, so its unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{(s_r, 1, s_z)}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
@@ -239,17 +240,16 @@ it by $(dr', r\,d\theta, dz')$, so its unit tangent is
 with the slopes
 \begin{equation}
     \label{eqn:wire_slopes}
-    s_r = \frac{1}{r}\frac{\partial r'}{\partial\theta}, \qquad
-    s_z = \frac{1}{r}\frac{\partial z'}{\partial\theta}
+    s_r = \frac{1}{r}\frac{\partial r'}{\partial\delta\theta'}, \qquad
+    s_z = \frac{1}{r}\frac{\partial z'}{\partial\delta\theta'}
 \end{equation}
-taken from the derivatives of the Lagrange polynomials. The tangent is taken from the streamline's
+at $\delta\theta' = 0$, taken from the derivatives of the Lagrange polynomials. The tangent is taken from the streamline's
 shape, since the velocity is tangent to the streamline only when the streamline's shape is stationary
 (Appendix \ref{sec:appendix_wire2d}).
 
 The perpendicular $\mathbf{D}$ from the particle to the streamline meets it where
-$\mathbf{D}\cdot\hat{\mathbf{t}} = 0$. That point lies a distance $|\mathbf{d}\cdot\hat{\mathbf{t}}|$
-along the streamline from the crossing point, much less than the spacing of the streamline's
-particles, and over that stretch the streamline is nearly straight, so
+$\mathbf{D}\cdot\hat{\mathbf{t}} = 0$. That point is close to the crossing point, so over the short
+stretch between them the streamline can be taken as straight, and
 \begin{equation}
     \label{eqn:wire_D}
     \mathbf{D} = \hat{\mathbf{t}}\times(\mathbf{d}\times\hat{\mathbf{t}})
@@ -261,7 +261,9 @@ the perpendicular from a point to a line. In components,
     \mathbf{D} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
     D^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z),
 \end{eqnarray}
-where $c = (d_rs_r + d_zs_z)/N^2$. Near the particle the streamline then pulls like a straight,
+where $c = (d_rs_r + d_zs_z)/N^2$. The nearest point thus lies at $\delta\theta' = -c/r$, which is
+much less than the spacing of the streamline's particles in longitude, since
+$|c| \le |d_rs_r| + |d_zs_z| \ll r$. Near the particle the streamline then pulls like a straight,
 infinitely long wire, with $A_g = 2G\lambda/D$ (Eqn.\ \ref{eqn:wire_Ag}, with $\Delta = D$) along $\mathbf{D}$:
 \begin{equation}
     \label{eqn:wire_3d}

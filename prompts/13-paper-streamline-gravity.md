@@ -88,3 +88,9 @@ Lagrange polynomials can be used to compute hat(t), so it can be regarded as kno
 and vec(D) . hat(t) = 0 I get hat(t) x (r x r') = -(hat(t) . r) vec(D), please confirm. [Confirmed, but
 r' there must be the unknown near point, and t . r ~ r s_r is nearly 0; with the origin at the crossing
 point it becomes D = t x (d x t).] Rewrite Section 3.1 that way; note the accuracy in the paper.
+
+Follow-up: [quoting "The perturbing streamline's position, shape and velocity at the particle's longitude
+are found by fitting Lagrange polynomials ..."] means that the perturbing streamline's r' and z' can be
+regarded as functions of delta theta', the longitude relative to the perturbed particle's, correct?
+Should the paper introduce that relative longitude, perhaps via the symbol delta theta'? Yes, make those
+edits.
