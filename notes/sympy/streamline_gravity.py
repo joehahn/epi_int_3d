@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G16; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G17; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -331,3 +331,19 @@ exact = sp.Matrix([r_loc*sp.cos(eps_*b_) - rr0, r_loc*sp.sin(eps_*b_)])
 approx = sp.Matrix([r_loc - rr0, rr0*eps_*b_])
 check("G16: r' - r = [r' - r, r dtheta', z' - z] + O(second order)",
       [sp.series((exact - approx)[k], eps_, 0, 2).removeO() for k in range(2)])
+
+# --- G17: the paper's Sec. 3.1 recipe. With offsets x_k = theta_k - theta of the three particles,
+# w_1 = x_2 x_3/((x_1 - x_2)(x_1 - x_3)) and w'_1 = -(x_2 + x_3)/((x_1 - x_2)(x_1 - x_3)) (and
+# cyclically) give the Lagrange fit's value and slope at theta: f(theta) = sum w_k f_k and
+# df/dtheta' = sum w'_k f_k, exactly for a quadratic; and A_g = 2 G lambda' Delta/Delta^2 has
+# components 2 G lambda' (d_r - c s_r, -c, d_z - c s_z)/Delta^2. ---
+x1_, x2_, x3_, q0, q1, q2, u_ = sp.symbols('x_1 x_2 x_3 q_0 q_1 q_2 u', real=True)
+quad = q0 + q1*u_ + q2*u_**2
+xs = (x1_, x2_, x3_)
+w = [xs[(k+1) % 3]*xs[(k+2) % 3]/((xs[k] - xs[(k+1) % 3])*(xs[k] - xs[(k+2) % 3])) for k in range(3)]
+wp = [-(xs[(k+1) % 3] + xs[(k+2) % 3])/((xs[k] - xs[(k+1) % 3])*(xs[k] - xs[(k+2) % 3])) for k in range(3)]
+check('G17: sum w_k f_k = f(theta)', sum(w[k]*quad.subs(u_, xs[k]) for k in range(3)) - q0)
+check("G17: sum w'_k f_k = df/dtheta' at theta", sum(wp[k]*quad.subs(u_, xs[k]) for k in range(3)) - q1)
+lam_, G_ = sp.symbols('lambda G', positive=True)
+check('G17: A_g components', 2*G_*lam_*Dn/(Dn.T*Dn)[0]
+      - 2*G_*lam_*sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0])/(d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))

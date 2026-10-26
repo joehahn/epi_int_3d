@@ -320,3 +320,8 @@ Follow-up: can "Equations (13) and (14–19) are exact for a straight wire. But 
 ... and smaller still for nearer streamlines." be deleted? [Yes: a side note on the wire approximation's
 ~1e-4 accuracy that the derivation doesn't need. Deleted; G15 stays in the sympy checks, its
 equations.md row now marked notes only.]
+
+Follow-up: epi_int_3d provides particles' r, theta coordinates, plus Lagrange polynomial fits to
+particles along streamlines. Add a paragraph to the end of Section 3.1 explaining how those are used to
+compute the factors needed to compute the r, theta, z components of Ag. [Added, with Eqns. 20 (Lagrange
+value and slope weights) and 21 (the three components); sympy check G17.]
