@@ -315,3 +315,8 @@ longitudes about the spin axis.] Maybe that sentence should say "as measured in 
 Follow-up: should "(the cross in Fig. 1)" say "(the cross in Fig. 1 where theta'=theta)"? [No: the
 sentence already gives r'(θ) = (r'(θ), θ, z'(θ)); offered instead to label the figure.] Yes. [Fig. 1
 labels now read "crossing point θ' = θ" and "near point θ' = θ + δθ'".]
+
+Follow-up: can "Equations (13) and (14–19) are exact for a straight wire. But the streamline is curved,
+... and smaller still for nearer streamlines." be deleted? [Yes: a side note on the wire approximation's
+~1e-4 accuracy that the derivation doesn't need. Deleted; G15 stays in the sympy checks, its
+equations.md row now marked notes only.]
