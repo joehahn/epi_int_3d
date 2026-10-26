@@ -330,3 +330,8 @@ Follow-up: can that paragraph do what hahn13 does and skip the discussion of how
 derived, and merely state that Lagrange polynomials are used to interpolate as needed? [Yes: the weights
 equation is gone; the paragraph says the polynomials fit to the three bracketing particles give r'(θ),
 z'(θ), λ'(θ) by interpolation and s_r, s_z from their derivatives. The weights stay in sympy G17.]
+
+Follow-up: should λ' be evaluated at the crossing point? [Yes, it is fine: the near point is |c| ≪ Δ
+along the streamline from it, inside the ~Δ stretch that dominates a wire's pull; the fractional
+difference is ~(Δ/r)(e m)², below the wire approximation's O(Δ/R) error. Offered to sharpen the paper's
+sentence:] no. [Left as is.]
