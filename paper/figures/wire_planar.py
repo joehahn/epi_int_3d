@@ -64,9 +64,9 @@ ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arcta
 am = np.arctan2(u[1], u[0])/2                         #midway along the arc
 ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
-ax.text(dx + 0.25, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
+ax.text(dx + 0.32, 0.1, 'crossing\npoint\n' + r"$\theta' = \theta$", fontsize=9, va='bottom')
 ax.plot(*F, 'ks', ms=9, zorder=5)
-ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint', fontsize=9, va='top')
+ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint\n' + r"$\theta' = \theta + \delta\theta'$", fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
 #r and r', from the planet far off to the left, to the particle and the near point
 RV = dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k', shrinkA=0, shrinkB=6)

@@ -311,3 +311,7 @@ to the in-plane accelerations computed by epi_int and epi_int_lite."]
 Follow-up: in "where δθ' is the near point's longitude relative to the particle's longitude" is δθ'
 measured in the z=0 plane or in the r, r' plane? [The z = 0 plane: a difference of cylindrical
 longitudes about the spin axis.] Maybe that sentence should say "as measured in the z=0 plane". [Done.]
+
+Follow-up: should "(the cross in Fig. 1)" say "(the cross in Fig. 1 where theta'=theta)"? [No: the
+sentence already gives r'(θ) = (r'(θ), θ, z'(θ)); offered instead to label the figure.] Yes. [Fig. 1
+labels now read "crossing point θ' = θ" and "near point θ' = θ + δθ'".]
