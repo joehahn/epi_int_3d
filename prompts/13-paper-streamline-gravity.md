@@ -301,3 +301,9 @@ are functions of one variable, and d/dθ' = d/dδθ' since θ is fixed.]
 Follow-up: should r'(δθ') be written as r'(θ') where θ' = θ + δθ'? [Yes: it matches Eqn. 16's d/dθ', and
 the crossing point reads r'(θ) rather than the misleading r'(0). The near point is r'(θ + δθ'); δθ'
 stays as the offset that is solved for.]
+
+Follow-up: change to "to the streamline's nearest point, which is labeled the near point in Fig. 1." Can
+"The following derives Δ in three dimensions, and Appendix B relates that to the co-planar problem
+considered by epi_int and epi_int_lite." be deleted? [Yes, but it was the main text's only pointer to
+Appendix B, so that pointer moved to just after Eqns. 19, the planar limit: "Appendix B relates these
+to the in-plane accelerations computed by epi_int and epi_int_lite."]
