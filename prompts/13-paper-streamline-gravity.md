@@ -307,3 +307,7 @@ Follow-up: change to "to the streamline's nearest point, which is labeled the ne
 considered by epi_int and epi_int_lite." be deleted? [Yes, but it was the main text's only pointer to
 Appendix B, so that pointer moved to just after Eqns. 19, the planar limit: "Appendix B relates these
 to the in-plane accelerations computed by epi_int and epi_int_lite."]
+
+Follow-up: in "where δθ' is the near point's longitude relative to the particle's longitude" is δθ'
+measured in the z=0 plane or in the r, r' plane? [The z = 0 plane: a difference of cylindrical
+longitudes about the spin axis.] Maybe that sentence should say "as measured in the z=0 plane". [Done.]
