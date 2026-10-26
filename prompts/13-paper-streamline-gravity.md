@@ -325,3 +325,8 @@ Follow-up: epi_int_3d provides particles' r, theta coordinates, plus Lagrange po
 particles along streamlines. Add a paragraph to the end of Section 3.1 explaining how those are used to
 compute the factors needed to compute the r, theta, z components of Ag. [Added, with Eqns. 20 (Lagrange
 value and slope weights) and 21 (the three components); sympy check G17.]
+
+Follow-up: can that paragraph do what hahn13 does and skip the discussion of how Lagrange weights are
+derived, and merely state that Lagrange polynomials are used to interpolate as needed? [Yes: the weights
+equation is gone; the paragraph says the polynomials fit to the three bracketing particles give r'(θ),
+z'(θ), λ'(θ) by interpolation and s_r, s_z from their derivatives. The weights stay in sympy G17.]

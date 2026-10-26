@@ -293,19 +293,12 @@ term $-2G\lambda'd_zs_z/N^2\Delta^2$, which is due to the streamline's vertical 
 vertically displaced streamlines exchange angular momentum.
 
 In practice, epi\_int\_3d computes the acceleration $\mathbf{A}_g$ as follows. The particles in every
-streamline are kept sorted by longitude, so the three particles $k = 1, 2, 3$ of streamline $a'$ whose
-indices are those of the perturbed particle and its two neighbors bracket the particle's longitude
-$\theta$. Their longitude offsets $x_k = \theta_k - \theta$ then provide the Lagrange weights
-\begin{eqnarray}
-    \label{eqn:wire_weights}
-    w_1 &=& \frac{x_2x_3}{(x_1 - x_2)(x_1 - x_3)} \nonumber\\
-    w_1' &=& -\frac{x_2 + x_3}{(x_1 - x_2)(x_1 - x_3)},
-\end{eqnarray}
-with $w_2$, $w_3$ and $w_2'$, $w_3'$ obtained by cycling the indices, so that any quantity $f$ of
-streamline $a'$ has the value $f(\theta) = \sum_k w_kf_k$ at the crossing point and the slope
-$df/d\theta' = \sum_k w_k'f_k$ there. These weights provide $d_r = \sum_k w_kr_k - r$,
-$d_z = \sum_k w_kz_k - z$, the linear density $\lambda' = \sum_k w_k\lambda_k$, and the slopes
-$s_r = \sum_k w_k'r_k/r$ and $s_z = \sum_k w_k'z_k/r$ of Eqn.\ (\ref{eqn:wire_slopes}). Then
+streamline are kept sorted by longitude, so the three particles of streamline $a'$ whose indices are
+those of the perturbed particle and its two neighbors bracket the particle's longitude $\theta$.
+Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
+crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
+$\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
+Eqn.\ (\ref{eqn:wire_slopes}). Then
 $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$, Eqns.\ (\ref{eqn:wire_Dcomp}) provide
 $\boldsymbol{\Delta}$ and $\Delta^2$, and Eqn.\ (\ref{eqn:wire_Ag}) provides the acceleration's three
 components,
