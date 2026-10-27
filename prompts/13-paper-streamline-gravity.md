@@ -391,3 +391,7 @@ change to "Epi_int_3d assigns particles to streamlines that are a closed eccentr
 can we delete "and a streamline is labeled by that semimajor axis, like its predecessors epi_int and epi_int_lite"? and "Which is why all three codes assume " to "Which is why epi_int_3d and its predecessors
 
 [Both done. The predecessors are named there instead, "Which is why epi_int_3d and its predecessors epi_int and epi_int_lite assume ...", because they are no longer named earlier in Section 3.]
+
+change "predecessors epi_int and epi_int_lite assume " to "predecessors (epi_int and epi_int_lite) assume "
+
+[Done.]
