@@ -200,7 +200,7 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
+%equations G1-G18, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
 \code{Epi\_int\_3d} assigns particles to streamlines that are a closed eccentric path around the
 planet whose particles share a common semimajor axis $a$. All \code{epi\_int\_3d}
 simulations span only a narrow annulus within a broader planetary ring, so every particle is
@@ -293,8 +293,11 @@ Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
     \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2.
 \end{eqnarray}
-Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r'$ and $|\delta\theta'| \ll 1$ as assumed, and the near
-point lies much closer to the crossing point than the spacing of the streamline's particles.
+Note that Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp}) imply $|\mathbf{d}_1| \le s\Delta$,
+where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a nearly circular and nearly planar
+streamline the near point lies much closer to the crossing point than to the particle. Then
+$|\delta\theta'| = |\mathbf{d}_1|/Nr' \ll 1$ as assumed, and the near point is also much closer to the
+crossing point than the spacing of the streamline's particles.
 Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle.
 

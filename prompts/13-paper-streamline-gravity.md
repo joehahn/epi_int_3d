@@ -591,3 +591,11 @@ should "c = (d0·t̂)/N" say "c = (d0·t̂)/N=(dr sr + dz sz )/N²"?
 should "Δ² = d_r² + d_z² − c(d_r s_r + d_z s_z)" be written delta^2=dr^2+dz^2-(cN)^2 instead?
 
 [Yes. They're equal, since d_r s_r + d_z s_z = N²c, and (Nc)² = |**d**₁|² from Eqn. 20, so the new form is just Pythagoras, |**d**₀|² = Δ² + |**d**₁|². Eqn. 21 now reads Δ² = d_r² + d_z² − (Nc)². Sympy G16 checks the new form (all pass), and the equations.md G16 row now gives both.]
+
+i think "Note that |c| ≤ |dr sr | + |dz sz | ≪ r′ and |δθ′| ≪ 1 as assumed, and the near point lies much closer to the crossing point than the spacing of the streamline's particles." is saying that d1 << Delta but that isnt obvious to me, how to we prove that transparently in the paper?
+
+[It didn't claim |**d**₁| ≪ Δ, only |δθ′| ≪ 1 and |**d**₁| ≪ particle spacing, and the |c| route was opaque. A transparent proof: with s² = s_r² + s_z², Cauchy–Schwarz gives |**d**₁| = |d_r s_r + d_z s_z|/N ≤ |**d**₀|s/N, and Eqn. 21 gives Δ ≥ |**d**₀|/N, so |**d**₁| ≤ sΔ. In the plane |**d**₁|/Δ = tan φ = s_r exactly. I proposed a rewrite.]
+
+yes
+
+[The note after Eqn. 21 now reads "Note that Eqns. (20)–(21) imply |**d**₁| ≤ sΔ, where s = (s_r² + s_z²)^{1/2}, so for the small slopes of a nearly circular and nearly planar streamline the near point lies much closer to the crossing point than to the particle. Then |δθ′| = |**d**₁|/Nr′ ≪ 1 as assumed, and the near point is also much closer to the crossing point than the spacing of the streamline's particles." New sympy check G18: s²Δ² − |**d**₁|² = (s_r d_z − s_z d_r)² ≥ 0, plus the planar ratio. All checks pass, and equations.md has a G18 row.]
