@@ -555,3 +555,7 @@ delete "(Eqn. 16" . what vector relation was used to obtain Eqn 19?
 leave Eqn. 19 as Δ = d₀ + d₁ = d₀ − (d₀·t̂) t̂. and push
 
 [Done: the cross-product form is dropped from Eqn. 19 (sympy G16 still checks it) and everything is pushed.]
+
+change "Comparing this d1 with Eqn. (16) " to "equating d1=N r′(θ) δθ′ t," to eqnn (16)" and can c be made dimensionless instead of varying as 1/length? and can r'(theta) be shorted to r'?
+
+[Now "Equating this **d**₁ to Eqn. (16)'s **d**₁ = N r′δθ′ t̂ also shows that the near point lies at δθ′ = −c/r′, ...". On c: it is a length, not 1/length, since **d**₀ is a length and t̂ is dimensionless, and −c is **Δ**'s θ̂ component. A dimensionless c/r′ would just be −δθ′ and would put r′ into every component of Eqn. 20, so c is left alone. r′(θ) is shortened to r′ after the d₀ "where" clause, which now ends "and from here on r′ without an argument is the crossing point's radius r′(θ)." Explicit arguments stay where they matter (r′(θ′) − r′(θ), d_r, the recipe).]

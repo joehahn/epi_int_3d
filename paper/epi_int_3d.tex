@@ -245,15 +245,16 @@ particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
     \label{eqn:wire_d0}
     \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}},
 \end{equation}
-where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
+where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$, and from here on $r'$ without an argument is the
+crossing point's radius $r'(\theta)$. The second leg,
 $\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
 the crossing point to the near point. That stretch of streamline is short and locally straight, so
-$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
+$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'\,\delta\theta'\,\hat{\boldsymbol{\theta}}
 + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}}$, which to first order in $\delta\theta'$ is
 \begin{equation}
     \label{eqn:wire_d1}
-    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta'
-        = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}},
+    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'\,\delta\theta'
+        = N r'\,\delta\theta'\,\hat{\mathbf{t}},
 \end{equation}
 since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
 $z'$, where the streamline's radial and vertical slopes are
@@ -279,9 +280,9 @@ $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
     \label{eqn:wire_D}
     \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
 \end{equation}
-which is simply $\mathbf{d}_0$ with its component along the streamline removed. Comparing this
-$\mathbf{d}_1$ with Eqn.\ (\ref{eqn:wire_d1}) also shows that the near point lies at
-$\delta\theta' = -c/r'(\theta)$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N$. In components,
+which is simply $\mathbf{d}_0$ with its component along the streamline removed. Equating this
+$\mathbf{d}_1$ to Eqn.\ (\ref{eqn:wire_d1})'s $\mathbf{d}_1 = N r'\,\delta\theta'\,\hat{\mathbf{t}}$ also shows that
+the near point lies at $\delta\theta' = -c/r'$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N$. In components,
 \begin{eqnarray}
     \label{eqn:wire_Dcomp}
     \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \nonumber\\
