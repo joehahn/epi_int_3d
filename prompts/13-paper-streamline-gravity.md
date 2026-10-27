@@ -515,3 +515,11 @@ change "Submitted to ApJ" to "to be Submitted to ApJ"
 d0 = dr r̂+dz ẑ,
 
 [In the PDF the line was justified so tightly that TeX shrank the spaces around + and = in "**d**₀ = d_r **r̂** + d_z **ẑ**, where d_r = r′(θ) − r" to almost nothing. The preamble now limits how far inline-math spacing around +, − and = can shrink (\medmuskip, \thickmuskip), which fixes this line and others like it. No new overfull boxes.]
+
+should d0 = dr r̂+dz ẑ, and d1=N r′(θ) δθ′ t̂ be displayed as numbered equations?
+
+[I recommended both: **d**₁ is the derivation's main step and its inline chain broke across three lines, and **d**₀ defines d_r and d_z, which every later result uses.]
+
+yes
+
+[**d**₀ = d_r **r̂** + d_z **ẑ** is now Eqn. 15, followed by "where d_r = ... and d_z = ...". **d**₁ is the two-line Eqn. 16, ending in N r′(θ)δθ′ **t̂**, introduced by "so to first order in δθ′". The later equations are renumbered: slopes 17, t̂ 18, **Δ** 19–20, planar 21, components 22. The paper numbers quoted in notes/equations.md for G11, G16 and G17 were updated.]

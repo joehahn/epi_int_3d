@@ -240,13 +240,23 @@ where $\theta' = \theta + \delta\theta'$ is the near point's longitude as measur
 plane, and $\delta\theta'$ is its longitude relative to the particle's with $|\delta\theta'| \ll 1$. This splits
 the trip to the near point across two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(\theta) - \mathbf{r}$,
 travels from the particle to the crossing point $\mathbf{r}'(\theta) = (r'(\theta), \theta, z'(\theta))$, which is where the streamline crosses the
-particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so $\mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}}$, where
-$d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
+particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
+\begin{equation}
+    \label{eqn:wire_d0}
+    \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}},
+\end{equation}
+where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
 $\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
-the crossing point to the near point. That stretch of streamline is short and locally straight, so
-$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}} + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \simeq
-(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta' = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
-$\delta\theta'$, since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
+the crossing point to the near point. That stretch of streamline is short and locally straight, so to
+first order in $\delta\theta'$
+\begin{eqnarray}
+    \label{eqn:wire_d1}
+    \mathbf{d}_1 &\simeq& [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
+        + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \nonumber\\
+    &\simeq& (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta'
+        = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}},
+\end{eqnarray}
+since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
 $z'$, where the streamline's radial and vertical slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
