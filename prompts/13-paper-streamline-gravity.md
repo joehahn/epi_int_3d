@@ -479,3 +479,7 @@ yes
 i think t hat should be written in terms or rhat etc intead of a tripple
 
 [Done for t̂ in Eqn. 15 and for every other component triple in Sec. 3.1: **d**₀ = d_r **r̂** + d_z **ẑ**, t̂ = (s_r **r̂** + **θ̂** + s_z **ẑ**)/N, Eqn. 18's **Δ** = (d_r − c s_r)**r̂** − c **θ̂** + (d_z − c s_z)**ẑ**, and the planar **Δ** = d_r cos φ (cos φ **r̂** − sin φ **θ̂**). The cylindrical-coordinate triples for points, **r** = (r, θ, z) and **r**′(θ) = (r′(θ), θ, z′(θ)), stay as they are.]
+
+change to "which are obtained from the derivatives of the Lagrange polynomials." instead of stating that t-hat is tangent to streamline should paper prove it?
+
+[Wording changed. No proof needed: the d₁ line already shows it. d₁ is the chord from the crossing point to a nearby point on the streamline, and to first order in δθ′ it is N r′δθ′ t̂, so t̂ is the chord's direction as δθ′ → 0, which is the tangent.]
