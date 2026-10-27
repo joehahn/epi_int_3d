@@ -198,7 +198,9 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \label{sec:gravity}
 
 %equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-Epi\_int\_3d, like its predecessors epi\_int and epi\_int\_lite, assumes that the gravitational
+All epi\_int\_3d simulations span only a narrow annulus within a broader planetary ring, so every
+particle is radially close to the nearby portions of all perturbing streamlines. Which is why
+epi\_int\_3d, like its predecessors epi\_int and epi\_int\_lite, assumes that the gravitational
 acceleration of a particle by perturbing streamline $a'$ is that due to a straight and infinitely
 long wire:
 \begin{equation}
@@ -213,11 +215,7 @@ particle toward the near point.
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
-All epi\_int\_3d simulations span only a narrow annulus within a broader planetary ring, so every
-particle is radially close to the nearby portions of all perturbing streamlines. Which allows us to
-treat the particle's acceleration due to a perturbing streamline as that due to a straight wire, and
-the following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
-
+The following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
 In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$, while the perturbing
 streamline's coordinates $\mathbf{r}' = (r', \theta', z')$ are to be regarded as functions of its
 longitude $\theta' = \theta + \delta\theta'$ relative to the particle's longitude $\theta$.
