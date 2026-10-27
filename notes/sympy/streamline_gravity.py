@@ -317,6 +317,8 @@ dth_n = sp.solve(dvec.dot(t0), dth)[0]
 c0 = (d_r0*s_r0 + d_z0*s_z0)/N0**2
 check('G16: nearest point at dtheta\' = -c/r\'(theta)', dth_n + c0/rr0)
 Dn = dvec.subs(dth, dth_n)
+d1n = N0*rr0*dth_n*t0
+check('G16: there d1 = -N c t = -c (s_r, 1, s_z)', [d1n + c0*N0*t0, d1n + c0*sp.Matrix([s_r0, 1, s_z0])])
 check('G16: there d = d0 - (d0.t)t', Dn - (d00 - d00.dot(t0)*t0))
 check('G16: = t x (d0 x t)', Dn - t0.cross(d00.cross(t0)))
 check('G16: components (d_r - c s_r, -c, d_z - c s_z)', Dn - sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0]))

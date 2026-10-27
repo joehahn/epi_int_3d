@@ -575,3 +575,7 @@ the first bare r' is eqn 16 so put that just below eqn 16 but say that r' is sho
 what if we changeg "Equating this d1 to Eqn. (16)'s d1 = N r′ δθ′ t̂ also shows that the near point lies at δθ′ =−c/r′, where c = (d0·t̂)/N." to new paragraph with Now equate d1 =−(d0·t̂)t̂ to eqn 16 ?
 
 [Done: a new paragraph, "Now equate **d**₁ = −(**d**₀·t̂)t̂ to Eqn. (16), which shows that the near point lies at δθ′ = −c/r′, where c = (**d**₀·t̂)/N. The components of Eqn. (19) are then [Eqn. 20]". "In components," became "The components of Eqn. (19) are then", since Eqn. 19 is now in the previous paragraph.]
+
+shouldnt we have a numbred eqna for d1=-Nc t-hat?
+
+[Yes. With the new paragraph it's the step that gives Eqn. 21's components directly. Now "...where c = (**d**₀·t̂)/N. So at the near point [Eqn. 20: **d**₁ = −Nc t̂ = −c(s_r **r̂** + **θ̂** + s_z **ẑ**)], and adding **d**₀ gives the components of Eqn. (19), [Eqn. 21]". Later equations are renumbered (planar 22, A_g components 23). Sympy G16 now also checks **d**₁ = −Nc t̂ = −c(s_r, 1, s_z), all checks pass, and the equations.md rows G11, G16 and G17 were updated.]
