@@ -399,3 +399,7 @@ change "predecessors epi_int and epi_int_lite assume " to "predecessors (epi_int
 change to something like "the ring matter that is represented by the particles in the perturbing streamline a' will have coordinates that are coordinates r' theta' z' that are to be regarded as functions of longitude theta' ie r′ = (r′(θ′), θ′, z′(θ′)).
 
 [Now "But in the following, the ring matter that is represented by the particles in perturbing streamline a′ has coordinates r′, θ′ and z′ that are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′))."]
+
+that first paragraph in section 3.1 seems slightly repetititve
+
+[Tightened. It said "the following" twice, "regarded as functions of θ′" twice, and introduced streamline a′'s particles twice. It now reads "In cylindrical coordinates the particle is at **r** = (r, θ, z), and the ring matter that is represented by the particles in perturbing streamline a′ is at **r**′ = (r′(θ′), θ′, z′(θ′)), with its coordinates regarded as functions of longitude θ′. These functions, and the streamline's linear density λ′(θ′), are Lagrange polynomials fit to the three particles in a′ that are nearest in longitude. And because ..."]
