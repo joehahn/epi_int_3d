@@ -395,3 +395,7 @@ can we delete "and a streamline is labeled by that semimajor axis, like its pred
 change "predecessors epi_int and epi_int_lite assume " to "predecessors (epi_int and epi_int_lite) assume "
 
 [Done.]
+
+change to something like "the ring matter that is represented by the particles in the perturbing streamline a' will have coordinates that are coordinates r' theta' z' that are to be regarded as functions of longitude theta' ie r′ = (r′(θ′), θ′, z′(θ′)).
+
+[Now "But in the following, the ring matter that is represented by the particles in perturbing streamline a′ has coordinates r′, θ′ and z′ that are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′))."]
