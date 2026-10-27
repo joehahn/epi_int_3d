@@ -643,3 +643,7 @@ shorten " so the particles that bracket the perturbed particle's longitude θ ar
 what if we say that λ′ is evaluated at the crossing point rather than at the near point which is justified since Eqn 13 implies that lambda varies insignificantly over distances of several delta
 
 [Done, with "assumes" for "implies", since uniform λ′ is an assumption of the straight-wire formula rather than a consequence of it: "Note that λ′ is evaluated at the crossing point rather than at the near point, which is justified since Eqn. (13) assumes that λ′ varies insignificantly over distances of several Δ along the streamline, and the two points are even closer than that: Eqns. (20)–(21) imply |d₁| ≤ sΔ, … |d₁| ≪ Δ." The |d₁| ≤ sΔ bound stays because it is what puts the near point within that distance.]
+
+should "Note that λ′ is evaluated at the crossing point rather than at the near point, which is justified since Eqn. (13) assumes that λ′ varies insignificantly over distances of several ∆ along the streamline, and the two points are even closer than that: Eqns. (20)–(21) imply |d1| ≤ s∆, where s = (s2 r + s2 z )1/2, so for the small slopes of a nearly circular and nearly planar streamline |d1| ≪ ∆. Which is also why epi_int and epi_int_lite could use the distance to the crossing point, |d0|, for ∆: since ∆2 = |d0|2 − |d1|2 , |d0|/N ≤" be its own paragraph?
+
+[Yes: it justifies the approximation rather than describing the procedure. It is now its own paragraph, from "Note that λ′…" through "…differ by a fraction of order s²."]
