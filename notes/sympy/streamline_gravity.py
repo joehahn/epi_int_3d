@@ -324,6 +324,8 @@ check('G16: = t x (d0 x t)', Dn - t0.cross(d00.cross(t0)))
 check('G16: components (d_r - c s_r, -c, d_z - c s_z)', Dn - sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0]))
 check('G16: Delta^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z)',
       (Dn.T*Dn)[0] - (d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))
+check('G16: = d_r^2 + d_z^2 - (N c)^2, i.e. |d0|^2 = Delta^2 + |d1|^2',
+      sp.simplify((Dn.T*Dn)[0] - (d_r0**2 + d_z0**2 - (N0*c0)**2)))
 # the second leg in the particle's frame (r-hat, theta-hat, z-hat at longitude theta): d1 = r'(theta') -
 # r'(theta) = [r'(theta') cos(dtheta') - r_c, r'(theta') sin(dtheta'), z'(theta') - z'(theta)]; with
 # r'(theta') = r_c (1 + eps a), dtheta' = eps b it equals [r'(theta') - r_c, r_c dtheta', z'(theta') - z'(theta)]

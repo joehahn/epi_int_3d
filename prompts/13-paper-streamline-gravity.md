@@ -587,3 +587,7 @@ change "and adding d0 gives the components of Eqn. (19)," to "adding d0 to the a
 should "c = (d0·t̂)/N" say "c = (d0·t̂)/N=(dr sr + dz sz )/N²"?
 
 [Yes. Now that Eqns. 20–21 are written in c, s_r and s_z, the explicit form belongs where c is defined: "where c = (**d**₀·t̂)/N = (d_r s_r + d_z s_z)/N²". The note after Eqn. 21 no longer repeats it and now reads "Note that |c| ≤ |d_r s_r| + |d_z s_z| ≪ r′ and |δθ′| ≪ 1 as assumed, ...".]
+
+should "Δ² = d_r² + d_z² − c(d_r s_r + d_z s_z)" be written delta^2=dr^2+dz^2-(cN)^2 instead?
+
+[Yes. They're equal, since d_r s_r + d_z s_z = N²c, and (Nc)² = |**d**₁|² from Eqn. 20, so the new form is just Pythagoras, |**d**₀|² = Δ² + |**d**₁|². Eqn. 21 now reads Δ² = d_r² + d_z² − (Nc)². Sympy G16 checks the new form (all pass), and the equations.md G16 row now gives both.]
