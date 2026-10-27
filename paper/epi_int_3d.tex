@@ -294,11 +294,9 @@ Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
     \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2.
 \end{eqnarray}
-Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
-streamline $a'$ exerts on the particle, and Appendix \ref{sec:appendix_wire2d} shows that in the ring plane
-this reduces to the acceleration of Fig.~3 of \cite{HS13}.
 
-In practice, \code{epi\_int\_3d} computes the acceleration $\mathbf{A}_g$ as follows. The particles in every
+Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
+streamline $a'$ exerts on the particle, which in practice \code{epi\_int\_3d} computes as follows. The particles in every
 streamline are kept sorted by longitude, so the three particles of streamline $a'$ whose indices are
 those of the perturbed particle and its two neighbors bracket the particle's longitude $\theta$.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
