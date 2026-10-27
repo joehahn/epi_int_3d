@@ -294,6 +294,15 @@ Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
     \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2.
 \end{eqnarray}
+Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
+streamline $a'$ exerts on the particle:
+\begin{eqnarray}
+    \label{eqn:wire_Acomp}
+    A_{g,r} &=& \frac{2G\lambda'(d_r - cs_r)}{\Delta^2} \nonumber\\
+    A_{g,\theta} &=& -\frac{2G\lambda'c}{\Delta^2} \nonumber\\
+    A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2},
+\end{eqnarray}
+where $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$.
 
 
 \begin{figure}
@@ -317,28 +326,17 @@ $\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\l
 
 %TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
-streamline $a'$ exerts on the particle. The particles' coordinates are stored in arrays whose rows
+The particles' coordinates are stored in arrays whose rows
 are the streamlines, and every timestep, before the accelerations are computed, the particles in each
-row are sorted by longitude. With
-$N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$, Eqns.\ (\ref{eqn:wire_Dcomp}) provide
-$\boldsymbol{\Delta}$ and $\Delta^2$, and Eqn.\ (\ref{eqn:wire_Ag}) provides the acceleration's three
-components,
-\begin{eqnarray}
-    \label{eqn:wire_Acomp}
-    A_{g,r} &=& \frac{2G\lambda'(d_r - cs_r)}{\Delta^2} \nonumber\\
-    A_{g,\theta} &=& -\frac{2G\lambda'c}{\Delta^2} \nonumber\\
-    A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2},
-\end{eqnarray}
-where $d_r$, $d_z$, $\lambda'$ and the slopes are obtained as follows. Because the streamlines are nearly concentric, the particle in row $a'$
+row are sorted by longitude. Because the streamlines are nearly concentric, the particle in row $a'$
 that has the perturbed particle's column index lies at nearly the same longitude, so the particles
 that bracket the perturbed particle's longitude $\theta$ are easily identified: they are that particle
 and its neighbor on either side.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
 crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
 $\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
-Eqn.\ (\ref{eqn:wire_slopes}).
-This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
+Eqn.\ (\ref{eqn:wire_slopes}), and Eqns.\ (\ref{eqn:wire_Dcomp})--(\ref{eqn:wire_Acomp}) then provide the
+acceleration. This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
 ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point. That is
 justified because the two points are close: Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp})
 imply $|\mathbf{d}_1| \le s\Delta$, where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a

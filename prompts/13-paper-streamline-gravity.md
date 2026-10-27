@@ -623,3 +623,15 @@ yes do both
 move "Because the streamlines are nearly concentric, the particle in row a′ that has the perturbed particle's column index lies at nearly the same longitude, so the particles that bracket the perturbed particle's longitude θ are easily identified: they are that particle and its neighbor on either side. Lagrange polynomials fit to those three particles then provide, by interpolation to θ, the crossing point's r′(θ) and z′(θ) and hence dr and dz , the linear density λ′(θ), and, from the polynomials' derivatives, the slopes sr and sz of Eqn. (17)." to after eqn 22
 
 [Moved. Before Eqn. 22 the text now reads "…sorted by longitude. With N² = 1 + s_r² + s_z² and c = …, Eqns. (21) provide Δ and Δ², and Eqn. (13) provides the acceleration's three components," and Eqn. 22 ends with a comma, followed by "where d_r, d_z, λ′ and the slopes are obtained as follows." and the moved sentences.]
+
+push
+
+[Pushed 14 commits, through 09b3c54.]
+
+should Inserting ∆ into Eqn. (13) then provides the acceleration that streamline a′ exerts on the particle. and eqn 22 go in the subsection above?
+
+[Yes: Eqn. 22 is the last step of the geometry, not of the computation. Proposed: Sec. 3.1 ends "Inserting Δ into Eqn. (13) then provides the acceleration that streamline a′ exerts on the particle: (22)"; Sec. 3.2 then opens with the longitude sort, the bracketing particles and the Lagrange fit, which also settles where the sort sentence goes. Awaiting go-ahead.]
+
+yes
+
+[Done. Sec. 3.1 now ends "Inserting Δ into Eqn. (13) then provides the acceleration that streamline a′ exerts on the particle: (22) where N² = 1 + s_r² + s_z² and c = (d_r s_r + d_z s_z)/N²." Sec. 3.2 opens with the longitude sort, then the bracketing particles and the Lagrange fit, ending "…the slopes s_r and s_z of Eqn. (17), and Eqns. (21)–(22) then provide the acceleration. This is repeated for every perturbing streamline, …". equations.md G17 now cites Sec. 3.1.]
