@@ -363,3 +363,7 @@ how about changing "The perturbing streamline's coordinates r′ = (r′(θ′),
 change to "But in the following the perturbing streamline's coordinates are to be regarded as functions of its longitude θ′, i.e., r′ = (r′(θ′), θ′, z′(θ′))." and introduce "Streamline a′ " in the paragraph above
 
 [Done as worded. Section 3's opening paragraph now starts by introducing streamlines and their labels, following hahn25 Sec. 2.1: "Like its predecessors epi_int and epi_int_lite, epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles initially share a common semimajor axis, and a streamline is labeled by that semimajor axis." The wire sentence now reads "Which is why all three codes assume that the gravitational acceleration of a particle by perturbing streamline a′, i.e., the streamline whose semimajor axis is a′, is that due to ...".]
+
+change "the gravitational acceleration of a particle by perturbing streamline a′, i.e., the streamline whose semimajor axis is a′, " to something like "the gravitational acceleration of a particle by those particles inhhaniting the perturbing streamline at semimajor axis a′
+
+[Now "...assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing streamline at semimajor axis a′ is that due to a straight and infinitely long wire:"]
