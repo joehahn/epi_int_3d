@@ -499,3 +499,7 @@ yes add it
 t̂ is the perturbing streamline's unit tangent:
 
 [Now "As δθ′ → 0 the chord **d**₁ points along the streamline, so t̂ is the perturbing streamline's unit tangent: [Eqn. 16]".]
+
+change to where the streamline's radial and vertical slopes are. should "s_r = (1/r′) dr′/dθ′" be written with vertical bar and theta'=theta subscript? and change "at θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials." to "which are evaluated at the perturbed particle's longitide with θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials.
+
+[Yes to the bar: it shows that r′ as well as the derivative is evaluated at θ′ = θ. Eqn. 15 is now s_r = (1/r′)(dr′/dθ′)|_{θ′=θ} and likewise for s_z, introduced by "where the streamline's radial and vertical slopes are". It's followed by "which are evaluated at the perturbed particle's longitude θ′ = θ and are obtained from the derivatives of the Lagrange polynomials." I used "and are" to avoid two "which" clauses in a row.]

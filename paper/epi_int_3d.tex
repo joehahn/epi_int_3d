@@ -245,13 +245,14 @@ the crossing point to the near point. That stretch of streamline is short and lo
 $\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}} + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \simeq
 (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta' = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
 $\delta\theta'$, since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
-$z'$, where the streamline's slopes are
+$z'$, where the streamline's radial and vertical slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
-    s_r = \frac{1}{r'}\frac{dr'}{d\theta'}, \qquad
-    s_z = \frac{1}{r'}\frac{dz'}{d\theta'}
+    s_r = \left.\frac{1}{r'}\frac{dr'}{d\theta'}\right|_{\theta' = \theta}, \qquad
+    s_z = \left.\frac{1}{r'}\frac{dz'}{d\theta'}\right|_{\theta' = \theta},
 \end{equation}
-at $\theta' = \theta$, which are obtained from the derivatives of the Lagrange polynomials. As
+which are evaluated at the perturbed particle's longitude $\theta' = \theta$ and are obtained from the
+derivatives of the Lagrange polynomials. As
 $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is the perturbing streamline's unit tangent:
 \begin{equation}
     \label{eqn:wire_t}
