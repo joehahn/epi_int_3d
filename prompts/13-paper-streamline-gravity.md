@@ -407,3 +407,7 @@ that first paragraph in section 3.1 seems slightly repetititve
 split
 
 [Now "...the particle is at **r** = (r, θ, z). The ring matter that is represented by the particles in perturbing streamline a′ is at **r**′ = (r′(θ′), θ′, z′(θ′)), with its coordinates regarded as functions of longitude θ′."]
+
+i preferred introducing r' = (r', θ', z') then saying they are functions of longitude θ′ then writing r′ = (r′(θ′), θ′, z′(θ′)),
+
+[Now "The ring matter that is represented by the particles in perturbing streamline a′ is at **r**′ = (r′, θ′, z′), and these coordinates are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′))."]
