@@ -339,3 +339,11 @@ sentence:] no. [Left as is.]
 revise "Epi_int and epi_int_lite assume that the gravitational acceleration of a particle by perturbing streamline a′ is that due to a straight and infinitely long wire:" to say that epi_int_3d as well as its predecessor codes. and what if Eqn 13 used hat(Delta)/Delta instead?
 
 [Now "Epi_int_3d, like its predecessors epi_int and epi_int_lite, assumes...". Eqn. 13 is now A_g = (2Gλ′/Δ) Δ̂, which is the same thing (Δ̂/Δ = **Δ**/Δ²) but shows the magnitude 2Gλ′/Δ directly. The "where" clause now defines Δ as the distance to the near point and Δ̂ = **Δ**/Δ as the unit vector toward it. Eqns. 17–20 are unchanged. Also fixed a mid-sentence "Equation (13)" to "Eqn. (13)".]
+
+should delta be unbold (scalar) and fig 1 and should delta-hat be added ?
+
+[No. **Δ** stays bold in Eqn. 14 and Fig. 1: the figure draws the vector **Δ** = **d**₀ + **d**₁, and the plain Δ is its length. I advised against adding a Δ̂ arrow, since it would lie on top of the **Δ** arrow, and suggested changing the caption instead.]
+
+yes, update the caption
+
+[Fig. 1's caption now reads "The wire's acceleration **A**_g = (2Gλ′/Δ)**Δ̂** points along it (Eqns. 19)", which matches Eqn. 13.]
