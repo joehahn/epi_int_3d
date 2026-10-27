@@ -635,3 +635,7 @@ should Inserting ∆ into Eqn. (13) then provides the acceleration that streamli
 yes
 
 [Done. Sec. 3.1 now ends "Inserting Δ into Eqn. (13) then provides the acceleration that streamline a′ exerts on the particle: (22) where N² = 1 + s_r² + s_z² and c = (d_r s_r + d_z s_z)/N²." Sec. 3.2 opens with the longitude sort, then the bracketing particles and the Lagrange fit, ending "…the slopes s_r and s_z of Eqn. (17), and Eqns. (21)–(22) then provide the acceleration. This is repeated for every perturbing streamline, …". equations.md G17 now cites Sec. 3.1.]
+
+shorten " so the particles that bracket the perturbed particle's longitude θ are easily identified: they are that particle and its neighbor on either side. " and why do we "Note that λ′ is evaluated at the crossing point rather than at the near point." is that for convenience?
+
+[Shortened to "…lies at nearly the same longitude, so it and its neighbor on either side bracket θ." Yes, it is convenience: everything else is interpolated to the crossing point's longitude θ, and the near point's longitude θ + δθ′ is known only after c, which needs the slopes, so λ′ there would need a second interpolation. The straight-wire formula already assumes λ′ is uniform over lengths ~Δ, and |d₁| ≤ sΔ ≪ Δ, so the crossing-point value is within that approximation. Proposed rewording to say so; awaiting go-ahead.]

@@ -329,9 +329,8 @@ $\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\l
 The particles' coordinates are stored in arrays whose rows
 are the streamlines, and every timestep, before the accelerations are computed, the particles in each
 row are sorted by longitude. Because the streamlines are nearly concentric, the particle in row $a'$
-that has the perturbed particle's column index lies at nearly the same longitude, so the particles
-that bracket the perturbed particle's longitude $\theta$ are easily identified: they are that particle
-and its neighbor on either side.
+that has the perturbed particle's column index lies at nearly the same longitude, so it and its
+neighbor on either side bracket $\theta$.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
 crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
 $\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
