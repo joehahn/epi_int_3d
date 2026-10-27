@@ -511,3 +511,7 @@ change "As δθ′ → 0 the chord d1 points along the streamline, so t̂ is the
 change "Submitted to ApJ" to "to be Submitted to ApJ"
 
 [AASTeX's \submitjournal{ApJ} always prints "Submitted to ApJ", so the preamble now sets the line directly, to "To be submitted to ApJ".]
+
+d0 = dr r̂+dz ẑ,
+
+[In the PDF the line was justified so tightly that TeX shrank the spaces around + and = in "**d**₀ = d_r **r̂** + d_z **ẑ**, where d_r = r′(θ) − r" to almost nothing. The preamble now limits how far inline-math spacing around +, − and = can shrink (\medmuskip, \thickmuskip), which fixes this line and others like it. No new overfull boxes.]
