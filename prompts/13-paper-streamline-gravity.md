@@ -463,3 +463,7 @@ do what's best
 can we instead say d1 ≃ (r′(θ′)− r′(θ)*r-hat +r δθ′*theta-hat + (z′(θ′)− z′(θ))z-hat because the curvilinear coordine system can be treatd as cartesian when all of the displacements are small?
 
 [Yes. Now "**d**₁ ≃ [r′(θ′) − r′(θ)]r̂ + r δθ′ θ̂ + [z′(θ′) − z′(θ)]ẑ ≃ (s_r r̂ + θ̂ + s_z ẑ) r δθ′ = N r δθ′ t̂". The explicit unit vectors make "in the local frame" unnecessary. The reason the frame can be treated as Cartesian (small displacements) is already given at the end of Sec. 3.1's first paragraph, so it isn't repeated.]
+
+the hatted unit vectors should be bold
+
+[Done throughout the paper: r̂, θ̂, ẑ are now bold, as t̂ and Δ̂ already were. Fig. 1 and the Appendix B figure (wire_planar.py) were regenerated with bold axis labels, and notes/writing_style.md records the rule.]

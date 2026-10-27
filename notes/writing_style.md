@@ -42,6 +42,7 @@ ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when draf
   streamline with acceleration A_g = 2Gλ/Δ, (1) where Δ is the particle's distance from the
   streamline."
 - Every new symbol is defined in a "where" clause right after the equation.
+- Vectors are bold, including the unit vectors r̂, θ̂, ẑ, t̂ and Δ̂ (the author's choice, 2026-10-26).
 - Derivations are short and verbal; longer ones go to an appendix ("detailed in Appendix A").
 - Equation references in this paper: "Equation (13)" / "Equations (13)–(15)" when the reference
   starts a sentence, "Eqn. (13)" / "Eqns. (13)" otherwise (the author's choice, 2026-10-25). Its
