@@ -365,7 +365,7 @@ check('G18: s^2 Delta^2 - |d1|^2 = (s_r d_z - s_z d_r)^2 >= 0',
 check('G18: in the plane |d1|^2/Delta^2 = s_r^2',
       sp.simplify((d1sq/(Dn.T*Dn)[0]).subs({d_z0: 0, s_z0: 0}) - s_r0**2))
 
-# --- G19: the paper's Sec. 3.2, the crossing-point distance |d0| of epi_int and epi_int_lite. Pythagoras,
+# --- G19: the paper's Appendix B (Distance), the crossing-point distance |d0| of epi_int and epi_int_lite. Pythagoras,
 # |d0|^2 - Delta^2 = |d1|^2 >= 0, and N^2 Delta^2 - |d0|^2 = s^2 Delta^2 - |d1|^2 = (s_r d_z - s_z d_r)^2 >= 0
 # (G18), so |d0|/N <= Delta <= |d0| and the two differ by a fraction O(s^2). ---
 d0sq = d_r0**2 + d_z0**2
