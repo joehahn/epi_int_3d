@@ -272,22 +272,23 @@ that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the 
 where $N^2 = 1 + s_r^2 + s_z^2$.
 
 The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
-$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = (\mathbf{d}_0 + \mathbf{d}_1)\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r'(\theta)\,\delta\theta'\,
-\hat{\mathbf{t}}$, that condition becomes $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r'(\theta)\,\delta\theta' = 0$,
-so the near point lies at $\delta\theta' = -c/r'(\theta)$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
-(d_rs_r + d_zs_z)/N^2$. There $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, and
+$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = (\mathbf{d}_0 + \mathbf{d}_1)\cdot\hat{\mathbf{t}} = 0$. And because
+$\mathbf{d}_1$ lies along $\hat{\mathbf{t}}$ (Eqn.\ \ref{eqn:wire_d1}), this requires
+$\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
 \begin{equation}
     \label{eqn:wire_D}
     \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}
     = \hat{\mathbf{t}}\times(\mathbf{d}_0\times\hat{\mathbf{t}}),
 \end{equation}
-which is simply $\mathbf{d}_0$ with its component along the streamline removed. In components,
+which is simply $\mathbf{d}_0$ with its component along the streamline removed. Comparing this
+$\mathbf{d}_1$ with Eqn.\ (\ref{eqn:wire_d1}) also shows that the near point lies at
+$\delta\theta' = -c/r'(\theta)$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N$. In components,
 \begin{eqnarray}
     \label{eqn:wire_Dcomp}
     \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z).
 \end{eqnarray}
-Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r'$, so $|\delta\theta'| \ll 1$ as assumed, and the near
+Note that $c = (d_rs_r + d_zs_z)/N^2$, so $|c| \le |d_rs_r| + |d_zs_z| \ll r'$ and $|\delta\theta'| \ll 1$ as assumed, and the near
 point lies much closer to the crossing point than the spacing of the streamline's particles.
 Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle.
