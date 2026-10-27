@@ -459,3 +459,7 @@ does reader need to be reminded that so d1 ≃ [r′(θ + δθ′)− r′(θ), 
 do what's best
 
 [Now "...so in the local frame **d**₁ ≃ [r′(θ′) − r′(θ), r δθ′, z′(θ′) − z′(θ)] ≃ ...", which matches the **d**₀ wording and Eqn. 14's θ′.]
+
+can we instead say d1 ≃ (r′(θ′)− r′(θ)*r-hat +r δθ′*theta-hat + (z′(θ′)− z′(θ))z-hat because the curvilinear coordine system can be treatd as cartesian when all of the displacements are small?
+
+[Yes. Now "**d**₁ ≃ [r′(θ′) − r′(θ)]r̂ + r δθ′ θ̂ + [z′(θ′) − z′(θ)]ẑ ≃ (s_r r̂ + θ̂ + s_z ẑ) r δθ′ = N r δθ′ t̂". The explicit unit vectors make "in the local frame" unnecessary. The reason the frame can be treated as Cartesian (small displacements) is already given at the end of Sec. 3.1's first paragraph, so it isn't repeated.]
