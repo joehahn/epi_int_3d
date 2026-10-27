@@ -495,3 +495,7 @@ what part of derivation in the text is what establishes that t̂ is the tangent?
 yes add it
 
 [The **d**₁ line now goes on "...to first order in δθ′, since r′(θ′) − r′(θ) ≃ (dr′/dθ′)δθ′ and likewise for z′, where the streamline's slopes are [Eqn. 15, s_r, s_z] at θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials. As δθ′ → 0 the chord **d**₁ points along the streamline, so [Eqn. 16, t̂] is the streamline's unit tangent." The slopes and t̂ swap equation numbers, so the slopes are now defined before t̂ uses them.]
+
+t̂ is the perturbing streamline's unit tangent:
+
+[Now "As δθ′ → 0 the chord **d**₁ points along the streamline, so t̂ is the perturbing streamline's unit tangent: [Eqn. 16]".]
