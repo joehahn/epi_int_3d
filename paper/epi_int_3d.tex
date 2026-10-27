@@ -232,10 +232,10 @@ The vector from the particle to the streamline's near point (the black square in
 Fig.~\ref{fig:wire_planar}) can be written
 \begin{equation}
     \label{eqn:wire_d}
-    \boldsymbol{\Delta} = \mathbf{r}'(\theta + \delta\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
+    \boldsymbol{\Delta} = \mathbf{r}'(\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
 \end{equation}
-where $\delta\theta'$ is the near point's longitude relative to the particle's longitude as measured
-in the $z = 0$ plane. This splits
+where $\theta' = \theta + \delta\theta'$ is the near point's longitude as measured in the $z = 0$
+plane, so $\delta\theta'$ is its longitude relative to the particle's, and $|\delta\theta'| \ll 1$. This splits
 the trip to the near point across two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(\theta) - \mathbf{r}$,
 travels from the particle to the crossing point $\mathbf{r}'(\theta) = (r'(\theta), \theta, z'(\theta))$, which is where the streamline crosses the
 particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so $\mathbf{d}_0 = (d_r, 0, d_z)$ in the local frame, where

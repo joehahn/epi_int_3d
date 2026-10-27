@@ -427,3 +427,7 @@ can "Lagrange polynomials fit to the three particles in a′ that are nearest in
 change "The vector from the particle to the streamline's near point (the black square in Fig. 1) is then" to "... can be written" and "where δθ′ is the near point's longitude relative to the particle's longitude, as measured in the z = 0 plane" to the same without the comma
 
 [Both done.]
+
+change to "∆= r′(θ′)− r = d0 + d1, " and "where δθ′ is the near point's longitude" to "where theta'=theta + δθ′ is the near point's longitude" and add |δθ′|<<1
+
+[Eqn. 14 is now **Δ** = **r**′(θ′) − **r** = **d**₀ + **d**₁, followed by "where θ′ = θ + δθ′ is the near point's longitude as measured in the z = 0 plane, so δθ′ is its longitude relative to the particle's, and |δθ′| ≪ 1." The wording keeps "relative to the particle's" attached to δθ′, since θ′ itself is not a relative longitude.]
