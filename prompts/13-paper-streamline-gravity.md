@@ -435,3 +435,7 @@ change to "∆= r′(θ′)− r = d0 + d1, " and "where δθ′ is the near poi
 and to "and δθ′ is its longitude relative to the particle's with |δθ′| ≪ 1"
 
 [Now "where θ′ = θ + δθ′ is the near point's longitude as measured in the z = 0 plane, and δθ′ is its longitude relative to the particle's with |δθ′| ≪ 1."]
+
+change "The second leg, d1 = r′(θ + δθ′)− r′(θ)," to "The second leg, d1 = r′(θ′)− r′(θ) - d_0 = r'(theta')-r'(theta)'
+
+[The middle expression as typed, r′(θ′) − r′(θ) − **d**₀, isn't equal to the last one, so I used **d**₁ = **Δ** − **d**₀ = **r**′(θ′) − **r**′(θ), which is presumably what was meant.]
