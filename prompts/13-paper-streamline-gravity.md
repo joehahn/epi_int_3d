@@ -467,3 +467,11 @@ can we instead say d1 ≃ (r′(θ′)− r′(θ)*r-hat +r δθ′*theta-hat + 
 the hatted unit vectors should be bold
 
 [Done throughout the paper: r̂, θ̂, ẑ are now bold, as t̂ and Δ̂ already were. Fig. 1 and the Appendix B figure (wire_planar.py) were regenerated with bold axis labels, and notes/writing_style.md records the rule.]
+
+should the r in Eqn 16 be r'?
+
+[Both are fine to the derivation's order, since they differ at O(|d_r|/r). r′ = r′(θ), the crossing point's radius, gives the streamline's true slope, makes tan φ = s_r exact in Fig. 1, and matches the planar kernel (shape_slope divides by the interpolated r′). I recommended switching.]
+
+yes
+
+[Eqn. 16 is now s_r = (1/r′) dr′/dθ′ and s_z = (1/r′) dz′/dθ′ at θ′ = θ. The θ̂ leg of **d**₁ is r′(θ)δθ′, so **d**₁ ≃ N r′(θ)δθ′ t̂, the near point is at δθ′ = −c/r′(θ), and |c| ≪ r′. Fig. 1 and its caption now label r′δθ′. Eqns. 17–20 are unchanged. Sympy G10 (comments) and G16 were updated and all checks pass; the equations.md rows G10 and G16 were updated too.]

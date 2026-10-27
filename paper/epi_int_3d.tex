@@ -242,8 +242,8 @@ particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so $\mathbf{d}_0
 $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
 $\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
 the crossing point to the near point. That stretch of streamline is short and locally straight, so
-$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r\,\delta\theta'\,\hat{\boldsymbol{\theta}} + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \simeq
-(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r\,\delta\theta' = N r\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
+$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}} + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \simeq
+(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta' = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
 $\delta\theta'$, where the streamline's unit tangent is
 \begin{equation}
     \label{eqn:wire_t}
@@ -252,15 +252,15 @@ $\delta\theta'$, where the streamline's unit tangent is
 and its slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
-    s_r = \frac{1}{r}\frac{dr'}{d\theta'}, \qquad
-    s_z = \frac{1}{r}\frac{dz'}{d\theta'}
+    s_r = \frac{1}{r'}\frac{dr'}{d\theta'}, \qquad
+    s_z = \frac{1}{r'}\frac{dz'}{d\theta'}
 \end{equation}
 at $\theta' = \theta$, which are taken from the derivatives of the Lagrange polynomials.
 
 The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
-$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r\,\delta\theta'\,
-\hat{\mathbf{t}}$, that condition becomes $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r\,\delta\theta' = 0$,
-so the near point lies at $\delta\theta' = -c/r$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
+$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r'(\theta)\,\delta\theta'\,
+\hat{\mathbf{t}}$, that condition becomes $\mathbf{d}_0\cdot\hat{\mathbf{t}} + N r'(\theta)\,\delta\theta' = 0$,
+so the near point lies at $\delta\theta' = -c/r'(\theta)$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N =
 (d_rs_r + d_zs_z)/N^2$, and
 \begin{equation}
     \label{eqn:wire_D}
@@ -273,7 +273,7 @@ which is simply $\mathbf{d}_0$ with its component along the streamline removed. 
     \boldsymbol{\Delta} &=& (d_r - cs_r, -c, d_z - cs_z) \nonumber\\
     \Delta^2 &=& d_r^2 + d_z^2 - c(d_rs_r + d_zs_z).
 \end{eqnarray}
-Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as assumed, and the near
+Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r'$, so $|\delta\theta'| \ll 1$ as assumed, and the near
 point lies much closer to the crossing point than the spacing of the streamline's particles.
 Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle.
@@ -320,7 +320,7 @@ which differs from it by a fraction of order $|\delta\theta'|$.
 \caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
 $\hat{\boldsymbol{\theta}}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
-$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r\,\delta\theta'$ along
+$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
 $\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
 $\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
 (Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
