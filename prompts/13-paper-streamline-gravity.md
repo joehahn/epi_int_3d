@@ -383,3 +383,7 @@ i thought hahn13 refered to typewriter(epi_int)
 do the macro
 
 [Added \newcommand{\code}[1]{\texttt{#1}} to the preamble, and all 35 code names in the text, titles and captions are now \code{...}. Changing the macro to {#1} brings back roman. notes/writing_style.md records the rule.]
+
+change to "Epi_int_3d assigns particles to streamlines that are a closed eccentric path around the planet whose particles share a common semimajor axis a"
+
+[Done as worded.]
