@@ -415,3 +415,7 @@ i preferred introducing r' = (r', θ', z') then saying they are functions of lon
 maybe "streamline a′ is at r′ = (r′, θ′, z′) traces a continuouse wire of matter so these coordinates are to be regarded as functions of longitude θ′, i.e., r′ = (r′(θ′), θ′, z′(θ′))." and then later say that Lagrange polynomials fit to the particles allow the code (or use) to estimate where the wire is
 
 [Now "The ring matter that is represented by the particles in perturbing streamline a′ is at **r**′ = (r′, θ′, z′) and traces a continuous wire of matter, so these coordinates are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′)). Lagrange polynomials fit to the three particles in a′ that are nearest in longitude then provide estimates of where that wire is, r′(θ′) and z′(θ′), as well as its linear density λ′(θ′)."]
+
+r′ = (r′, θ′, z′) that traces a continuous wire . and to something like Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the parturbed particle at vec(r) are used to estimates of where that wire is,
+
+[Now "...is at **r**′ = (r′, θ′, z′) that traces a continuous wire, so these coordinates are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′)). Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the perturbed particle at **r** are used to estimate where that wire is, r′(θ′) and z′(θ′), as well as its linear density λ′(θ′)."]
