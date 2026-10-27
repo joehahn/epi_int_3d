@@ -14,6 +14,9 @@ ApJ 986, 220; "hahn25"), plus the author's edits to this paper. Use it when draf
   simulate").
 - The code's name starts a sentence capitalized: "Epi_int_lite is a child of the epi_int N-body
   integrator…".
+- Code names are set in typewriter, as in hahn13 (hahn25 used roman): write `\code{epi\_int\_3d}`,
+  a macro in the paper's preamble that can be switched back to roman in one line (the author's
+  choice, 2026-10-26).
 
 ## Sentences and connectives
 

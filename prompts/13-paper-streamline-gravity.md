@@ -371,3 +371,15 @@ change "the gravitational acceleration of a particle by perturbing streamline aâ
 move "Like its predecessors epi_int and epi_int_lite," to end of its sentence. and change "epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles initially share a common semimajor axis" to epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles share a common semimajor axis a
 
 [Now "Epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles share a common semimajor axis a, and a streamline is labeled by that semimajor axis, like its predecessors epi_int and epi_int_lite."]
+
+some papers use typwriter fonts when referring to codes. what is standard practice for ApJ papers?
+
+[No firm ApJ rule. I said roman was safer and matched hahn25 and hahn13.]
+
+i thought hahn13 refered to typewriter(epi_int)
+
+[Right. The fonts embedded in the PDFs show hahn13 sets every code name in typewriter (CMTT10: epi_int Ã—16, SYMBA, MERCURY), while hahn25 uses roman, so ApJ has accepted both.]
+
+do the macro
+
+[Added \newcommand{\code}[1]{\texttt{#1}} to the preamble, and all 35 code names in the text, titles and captions are now \code{...}. Changing the macro to {#1} brings back roman. notes/writing_style.md records the rule.]

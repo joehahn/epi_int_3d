@@ -12,6 +12,7 @@
 \documentclass[twocolumn]{aastex702}
 
 \usepackage{amsmath}
+\newcommand{\code}[1]{\texttt{#1}}   %code names; make it {#1} for roman
 
 %journal
 \received{not yet}
@@ -20,7 +21,7 @@
 \submitjournal{ApJ}
 
 %short names
-\shorttitle{Spiral Bending Waves in epi\_int\_3d}
+\shorttitle{Spiral Bending Waves in \code{epi\_int\_3d}}
 \shortauthors{Hahn}
 
 
@@ -38,9 +39,9 @@
 \begin{abstract}
 %placeholder
 Draft. This mock paper currently holds the derivation of the vertical
-epicyclic motion used by the epi\_int\_3d drift step (Section \ref{sec:vertical}), the vertical
+epicyclic motion used by the \code{epi\_int\_3d} drift step (Section \ref{sec:vertical}), the vertical
 gravity that one streamline exerts on another (Section \ref{sec:gravity}), its relation to
-epi\_int\_lite's in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), and a study of the
+\code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), and a study of the
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}).
 \end{abstract}
 
@@ -49,18 +50,18 @@ streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}).
 \label{sec:intro}
 
 %placeholder
-The epi\_int and epi\_int\_lite N-body integrators \citep{HS13, H25} model a planetary ring as
+The \code{epi\_int} and \code{epi\_int\_lite} N-body integrators \citep{HS13, H25} model a planetary ring as
 a set of gravitating streamlines whose particles are confined to the ring plane. Spiral bending
 waves, which are launched at a satellite's vertical resonances \citep{SCL83, S84}, require the
-particles' vertical motions too. This paper describes epi\_int\_3d, a modest extension of
-epi\_int\_lite into the vertical (out-of-plane) direction, and uses it to simulate spiral
+particles' vertical motions too. This paper describes \code{epi\_int\_3d}, a modest extension of
+\code{epi\_int\_lite} into the vertical (out-of-plane) direction, and uses it to simulate spiral
 bending waves.
 
 
 \section{Vertical epicyclic motion}
 \label{sec:vertical}
 
-The epi\_int\_lite drift step advances each particle's unperturbed orbit about an oblate planet
+The \code{epi\_int\_lite} drift step advances each particle's unperturbed orbit about an oblate planet
 using first-order epicyclic equations that are exactly reversible: converting spatial
 coordinates into epicyclic orbit elements and back introduces no error, so the drift step
 is not a source of numerical drift \citep{H25}. Here those equations are extended to
@@ -124,7 +125,7 @@ angular velocity $\Omega_a$, and its mean anomaly $M$ advances at the epicyclic 
 $\kappa_a$. Note that $\Omega$ denotes the longitude of ascending node, while $\Omega_a$ is
 the mean angular velocity.
 
-So the only additional physics that epi\_int\_lite's drift step needs in order to follow
+So the only additional physics that \code{epi\_int\_lite}'s drift step needs in order to follow
 out-of-plane motion is the vertical equation of motion, the second of
 Eqns.\ (\ref{eqn:eom_expand}); the vertical forces that the ring and satellites exert enter
 the kick step and are treated separately. Evaluating $\nu^2(r)$ at $r = a$ reduces the
@@ -198,9 +199,9 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \label{sec:gravity}
 
 %equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-Epi\_int\_3d assigns its particles to streamlines, each a closed eccentric path around the planet
+\code{Epi\_int\_3d} assigns its particles to streamlines, each a closed eccentric path around the planet
 whose particles share a common semimajor axis $a$, and a streamline is labeled by that semimajor
-axis, like its predecessors epi\_int and epi\_int\_lite. All epi\_int\_3d
+axis, like its predecessors \code{epi\_int} and \code{epi\_int\_lite}. All \code{epi\_int\_3d}
 simulations span only a narrow annulus within a broader planetary ring, so every particle is
 radially close to the nearby portions of all perturbing streamlines. Which is why all three codes
 assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
@@ -290,12 +291,12 @@ then
     A_{g,r} &=& \frac{2G\lambda'}{d_r} \nonumber\\
     A_{g,\theta} &=& -\frac{2G\lambda'\tan\varphi}{d_r}.
 \end{eqnarray}
-Appendix \ref{sec:appendix_wire2d} relates these to the in-plane accelerations computed by epi\_int
-and epi\_int\_lite. Out of the plane, the tangential acceleration $A_{g,\theta} = -2G\lambda'c/\Delta^2$ also includes the
+Appendix \ref{sec:appendix_wire2d} relates these to the in-plane accelerations computed by \code{epi\_int}
+and \code{epi\_int\_lite}. Out of the plane, the tangential acceleration $A_{g,\theta} = -2G\lambda'c/\Delta^2$ also includes the
 term $-2G\lambda'd_zs_z/N^2\Delta^2$, which is due to the streamline's vertical tilt, and this is how
 vertically displaced streamlines exchange angular momentum.
 
-In practice, epi\_int\_3d computes the acceleration $\mathbf{A}_g$ as follows. The particles in every
+In practice, \code{epi\_int\_3d} computes the acceleration $\mathbf{A}_g$ as follows. The particles in every
 streamline are kept sorted by longitude, so the three particles of streamline $a'$ whose indices are
 those of the perturbed particle and its two neighbors bracket the particle's longitude $\theta$.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
@@ -367,12 +368,12 @@ counterpart.
 
 %TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-Epi\_int\_3d computes Eqn.\ (\ref{eqn:wire_Ag}), with $\lambda'$ the perturbing streamline's own
+\code{Epi\_int\_3d} computes Eqn.\ (\ref{eqn:wire_Ag}), with $\lambda'$ the perturbing streamline's own
 linear density at the particle's longitude, and both slopes $s_r$ and $s_z$ taken from the derivatives
 of the Lagrange polynomials that give $r'$ and $z'$ there. In the plane it is
-Eqns.\ (\ref{eqn:wire_2d}). For regression tests, epi\_int\_3d can instead use epi\_int\_lite's
-ring gravity (Eqns.\ \ref{eqn:wire_lite}), with which it reproduces epi\_int\_lite's results
-exactly. $\Delta$ never vanishes, since streamlines may not cross. As in epi\_int\_lite, the
+Eqns.\ (\ref{eqn:wire_2d}). For regression tests, \code{epi\_int\_3d} can instead use \code{epi\_int\_lite}'s
+ring gravity (Eqns.\ \ref{eqn:wire_lite}), with which it reproduces \code{epi\_int\_lite}'s results
+exactly. $\Delta$ never vanishes, since streamlines may not cross. As in \code{epi\_int\_lite}, the
 particle's own streamline exerts no force on it. The slopes require that the streamline be well
 sampled by its particles.
 
@@ -411,7 +412,7 @@ with $a$, $e$ and $\tilde{\omega}$ constant. Equations (\ref{eqn:inplane}) are i
 \end{enumerate}
 
 
-\section{Relation to epi\_int and epi\_int\_lite}
+\section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}
 \label{sec:appendix_wire2d}
 
 %equations G3, G6, G10, G14 of notes/sympy/streamline_gravity.py; epi_int_lite issues 7 and 9
@@ -421,10 +422,10 @@ $A_{g,r} = A_g\cos\varphi$ and $A_{g,\theta} = -A_g\sin\varphi$, with $A_g = 2G\
 $\Delta$ the perpendicular distance, and approximate them as $A_{g,r} \simeq A_g$ and
 $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ (their Eqns.\ 20), to lowest order in the streamline's
 eccentricity. With $\Delta$ read as the radial gap $d_r$ and $\tan\varphi = v_r'/v_\theta'$, those
-are Eqns.\ (\ref{eqn:wire_2d}) without approximation. Epi\_int\_lite \citep{H25} differs from
-Eqns.\ (\ref{eqn:wire_2d}) in three ways, which epi\_int\_3d corrects.
+are Eqns.\ (\ref{eqn:wire_2d}) without approximation. \code{Epi\_int\_lite} \citep{H25} differs from
+Eqns.\ (\ref{eqn:wire_2d}) in three ways, which \code{epi\_int\_3d} corrects.
 
-\paragraph{Distance} Epi\_int\_lite evaluates the pull's magnitude at the crossing point,
+\paragraph{Distance} \code{Epi\_int\_lite} evaluates the pull's magnitude at the crossing point,
 $\Delta = d_r$, but keeps its direction toward the near point,
 \begin{eqnarray}
     \label{eqn:wire_lite}
@@ -436,7 +437,7 @@ This pull is weaker than Eqns.\ (\ref{eqn:wire_2d}) by the factor $\cos\varphi =
 the difference is $\sim\!10^{-10}$ and of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d})
 cost no more.
 
-\paragraph{Direction} Epi\_int\_lite takes the wire's direction from the streamline's velocity at
+\paragraph{Direction} \code{Epi\_int\_lite} takes the wire's direction from the streamline's velocity at
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
 (Fig.~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
@@ -445,9 +446,9 @@ slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed
 $1 - \Omega_p/\Omega \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
 tangential pull that transports angular momentum between streamlines, by a factor of about $m$. For
 the slowly precessing $m = 1$ ringlets of \cite{H25}, $\Omega_p$ is the precession rate and the error
-is negligible. Epi\_int\_3d takes the direction from the shape (Eqn.\ \ref{eqn:wire_t}).
+is negligible. \code{Epi\_int\_3d} takes the direction from the shape (Eqn.\ \ref{eqn:wire_t}).
 
-\paragraph{Linear density} Epi\_int\_lite evaluates every perturbing streamline's pull with the
+\paragraph{Linear density} \code{Epi\_int\_lite} evaluates every perturbing streamline's pull with the
 perturbed particle's own linear density $\lambda$, rather than the perturbing streamline's
 $\lambda'$. The difference, $\lambda' - \lambda \simeq (a' - a)\partial\lambda/\partial a$, adds a
 nearly uniform pull of order the ring's mass over the planet's; in the eccentric ringlets of
@@ -455,16 +456,16 @@ nearly uniform pull of order the ring's mass over the planet's; in the eccentric
 
 In an eccentric ringlet the three corrections together change the streamlines' eccentricities by less
 than $10^{-4}$ of themselves over 5000 orbits. Only the second matters for spiral waves, where it
-changes the torque between streamlines by a factor of about $m$. Epi\_int\_3d keeps
-epi\_int\_lite's ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
-checked against epi\_int\_lite's exactly.
+changes the torque between streamlines by a factor of about $m$. \code{Epi\_int\_3d} keeps
+\code{epi\_int\_lite}'s ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
+checked against \code{epi\_int\_lite}'s exactly.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.3\textwidth]{figures/wire_velocity.pdf}
 \caption{The perturbing streamline at its crossing point (Fig.~\ref{fig:wire_planar}). Its shape
 has the slope $\tan\varphi = s_r$: a step $r\,d\theta$ along $\hat{\theta}$ moves it $dr'$ outward.
-Its velocity $\mathbf{v}'$ (dashed), which epi\_int\_lite takes as the wire's direction, is tilted
+Its velocity $\mathbf{v}'$ (dashed), which \code{epi\_int\_lite} takes as the wire's direction, is tilted
 less when the shape rotates, here by half as much, as for an $m = 2$ pattern.}
 \label{fig:wire_velocity}
 \end{figure}
@@ -477,7 +478,7 @@ less when the shape rotates, here by half as much, as for an $m = 2$ pattern.}
 A streamline model represents a continuous ring by $N_r$ streamlines spaced $\Delta$ apart, and
 that discreteness sets which wavelengths of the ring's response it can follow. This appendix
 derives the axisymmetric stability of a uniform lattice of circular streamlines under the
-self-gravity and pressure accelerations of epi\_int\_lite \citep{HS13, H25}, and compares it
+self-gravity and pressure accelerations of \code{epi\_int\_lite} \citep{HS13, H25}, and compares it
 with the continuum Toomre criterion.
 
 Each streamline of linear density $\lambda$ exerts the acceleration $2G\lambda/d$ of a straight
@@ -532,7 +533,7 @@ proportion to $N_r$.
 A viscous ringlet must also avoid the viscous overstability, the growth of axisymmetric epicyclic
 oscillations that viscous stresses drive when the shear stress rises steeply enough with surface
 density \citep{ST95, LR95, SSS01, S01, LO06, LO08}. For a cold ringlet with constant kinematic shear
-and bulk viscosities $\nu_s$ and $\nu_b$, as in epi\_int\_lite, and Keplerian $\kappa = \Omega$, a
+and bulk viscosities $\nu_s$ and $\nu_b$, as in \code{epi\_int\_lite}, and Keplerian $\kappa = \Omega$, a
 mode with oscillation frequency $\omega \simeq \kappa(1 - x)^{1/2}$ grows to first order in the
 viscosities at the rate
 \begin{equation}
