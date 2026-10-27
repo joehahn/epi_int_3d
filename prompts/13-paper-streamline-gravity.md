@@ -639,3 +639,7 @@ yes
 shorten " so the particles that bracket the perturbed particle's longitude θ are easily identified: they are that particle and its neighbor on either side. " and why do we "Note that λ′ is evaluated at the crossing point rather than at the near point." is that for convenience?
 
 [Shortened to "…lies at nearly the same longitude, so it and its neighbor on either side bracket θ." Yes, it is convenience: everything else is interpolated to the crossing point's longitude θ, and the near point's longitude θ + δθ′ is known only after c, which needs the slopes, so λ′ there would need a second interpolation. The straight-wire formula already assumes λ′ is uniform over lengths ~Δ, and |d₁| ≤ sΔ ≪ Δ, so the crossing-point value is within that approximation. Proposed rewording to say so; awaiting go-ahead.]
+
+what if we say that λ′ is evaluated at the crossing point rather than at the near point which is justified since Eqn 13 implies that lambda varies insignificantly over distances of several delta
+
+[Done, with "assumes" for "implies", since uniform λ′ is an assumption of the straight-wire formula rather than a consequence of it: "Note that λ′ is evaluated at the crossing point rather than at the near point, which is justified since Eqn. (13) assumes that λ′ varies insignificantly over distances of several Δ along the streamline, and the two points are even closer than that: Eqns. (20)–(21) imply |d₁| ≤ sΔ, … |d₁| ≪ Δ." The |d₁| ≤ sΔ bound stays because it is what puts the near point within that distance.]
