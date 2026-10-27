@@ -571,3 +571,7 @@ should "r′ will be shorthand for the crossing point's r′(θ)." appear there 
 the first bare r' is eqn 16 so put that just below eqn 16 but say that r' is short for r'(theta)
 
 [Moved. The inline **d**₁ expression before Eqn. 16 is back to r′(θ)δθ′, so the first bare r′ is in Eqn. 16, which is now followed by "where r′ is short for r′(θ). This uses r′(θ′) − r′(θ) ≃ (dr′/dθ′)δθ′ and likewise for z′, where the streamline's radial and vertical slopes are [Eqn. 17]". The clause after Eqn. 15 is gone.]
+
+what if we changeg "Equating this d1 to Eqn. (16)'s d1 = N r′ δθ′ t̂ also shows that the near point lies at δθ′ =−c/r′, where c = (d0·t̂)/N." to new paragraph with Now equate d1 =−(d0·t̂)t̂ to eqn 16 ?
+
+[Done: a new paragraph, "Now equate **d**₁ = −(**d**₀·t̂)t̂ to Eqn. (16), which shows that the near point lies at δθ′ = −c/r′, where c = (**d**₀·t̂)/N. The components of Eqn. (19) are then [Eqn. 20]". "In components," became "The components of Eqn. (19) are then", since Eqn. 19 is now in the previous paragraph.]
