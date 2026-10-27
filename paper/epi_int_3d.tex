@@ -296,9 +296,12 @@ Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
 \end{eqnarray}
 
 Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
-streamline $a'$ exerts on the particle, which in practice \code{epi\_int\_3d} computes as follows. The particles in every
-streamline are kept sorted by longitude, so the three particles of streamline $a'$ whose indices are
-those of the perturbed particle and its two neighbors bracket the particle's longitude $\theta$.
+streamline $a'$ exerts on the particle. The particles' coordinates are stored in arrays whose rows
+are the streamlines, and every timestep, before the accelerations are computed, the particles in each
+row are sorted by longitude. Because the streamlines are nearly concentric, the particle in row $a'$
+that has the perturbed particle's column index lies at nearly the same longitude, so the particles
+that bracket the perturbed particle's longitude $\theta$ are easily identified: they are that particle
+and its neighbor on either side.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
 crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
 $\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
