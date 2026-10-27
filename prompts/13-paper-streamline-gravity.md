@@ -483,3 +483,15 @@ i think t hat should be written in terms or rhat etc intead of a tripple
 change to "which are obtained from the derivatives of the Lagrange polynomials." instead of stating that t-hat is tangent to streamline should paper prove it?
 
 [Wording changed. No proof needed: the d₁ line already shows it. d₁ is the chord from the crossing point to a nearby point on the streamline, and to first order in δθ′ it is N r′δθ′ t̂, so t̂ is the chord's direction as δθ′ → 0, which is the tangent.]
+
+should text instead say that fig 1 shows that t-hat is the streamline's tangent
+
+[I advised against it: Fig. 1 doesn't draw t̂ and can't show its s_z part. It does show **d**₁ along the streamline.]
+
+what part of derivation in the text is what establishes that t̂ is the tangent?
+
+[The **d**₁ line. But it only stated the result: the Taylor step r′(θ′) − r′(θ) ≃ (dr′/dθ′)δθ′ and the chord-to-tangent limit were both implicit, and the slopes were defined after they were used.]
+
+yes add it
+
+[The **d**₁ line now goes on "...to first order in δθ′, since r′(θ′) − r′(θ) ≃ (dr′/dθ′)δθ′ and likewise for z′, where the streamline's slopes are [Eqn. 15, s_r, s_z] at θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials. As δθ′ → 0 the chord **d**₁ points along the streamline, so [Eqn. 16, t̂] is the streamline's unit tangent." The slopes and t̂ swap equation numbers, so the slopes are now defined before t̂ uses them.]

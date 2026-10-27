@@ -244,18 +244,20 @@ $\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mat
 the crossing point to the near point. That stretch of streamline is short and locally straight, so
 $\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}} + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \simeq
 (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta' = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}}$ to first order in
-$\delta\theta'$, where the streamline's unit tangent is
-\begin{equation}
-    \label{eqn:wire_t}
-    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
-\end{equation}
-and its slopes are
+$\delta\theta'$, since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
+$z'$, where the streamline's slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
     s_r = \frac{1}{r'}\frac{dr'}{d\theta'}, \qquad
     s_z = \frac{1}{r'}\frac{dz'}{d\theta'}
 \end{equation}
-at $\theta' = \theta$, which are obtained from the derivatives of the Lagrange polynomials.
+at $\theta' = \theta$, which are obtained from the derivatives of the Lagrange polynomials. As
+$\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so
+\begin{equation}
+    \label{eqn:wire_t}
+    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N}, \qquad N^2 = 1 + s_r^2 + s_z^2,
+\end{equation}
+is the streamline's unit tangent.
 
 The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
 $\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = 0$. With $\mathbf{d}_1 = N r'(\theta)\,\delta\theta'\,
