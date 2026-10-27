@@ -507,3 +507,7 @@ change to where the streamline's radial and vertical slopes are. should "s_r = (
 change "As δθ′ → 0 the chord d1 points along the streamline, so t̂ is the perturbing streamline's unit tangent:" to "note that as δθ′ → 0 the chord d1 points along the streamline, so t̂ is also the perturbing streamline's unit tangent:" and should the comma in eqn 16 be replaced with where?
 
 [Sentence changed, starting "Note that ...". Yes to "where": Eqn. 16 is now just t̂ = (s_r **r̂** + **θ̂** + s_z **ẑ**)/N, followed by "where N² = 1 + s_r² + s_z²." in the text, as the style guide's "where" clauses do.]
+
+change "Submitted to ApJ" to "to be Submitted to ApJ"
+
+[AASTeX's \submitjournal{ApJ} always prints "Submitted to ApJ", so the preamble now sets the line directly, to "To be submitted to ApJ".]
