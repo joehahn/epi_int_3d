@@ -200,11 +200,10 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 
 %equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
 \code{Epi\_int\_3d} assigns particles to streamlines that are a closed eccentric path around the
-planet whose particles share a common semimajor axis $a$, and a streamline is labeled by that semimajor
-axis, like its predecessors \code{epi\_int} and \code{epi\_int\_lite}. All \code{epi\_int\_3d}
+planet whose particles share a common semimajor axis $a$. All \code{epi\_int\_3d}
 simulations span only a narrow annulus within a broader planetary ring, so every particle is
-radially close to the nearby portions of all perturbing streamlines. Which is why all three codes
-assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
+radially close to the nearby portions of all perturbing streamlines. Which is why \code{epi\_int\_3d} and its
+predecessors \code{epi\_int} and \code{epi\_int\_lite} assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
 streamline at semimajor axis $a'$ is that due to a straight and infinitely long wire:
 \begin{equation}
     \label{eqn:wire_Ag}

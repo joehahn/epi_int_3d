@@ -387,3 +387,7 @@ do the macro
 change to "Epi_int_3d assigns particles to streamlines that are a closed eccentric path around the planet whose particles share a common semimajor axis a"
 
 [Done as worded.]
+
+can we delete "and a streamline is labeled by that semimajor axis, like its predecessors epi_int and epi_int_lite"? and "Which is why all three codes assume " to "Which is why epi_int_3d and its predecessors
+
+[Both done. The predecessors are named there instead, "Which is why epi_int_3d and its predecessors epi_int and epi_int_lite assume ...", because they are no longer named earlier in Section 3.]
