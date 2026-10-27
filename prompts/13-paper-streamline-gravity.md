@@ -563,3 +563,11 @@ change "Comparing this d1 with Eqn. (16) " to "equating d1=N r′(θ) δθ′ t,
 change "and from here on r′ without an argument is the crossing point's radius r′(θ)" to something like "and henceforth r′ will be shorthand for the crossing point's r′(θ)"
 
 [Done as worded.]
+
+should "r′ will be shorthand for the crossing point's r′(θ)." appear there or further down?
+
+[I said it was fine there, just before the first bare r′.]
+
+the first bare r' is eqn 16 so put that just below eqn 16 but say that r' is short for r'(theta)
+
+[Moved. The inline **d**₁ expression before Eqn. 16 is back to r′(θ)δθ′, so the first bare r′ is in Eqn. 16, which is now followed by "where r′ is short for r′(θ). This uses r′(θ′) − r′(θ) ≃ (dr′/dθ′)δθ′ and likewise for z′, where the streamline's radial and vertical slopes are [Eqn. 17]". The clause after Eqn. 15 is gone.]
