@@ -551,3 +551,7 @@ can "c = (d0·t̂)/N = (dr sr + dz sz )/N²." be shortened to "c = (d0·t̂)/N" 
 delete "(Eqn. 16" . what vector relation was used to obtain Eqn 19?
 
 [Deleted. Eqn. 19's last form uses the BAC-CAB identity, t̂ × (**d**₀ × t̂) = **d**₀(t̂·t̂) − t̂(t̂·**d**₀) = **d**₀ − (**d**₀·t̂)t̂, since t̂·t̂ = 1. The middle form needs only **d**₁ = −(**d**₀·t̂)t̂.]
+
+leave Eqn. 19 as Δ = d₀ + d₁ = d₀ − (d₀·t̂) t̂. and push
+
+[Done: the cross-product form is dropped from Eqn. 19 (sympy G16 still checks it) and everything is pushed.]
