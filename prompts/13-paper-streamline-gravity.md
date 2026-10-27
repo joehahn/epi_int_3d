@@ -355,3 +355,7 @@ should "All epi_int_3d simulations span only a narrow annulus within a broader p
 make "while the perturbing streamline's coordinates r′ = (r′, θ′, z′) are to be regarded as functions of its longitude θ′ = θ + δθ′ relative to the particle's longitude θ." its own sentence and refer to r' = (r'(theta'), theta', z'(theta'))
 
 [Now "In cylindrical coordinates the particle is at **r** = (r, θ, z). The perturbing streamline's coordinates **r**′ = (r′(θ′), θ′, z′(θ′)) are to be regarded as functions of its longitude θ′ = θ + δθ′ relative to the particle's longitude θ."]
+
+how about changing "The perturbing streamline's coordinates r′ = (r′(θ′), θ′, z′(θ′)) are to be regarded as functions of its longitude θ′ = θ + δθ′ relative to the particle's longitude θ." to something like "while The perturbing streamline's coordinates r′, θ′, z′ are to be regarded as functions of its longitude θ′ ie r' = (r′(θ′), θ′, z′(θ′))" the later sentenc says theta'= θ + δθ′ relative to the particle's longitude θ.
+
+[Now "The perturbing streamline's coordinates are to be regarded as functions of its longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′))." With δθ′ no longer introduced there, the next sentence's |δθ′| ≪ 1 became |θ′ − θ| ≪ 1, since Eqn. 14 is where δθ′ is defined.]

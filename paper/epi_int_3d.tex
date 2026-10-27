@@ -217,14 +217,13 @@ particle toward the near point.
 
 The following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
 In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. The perturbing
-streamline's coordinates $\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$ are to be regarded as
-functions of its longitude $\theta' = \theta + \delta\theta'$ relative to the particle's longitude
-$\theta$.
+streamline's coordinates are to be regarded as functions of its longitude $\theta'$, i.e.,
+$\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$.
 Streamline $a'$ is sampled by its particles, so Lagrange polynomials are fit to the
 three particles in $a'$ that are nearest in longitude, which allows $r'(\theta')$,
 $z'(\theta')$ and the linear density $\lambda'(\theta')$ to be regarded as smooth
 functions of $\theta'$. And because the particle is close to the streamline, $|r' - r| \ll r$,
-$|z' - z| \ll r$ and $|\delta\theta'| \ll 1$, so the particle's local frame
+$|z' - z| \ll r$ and $|\theta' - \theta| \ll 1$, so the particle's local frame
 $(\hat{r}, \hat{\theta}, \hat{z})$ can be treated as Cartesian.
 
 The vector from the particle to the streamline's near point (the black square in
