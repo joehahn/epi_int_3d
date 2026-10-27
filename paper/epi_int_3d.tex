@@ -201,7 +201,7 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \section{The gravity of a streamline}
 \label{sec:gravity}
 
-%equations G1-G18, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
+%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
 \code{Epi\_int\_3d} assigns particles to streamlines that are a closed eccentric path around the
 planet whose particles share a common semimajor axis $a$. All \code{epi\_int\_3d}
 simulations span only a narrow annulus within a broader planetary ring, so every particle is
@@ -295,6 +295,28 @@ Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
     \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2.
 \end{eqnarray}
 
+
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
+\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
+\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
+$\hat{\boldsymbol{\theta}}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
+$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
+$\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
+$\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
+(Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
+the near point (the planet is far off to the left), has length $\Delta = d_r\cos\varphi$ and makes the angle
+$\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\lambda'/\Delta)\hat{\boldsymbol{\Delta}}$ points along it
+(Eqns.\ \ref{eqn:wire_2d}).}
+\label{fig:wire_planar}
+\end{figure}
+
+\subsection{Computing the acceleration}
+\label{sec:wire_code}
+
+%TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
+%TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
 Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle. The particles' coordinates are stored in arrays whose rows
 are the streamlines, and every timestep, before the accelerations are computed, the particles in each
@@ -316,45 +338,20 @@ components,
     A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2}.
 \end{eqnarray}
 This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
-ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point,
-which differs from it by a fraction of order $|\delta\theta'|$. That fraction is small:
-Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp}) imply $|\mathbf{d}_1| \le s\Delta$,
-where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a nearly circular and nearly planar
-streamline the near point lies much closer to the crossing point than to the particle, and
-$|\delta\theta'| = |\mathbf{d}_1|/Nr' \ll 1$ as assumed. The near point is also much closer to the
-crossing point than the spacing of the streamline's particles. Appendix \ref{sec:wire_continuum}
-shows that summing Eqn.\ (\ref{eqn:wire_Ag}) over the streamlines of a vertically displaced sheet
-recovers the self-gravity term of the bending-wave dispersion relation.
+ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point. That is
+justified because the two points are close: Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp})
+imply $|\mathbf{d}_1| \le s\Delta$, where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a
+nearly circular and nearly planar streamline $|\mathbf{d}_1| \ll \Delta$. Which is also why
+\code{epi\_int} and \code{epi\_int\_lite} could use the distance to the crossing point, $|\mathbf{d}_0|$,
+for $\Delta$: since $\Delta^2 = |\mathbf{d}_0|^2 - |\mathbf{d}_1|^2$, $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$,
+so the two differ by a fraction of order $s^2$.
 
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
-\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
-\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
-$\hat{\boldsymbol{\theta}}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
-$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
-$\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
-$\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
-(Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
-the near point (the planet is far off to the left), has length $\Delta = d_r\cos\varphi$ and makes the angle
-$\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\lambda'/\Delta)\hat{\boldsymbol{\Delta}}$ points along it
-(Eqns.\ \ref{eqn:wire_2d}).}
-\label{fig:wire_planar}
-\end{figure}
-
-\subsection{Implementation}
-\label{sec:wire_code}
-
-%TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
-%TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
-\code{Epi\_int\_3d} computes Eqn.\ (\ref{eqn:wire_Ag}), with $\lambda'$ the perturbing streamline's own
-linear density at the particle's longitude, and both slopes $s_r$ and $s_z$ taken from the derivatives
-of the Lagrange polynomials that give $r'$ and $z'$ there. In the plane it is
-Eqns.\ (\ref{eqn:wire_2d}). For regression tests, \code{epi\_int\_3d} can instead use \code{epi\_int\_lite}'s
-ring gravity (Eqns.\ \ref{eqn:wire_lite}), with which it reproduces \code{epi\_int\_lite}'s results
-exactly. $\Delta$ never vanishes, since streamlines may not cross. As in \code{epi\_int\_lite}, the
-particle's own streamline exerts no force on it. The slopes require that the streamline be well
-sampled by its particles.
+As in \code{epi\_int\_lite}, the particle's own streamline exerts no force on it, and $\Delta$ never
+vanishes, since streamlines may not cross. The slopes require that the streamline be well sampled by
+its particles. For regression tests, \code{epi\_int\_3d} can instead use \code{epi\_int\_lite}'s ring
+gravity (Eqns.\ \ref{eqn:wire_lite}), with which it reproduces \code{epi\_int\_lite}'s results exactly.
+Appendix \ref{sec:wire_continuum} shows that summing Eqn.\ (\ref{eqn:wire_Ag}) over the streamlines of
+a vertically displaced sheet recovers the self-gravity term of the bending-wave dispersion relation.
 
 \appendix
 

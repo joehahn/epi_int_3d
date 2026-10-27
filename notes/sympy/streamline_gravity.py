@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G18; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G19; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -353,7 +353,7 @@ lam_, G_ = sp.symbols('lambda G', positive=True)
 check('G17: A_g components', 2*G_*lam_*Dn/(Dn.T*Dn)[0]
       - 2*G_*lam_*sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0])/(d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))
 
-# --- G18: the paper's note after Eqn. 22. With s^2 = s_r^2 + s_z^2 (so N^2 = 1 + s^2), |d1| = N|c| and
+# --- G18: the paper's Sec. 3.2, the note after Eqn. 22. With s^2 = s_r^2 + s_z^2 (so N^2 = 1 + s^2), |d1| = N|c| and
 # Delta^2 = |d0|^2 - |d1|^2 give s^2 Delta^2 - |d1|^2 = s^2 |d0|^2 - (d_r s_r + d_z s_z)^2
 # = (s_r d_z - s_z d_r)^2 >= 0 (Lagrange's identity, i.e. Cauchy-Schwarz), so |d1| <= s Delta;
 # in the plane |d1|/Delta = s_r = tan(phi) exactly. ---
@@ -364,3 +364,11 @@ check('G18: s^2 Delta^2 - |d1|^2 = (s_r d_z - s_z d_r)^2 >= 0',
       sp.simplify(s2*(Dn.T*Dn)[0] - d1sq - (s_r0*d_z0 - s_z0*d_r0)**2))
 check('G18: in the plane |d1|^2/Delta^2 = s_r^2',
       sp.simplify((d1sq/(Dn.T*Dn)[0]).subs({d_z0: 0, s_z0: 0}) - s_r0**2))
+
+# --- G19: the paper's Sec. 3.2, the crossing-point distance |d0| of epi_int and epi_int_lite. Pythagoras,
+# |d0|^2 - Delta^2 = |d1|^2 >= 0, and N^2 Delta^2 - |d0|^2 = s^2 Delta^2 - |d1|^2 = (s_r d_z - s_z d_r)^2 >= 0
+# (G18), so |d0|/N <= Delta <= |d0| and the two differ by a fraction O(s^2). ---
+d0sq = d_r0**2 + d_z0**2
+check('G19: |d0|^2 - Delta^2 = |d1|^2 >= 0', sp.simplify(d0sq - (Dn.T*Dn)[0] - d1sq))
+check('G19: N^2 Delta^2 - |d0|^2 = (s_r d_z - s_z d_r)^2 >= 0',
+      sp.simplify(N0**2*(Dn.T*Dn)[0] - d0sq - (s_r0*d_z0 - s_z0*d_r0)**2))
