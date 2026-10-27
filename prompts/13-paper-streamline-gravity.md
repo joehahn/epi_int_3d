@@ -351,3 +351,7 @@ yes, update the caption
 should "All epi_int_3d simulations span only a narrow annulus within a broader planetary ring, so every particle is radially close to the nearby portions of all perturbing streamlines. Which allows us to treat the particle's acceleration due to a perturbing streamline as that due to a straight wire," be above in section 3?
 
 [Yes, since it is the physical reason for the wire approximation. Section 3 now opens with it: "All epi_int_3d simulations span ... perturbing streamlines. Which is why epi_int_3d, like its predecessors epi_int and epi_int_lite, assumes that ... a straight and infinitely long wire:" Section 3.1 now starts "The following 3D treatment is an extension of the 2D force calculations used in HS13." and goes straight on to the coordinates.]
+
+make "while the perturbing streamline's coordinates r′ = (r′, θ′, z′) are to be regarded as functions of its longitude θ′ = θ + δθ′ relative to the particle's longitude θ." its own sentence and refer to r' = (r'(theta'), theta', z'(theta'))
+
+[Now "In cylindrical coordinates the particle is at **r** = (r, θ, z). The perturbing streamline's coordinates **r**′ = (r′(θ′), θ′, z′(θ′)) are to be regarded as functions of its longitude θ′ = θ + δθ′ relative to the particle's longitude θ."]
