@@ -535,3 +535,11 @@ change ∆·t = 0. to (d0+d1)·t = 0.
 no is delta dot t hat = (d0 + d1)·t
 
 [Now "**Δ**·t̂ = (**d**₀ + **d**₁)·t̂ = 0."]
+
+should d1 with δθ′ replaced by δθ′=−c/r′(θ) get its own numbered equatoin?
+
+[I advised against a separate number, since nothing refers to it on its own, but suggested writing out the step to Eqn. 19.]
+
+yes
+
+[Now "...where c = (**d**₀·t̂)/N = (d_r s_r + d_z s_z)/N². There **d**₁ = −(**d**₀·t̂)t̂, and [Eqn. 19: **Δ** = **d**₀ + **d**₁ = **d**₀ − (**d**₀·t̂)t̂ = t̂ × (**d**₀ × t̂)]". This is already covered by sympy G16: substituting the solved δθ′ gives d = d0 − (d0·t)t.]
