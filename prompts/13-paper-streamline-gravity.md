@@ -531,3 +531,7 @@ put "d1 ≃ [r′(θ′)− r′(θ)]r̂ + r′(θ) δθ′ θ̂ + [z′(θ′)�
 change ∆·t = 0. to (d0+d1)·t = 0.
 
 [Done: "The near point is where **Δ** is perpendicular to the streamline, (**d**₀ + **d**₁)·t̂ = 0."]
+
+no is delta dot t hat = (d0 + d1)·t
+
+[Now "**Δ**·t̂ = (**d**₀ + **d**₁)·t̂ = 0."]
