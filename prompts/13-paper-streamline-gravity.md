@@ -503,3 +503,7 @@ t̂ is the perturbing streamline's unit tangent:
 change to where the streamline's radial and vertical slopes are. should "s_r = (1/r′) dr′/dθ′" be written with vertical bar and theta'=theta subscript? and change "at θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials." to "which are evaluated at the perturbed particle's longitide with θ′ = θ, which are obtained from the derivatives of the Lagrange polynomials.
 
 [Yes to the bar: it shows that r′ as well as the derivative is evaluated at θ′ = θ. Eqn. 15 is now s_r = (1/r′)(dr′/dθ′)|_{θ′=θ} and likewise for s_z, introduced by "where the streamline's radial and vertical slopes are". It's followed by "which are evaluated at the perturbed particle's longitude θ′ = θ and are obtained from the derivatives of the Lagrange polynomials." I used "and are" to avoid two "which" clauses in a row.]
+
+change "As δθ′ → 0 the chord d1 points along the streamline, so t̂ is the perturbing streamline's unit tangent:" to "note that as δθ′ → 0 the chord d1 points along the streamline, so t̂ is also the perturbing streamline's unit tangent:" and should the comma in eqn 16 be replaced with where?
+
+[Sentence changed, starting "Note that ...". Yes to "where": Eqn. 16 is now just t̂ = (s_r **r̂** + **θ̂** + s_z **ẑ**)/N, followed by "where N² = 1 + s_r² + s_z²." in the text, as the style guide's "where" clauses do.]
