@@ -439,3 +439,23 @@ and to "and δθ′ is its longitude relative to the particle's with |δθ′| �
 change "The second leg, d1 = r′(θ + δθ′)− r′(θ)," to "The second leg, d1 = r′(θ′)− r′(θ) - d_0 = r'(theta')-r'(theta)'
 
 [The middle expression as typed, r′(θ′) − r′(θ) − **d**₀, isn't equal to the last one, so I used **d**₁ = **Δ** − **d**₀ = **r**′(θ′) − **r**′(θ), which is presumably what was meant.]
+
+d1 in cylindrical coordinates is vec(d1)=(r′(θ′)− r′(θ), θ′ - θ, z′(θ′)− z′(θ)), correct?
+
+[No. In the particle's local frame the middle component is a length, r′ sin δθ′ ≃ r δθ′, not the angle θ′ − θ. Coordinate differences aren't vector components.]
+
+so d1 in cyclindrical coordinat can be written vec(d1)=(r′(θ′), θ', z′(θ′)) - (r′(θ), θ, z′(θ)) correct?
+
+[Yes, if each triple is read as a point (position vector), but not subtracted entry by entry, since the two points have different r̂ and θ̂.]
+
+fig 1 also says that d0=delta*cos(varphi)-d1*sin(varphi) and delta*sin(varphi)=d1*cos(varphi)=r δθ′. does that simplify the math or discussion any
+
+[Only for the plane. That's the right triangle in Fig. 1, and with signed d₁ = N r δθ′ the second relation is Δ sin φ = −d₁ cos φ = −r δθ′. In 3D there are two slopes and no single φ, so Eqn. 17's projection is still needed. Not added.]
+
+does reader need to be reminded that so d1 ≃ [r′(θ + δθ′)− r′(θ), r δθ′, z′(θ + δθ′)− z′(θ)] is using cartesian coordinates?
+
+[A brief reminder helps, since the paragraph also writes cylindrical coordinates as triples.]
+
+do what's best
+
+[Now "...so in the local frame **d**₁ ≃ [r′(θ′) − r′(θ), r δθ′, z′(θ′) − z′(θ)] ≃ ...", which matches the **d**₀ wording and Eqn. 14's θ′.]
