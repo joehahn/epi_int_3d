@@ -523,3 +523,7 @@ should d0 = dr r̂+dz ẑ, and d1=N r′(θ) δθ′ t̂ be displayed as numbere
 yes
 
 [**d**₀ = d_r **r̂** + d_z **ẑ** is now Eqn. 15, followed by "where d_r = ... and d_z = ...". **d**₁ is the two-line Eqn. 16, ending in N r′(θ)δθ′ **t̂**, introduced by "so to first order in δθ′". The later equations are renumbered: slopes 17, t̂ 18, **Δ** 19–20, planar 21, components 22. The paper numbers quoted in notes/equations.md for G11, G16 and G17 were updated.]
+
+put "d1 ≃ [r′(θ′)− r′(θ)]r̂ + r′(θ) δθ′ θ̂ + [z′(θ′)− z′(θ)]ẑ" in the text so that the numbered equation says d1 ≃ (s_r r̂ + θ̂ + s_z ẑ) r′(θ) δθ′ = N r′(θ) δθ′ t̂,
+
+[Now "...so **d**₁ ≃ [r′(θ′) − r′(θ)]**r̂** + r′(θ)δθ′ **θ̂** + [z′(θ′) − z′(θ)]**ẑ**, which to first order in δθ′ is [Eqn. 16: **d**₁ ≃ (s_r **r̂** + **θ̂** + s_z **ẑ**) r′(θ)δθ′ = N r′(θ)δθ′ **t̂**], since ...".]

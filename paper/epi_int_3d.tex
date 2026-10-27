@@ -247,15 +247,14 @@ particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
 \end{equation}
 where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
 $\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
-the crossing point to the near point. That stretch of streamline is short and locally straight, so to
-first order in $\delta\theta'$
-\begin{eqnarray}
+the crossing point to the near point. That stretch of streamline is short and locally straight, so
+$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
++ [z'(\theta') - z'(\theta)]\hat{\mathbf{z}}$, which to first order in $\delta\theta'$ is
+\begin{equation}
     \label{eqn:wire_d1}
-    \mathbf{d}_1 &\simeq& [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
-        + [z'(\theta') - z'(\theta)]\hat{\mathbf{z}} \nonumber\\
-    &\simeq& (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta'
+    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'(\theta)\,\delta\theta'
         = N r'(\theta)\,\delta\theta'\,\hat{\mathbf{t}},
-\end{eqnarray}
+\end{equation}
 since $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$ and likewise for
 $z'$, where the streamline's radial and vertical slopes are
 \begin{equation}
