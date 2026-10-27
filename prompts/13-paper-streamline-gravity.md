@@ -419,3 +419,7 @@ maybe "streamline a′ is at r′ = (r′, θ′, z′) traces a continuouse wir
 r′ = (r′, θ′, z′) that traces a continuous wire . and to something like Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the parturbed particle at vec(r) are used to estimates of where that wire is,
 
 [Now "...is at **r**′ = (r′, θ′, z′) that traces a continuous wire, so these coordinates are to be regarded as functions of longitude θ′, i.e., **r**′ = (r′(θ′), θ′, z′(θ′)). Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the perturbed particle at **r** are used to estimate where that wire is, r′(θ′) and z′(θ′), as well as its linear density λ′(θ′)."]
+
+can "Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the perturbed particle at r are used to estimate where that wire is, r′(θ′) and z′(θ′), as well as its linear density λ′(θ′)." be changed to someting like "Lagrange polynomials will be fit to the particles in streamline a' which means that r′(θ′) and z′(θ′), as well as its linear density λ′(θ′) can be regard as known functions in the following
+
+[Now "Lagrange polynomials will be fit to the particles in streamline a′, which means that r′(θ′), z′(θ′) and the streamline's linear density λ′(θ′) can be regarded as known functions in the following." The recipe paragraph at the end of Sec. 3.1 still says which three particles are fit.]
