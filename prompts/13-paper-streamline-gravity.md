@@ -431,3 +431,7 @@ change "The vector from the particle to the streamline's near point (the black s
 change to "∆= r′(θ′)− r = d0 + d1, " and "where δθ′ is the near point's longitude" to "where theta'=theta + δθ′ is the near point's longitude" and add |δθ′|<<1
 
 [Eqn. 14 is now **Δ** = **r**′(θ′) − **r** = **d**₀ + **d**₁, followed by "where θ′ = θ + δθ′ is the near point's longitude as measured in the z = 0 plane, so δθ′ is its longitude relative to the particle's, and |δθ′| ≪ 1." The wording keeps "relative to the particle's" attached to δθ′, since θ′ itself is not a relative longitude.]
+
+and to "and δθ′ is its longitude relative to the particle's with |δθ′| ≪ 1"
+
+[Now "where θ′ = θ + δθ′ is the near point's longitude as measured in the z = 0 plane, and δθ′ is its longitude relative to the particle's with |δθ′| ≪ 1."]
