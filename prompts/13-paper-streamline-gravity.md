@@ -335,3 +335,7 @@ Follow-up: should λ' be evaluated at the crossing point? [Yes, it is fine: the 
 along the streamline from it, inside the ~Δ stretch that dominates a wire's pull; the fractional
 difference is ~(Δ/r)(e m)², below the wire approximation's O(Δ/R) error. Offered to sharpen the paper's
 sentence:] no. [Left as is.]
+
+revise "Epi_int and epi_int_lite assume that the gravitational acceleration of a particle by perturbing streamline a′ is that due to a straight and infinitely long wire:" to say that epi_int_3d as well as its predecessor codes. and what if Eqn 13 used hat(Delta)/Delta instead?
+
+[Now "Epi_int_3d, like its predecessors epi_int and epi_int_lite, assumes...". Eqn. 13 is now A_g = (2Gλ′/Δ) Δ̂, which is the same thing (Δ̂/Δ = **Δ**/Δ²) but shows the magnitude 2Gλ′/Δ directly. The "where" clause now defines Δ as the distance to the near point and Δ̂ = **Δ**/Δ as the unit vector toward it. Eqns. 17–20 are unchanged. Also fixed a mid-sentence "Equation (13)" to "Eqn. (13)".]

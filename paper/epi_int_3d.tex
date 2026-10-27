@@ -198,15 +198,17 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \label{sec:gravity}
 
 %equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-Epi\_int and epi\_int\_lite assume that the gravitational acceleration of a particle by perturbing
-streamline $a'$ is that due to a straight and infinitely long wire:
+Epi\_int\_3d, like its predecessors epi\_int and epi\_int\_lite, assumes that the gravitational
+acceleration of a particle by perturbing streamline $a'$ is that due to a straight and infinitely
+long wire:
 \begin{equation}
     \label{eqn:wire_Ag}
-    \mathbf{A}_g = \frac{2G\lambda'\boldsymbol{\Delta}}{\Delta^2},
+    \mathbf{A}_g = \frac{2G\lambda'}{\Delta}\hat{\boldsymbol{\Delta}},
 \end{equation}
-where $\lambda'$ is the perturbing streamline's linear density and $\boldsymbol{\Delta}$ is the
-separation of the particle to the streamline's nearest point, which is labeled the near point in
-Fig.~\ref{fig:wire_planar}.
+where $\lambda'$ is the perturbing streamline's linear density, $\Delta$ is the particle's distance
+from the streamline's nearest point, which is labeled the near point in Fig.~\ref{fig:wire_planar},
+and $\hat{\boldsymbol{\Delta}} = \boldsymbol{\Delta}/\Delta$ is the unit vector that points from the
+particle toward the near point.
 
 \subsection{The perturbing streamline's geometry}
 \label{sec:wire}
@@ -273,7 +275,7 @@ which is simply $\mathbf{d}_0$ with its component along the streamline removed. 
 \end{eqnarray}
 Note that $|c| \le |d_rs_r| + |d_zs_z| \ll r$, so $|\delta\theta'| \ll 1$ as assumed, and the near
 point lies much closer to the crossing point than the spacing of the streamline's particles.
-Inserting $\boldsymbol{\Delta}$ into Equation (\ref{eqn:wire_Ag}) then provides the acceleration that
+Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
 streamline $a'$ exerts on the particle.
 
 In the ring plane $d_z = s_z = 0$, and the above reduces to the geometry of Fig.~3 of \cite{HS13},
