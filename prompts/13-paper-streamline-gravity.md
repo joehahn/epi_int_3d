@@ -579,3 +579,7 @@ what if we changeg "Equating this d1 to Eqn. (16)'s d1 = N r′ δθ′ t̂ also
 shouldnt we have a numbred eqna for d1=-Nc t-hat?
 
 [Yes. With the new paragraph it's the step that gives Eqn. 21's components directly. Now "...where c = (**d**₀·t̂)/N. So at the near point [Eqn. 20: **d**₁ = −Nc t̂ = −c(s_r **r̂** + **θ̂** + s_z **ẑ**)], and adding **d**₀ gives the components of Eqn. (19), [Eqn. 21]". Later equations are renumbered (planar 22, A_g components 23). Sympy G16 now also checks **d**₁ = −Nc t̂ = −c(s_r, 1, s_z), all checks pass, and the equations.md rows G11, G16 and G17 were updated.]
+
+change "and adding d0 gives the components of Eqn. (19)," to "adding d0 to the above then yields delta":
+
+[Done. Eqn. 20 now ends with a period and is followed by "Adding **d**₀ to the above then yields **Δ**: [Eqn. 21]".]
