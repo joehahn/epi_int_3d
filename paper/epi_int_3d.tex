@@ -198,11 +198,13 @@ is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
 \label{sec:gravity}
 
 %equations G1-G17, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-All epi\_int\_3d simulations span only a narrow annulus within a broader planetary ring, so every
-particle is radially close to the nearby portions of all perturbing streamlines. Which is why
-epi\_int\_3d, like its predecessors epi\_int and epi\_int\_lite, assumes that the gravitational
-acceleration of a particle by perturbing streamline $a'$ is that due to a straight and infinitely
-long wire:
+Like its predecessors epi\_int and epi\_int\_lite, epi\_int\_3d assigns its particles to
+streamlines, each a closed eccentric path around the planet whose particles initially share a
+common semimajor axis, and a streamline is labeled by that semimajor axis. All epi\_int\_3d
+simulations span only a narrow annulus within a broader planetary ring, so every particle is
+radially close to the nearby portions of all perturbing streamlines. Which is why all three codes
+assume that the gravitational acceleration of a particle by perturbing streamline $a'$, i.e., the
+streamline whose semimajor axis is $a'$, is that due to a straight and infinitely long wire:
 \begin{equation}
     \label{eqn:wire_Ag}
     \mathbf{A}_g = \frac{2G\lambda'}{\Delta}\hat{\boldsymbol{\Delta}},
@@ -216,8 +218,9 @@ particle toward the near point.
 \label{sec:wire}
 
 The following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
-In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. The perturbing
-streamline's coordinates are to be regarded as functions of its longitude $\theta'$, i.e.,
+In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. But in the
+following the perturbing streamline's coordinates are to be regarded as functions of its longitude
+$\theta'$, i.e.,
 $\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$.
 Streamline $a'$ is sampled by its particles, so Lagrange polynomials are fit to the
 three particles in $a'$ that are nearest in longitude, which allows $r'(\theta')$,
