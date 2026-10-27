@@ -547,3 +547,7 @@ yes
 can "c = (d0·t̂)/N = (dr sr + dz sz )/N²." be shortened to "c = (d0·t̂)/N" also "The near point is where ∆ is perpendicular to the streamline, ∆·t̂ = (d0 + d1)·t̂ = 0. With d1 = N r′(θ) δθ′ t̂, that condition becomes d0·t̂ + N r′(θ) δθ′ = 0, so the near point lies at δθ′ =−c/r′(θ), where" is confusing can that be simplified?
 
 [Rewritten to go straight to the vector result: "The near point is where **Δ** is perpendicular to the streamline, **Δ**·t̂ = (**d**₀ + **d**₁)·t̂ = 0. And because **d**₁ lies along t̂ (Eqn. 16), this requires **d**₁ = −(**d**₀·t̂)t̂, so [Eqn. 19] which is simply **d**₀ with its component along the streamline removed. Comparing this **d**₁ with Eqn. (16) also shows that the near point lies at δθ′ = −c/r′(θ), where c = (**d**₀·t̂)/N. In components, [Eqn. 20]". The explicit c = (d_r s_r + d_z s_z)/N² moved to the note after Eqn. 20, which needs it for the bound on |c|: "Note that c = (d_r s_r + d_z s_z)/N², so |c| ≤ |d_r s_r| + |d_z s_z| ≪ r′ and |δθ′| ≪ 1 as assumed, ...".]
+
+delete "(Eqn. 16" . what vector relation was used to obtain Eqn 19?
+
+[Deleted. Eqn. 19's last form uses the BAC-CAB identity, t̂ × (**d**₀ × t̂) = **d**₀(t̂·t̂) − t̂(t̂·**d**₀) = **d**₀ − (**d**₀·t̂)t̂, since t̂·t̂ = 1. The middle form needs only **d**₁ = −(**d**₀·t̂)t̂.]
