@@ -423,3 +423,7 @@ r′ = (r′, θ′, z′) that traces a continuous wire . and to something like
 can "Lagrange polynomials fit to the three particles in a′ that are nearest in longitude to the perturbed particle at r are used to estimate where that wire is, r′(θ′) and z′(θ′), as well as its linear density λ′(θ′)." be changed to someting like "Lagrange polynomials will be fit to the particles in streamline a' which means that r′(θ′) and z′(θ′), as well as its linear density λ′(θ′) can be regard as known functions in the following
 
 [Now "Lagrange polynomials will be fit to the particles in streamline a′, which means that r′(θ′), z′(θ′) and the streamline's linear density λ′(θ′) can be regarded as known functions in the following." The recipe paragraph at the end of Sec. 3.1 still says which three particles are fit.]
+
+change "The vector from the particle to the streamline's near point (the black square in Fig. 1) is then" to "... can be written" and "where δθ′ is the near point's longitude relative to the particle's longitude, as measured in the z = 0 plane" to the same without the comma
+
+[Both done.]
