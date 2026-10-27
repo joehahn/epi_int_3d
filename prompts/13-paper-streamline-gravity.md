@@ -475,3 +475,7 @@ should the r in Eqn 16 be r'?
 yes
 
 [Eqn. 16 is now s_r = (1/r′) dr′/dθ′ and s_z = (1/r′) dz′/dθ′ at θ′ = θ. The θ̂ leg of **d**₁ is r′(θ)δθ′, so **d**₁ ≃ N r′(θ)δθ′ t̂, the near point is at δθ′ = −c/r′(θ), and |c| ≪ r′. Fig. 1 and its caption now label r′δθ′. Eqns. 17–20 are unchanged. Sympy G10 (comments) and G16 were updated and all checks pass; the equations.md rows G10 and G16 were updated too.]
+
+i think t hat should be written in terms or rhat etc intead of a tripple
+
+[Done for t̂ in Eqn. 15 and for every other component triple in Sec. 3.1: **d**₀ = d_r **r̂** + d_z **ẑ**, t̂ = (s_r **r̂** + **θ̂** + s_z **ẑ**)/N, Eqn. 18's **Δ** = (d_r − c s_r)**r̂** − c **θ̂** + (d_z − c s_z)**ẑ**, and the planar **Δ** = d_r cos φ (cos φ **r̂** − sin φ **θ̂**). The cylindrical-coordinate triples for points, **r** = (r, θ, z) and **r**′(θ) = (r′(θ), θ, z′(θ)), stay as they are.]
