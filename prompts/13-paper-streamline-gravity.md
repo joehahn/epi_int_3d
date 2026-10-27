@@ -527,3 +527,7 @@ yes
 put "d1 ≃ [r′(θ′)− r′(θ)]r̂ + r′(θ) δθ′ θ̂ + [z′(θ′)− z′(θ)]ẑ" in the text so that the numbered equation says d1 ≃ (s_r r̂ + θ̂ + s_z ẑ) r′(θ) δθ′ = N r′(θ) δθ′ t̂,
 
 [Now "...so **d**₁ ≃ [r′(θ′) − r′(θ)]**r̂** + r′(θ)δθ′ **θ̂** + [z′(θ′) − z′(θ)]**ẑ**, which to first order in δθ′ is [Eqn. 16: **d**₁ ≃ (s_r **r̂** + **θ̂** + s_z **ẑ**) r′(θ)δθ′ = N r′(θ)δθ′ **t̂**], since ...".]
+
+change ∆·t = 0. to (d0+d1)·t = 0.
+
+[Done: "The near point is where **Δ** is perpendicular to the streamline, (**d**₀ + **d**₁)·t̂ = 0."]
