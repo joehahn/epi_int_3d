@@ -367,3 +367,7 @@ change to "But in the following the perturbing streamline's coordinates are to b
 change "the gravitational acceleration of a particle by perturbing streamline a′, i.e., the streamline whose semimajor axis is a′, " to something like "the gravitational acceleration of a particle by those particles inhhaniting the perturbing streamline at semimajor axis a′
 
 [Now "...assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing streamline at semimajor axis a′ is that due to a straight and infinitely long wire:"]
+
+move "Like its predecessors epi_int and epi_int_lite," to end of its sentence. and change "epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles initially share a common semimajor axis" to epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles share a common semimajor axis a
+
+[Now "Epi_int_3d assigns its particles to streamlines, each a closed eccentric path around the planet whose particles share a common semimajor axis a, and a streamline is labeled by that semimajor axis, like its predecessors epi_int and epi_int_lite."]
