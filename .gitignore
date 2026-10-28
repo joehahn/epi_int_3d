@@ -26,3 +26,6 @@ explore/nbtest/
 explore/*/*/inputs.py
 !explore/ladder/nr0010/inputs.py
 paper/figures/*.png
+
+# outreach drafts (talks, LinkedIn): private until each piece is final, then un-ignored
+outreach/
