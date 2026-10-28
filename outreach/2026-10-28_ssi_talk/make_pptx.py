@@ -236,7 +236,7 @@ bullets(s, 0.4, 1.1, 9.2, 5.0, [
     (1, 'I now run my own independent AI consulting shop:'),
     (2, 'I build AI tools that do work a machine should do'),
     (2, '& provide senior hands to AI teams that have more work than people'),
-    (0, 'this project’s code, draft paper & every prompt I gave CC:'),
+    (0, 'this project’s code, draft paper & the research prompts I gave CC:'),
     (1, 'github.com/joehahn/epi_int_3d')], size=22)
 tf = textbox(s, 0.4, 6.35, 9.2, 0.6)
 tf.paragraphs[0].alignment = 2                   #center
