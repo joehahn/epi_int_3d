@@ -655,3 +655,15 @@ make "Note that λ′ is evaluated at the crossing point rather than at the near
 move "Which is also why epi_int and epi_int_lite could use the distance to the crossing point, |d0|, for ∆: since ∆2 = |d0|2 − |d1|2 , |d0|/N ≤ ∆ ≤ |d0|, so the two differ by a fraction of order s2" to appendix
 
 [Moved to Appendix B's "Distance" paragraph, right after "This pull is weaker than Eqns. (B3) by the factor cos φ = 1 − O(φ²).": "Which is why epi_int and epi_int_lite could use the distance to the crossing point, |d₀|, for Δ, also out of the plane: since Δ² = |d₀|² − |d₁|² (Eqns. 20–21) and |d₁| ≤ sΔ (Section 3.2), |d₀|/N ≤ Δ ≤ |d₀|, so the two differ by a fraction of order s²." Sec. 3.2's second paragraph is now just the |d₁| ≪ Δ proof. equations.md G19 and its sympy comment now point to Appendix B.]
+
+push
+
+[Pushed 6 commits, through 97807a9.]
+
+should "The near point is in fact much closer than ∆ to the crossing point: Eqns. (20)–(21) imply |d1| ≤ s∆, where s = (s2 r + s2 z )1/2, so for the small slopes of a nearly circular and nearly planar streamline |d1| ≪ ∆." go into section above?
+
+[Yes: it is a property of the geometry, derived from Eqns. 20–21, and Sec. 3.2 would then be only the procedure. Proposed: it closes Sec. 3.1 after Eqn. 22's "where" clause, and Sec. 3.2's λ′ sentence ends "…over distances of several Δ along the streamline, while the near point lies only |d₁| ≪ Δ from the crossing point." Awaiting go-ahead.]
+
+yes
+
+[Done. Sec. 3.1 now ends "…where N² = 1 + s_r² + s_z² and c = (d_r s_r + d_z s_z)/N². Note that the near point is much closer than Δ to the crossing point: Eqns. (20)–(21) imply |d₁| ≤ sΔ, …, so … |d₁| ≪ Δ." Sec. 3.2 is one paragraph, whose λ′ sentence ends "…over distances of several Δ along the streamline, while the near point lies only |d₁| ≪ Δ from the crossing point." Appendix B's "(Section 3.2)" for |d₁| ≤ sΔ now reads "(Section 3.1)"; equations.md G18 and its sympy comment point to Sec. 3.1.]

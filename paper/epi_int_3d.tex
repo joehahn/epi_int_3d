@@ -302,7 +302,10 @@ streamline $a'$ exerts on the particle:
     A_{g,\theta} &=& -\frac{2G\lambda'c}{\Delta^2} \nonumber\\
     A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2},
 \end{eqnarray}
-where $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$.
+where $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$. Note that the near point is much
+closer than $\Delta$ to the crossing point: Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp})
+imply $|\mathbf{d}_1| \le s\Delta$, where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a
+nearly circular and nearly planar streamline $|\mathbf{d}_1| \ll \Delta$.
 
 
 \begin{figure}
@@ -338,11 +341,8 @@ Eqn.\ (\ref{eqn:wire_slopes}), and Eqns.\ (\ref{eqn:wire_Dcomp})--(\ref{eqn:wire
 acceleration. This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
 ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point,
 which is justified since Eqn.\ (\ref{eqn:wire_Ag}) assumes that $\lambda'$ varies insignificantly over
-distances of several $\Delta$ along the streamline.
-
-The near point is in fact much closer than $\Delta$ to the crossing point:
-Eqns.\ (\ref{eqn:wire_d1near})--(\ref{eqn:wire_Dcomp}) imply $|\mathbf{d}_1| \le s\Delta$, where $s = (s_r^2 + s_z^2)^{1/2}$, so for the small slopes of a
-nearly circular and nearly planar streamline $|\mathbf{d}_1| \ll \Delta$.
+distances of several $\Delta$ along the streamline, while the near point lies only
+$|\mathbf{d}_1| \ll \Delta$ from the crossing point.
 
 
 \appendix
@@ -418,7 +418,7 @@ This pull is weaker than Eqns.\ (\ref{eqn:wire_2d}) by the factor $\cos\varphi =
 {\cal O}(\varphi^2)$. Which is why \code{epi\_int} and \code{epi\_int\_lite} could use the distance
 to the crossing point, $|\mathbf{d}_0|$, for $\Delta$, also out of the plane: since
 $\Delta^2 = |\mathbf{d}_0|^2 - |\mathbf{d}_1|^2$ (Eqns.\ \ref{eqn:wire_d1near}--\ref{eqn:wire_Dcomp})
-and $|\mathbf{d}_1| \le s\Delta$ (Section \ref{sec:wire_code}), $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$,
+and $|\mathbf{d}_1| \le s\Delta$ (Section \ref{sec:wire}), $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$,
 so the two differ by a fraction of order $s^2$. In a planetary ring $\varphi$ is of order the streamlines' eccentricities, so
 the difference is $\sim\!10^{-10}$ and of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d})
 cost no more.

@@ -353,7 +353,7 @@ lam_, G_ = sp.symbols('lambda G', positive=True)
 check('G17: A_g components', 2*G_*lam_*Dn/(Dn.T*Dn)[0]
       - 2*G_*lam_*sp.Matrix([d_r0 - c0*s_r0, -c0, d_z0 - c0*s_z0])/(d_r0**2 + d_z0**2 - c0*(d_r0*s_r0 + d_z0*s_z0)))
 
-# --- G18: the paper's Sec. 3.2, the note after Eqn. 22. With s^2 = s_r^2 + s_z^2 (so N^2 = 1 + s^2), |d1| = N|c| and
+# --- G18: the paper's Sec. 3.1, the note after Eqn. 22. With s^2 = s_r^2 + s_z^2 (so N^2 = 1 + s^2), |d1| = N|c| and
 # Delta^2 = |d0|^2 - |d1|^2 give s^2 Delta^2 - |d1|^2 = s^2 |d0|^2 - (d_r s_r + d_z s_z)^2
 # = (s_r d_z - s_z d_r)^2 >= 0 (Lagrange's identity, i.e. Cauchy-Schwarz), so |d1| <= s Delta;
 # in the plane |d1|/Delta = s_r = tan(phi) exactly. ---
