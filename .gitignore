@@ -28,4 +28,17 @@ explore/*/*/inputs.py
 paper/figures/*.png
 
 # outreach drafts (talks, LinkedIn): private until each piece is final, then un-ignored
-outreach/
+outreach/*
+!outreach/2026-10-28_ssi_talk/
+outreach/2026-10-28_ssi_talk/*
+!outreach/2026-10-28_ssi_talk/Using_Claude_Code_for_Research.pdf
+!outreach/2026-10-28_ssi_talk/make_pptx.py
+!outreach/2026-10-28_ssi_talk/assets/
+outreach/2026-10-28_ssi_talk/assets/*
+!outreach/2026-10-28_ssi_talk/assets/eq21_before.png
+!outreach/2026-10-28_ssi_talk/assets/eq21_after.png
+!outreach/2026-10-28_ssi_talk/assets/eqn7.png
+!outreach/2026-10-28_ssi_talk/assets/eqn19_21.png
+!outreach/2026-10-28_ssi_talk/assets/fig1_transp.png
+!outreach/2026-10-28_ssi_talk/assets/libration.png
+!outreach/2026-10-28_ssi_talk/assets/paper_p3.png
