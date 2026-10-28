@@ -42,3 +42,6 @@ outreach/2026-10-28_ssi_talk/assets/*
 !outreach/2026-10-28_ssi_talk/assets/fig1_transp.png
 !outreach/2026-10-28_ssi_talk/assets/libration.png
 !outreach/2026-10-28_ssi_talk/assets/paper_p3.png
+
+# the talk-deck prompt log discusses internal SSI business: kept local
+prompts/14-ai-for-research-deck.md
