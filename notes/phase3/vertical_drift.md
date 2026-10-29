@@ -2,8 +2,8 @@
 
 `fast/epi_int_3d.py` now follows each particle's vertical motion, z and v_z, through the planet's
 potential. This is the drift step of the plan's Phase 3 (theory: Phase 2a, `notes/equations.md`
-V1–V8). There are no vertical ring forces yet (Phase 2b), and ring gravity still acts as if every
-particle were at z = 0.
+V1–V8). There were no vertical ring forces yet (Phase 2b), and ring gravity acted as if every
+particle were at z = 0; step 2 added them (`vertical_gravity.md`).
 
 ## What the code does
 

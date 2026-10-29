@@ -278,6 +278,12 @@ exactly 0. Phase 4 tests done: z = 0 regression; single inclined test particles 
 constant to 2e-13, nodes at Ω_a − ν_a to 3e-11 rad; versus exact 3D J2 integration the nodal rate is
 off by −4i² (= cos⁸i − 1, since a comes from h_z) plus O(e²). Next: vertical streamline gravity (2b).
 
+**Status (2026-10-29):** step 2, vertical streamline gravity, is done (`notes/phase3/vertical_gravity.md`):
+the 3D wire of the paper's Eqn. 23 as the kernel `ring_gravity_3d`, input `vertical_gravity` (default on);
+z = 0 runs unchanged bit for bit. A rigidly inclined narrow ringlet's nodes stay locked (±0.012 rad) where
+without it they spread 0.39 rad. Next: the quantitative inclined-ringlet test (nodal libration versus
+theory), then satellite forcing (2c).
+
 ## Phase 4 — Testing
 
 | Test | Expectation |

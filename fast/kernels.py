@@ -33,6 +33,16 @@ Two more options correct the wire's geometry in the plane (notes/equations.md G1
   v_r'/v_theta'. The two agree only for a stationary shape; for a pattern rotating at Omega_p the
   velocity's slope is smaller by 1 - Omega_p/Omega (G6), about 1/m at an m-armed resonance.
 With all options off the kernel is the reference's, bit for bit.
+
+ring_gravity_3d (get_kernel_3d) is the wire out of the plane, the paper's Eqn. (23) (notes/equations.md
+G16, G17): with the crossing-point gaps d_r = r' - r and d_z = z' - z and the shape's slopes
+s_r = (dr'/dtheta)/r' and s_z = (dz'/dtheta)/r', all from the same Lagrange polynomials at t_ij,
+N^2 = 1 + s_r^2 + s_z^2 and c = (d_r s_r + d_z s_z)/N^2, the near point lies at
+Delta = (d_r - c s_r, -c, d_z - c s_z), Delta^2 = d_r^2 + d_z^2 - c (d_r s_r + d_z s_z), and the pull is
+2 G lambda Delta/Delta^2. It is the nearpoint and shape_slope wire with z added, so it has those two
+options built in; in the plane (d_z = s_z = 0) it is (2 G lambda/d_r)(1, -s_r, 0), and a term with
+d_z = s_z = 0 exactly is computed with the planar kernel's arithmetic, so that a ring at z = 0 gets that
+kernel's result bit for bit.
 """
 import numba
 import numpy as np
@@ -101,6 +111,72 @@ def _make_ring_gravity(perturber_lambda, nearpoint=False, shape_slope=False):
         return Ar, At
 
     return _ring_gravity
+
+
+def _make_ring_gravity_3d(perturber_lambda):
+    """The 3D kernel, with lambda_ of the perturbed particle or of the perturbing streamline (issue 7)."""
+    def _ring_gravity_3d(lambda_, G_ring, r, t, z):
+        Nr, W = r.shape
+        Ar = np.zeros((Nr, W))
+        At = np.zeros((Nr, W))
+        Az = np.zeros((Nr, W))
+        two_G = 2.0*G_ring
+        for i in numba.prange(Nr):
+            for shft in range(1, Nr):
+                s = i - shft
+                if s < 0:
+                    s += Nr
+                for j in range(1, W - 1):
+                    x = t[i, j]
+                    x0 = t[s, j - 1]
+                    x1 = t[s, j]
+                    x2 = t[s, j + 1]
+                    #lagrange_poly_fit's weights, and their derivatives
+                    dx0 = x - x0
+                    dx1 = x - x1
+                    dx2 = x - x2
+                    dx10 = x1 - x0
+                    dx20 = x2 - x0
+                    dx21 = x2 - x1
+                    l0 = (dx1*dx2)/(dx10*dx20)
+                    l1 = -(dx0*dx2)/(dx10*dx21)
+                    l2 = (dx0*dx1)/(dx20*dx21)
+                    dl0 = (dx1 + dx2)/(dx10*dx20)
+                    dl1 = -(dx0 + dx2)/(dx10*dx21)
+                    dl2 = (dx0 + dx1)/(dx20*dx21)
+                    ri = r[s, j - 1]*l0 + r[s, j]*l1 + r[s, j + 1]*l2
+                    dr = ri - r[i, j]
+                    if perturber_lambda:
+                        lam = lambda_[s, j - 1]*l0 + lambda_[s, j]*l1 + lambda_[s, j + 1]*l2
+                    else:
+                        lam = lambda_[i, j]
+                    s_r = (r[s, j - 1]*dl0 + r[s, j]*dl1 + r[s, j + 1]*dl2)/ri
+                    dz = (z[s, j - 1]*l0 + z[s, j]*l1 + z[s, j + 1]*l2) - z[i, j]
+                    s_z = (z[s, j - 1]*dl0 + z[s, j]*dl1 + z[s, j + 1]*dl2)/ri
+                    if dz == 0.0 and s_z == 0.0:
+                        #in the plane: the planar kernel's arithmetic (nearpoint, shape_slope)
+                        A = (two_G*lam)/dr
+                        Ar[i, j] += A
+                        At[i, j] -= A*s_r
+                    else:
+                        N2 = 1.0 + s_r*s_r + s_z*s_z
+                        p = dr*s_r + dz*s_z
+                        c = p/N2
+                        A = (two_G*lam)/(dr*dr + dz*dz - c*p)
+                        Ar[i, j] += A*(dr - c*s_r)
+                        At[i, j] -= A*c
+                        Az[i, j] += A*(dz - c*s_z)
+        return Ar, At, Az
+
+    return _ring_gravity_3d
+
+
+def get_kernel_3d(perturber_lambda=True, parallel=True):
+    """The 3D kernel (compiled on first call)."""
+    key = ('3d', bool(perturber_lambda), bool(parallel))
+    if key not in _KERNELS:
+        _KERNELS[key] = numba.njit(_make_ring_gravity_3d(key[1]), parallel=key[2])
+    return _KERNELS[key]
 
 
 _ring_gravity = _make_ring_gravity(False)

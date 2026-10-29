@@ -6,14 +6,15 @@ same inputs.py, but its own bookkeeping: the ring's state lives in arrays that a
 the coordinate conversions, drift, sorting and linear density are Numba kernels
 (fast/bookkeeping.py), and ring gravity is the Numba kernel of fast/kernels.py.
 
-Vertical motion (Phase 3, so far the drift only): each particle also has z and vz. The drift moves
-them in the planet's potential (notes/equations.md V1-V4, coded as the rotation V8), so inclined
-orbits keep their inclination and their nodes regress at Omega_a - nu_a; z and vz also take part
-in the barycentric bookkeeping (coordinate kick, mixed <-> planetocentric velocities). There are
-no vertical ring forces yet, and ring gravity acts as if every particle were at z = 0. The
-in-plane arithmetic is otherwise untouched, so with epi_int_lite_gravity = True (below) the in-plane
-results are the reference's bit for bit, with or without inclination; with z = vz = 0 they stay
-exactly 0.
+Vertical motion (Phase 3): each particle also has z and vz. The drift moves them in the planet's
+potential (notes/equations.md V1-V4, coded as the rotation V8), so inclined orbits keep their
+inclination and their nodes regress at Omega_a - nu_a; z and vz also take part in the barycentric
+bookkeeping (coordinate kick, mixed <-> planetocentric velocities). Ring gravity is the 3D wire
+(fast/kernels.py ring_gravity_3d, the paper's Eqn. 23): each streamline pulls along the perpendicular
+to its near point, in r, theta and z, and A_z kicks vz. A ring at z = vz = 0 stays there and gets the
+planar kernel's in-plane result bit for bit. With epi_int_lite_gravity = True (below) there are no
+vertical ring forces, ring gravity acts as if every particle were at z = 0, and the in-plane results
+are the reference's bit for bit, with or without inclination.
 
 Optional inputs (inputs.py or -m): inclination i (default 0) and node (default 0), given to every
 particle at the start, with z = a i sin(lambda - node), vz = a nu_a i cos(lambda - node) (V2).
@@ -25,7 +26,9 @@ an optional input, on by default:
   than the radial gap at the particle's longitude (fast/kernels.py, notes/equations.md G14);
 - shape_slope: the wire's direction comes from the perturbing streamline's shape rather than its
   velocity, which m >= 2 patterns need.
-Optional input epi_int_lite_gravity (default False): True turns all three off, unless set
+Optional input vertical_gravity (default: nearpoint and shape_slope): the 3D wire, which is the
+nearpoint and shape_slope wire out of the plane and so requires both; False keeps the planar kernel.
+Optional input epi_int_lite_gravity (default False): True turns all four off, unless set
 explicitly, giving epi_int_lite's ring gravity, as the regression tests against the reference use.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
@@ -75,13 +78,19 @@ def restore_output(output_folder):
 
 
 gravity_kernel = kernels.ring_gravity_parallel    #main() sets it from fix_lambda, nearpoint, shape_slope
+gravity_kernel_3d = None                          #and this one when vertical_gravity is on
+vertical = {'zw': None, 'Az': None}               #Ring.velocity_kick hands over the wrapped z, gets A_z back
 
 
 def ring_gravity(lambda_, G_ring, r, t, vr, vt, fast_gravity):
-    """Drop-in for helper_fns.ring_gravity; epi_int_3d always has fast_gravity = False."""
+    """Drop-in for helper_fns.ring_gravity; epi_int_3d always has fast_gravity = False. With
+    vertical_gravity the 3D kernel also returns A_z, which is left in vertical['Az']."""
     if fast_gravity:
         raise ValueError('fast_gravity is not supported: set fast_gravity = False')
-    return gravity_kernel(lambda_, G_ring, r, t, vr, vt)
+    if gravity_kernel_3d is None or vertical['zw'] is None:    #None during initialization, at z = 0
+        return gravity_kernel(lambda_, G_ring, r, t, vr, vt)
+    Ar, At, vertical['Az'] = gravity_kernel_3d(lambda_, G_ring, r, t, vertical['zw'])
+    return Ar, At
 
 
 PARALLEL_MIN_PARTICLES = 50000     #below this the bookkeeping kernels run serially: with Numba's workqueue
@@ -109,7 +118,7 @@ class Ring:
         new = lambda: np.empty(self.shape)
         self.X, self.Y, self.VX, self.VY, self.R, self.T, self.S, self.C, self.lam = (new() for _ in range(9))
         self.a, self.e, self.wt, self.M, self.NU = (new() for _ in range(5))
-        self.rw, self.tw = (np.empty((self.shape[0], self.shape[1] + 2)) for _ in range(2))
+        self.rw, self.tw, self.zw = (np.empty((self.shape[0], self.shape[1] + 2)) for _ in range(3))
         f = lambda x: x.reshape(-1)          #flat views for the elementwise kernels
         self.f = {k: f(getattr(self, k)) for k in ('r', 't', 'vr', 'vt', 'z', 'vz', 'X', 'Y', 'VX', 'VY', 'R',
                                                    'T', 'S', 'C', 'lam', 'a', 'e', 'wt', 'M', 'NU')}
@@ -171,11 +180,16 @@ class Ring:
         self.bk.sort_streamlines(self.r, self.t, self.vr, self.vt, self.z, self.vz)
         J2_15, Rp2, Rp, two_GM_Rp = self.consts
         self.bk.linear_density(F['r'], F['vr'], F['vt'], F['lam'], self.f_lambda, J2_15, Rp2, Rp, two_GM_Rp)
+        if gravity_kernel_3d is not None:
+            self.bk.wrap(self.z, self.zw, 0.0)
+            vertical['zw'], vertical['Az'] = self.zw, None
         Ar, At = helper_fns.accelerations(self.lam, p['G_ring'], p['shear_viscosity'], p['bulk_viscosity'],
             p['c'], self.r, self.t, self.vr, self.vt, p['fast_gravity'], p['confine_inner_edge'],
             p['confine_outer_edge'])
         self.vr += Ar*dt
         self.vt += At*dt
+        if vertical['Az'] is not None:
+            self.vz += vertical['Az'][:, 1:-1]*dt
         self.planeto2mixed()
 
     def incline(self, inclination, node):
@@ -228,11 +242,15 @@ def main():
     g.setdefault('epi_int_lite_gravity', False)
     for k in ('fix_lambda', 'nearpoint', 'shape_slope'):
         g.setdefault(k, not g['epi_int_lite_gravity'])
+    g.setdefault('vertical_gravity', g['nearpoint'] and g['shape_slope'])
+    if g['vertical_gravity'] and not (g['nearpoint'] and g['shape_slope']):
+        raise ValueError('vertical_gravity requires nearpoint = True and shape_slope = True')
     for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'epi_int_lite_gravity', 'fix_lambda',
-              'nearpoint', 'shape_slope', 'output_folder'):
+              'nearpoint', 'shape_slope', 'vertical_gravity', 'output_folder'):
         print(k, '=', g[k])
-    global gravity_kernel
+    global gravity_kernel, gravity_kernel_3d
     gravity_kernel = kernels.get_kernel(g['fix_lambda'], g['nearpoint'], g['shape_slope'])
+    gravity_kernel_3d = kernels.get_kernel_3d(g['fix_lambda']) if g['vertical_gravity'] else None
     helper_fns.ring_gravity = ring_gravity
     h = helper_fns
     r, t, vr, vt, c, monitor = h.initialize_streamline(g['number_of_streamlines'], g['particles_per_streamline'],

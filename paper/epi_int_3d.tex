@@ -351,7 +351,7 @@ $\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\l
 \subsection{Computing the acceleration}
 \label{sec:wire_code}
 
-%TODO: Phase 3 step 2; the planar kernel is coded (G14), the z != 0 terms are not yet
+%Phase 3 step 2: coded as fast/kernels.py ring_gravity_3d (notes/phase3/vertical_gravity.md)
 %TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
 The particles' coordinates are stored in arrays whose rows
 are the streamlines, and every timestep, before the accelerations are computed, the particles in each
@@ -452,9 +452,9 @@ $10^{-2}$ and so of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d}) cos
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
 (Fig.~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
-particles orbit at $\Omega$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega)s_r$, where $s_r$ is the
+particles orbit at $\Omega_a$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega_a)s_r$, where $s_r$ is the
 slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad resonance
-$1 - \Omega_p/\Omega \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
+$1 - \Omega_p/\Omega_a \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
 tangential pull that transports angular momentum between streamlines, by a factor of about $m$. For
 the slowly precessing $m = 1$ ringlets of \cite{H25}, $\Omega_p$ is the precession rate and the error
 is negligible. \code{Epi\_int\_3d} takes the direction from the shape (Eqn.\ \ref{eqn:wire_t}).

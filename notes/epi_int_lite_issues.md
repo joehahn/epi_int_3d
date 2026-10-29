@@ -19,6 +19,7 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 | 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
 | 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
+| 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | not fixed | the plots, yes; the dynamics, slightly (not measurable in the particles' positions so far) |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
@@ -243,3 +244,37 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   `epi_int_lite_gravity` runs match the reference's outputs bit for bit. Note when comparing runs: the driver
   re-indexes a particle that crosses θ = ±π, and two runs can do so one output apart, so align each
   streamline's particles first.
+
+## 10. `delta_f` across θ = ±π: a notch in surface-density plots, and slightly wrong viscous forces at the seam
+
+- **Found:** the user, 2026-10-29: a notch in the surface density versus longitude of the nominal
+  self-confining ringlet (`tests/self_confining/nominal.ipynb`, the t/τ_ν = 0.3 curve), seen before in
+  other epi_int_lite runs. It is in the original epi_int_lite run's figure too.
+- **What:** `interpolate_fn` (which `delta_f` uses) takes a particle's longitude neighbours with
+  `sidestep`, which rolls each streamline's row around without adding ±2π. So for the first and last
+  particle in a row, sorted by longitude, the three-point Lagrange stencil spans θ ≈ −π to +π and the
+  interpolated neighbour streamline, hence Δr and σ, is wrong there.
+  - *Plots:* the notebooks compute σ with `delta_f(r, t)` on unwrapped arrays, so σ is wrong at
+    θ = ±π. In the nominal run's outputs the second difference of σ along a streamline spikes there,
+    10² to 4×10⁴ times its median, at 836 of 1001 outputs; with the arrays wrapped first (`wrap_ring`,
+    as `accelerations` does) the spike is gone (≈ 1.5× the median, not at the seam). In a plot against
+    true anomaly the notch lands wherever periapse is relative to θ = ±π. The particles themselves have
+    no feature at the seam: r along a streamline minus a smooth fit is never largest there.
+  - *Dynamics:* `accelerations` wraps the arrays, so `delta_rw` is right in the interior columns but
+    wrong in the wrapped edge columns 0 and Nt + 1. The viscosity routines then take `delta_f` of
+    quantities built from it (`delta_P`, `delta_w`, `delta_vr`), whose stencils at columns 1 and Nt
+    reach those edge columns. Test: rotate the whole ring by α = 1.234 rad, recompute the viscous
+    accelerations and map them back. At outputs 3 and 200 they are identical bit for bit except at the
+    particles beside the old and the new seam, where A_r differs by up to 3.5% (output 3) and 4×10⁻⁵
+    (output 200) of the largest |A_r|, and A_θ by 4×10⁻⁴ and 5×10⁻⁵. (At the run's end, q ≈ 0.88,
+    differences appear everywhere, median 5×10⁻⁴, largest near θ ≈ 0.4π rather than at the seam;
+    not yet understood.) Since the seam is fixed in inertial longitude and every particle passes through
+    it, the error is spread over the ring; its effect on the evolution has not been measured.
+  - *Pressure* (`ring_pressure`, off: `Q_ring = -1`) and the initial sound speed (`initialize_streamline`,
+    only with `Q_ring > 0`) call `delta_f` the same way.
+- **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
+- **Fix (not done):** for plots, wrap before `delta_f` and drop the edge columns. For the dynamics,
+  wrap with two ghost columns per side, or give `sidestep` the ±2π offset for longitudes, in
+  epi_int_3d's own viscosity (`source/` stays the reference); then rerun the self-confining test to
+  measure the effect.
+
