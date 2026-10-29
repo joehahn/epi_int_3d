@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G19); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -54,5 +54,6 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | G15 | accuracy for a curved streamline (curvature 1/R): near point at u = −p + κpq, so D = d − (d·t̂)t̂ is rotated by (d·t̂)/R and its length off by (d·t̂)²/2RD; a circular ring pulls with (2Gλ/D)[1 ± (D/2R)(ln(8R/D) − 2)] (+ outside), by quadrature | notes only (removed from paper Sec. 3.1, 2026-10-25) | ✅ | ✅ | ☐ | both O(D/R): the wire approximation's own error |
 | G16 | paper's solve: Δ = d₀ + d₁(δθ′) to the nearest point, d₁ ≃ N r′(θ) δθ′ t̂; Δ·t̂ = 0 at δθ′ = −c/r′(θ), where d₁ = −Nc t̂ = −c(s_r, 1, s_z), c = (d₀·t̂)/N = (d_r s_r + d_z s_z)/N²; Δ = d₀ − (d₀·t̂)t̂ = t̂×(d₀×t̂) = (d_r − c s_r, −c, d_z − c s_z), Δ² = d_r² + d_z² − c(d_r s_r + d_z s_z) = d_r² + d_z² − (Nc)² | paper Sec. 3.1 (Eqns. 14–21) | ✅ | ✅ | ☐ | = G11 |
 | G17 | the recipe: Lagrange value and slope weights w_k = x_i x_j/((x_k - x_i)(x_k - x_j)), w'_k = -(x_i + x_j)/((x_k - x_i)(x_k - x_j)) with x_k = theta_k - theta, exact for a quadratic; A_g = 2G lambda' (d_r - c s_r, -c, d_z - c s_z)/Delta^2 | paper Sec. 3.1, Eqn. 22 (the components; the weights are notes only) | ✅ | ✅ | ☐ | the code's planar kernel uses the same weights (G14); the z terms are not yet coded |
-| G18 | near point close to the crossing point: |d₁| ≤ sΔ, s² = s_r² + s_z², since s²Δ² − |d₁|² = (s_r d_z − s_z d_r)² ≥ 0; in the plane |d₁|/Δ = s_r = tan φ | paper Sec. 3.1, note after Eqn. 22 | ✅ | ✅ | ☐ | the near point is close to the crossing point, \|d₁\| ≪ Δ, so λ′ may be evaluated there |
+| G18 | near point close to the crossing point: |d₁| ≤ Δ tan φ = sΔ, φ the streamline's tilt from θ̂ (cos φ = 1/N, tan φ = s), s² = s_r² + s_z², since s²Δ² − |d₁|² = (s_r d_z − s_z d_r)² ≥ 0; in the plane |d₁|/Δ = s_r = tan φ | paper Sec. 3.1, the "Lastly" paragraph; Appendix B "Distance" | ✅ | ✅ | ☐ | the near point is close to the crossing point, \|d₁\| ≪ Δ, so λ′ may be evaluated there |
 | G19 | crossing-point distance: \|d₀\|² − Δ² = \|d₁\|² ≥ 0 and N²Δ² − \|d₀\|² = (s_r d_z − s_z d_r)² ≥ 0, so \|d₀\|/N ≤ Δ ≤ \|d₀\| | paper Appendix B, "Distance" | ✅ | ✅ | ☐ | epi_int/epi_int_lite's Δ = \|d₀\| is off by a fraction O(s²); in the plane the cos φ of Appendix B |
+| G20 | slopes of a ring mode r′ = a′[1 − e cos(ψ + α)], z′ = a′ i sin(ψ + β), ψ = m(θ − Ω_p t): s_r ≃ m e sin(ψ + α), s_z ≃ m i cos(ψ + β), so m²(e² + i²) − s² = m²[e² cos²(ψ + α) + i² sin²(ψ + β)] ≥ 0, i.e. s ≲ m(e² + i²)^{1/2}; the slopes of superposed modes add | paper Sec. 3.1 (\|d₁\| ≪ Δ), Appendix B "Distance" | ✅ | ✅ | ☐ | to first order in e and i; for m = 1 ringlets s ≲ (e² + i²)^{1/2} |

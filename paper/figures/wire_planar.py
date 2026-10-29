@@ -65,6 +65,8 @@ am = np.arctan2(u[1], u[0])/2                         #midway along the arc
 ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
 ax.text(dx + 0.32, 0.1, 'crossing\npoint\n' + r"$\theta' = \theta$", fontsize=9, va='bottom')
+h = 0.3                                               #the right angle between Delta and d1 at the near point
+ax.plot(*np.array([F - h*u, F - h*u + h*T, F + h*T]).T, 'k-', lw=0.8)
 ax.plot(*F, 'ks', ms=9, zorder=5)
 ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint\n' + r"$\theta' = \theta + \delta\theta'$", fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)

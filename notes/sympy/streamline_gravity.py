@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Sympy verification of the 3D gravity of a perturbing streamline treated as a straight, infinitely
-# long wire (G1-G19; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
+# long wire (G1-G20; notes/equations.md, notes/phase2/streamline_gravity.md). This is the 3D
 # generalization of hahn13 Fig. 3 and Eqs. 19-20.
 #
 # Run:  uv run python notes/sympy/streamline_gravity.py
@@ -362,6 +362,13 @@ d1sq = (N0*c0)**2
 check('G18: |d1|^2 = |d1 vector|^2', sp.simplify(d1sq - (d1n.T*d1n)[0]))
 check('G18: s^2 Delta^2 - |d1|^2 = (s_r d_z - s_z d_r)^2 >= 0',
       sp.simplify(s2*(Dn.T*Dn)[0] - d1sq - (s_r0*d_z0 - s_z0*d_r0)**2))
+check('G18: |d1|^2 = (N c)^2 = (d_r s_r + d_z s_z)^2/N^2', sp.simplify(d1sq - (d_r0*s_r0 + d_z0*s_z0)**2/N0**2))
+check('G18: s^2 |d0|^2 - (d_r s_r + d_z s_z)^2 = (s_r d_z - s_z d_r)^2 >= 0, so |d1| <= (s/N)|d0|',
+      sp.expand(s2*(d_r0**2 + d_z0**2) - (d_r0*s_r0 + d_z0*s_z0)**2 - (s_r0*d_z0 - s_z0*d_r0)**2))
+check('G18: then Delta^2 - |d0|^2/N^2 = (s_r d_z - s_z d_r)^2/N^2 >= 0',
+      sp.simplify((Dn.T*Dn)[0] - (d_r0**2 + d_z0**2)/N0**2 - (s_r0*d_z0 - s_z0*d_r0)**2/N0**2))
+check('G18: t is tilted from theta-hat by phi, cos(phi) = t.theta-hat = 1/N, so tan^2(phi) = N^2 - 1 = s^2',
+      sp.simplify(1/t0[1]**2 - 1 - s2))
 check('G18: in the plane |d1|^2/Delta^2 = s_r^2',
       sp.simplify((d1sq/(Dn.T*Dn)[0]).subs({d_z0: 0, s_z0: 0}) - s_r0**2))
 
@@ -372,3 +379,33 @@ d0sq = d_r0**2 + d_z0**2
 check('G19: |d0|^2 - Delta^2 = |d1|^2 >= 0', sp.simplify(d0sq - (Dn.T*Dn)[0] - d1sq))
 check('G19: N^2 Delta^2 - |d0|^2 = (s_r d_z - s_z d_r)^2 >= 0',
       sp.simplify(N0**2*(Dn.T*Dn)[0] - d0sq - (s_r0*d_z0 - s_z0*d_r0)**2))
+
+# --- G20: the paper's Sec. 3.1, the slopes of a ring mode. To lowest order in e and i, a disturbance is a sum of modes
+# whose streamline a' is r' = a'[1 - e cos(psi + alpha)], z' = a' i sin(psi + beta), with psi = m(theta - Omega_p t).
+# Then s_r = (1/r') dr'/dtheta = m e sin(psi + alpha) and s_z = (1/r') dz'/dtheta = m i cos(psi + beta), to first order,
+# so m^2 (e^2 + i^2) - s^2 = m^2 [e^2 cos^2(psi + alpha) + i^2 sin^2(psi + beta)] >= 0, i.e. s <= m (e^2 + i^2)^(1/2);
+# and the slopes of two modes add. ---
+th_, t_, Wp, al, be, a_ = sp.symbols('theta t Omega_p alpha beta a', real=True)
+m_ = sp.symbols('m', positive=True)
+e_, i_, small_ = sp.symbols('e i epsilon', positive=True)
+
+
+def mode_slopes(m, e, i, alpha, beta, extra_r=0, extra_z=0):
+    """First-order slopes (s_r, s_z) of r' = a'[1 - e cos(psi + alpha) + extra_r], z' = a'[i sin(psi + beta) + extra_z]."""
+    psi = m*(th_ - Wp*t_)
+    rp = a_*(1 - small_*e*sp.cos(psi + alpha) + small_*extra_r)
+    zp = a_*(small_*i*sp.sin(psi + beta) + small_*extra_z)
+    return [sp.series(sp.diff(f, th_)/rp, small_, 0, 2).removeO().subs(small_, 1) for f in (rp, zp)]
+
+
+psi_ = m_*(th_ - Wp*t_)
+sr20, sz20 = mode_slopes(m_, e_, i_, al, be)
+check('G20: s_r = m e sin(psi + alpha), s_z = m i cos(psi + beta)',
+      [sr20 - m_*e_*sp.sin(psi_ + al), sz20 - m_*i_*sp.cos(psi_ + be)])
+check('G20: m^2 (e^2 + i^2) - s^2 = m^2 [e^2 cos^2(psi + alpha) + i^2 sin^2(psi + beta)] >= 0',
+      sp.expand(m_**2*(e_**2 + i_**2) - sr20**2 - sz20**2
+                - m_**2*(e_**2*sp.cos(psi_ + al)**2 + i_**2*sp.sin(psi_ + be)**2)).rewrite(sp.exp).simplify())
+m2_, e2_, i2_, al2, be2 = sp.symbols('m_2 e_2 i_2 alpha_2 beta_2', positive=True)
+psi2 = m2_*(th_ - Wp*t_)
+sr2, sz2 = mode_slopes(m_, e_, i_, al, be, -e2_*sp.cos(psi2 + al2), i2_*sp.sin(psi2 + be2))
+check('G20: the slopes of two modes add', [sr2 - sr20 - m2_*e2_*sp.sin(psi2 + al2), sz2 - sz20 - m2_*i2_*sp.cos(psi2 + be2)])
