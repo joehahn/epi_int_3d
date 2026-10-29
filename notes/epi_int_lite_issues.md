@@ -231,3 +231,15 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   `shape_slope` changes r by 4×10⁻⁸ of the width and e by 2×10⁻⁶ of itself. With `shape_slope` the
   total angular momentum drifts 2×10⁻¹³ over the run, against 1.1×10⁻¹² with the velocity slope
   (`notes/numerics/angular_momentum.md`). Same run time.
+- **Effect on hahn25's libration tests** (2026-10-29; all 20 of `tests/libration`, two-streamline ringlets,
+  `fast/epi_int_3d.py` with its default gravity versus `epi_int_lite_gravity = True`;
+  `explore/libration_gravity/run_all.py`, `compare.py`, results in `compare.txt`): the libration frequency
+  changes by at most 1.5×10⁻⁴ of itself, against simulation-versus-BGT ratios of 1.005 to 2.77, so the
+  libration figure is unchanged. The libration amplitude I and the equilibrium Δe change by up to 1% (largest
+  at the highest masses), and that is all `shape_slope`: with it off (two masses rerun), `fix_lambda` and
+  `nearpoint` change I and Δe by ≤ 1.5×10⁻⁴. The velocity's slope underestimates an m = 1 ringlet's tilt by
+  ϖ̇/Ω ≈ (3/2)J₂(R_p/a)² ≈ 0.4% (G6), so epi_int_lite's tangential pull is that much too weak. Positions
+  differ by up to 1.5% of the ringlet's width by the run's end, an along-orbit phase drift of ~10⁻⁴ rad. The
+  `epi_int_lite_gravity` runs match the reference's outputs bit for bit. Note when comparing runs: the driver
+  re-indexes a particle that crosses θ = ±π, and two runs can do so one output apart, so align each
+  streamline's particles first.

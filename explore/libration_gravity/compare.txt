@@ -1,0 +1,21 @@
+run                          w/w_bgt lite  w/w_bgt new      dw/w      dI/I  d(de)/de max|dr|/width lite=ref
+narrow_ring/ring_mass_1.0e-9     1.005542     1.005559   1.6e-05   6.2e-03  -6.2e-04       1.1e-03      yes
+narrow_ring/ring_mass_1.3e-10     1.102956     1.102835  -1.1e-04   1.6e-03  -1.7e-05       5.3e-03      yes
+narrow_ring/ring_mass_1.5e-11     2.767898     2.767767   3.4e-05   1.0e-03   8.8e-06       5.2e-03      yes
+narrow_ring/ring_mass_2.0e-9     1.007390     1.007332  -5.8e-05   4.5e-03  -5.4e-03       7.1e-04      yes
+narrow_ring/ring_mass_2.4e-11     2.104142     2.103971  -2.3e-05   1.2e-03   1.4e-05       6.8e-03      yes
+narrow_ring/ring_mass_2.5e-10     1.029837     1.029816  -2.5e-05   2.5e-03  -7.5e-05       3.7e-03      yes
+narrow_ring/ring_mass_3.7e-11     1.674781     1.674661  -3.4e-05   2.2e-03   2.0e-05       6.9e-03      yes
+narrow_ring/ring_mass_5.0e-10     1.010763     1.010735  -3.0e-05   2.5e-03  -2.1e-04       1.7e-03      yes
+narrow_ring/ring_mass_6.5e-11     1.318134     1.318032  -6.4e-05   1.9e-03   2.2e-05       6.9e-03      yes
+wide_ring/ring_mass_1.0e-10      2.955099     2.954753   6.5e-05   1.7e-03   1.3e-05       1.1e-02      yes
+wide_ring/ring_mass_1.0e-9       1.102645     1.102562  -8.2e-05   3.6e-03  -3.5e-05       1.2e-02      yes
+wide_ring/ring_mass_1.5e-9       1.049481     1.049398  -8.9e-05   2.2e-03  -1.3e-04       9.0e-03      yes
+wide_ring/ring_mass_2.0e-10      2.019487     2.019198  -2.8e-05   3.4e-03   3.2e-05       1.4e-02      yes
+wide_ring/ring_mass_2.0e-9       1.027112     1.027088  -3.2e-05   9.9e-03  -1.8e-04       8.1e-03      yes
+wide_ring/ring_mass_3.3e-10      1.572632     1.572466  -4.5e-05   3.9e-03   5.3e-05       1.4e-02      yes
+wide_ring/ring_mass_3.3e-9       1.010446     1.010408  -4.2e-05   2.1e-03  -3.8e-04       4.2e-03      yes
+wide_ring/ring_mass_5.0e-10      1.325285     1.325141  -8.4e-05   3.2e-03   2.9e-05       1.4e-02      yes
+wide_ring/ring_mass_5.0e-9       1.007567     1.007625   5.5e-05   1.0e-02  -9.6e-04       3.9e-03      yes
+wide_ring/ring_mass_7.0e-10      1.191727     1.191549  -1.5e-04  -9.9e-04   9.4e-06       1.5e-02      yes
+wide_ring/ring_mass_8.5e-9       1.008206     1.008163  -4.4e-05   1.1e-02  -1.0e-02       3.0e-03      yes
