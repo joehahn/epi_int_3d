@@ -33,7 +33,11 @@ decisions, ground rules) and `README.md`.
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
   with only ring gravity swapped for the kernel.
 - `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`
-  applies `tools/patches.py`. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  applies `tools/patches.py`.
+- `tests/self_confining/`: epi_int_lite's nominal model (hahn25; its `runs/self_confining/nominal`), run by
+  `fast/epi_int_3d.py` with its default gravity; `nominal.ipynb`, its notebook ported to Python 3, shows
+  each figure beside the original run's (`original_figs/`, taken from the original notebook) and compares
+  the numbers that notebook printed. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
 
 ## Running

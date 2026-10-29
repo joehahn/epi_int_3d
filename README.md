@@ -96,8 +96,11 @@ output to theory:
   (about 3 h; see [notes/phase0b/nominal.md](notes/phase0b/nominal.md))
 - inclined: inclined test particles should keep their inclinations while their nodes regress at the
   rate set by J2, [inclined.ipynb](tests/inclined/inclined.ipynb) (epi_int_3d only; see [notes/phase3/vertical_drift.md](notes/phase3/vertical_drift.md))
+- self_confining: Hahn et al. (2025)'s nominal model, a viscous two-streamline ringlet that should confine itself as
+  its eccentricity gradient grows to q ≈ 0.88, run with epi_int_3d's ring gravity, [nominal.ipynb](tests/self_confining/nominal.ipynb)
+  (each figure is shown beside [the same model run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/runs/self_confining/nominal/nominal.ipynb); about 11 min)
 
-To run all 24 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
+To run all 25 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
 one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,
 libration) run with the reference driver, or with `--fast` with `fast/epi_int_3d.py` set to give the
 same results bit for bit. epi_int_3d's own tests (nominal, inclined) always run with
