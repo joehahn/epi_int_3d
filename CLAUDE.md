@@ -15,7 +15,7 @@ decisions, ground rules) and `README.md`.
   their original outputs, are git commit `99a7753`. `tests/analysis.py` reproduces the notebooks'
   calculations for `tests/test_regression.py`, the 2D regression suite. `tests/inclined/` (inclined
   test particles), `tests/vertical_analysis.py` and `tests/test_vertical.py` test the vertical motion,
-  which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels.
+  which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels, `tests/test_seam.py` the seam fix (issue 10).
 - `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
   `equations.md` (equation verification tracker), `writing_style.md` (the author's style for the paper), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
@@ -26,7 +26,7 @@ decisions, ground rules) and `README.md`.
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
-  `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix),
+  `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix, seam fix),
   `make_bib.py` (the paper's bibliography).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
   epi_int_3d's own driver, with vertical motion (the drift and 3D ring gravity: `notes/phase3/`); its ring gravity fixes epi_int_lite issues 7 and 9 by default (inputs `fix_lambda`, `nearpoint`, `shape_slope`, and `vertical_gravity` for the 3D wire; `epi_int_lite_gravity = True` restores the reference's, which the regression tests and benchmark set), Numba kernels for ring gravity (`kernels.py`)

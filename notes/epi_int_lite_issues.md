@@ -19,7 +19,7 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 | 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
 | 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
-| 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | not fixed | the plots, yes; the dynamics, slightly (not measurable in the particles' positions so far) |
+| 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | `patches.apply(fix_seam=True)`; `fast/epi_int_3d.py` input `fix_seam` (default on) | the plots, yes; the evolution, no (≤ 6×10⁻⁵ in q) |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
@@ -273,8 +273,24 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   - *Pressure* (`ring_pressure`, off: `Q_ring = -1`) and the initial sound speed (`initialize_streamline`,
     only with `Q_ring > 0`) call `delta_f` the same way.
 - **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
-- **Fix (not done):** for plots, wrap before `delta_f` and drop the edge columns. For the dynamics,
-  wrap with two ghost columns per side, or give `sidestep` the ±2π offset for longitudes, in
-  epi_int_3d's own viscosity (`source/` stays the reference); then rerun the self-confining test to
-  measure the effect.
+- **Fix** (2026-10-29): `tools/patches.py` `fix_seam=True` (`apply_seam()`), on by default in
+  `fast/epi_int_3d.py` (input `fix_seam`; off with `epi_int_lite_gravity = True`, so the regression runs
+  stay the reference's). Pressure and viscosity are computed on the ring wrapped with two ghost columns
+  per side instead of one: each nested `delta_f` spreads the outermost column's error one column inward,
+  and they nest two deep (`delta_r` → P → `delta_P`, and `A_P`'s edge interpolation of P), so two ghost
+  columns keep it off the real particles. Gravity keeps one ghost column (its stencil is not nested).
+  Giving `sidestep` the ±2π offset instead would not do: `accelerations` calls `delta_f` on arrays
+  already wrapped, and rolling those brings a ghost copy of a particle around as its own neighbour.
+  With `confine_inner_edge` or `confine_outer_edge` the edge torque is now averaged over the real
+  particles only. For plots, wrap with one ghost column before `delta_f` (σ is not nested), as
+  `tests/self_confining/nominal.ipynb` now does.
+- **Tests:** `tests/test_seam.py`, on an eccentric four-streamline ringlet with viscosity: rotating the
+  ring by α changes the viscous accelerations beside the seam by up to 8×10⁻⁴ of the largest without the
+  fix, and by ≤ 3×10⁻¹² (roundoff) everywhere with it; away from the seam the fix changes nothing, bit
+  for bit (with and without issue 6's fix). The regression suite passes.
+- **Effect** (`tests/self_confining`, the run before the fix kept in `explore/self_confining_seam/before/`,
+  git-ignored): over 135 000 orbits q changes by ≤ 6×10⁻⁵, the mean e by ≤ 1×10⁻⁶ of itself, Δa by
+  ≤ 3×10⁻⁶; total angular momentum is conserved to 9.6×10⁻⁸ (9.2×10⁻⁸ before). The seam is fixed in
+  inertial longitude and every particle passes through it, so its error was spread thinly over the
+  ring. Fixed; the σ plot's notch is gone.
 

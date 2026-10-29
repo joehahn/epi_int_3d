@@ -15,6 +15,14 @@ unchanged. Used by explore/run.py and by tests/nominal/inputs.py.
   the reference skips bulk viscosity when shear_viscosity = 0 and pressure is off, and skips shear
   viscosity's radial stress when bulk_viscosity = 0. Runs with both viscosities on, or both off,
   are unchanged bit for bit.
+- fix_seam=True computes pressure and viscosity on the ring wrapped with two ghost columns per side
+  instead of one (issue 10). delta_f's three-point stencil takes a particle's longitude neighbours by
+  rolling the row around without the 2 pi offset, so it is wrong in the outermost column, and each
+  nested delta_f (P from delta_r, then delta_P, and A_P's edge interpolation of P) spreads that one
+  column inward: with one ghost column the particles beside theta = +-pi got wrong viscous forces.
+  Gravity still sees one ghost column, as its stencil is not nested. Particles away from the seam get
+  the same accelerations bit for bit. With confine_inner_edge or confine_outer_edge, the edge torque
+  is averaged over the real particles only, not also over the ghost columns as before.
 
 Usage, before source/epi_int_lite.py runs `from helper_fns import *`:
     import patches; patches.apply(taper=0.2)
@@ -123,12 +131,67 @@ def accelerations(lambda_, G_ring, shear_viscosity, bulk_viscosity, c, r, t, vr,
     return Ar, At
 
 
-def apply(taper=None, fix_edge=None, fix_viscosity=False):
-    """Patch helper_fns: the wrapped crossing check always, and optionally an edge taper, edge fix and viscosity fix."""
+def wrap(c, n, longitude=False):
+    """helper_fns.wrap_ring with n ghost columns per side (n = 1 is wrap_ring, bit for bit)."""
+    left = c[:, -n:].copy()
+    right = c[:, :n].copy()
+    if (longitude):
+        twopi = 2*np.pi
+        left -= twopi
+        right += twopi
+    return np.concatenate((left, c, right), axis=1)
+
+
+def seam_accelerations(fix_viscosity):
+    """accelerations (helper_fns' or, with fix_viscosity, this module's) with issue 10 fixed: gravity on
+    the ring wrapped with one ghost column per side, pressure and viscosity with two."""
+    def accelerations(lambda_, G_ring, shear_viscosity, bulk_viscosity, c, r, t, vr, vt, fast_gravity,
+                      confine_inner_edge, confine_outer_edge):
+        h = helper_fns
+        rw = wrap(r, 2)
+        tw = wrap(t, 2, longitude=True)
+        vrw = wrap(vr, 2)
+        vtw = wrap(vt, 2)
+        lw = wrap(lambda_, 2)
+        Ar = 0
+        At = 0
+        if (G_ring > 0.0):
+            one = (slice(None), slice(1, -1))                 #the one-ghost wrap, as wrap_ring gives
+            A = h.ring_gravity(np.ascontiguousarray(lw[one]), G_ring, np.ascontiguousarray(rw[one]),
+                np.ascontiguousarray(tw[one]), np.ascontiguousarray(vrw[one]), np.ascontiguousarray(vtw[one]),
+                fast_gravity)
+            Ar += A[0][:, 1:-1]
+            At += A[1][:, 1:-1]
+        viscous = (shear_viscosity > 0.0) or (fix_viscosity and bulk_viscosity > 0.0)
+        if ((c > 0.0) or viscous):
+            vw = np.sqrt(vrw*vrw + vtw*vtw)
+            delta_rw = h.delta_f(rw, tw)
+            sdw = h.surface_density(lw, delta_rw)
+            if (c > 0.0):
+                A = h.ring_pressure(c, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
+                Ar += A[0][:, 2:-2]
+                At += A[1][:, 2:-2]
+            if (shear_viscosity > 0.0):
+                At += h.ring_shear_viscosity(shear_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)[:, 2:-2]
+            if ((bulk_viscosity > 0.0) or (fix_viscosity and shear_viscosity > 0.0)):
+                Ar += h.ring_bulk_viscosity(shear_viscosity, bulk_viscosity, lw, sdw, rw, tw, vrw, vtw, vw,
+                    delta_rw)[:, 2:-2]
+        if (confine_inner_edge or confine_outer_edge):
+            At = h.edge_torques(r, At, confine_inner_edge, confine_outer_edge)
+        return Ar, At
+    accelerations.fix_seam = True
+    return accelerations
+
+
+def apply(taper=None, fix_edge=None, fix_viscosity=False, fix_seam=False):
+    """Patch helper_fns: the wrapped crossing check always, and optionally an edge taper, edge fix,
+    viscosity fix and seam fix."""
     helper_fns.monitor_streamlines = monitor_streamlines
     if fix_viscosity:
         print('viscosity gating fixed (issue 6)')
         helper_fns.accelerations = accelerations
+    if fix_seam:
+        apply_seam()
     if fix_edge is not None:
         print('outer-edge flux fixed (issue 4):', fix_edge)
         helper_fns.A_P = {'own': A_P_own, 'hahn13': A_P_hahn13}[fix_edge]
@@ -136,3 +199,12 @@ def apply(taper=None, fix_edge=None, fix_viscosity=False):
         print('edge taper fraction =', taper)
         helper_fns.initialize_streamline = tapered(helper_fns.initialize_streamline, taper)
         helper_fns.initialize_streamline.tapered = True
+
+
+def apply_seam():
+    """Fix issue 10 in helper_fns.accelerations, keeping issue 6's fix if it is applied; idempotent."""
+    if getattr(helper_fns.accelerations, 'fix_seam', False):
+        return
+    print('seam fixed (issue 10)')
+    helper_fns.accelerations = seam_accelerations(helper_fns.accelerations is accelerations)
+
