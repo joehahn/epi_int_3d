@@ -55,10 +55,20 @@ running simulations, and drafting the journal paper.
 - Plan: [PLAN.md](PLAN.md)
 - Prompts that drive the project: [prompts/](prompts/)
 - Equation verification status: [notes/equations.md](notes/equations.md)
-- Reference papers: [papers/](papers/)
+- Reference papers: [papers/](papers/); the author's own papers and the style guide drawn from them:
+  [joes_papers/](joes_papers/)
 - Python 3 port of epi_int_lite, and how it compares with the Python 2 results:
   [notes/port_changes.md](notes/port_changes.md),
   [notes/phase0/port_comparison.md](notes/phase0/port_comparison.md)
+
+**The paper's writing style.** The paper should read as the author's own writing, not the AI's. So the
+AI drafts its text by following a style guide, [joes_papers/writing_style.md](joes_papers/writing_style.md),
+drawn from the author's own papers, which are kept in [joes_papers/](joes_papers/), apart from other
+authors' papers in [papers/](papers/). The guide records the author's habits, such as voice and tense,
+how equations, figures and citations are introduced, and how a paper is structured, with examples
+quoted from those papers. It also records each choice the author makes while editing this paper, with
+its date. The AI proposes each change to the guide, and the author approves it. The papers it is drawn
+from are listed in [joes_papers/README.md](joes_papers/README.md); only the openly licensed one is committed.
 
 **Issues found in epi_int_lite.** Porting and extending epi_int_lite turned up a few bugs. All are
 minor, and none is known to change the findings of Hahn et al. (2025). `source/` stays a straight
@@ -177,5 +187,5 @@ as long as the copyright notice is kept.
 repository" button gives the reference).
 
 **Third-party content.** The AASTeX class and bibliography style in `paper/` belong to the American
-Astronomical Society and are distributed under their own terms; `papers/hahn25.pdf` is published by
+Astronomical Society and are distributed under their own terms; `joes_papers/hahn25.pdf` is published by
 the AAS under CC BY 4.0. They are not covered by the MIT license above.

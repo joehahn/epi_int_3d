@@ -66,8 +66,9 @@ drove each phase, what CC produced, and how the results were verified.
   Python 3.14 (set up early, with the vertical-motion write-up); Phase 0 adds Numba etc.
 - Add `CLAUDE.md` (conventions, units, how to run tests), `prompts/`, `notes/`, and
   `tools/session_time.py` for time tracking.
-- `papers/` holds the reference PDFs. Only openly licensed ones are committed (hahn25 is
-  CC BY 4.0); the rest are git-ignored and listed in `papers/README.md` with DOI and arXiv links.
+- `papers/` holds the reference PDFs by others, `joes_papers/` the author's own (and the style guide
+  drawn from them). Only openly licensed ones are committed (hahn25 is CC BY 4.0); the rest are
+  git-ignored and listed in each folder's `README.md` with DOI and arXiv links.
 
 **Deliverable:** a modern-Python epi_int_lite that reproduces its published results.
 

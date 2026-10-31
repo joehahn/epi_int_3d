@@ -1,6 +1,7 @@
-# reference papers: only openly licensed ones are committed
+# reference papers (others' in papers/, the author's in joes_papers/): only openly licensed ones are committed
 papers/*.pdf
-!papers/hahn25.pdf
+joes_papers/*.pdf
+!joes_papers/hahn25.pdf
 
 .DS_Store
 __pycache__/

@@ -17,12 +17,14 @@ decisions, ground rules) and `README.md`.
   test particles), `tests/vertical_analysis.py` and `tests/test_vertical.py` test the vertical motion,
   which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels, `tests/test_seam.py` the seam fix (issue 10).
 - `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
-  `equations.md` (equation verification tracker), `writing_style.md` (the author's style for the paper), `sympy/` (symbolic checks),
+  `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
 - `benchmark/`: the Phase 0b benchmark (`benchmark.py`, `line_profile.py`, the benchmark ringlet's
   `inputs.py`), its results (`results/`) and the reference final states that faster code must
   match (`reference/`); scratch runs go in the git-ignored `runs/`.
-- `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs (git-ignored except hahn25).
+- `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs by others (git-ignored).
+  `joes_papers/`: the author's own papers (git-ignored except hahn25) and `writing_style.md`, the author's
+  style for the paper, drawn from them.
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),

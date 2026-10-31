@@ -208,4 +208,14 @@ free = sp.lambdify((n_, w, gam), (abs(sol[C_]) + abs(sol[D_]))*(n_**2 - w**2)/Fz
 for dw in (1e-2, 1e-3):
     ratio = free(1.0, 1.0 - dw, 1e-2*dw)
     close(f'B11: |nu - omega| = {dw}, gamma = 0.01|nu - omega|: free/forced ~ gamma/|nu - omega|', ratio, 1e-2, 2e-2)
+
+# --- B12: the forced inclination of a test particle near r_V. Its forced z (B6) has amplitude A_V/|nu^2 - omega_D^2| ~ A_V/(D_V |x|),
+# so i_f = |z|/a; in the Keplerian limit (D_V = 3(m-1) GM_p/r_V^3, B5; a = r_V, beta_V = r_V/a_s)
+#   i_f = (M_s/M_p) i_s beta_V^2 b_{3/2}^(m)(beta_V)/[6(m-1)|x|]   (this is Shu 1984's |L_V/x|/r_V) ---
+Ms, Mp, isat, bb, xx_, rV_, as_ = sp.symbols('M_s M_p i_s b x r_V a_s', positive=True)
+A_V = Gs*Ms*isat*bb/(2*as_**2)
+D_V = 3*(m - 1)*Gs*Mp/rV_**3
+i_f = A_V/(D_V*xx_)/rV_
+check('B12: i_f = A_V/(D_V |x| r_V) = (M_s/M_p) i_s beta_V^2 b/(6(m-1)|x|)',
+      i_f - (Ms/Mp)*isat*(rV_/as_)**2*bb/(6*(m - 1)*xx_))
 print('all bending-wave checks passed')
