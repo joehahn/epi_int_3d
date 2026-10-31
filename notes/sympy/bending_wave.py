@@ -185,4 +185,27 @@ check('B9: T = -pi^2 m sigma r_V^2 |F|^2/D_V', Ttot.subs(L, DVs*K) + sp.pi**2*m*
 om = sp.symbols('omega_m')
 wk = m*om - sp.sqrt(n_**2 + 2*sp.pi*Gs*sg*kk)
 check('B10: c_g = -pi G sigma/omega_D', sp.diff(wk, kk) + sp.pi*Gs*sg/sp.sqrt(n_**2 + 2*sp.pi*Gs*sg*kk))
+
+# --- B11: a test particle under a satellite whose mass grows as 1 - exp(-t/tau). A circular particle at
+# theta = theta_0 + Omega_a t feels F_z = Re[F e^{i(omega_D t + phi)}] (1 - e^{-gamma t}), gamma = 1/tau, omega_D = m(Omega_a - Omega_p).
+# Starting from z = v_z = 0 (complex form; z is its real part):
+#   z = F e^{i phi}[e^{i omega t}/(nu^2 - omega^2) - e^{(i omega - gamma) t}/((i omega - gamma)^2 + nu^2)] + C e^{i nu t} + D e^{-i nu t}
+# with C, D fixed by z(0) = z'(0) = 0. The free part C, D never decays; for gamma << |nu - omega| its size,
+# relative to the forced part, is ~ gamma/|nu - omega| ---
+gam, phi = sp.symbols('gamma phi', positive=True)
+Fz0 = sp.symbols('F', positive=True)
+zp = Fz0*sp.exp(sp.I*phi)*(sp.exp(sp.I*w*t)/(n_**2 - w**2)
+                           - sp.exp((sp.I*w - gam)*t)/((sp.I*w - gam)**2 + n_**2))
+C_, D_ = sp.symbols('C D')
+z11 = zp + C_*sp.exp(sp.I*n_*t) + D_*sp.exp(-sp.I*n_*t)
+sol = sp.solve([z11.subs(t, 0), sp.diff(z11, t).subs(t, 0)], [C_, D_], dict=True)[0]
+z11 = z11.subs(sol)
+check('B11: z solves z\'\' + nu^2 z = F e^{i(omega t + phi)}(1 - e^{-gamma t})',
+      sp.diff(z11, t, 2) + n_**2*z11 - Fz0*sp.exp(sp.I*(w*t + phi))*(1 - sp.exp(-gam*t)))
+check('B11: z(0) = 0', z11.subs(t, 0))
+check('B11: z\'(0) = 0', sp.diff(z11, t).subs(t, 0))
+free = sp.lambdify((n_, w, gam), (abs(sol[C_]) + abs(sol[D_]))*(n_**2 - w**2)/Fz0)   # free/forced, |e^{i phi}| = 1
+for dw in (1e-2, 1e-3):
+    ratio = free(1.0, 1.0 - dw, 1e-2*dw)
+    close(f'B11: |nu - omega| = {dw}, gamma = 0.01|nu - omega|: free/forced ~ gamma/|nu - omega|', ratio, 1e-2, 2e-2)
 print('all bending-wave checks passed')

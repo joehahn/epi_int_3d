@@ -99,6 +99,9 @@ output to theory:
 - self_confining: Hahn et al. (2025)'s nominal model, a viscous two-streamline ringlet that should confine itself as
   its eccentricity gradient grows to q ≈ 0.88, run with epi_int_3d's ring gravity, [nominal.ipynb](tests/self_confining/nominal.ipynb)
   (each figure is shown beside [the same model run with epi_int_lite](https://github.com/joehahn/epi_int_lite/blob/master/runs/self_confining/nominal/nominal.ipynb); about 11 min)
+- vertical_resonance: a zero-mass ring straddling a satellite's m = 2 inner vertical resonance, as the satellite's mass
+  grows slowly; each particle's vertical motion should follow the exact solution and settle into the forced oscillation,
+  [vertical_resonance.ipynb](tests/vertical_resonance/vertical_resonance.ipynb) (epi_int_3d only; see [notes/phase2c/bending_wave_theory.md](notes/phase2c/bending_wave_theory.md); about 15 s)
 
 To run all 25 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
 one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,

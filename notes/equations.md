@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B10); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B11); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -58,12 +58,13 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | G19 | crossing-point distance: \|d₀\|² − Δ² = \|d₁\|² ≥ 0 and N²Δ² − \|d₀\|² = (s_r d_z − s_z d_r)² ≥ 0, so \|d₀\|/N ≤ Δ ≤ \|d₀\| | paper Appendix B, "Distance" | ✅ | ✅ | ☐ | epi_int/epi_int_lite's Δ = \|d₀\| is off by a fraction O(s²); in the plane the cos φ of Appendix B |
 | G20 | slopes of a ring mode r′ = a′[1 − e cos(ψ + α)], z′ = a′ i sin(ψ + β), ψ = m(θ − Ω_p t): s_r ≃ m e sin(ψ + α), s_z ≃ m i cos(ψ + β), so m²(e² + i²) − s² = m²[e² cos²(ψ + α) + i² sin²(ψ + β)] ≥ 0, i.e. s ≲ m(e² + i²)^{1/2}; the slopes of superposed modes add | paper Sec. 3.1 (\|d₁\| ≪ Δ), Appendix B "Distance" | ✅ | ✅ | ☐ | to first order in e and i; for m = 1 ringlets s ≲ (e² + i²)^{1/2} |
 | B1 | inclined circular satellite, first order in i_s: F_z = GM_s(z_s − z)/D₀³, z_s = a_s i_s sin(λ_s − Ω_s), D₀² = r² + a_s² − 2ra_s cos(θ − λ_s) | satellite vertical forcing (planned) | ✅ | ✅ | ☐ | notes/phase2c/bending_wave_theory.md |
-| B2 | Laplace expansion of 1/D₀³; resonant term k = −m: F_z = −A_V sin(mθ − (m+1)λ_s + Ω_s), A_V = GM_s i_s b_{3/2}^{(m)}(β)/(2a_s²), β = r/a_s | vertical Fourier satellite (planned) | ✅ | ✅ | ☐ | no indirect term (it is k = 0 only) |
+| B2 | Laplace expansion of 1/D₀³; resonant term k = −m: F_z = −A_V sin(mθ − (m+1)λ_s + Ω_s), A_V = GM_s i_s b_{3/2}^{(m)}(β)/(2a_s²), β = r/a_s | vertical Fourier satellite (`fast/satellite.py`) | ✅ | ✅ | ☐ | no indirect term (it is k = 0 only); = Shu (1984) Eq. A21, f_M = GM i_M b_{3/2}^{(m)}/2a_M² for ω = mΩ_M + μ_M |
 | B3 | numerical: 2D Fourier transform of the exact inclined satellite's F_z recovers A_V (m = 2, 3, 5) | check of B1–B2 | ✅ | ✅ | n/a | relative error ≤ 1.5×10⁻⁹ |
 | B4 | mΩ_p = mΩ_{a_s} + ν_{a_s}; IVR at m(Ω_a − Ω_p) = ν_a; Keplerian r_V = a_s[(m−1)/(m+1)]^{2/3} | satellite motion, resonance location | ✅ | ✅ | ☐ | m ≥ 2 |
 | B5 | ν² − ω_D² ≃ D_V x, D_V = 2ν_V r_V(dν/dr − m dΩ/dr); Keplerian 3(m−1)Ω_V²; with J₂ (GM_p/r³)[3(m−1) + (3/2)(8m−15)J₂(R_p/r)²] | theory | ✅ | ✅ | ☐ | |
-| B6 | test-particle forced response Z = F_z/(ν² − ω_D²) ≃ F_z/(D_V x) | test of the satellite code | ✅ | ✅ | ☐ | |
+| B6 | test-particle forced response Z = F_z/(ν² − ω_D²) ≃ F_z/(D_V x) | test of the satellite code | ✅ | ✅ | ☐ | near r_V this is Shu (1984)'s L_V/x (Eqs. 87c, 91, 92), with his 𝒟 = r dD/dr = D_V |
 | B7 | corrugated sheet's self-pull −2πGσ\|k\|Z; dispersion ω_D² − ν² = 2πGσ\|k\|; \|k\| = D_V\|x\|/(2πGσ), λ_b = 4π²Gσ/(D_V\|x\|), waves only at x < 0 (inward) | Phase 4 wavelength test | ✅ | ✅ | ☐ | |
-| B8 | forced trailing wave h = −iKF̂ e^{−iLx²/2}∫ₓ^∞ e^{iLs²/2}ds, K = r_V/(2πGσ), L = D_V K; \|h\|→A_V(r_V/(GσD_V))^{1/2} inside, F̂/(D_V x) outside | Phase 4 amplitude and phase test | ✅ | ✅ | ☐ | one-sided (trailing) WKB, as Shu |
+| B8 | forced trailing wave h = −iKF̂ e^{−iLx²/2}∫ₓ^∞ e^{iLs²/2}ds, K = r_V/(2πGσ), L = D_V K; \|h\|→A_V(r_V/(GσD_V))^{1/2} inside, F̂/(D_V x) outside | Phase 4 amplitude and phase test | ✅ | ✅ | ☐ | one-sided (trailing) WKB; = Shu (1984) Eqs. 88–92 (his ε = 2πGσ/(r_V D_V) = 1/L, conjugate convention e^{i(ωt − mθ)}), wave amplitude \|A_V\| = (2π/\|ε\|)^{1/2}\|L_V\| |
 | B9 | torque on the ring T = −π²mσr_V²A_V²/D_V, independent of self-gravity | Phase 4 angular momentum test | ✅ | ✅ | ☐ | |
 | B10 | c_g = −πGσ/ω_D ≈ −πGσ/ν_V; front at x_f ≈ −πGσt/(ν_V r_V) | stop condition (Phase 2e) | ✅ | ✅ | ☐ | |
+| B11 | test particle under a satellite of mass ∝ 1 − e^{−t/τ}, from z = v_z = 0: z = Re{F e^{iφ}[e^{iω_D t}/(ν² − ω_D²) − e^{(iω_D − 1/τ)t}/((iω_D − 1/τ)² + ν²)] + C e^{iνt} + D e^{−iνt}}, C, D from z(0) = z′(0) = 0; the free part never decays and is ~ 1/(τ\|ν − ω_D\|) of the forced | zero-mass ring test (`tests/vertical_resonance`, planned) | ✅ | ✅ | ☐ | adiabatic where τ\|ν − ω_D\| ≫ 1, i.e. \|x\| ≫ 2ν_V/(D_V τ) |

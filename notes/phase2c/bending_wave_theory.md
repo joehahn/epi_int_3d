@@ -3,7 +3,7 @@
 Derived in Goldreich & Tremaine notation and checked by `notes/sympy/bending_wave.py`
 (B1–B10 in `notes/equations.md`; all pass, 2026-10-31). This is the theory for the Phase 4 test
 "linear bending wave from a vertical resonance". Shu's papers (`papers/shu83.pdf`, `papers/shu84.pdf`) are
-scans without a text layer, so this is derived from first principles. The B3 check Fourier-analyzes an
+scans without a text layer, so this is derived from first principles. Read page by page afterwards (2026-10-31), it agrees with Shu (1984): his vertical forcing f_M (Eq. A21) is A_V, his Eq. 88, iε dh/dx + xh = L_V, is B8's equation (complex-conjugate convention, ε = 2πGσ/(r_V D_V), L_V = f_M/D_V), and the L_V/x term of his Eqs. 91–92 is B6's test-particle forced response near r_V. The B3 check Fourier-analyzes an
 inclined satellite's exact force, and B8 and B9 confirm the forced solution independently.
 
 Notation: the satellite has mass M_s and a circular orbit with radius a_s, inclination i_s (to the planet's
@@ -43,6 +43,10 @@ and vertical frequencies at radius a (V1). σ is the ring's surface density. x =
   - The code should evaluate D_V numerically from Ω_a and ν_a.
 - **Test particles (B6).** Without self-gravity, the forced response is Z = F_z/(ν² − ω_D²) ≈ F_z/(D_V x),
   singular at r_V. This is the first check of the satellite code.
+- **Test particles while the satellite grows (B11).** With mass ∝ 1 − e^{−t/τ} and z = v_z = 0 at t = 0, a
+  particle's exact z(t) is the ramped forced response plus a free oscillation at ν. The free oscillation never
+  decays, and its size relative to the forced response is ~1/(τ|ν − ω_D|). So particles settle into B6 where
+  |x| ≫ 2ν_V/(D_V τ), and the zero-mass test compares each particle's z(t) with this exact solution everywhere.
 - **Self-gravity (B7).** A sheet corrugated by Z = h cos kr pulls itself back with −2πGσ|k|Z. This gives the
   dispersion relation (ω_D² − ν²) = 2πGσ|k|.
   - Waves exist only inside r_V (x < 0). Bending waves at an IVR propagate inward, toward the planet and away
@@ -98,7 +102,7 @@ satellite = {'mass_final': 6.5969e-8, 'time_grow': 1.0e6, 'mass': 0.0, 'r': 1.58
   at the ring's mean radius. The derivative uses `scipy.misc.derivative`, which no longer exists in SciPy.
 - **Forces.** In-plane only (the m-th Lindblad term, with the m = 1 indirect term), added in `accelerations`.
 
-Proposed for epi_int_3d, the same dict with these additions:
+epi_int_3d uses the same dict with these additions (`fast/satellite.py`; `'vertical'` is implemented, `'horizontal'` and `'potential': 'direct'` not yet):
 
 ```python
 #satellite: only the resonant m-th term of its potential (a "Fourier satellite"); mass_final < 0 turns it off

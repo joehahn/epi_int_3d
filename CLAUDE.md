@@ -37,7 +37,9 @@ decisions, ground rules) and `README.md`.
 - `tests/self_confining/`: epi_int_lite's nominal model (hahn25; its `runs/self_confining/nominal`), run by
   `fast/epi_int_3d.py` with its default gravity; `nominal.ipynb`, its notebook ported to Python 3, shows
   each figure beside the original run's (`original_figs/`, taken from the original notebook) and compares
-  the numbers that notebook printed. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  the numbers that notebook printed. `tests/vertical_resonance/`: test particles at a satellite's vertical
+  resonance (`fast/satellite.py`, the Fourier satellite set by inputs.py's `satellite` dict; theory in
+  `notes/phase2c/`). `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
 
 ## Running

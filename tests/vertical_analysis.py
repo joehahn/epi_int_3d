@@ -75,3 +75,40 @@ def exact_orbits(p, o, idx, rtol=1e-11):
     VR, VT = (x*vx + y*vy)/R, (x*vy - y*vx)/R
     node = vertical_elements(p['J2'], p['Rp'], R, T, z, VR, VT, vz)[-1].T
     return np.unwrap(node, axis=0), o['node'][k]
+
+
+def forced_vertical(p, o):
+    """Each particle's z(t) for a zero-mass ring of circular test particles under fast/satellite.py's vertical
+    Fourier satellite, from z = vz = 0 at t = 0 while the satellite's mass grows as 1 - exp(-t/time_grow): the
+    exact solution B11 (notes/equations.md), and its steady forced part B6, z_forced = F_z/(nu^2 - omega_D^2) at the
+    final mass. A circular particle is at theta = theta_0 + Omega_a t, so the forcing's phase chi_0 + omega_D t
+    follows from its current longitude, whatever its index."""
+    import satellite as satellite_module
+    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
+    a, theta, time = o['r'], o['t'], o['times'][:, None, None]
+    m, gam = sat.m, 1.0/sat.time_grow
+    nu, w = nu_a(p['J2'], p['Rp'], a), m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p)
+    lam, node = sat.longitudes(time)
+    chi = m*theta - (m + 1)*lam + node                                     #chi_0 + omega_D t
+    F = 1j*sat.mass_final*sat.A_V_per_mass*np.exp(1j*(chi - w*time))       #F_z = Re[F e^{i omega_D t}](1 - e^{-gam t})
+    s = 1j*w - gam
+    zp = lambda t: F*(np.exp(1j*w*t)/(nu**2 - w**2) - np.exp(s*t)/(s**2 + nu**2))
+    vp = lambda t: F*(1j*w*np.exp(1j*w*t)/(nu**2 - w**2) - s*np.exp(s*t)/(s**2 + nu**2))
+    #free part C e^{i nu t} + D e^{-i nu t} with z(0) = z'(0) = 0 (for free_over_forced only)
+    C = -(zp(0) + vp(0)/(1j*nu))/2
+    D = -(zp(0) - vp(0)/(1j*nu))/2
+    #B11 itself, evaluated as the equivalent Duhamel integral z = int_0^t sin(nu(t - t'))/nu f(t') dt', which does not
+    #lose precision as nu - omega_D -> 0 (where the closed form's terms cancel): f is a sum of c e^{q t'}, and
+    #int_0^t e^{q t'} dt' = t phi1(q t), phi1(u) = (e^u - 1)/u
+    def phi1(u):
+        small = np.abs(u) < 1.0e-3
+        us = np.where(small, 1.0, u)
+        return np.where(small, 1 + u/2 + u**2/6 + u**3/24, np.expm1(us)/us)
+    t = time
+    z = 0.0
+    for c, q in ((F/2, 1j*w), (np.conj(F)/2, -1j*w), (-F/2, s), (-np.conj(F)/2, np.conj(s))):
+        z = z + c/(2j*nu)*(np.exp(1j*nu*t)*t*phi1((q - 1j*nu)*t) - np.exp(-1j*nu*t)*t*phi1((q + 1j*nu)*t))
+    z = z.real
+    forced = (F*np.exp(1j*w*time)/(nu**2 - w**2)).real
+    return sat, dict(z=z, forced=forced, x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
+                     free_over_forced=(np.abs(C) + np.abs(D))*np.abs(nu**2 - w**2)/np.abs(F))

@@ -33,6 +33,9 @@ two ghost columns per side, so that the particles beside theta = +-pi get the ri
 (tools/patches.py, epi_int_lite issue 10).
 Optional input epi_int_lite_gravity (default False): True turns all five off, unless set
 explicitly, giving epi_int_lite's forces, as the regression tests against the reference use.
+Optional input satellite (a dict, default none): a "Fourier satellite", only the resonant m-th term of an
+inclined satellite's potential, which kicks vz (fast/satellite.py, notes/phase2c/bending_wave_theory.md);
+its constants are printed and saved in output/satellite.json.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
 and so is anything that inputs.py patches through tools/patches.py: initialization (the edge
@@ -54,6 +57,7 @@ sys.path.insert(0, str(REPO/'fast'))
 import helper_fns
 import kernels
 import bookkeeping
+import satellite as satellite_module
 sys.path.insert(0, str(REPO/'tools'))
 import patches
 
@@ -116,6 +120,7 @@ class Ring:
     def __init__(self, r, t, vr, vt, p):
         self.bk = Kernels(bookkeeping.PARALLEL if r.size >= PARALLEL_MIN_PARTICLES else bookkeeping.SERIAL)
         self.p = p
+        self.satellite = None
         self.shape = r.shape
         self.N = r.size
         self.r, self.t, self.vr, self.vt = (np.array(x, dtype=float, order='C') for x in (r, t, vr, vt))
@@ -178,8 +183,8 @@ class Ring:
         self.bk.xy2rt(F['X'], F['Y'], F['VX'], F['VY'], F['R'], F['T'], F['vr'], F['vt'], F['S'], F['C'])
         self.bk.shift1(F['vz'], f*self.vz.sum())
 
-    def velocity_kick(self, dt):
-        """helper_fns.velocity_kick."""
+    def velocity_kick(self, dt, time=0.0):
+        """helper_fns.velocity_kick, plus the satellite's vertical pull at time."""
         p, F = self.p, self.f
         self.mixed2planeto()
         self.bk.sort_streamlines(self.r, self.t, self.vr, self.vt, self.z, self.vz)
@@ -195,6 +200,8 @@ class Ring:
         self.vt += At*dt
         if vertical['Az'] is not None:
             self.vz += vertical['Az'][:, 1:-1]*dt
+        if self.satellite is not None:
+            self.vz += self.satellite.vertical_acceleration(self.t, time)*dt
         self.planeto2mixed()
 
     def incline(self, inclination, node):
@@ -267,6 +274,9 @@ def main():
         g['initial_orbits'], random_seed=g['random_seed'])
     g['c'] = c
     ring = Ring(r, t, vr, vt, g)
+    ring.satellite = satellite_module.get_satellite(g)
+    if ring.satellite is not None:
+        print('satellite =', ring.satellite.summary())
     if g['inclination'] != 0.0:
         ring.incline(g['inclination'], g['node'])
     dt = g['dt']
@@ -277,15 +287,15 @@ def main():
     zz, vzz = [ring.z.copy()], [ring.vz.copy()]               #as the reference, the first output is unconverted
     print('evolving system...')
     while number_of_outputs < g['total_number_of_outputs']:
-        ring.velocity_kick(dt/2.0)
+        ring.velocity_kick(dt/2.0, timestep*dt)
         for _ in range(g['timesteps_per_output']):
             ring.coordinate_kick(dt/2)
             ring.drift(dt)
             ring.coordinate_kick(dt/2)
-            ring.velocity_kick(dt)
+            ring.velocity_kick(dt, (timestep + 1)*dt)
             timestep += 1
             monitor = ring.monitor(monitor, timestep)
-        ring.velocity_kick(-dt/2.0)
+        ring.velocity_kick(-dt/2.0, timestep*dt)
         rz, tz, vrz, vtz, timestepz = h.store_system(rz, tz, vrz, vtz, timestepz, ring.r, ring.t, ring.vr,
                                                      ring.vt, g['total_ring_mass'], timestep)
         z, vz = ring.snapshot()
@@ -300,6 +310,8 @@ def main():
     h.save_output(rz, tz, vrz, vtz, timez, g['modified_params'], monitor, g['output_folder'])
     np.save(g['output_folder'] + '/z.npy', np.array(zz))
     np.save(g['output_folder'] + '/vz.npy', np.array(vzz))
+    if ring.satellite is not None:
+        ring.satellite.save(g['output_folder'] + '/satellite.json')
     print('execution time (minutes) = ', (monitor['current_time'] - monitor['start_time'])/60.0)
 
 
