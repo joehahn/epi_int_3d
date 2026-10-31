@@ -45,7 +45,9 @@ epicyclic motion used by the \code{epi\_int\_3d} drift step (Section \ref{sec:ve
 gravity that one streamline exerts on another (Section \ref{sec:gravity}), its relation to
 \code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), and a study of the
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and the vertical
-restoring force of a bending wave (Appendix \ref{sec:wire_continuum}).
+restoring force of a bending wave (Appendix \ref{sec:wire_continuum}), and the theory of spiral bending
+waves at a vertical resonance with its tests (Section \ref{sec:waves}): the forced response of massless
+particles, and (in progress) the waves of a self-gravitating ring.
 \end{abstract}
 
 
@@ -367,6 +369,119 @@ ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather tha
 which is justified since Eqn.\ (\ref{eqn:wire_Ag}) assumes that $\lambda'$ varies insignificantly over
 distances of several $\Delta$ along the streamline, while the near point lies only
 $|\mathbf{d}_1| \ll \Delta$ from the crossing point.
+
+
+\section{Spiral bending waves at a vertical resonance}
+\label{sec:waves}
+
+%equations B1-B12 of notes/sympy/bending_wave.py; notes/phase2c/bending_wave_theory.md
+\subsection{Theory}
+\label{sec:waves_theory}
+
+A satellite of mass $M_s$ whose circular orbit of radius $a_s$ is inclined by $i_s$ to the ring plane
+launches spiral bending waves at its vertical resonances \citep{SCL83, S84}. \code{Epi\_int\_3d} keeps
+only the resonant term of the satellite's potential, which accelerates a ring particle at longitude
+$\theta$ vertically by
+\begin{equation}
+    \label{eqn:vres_force}
+    A_z = -A_V\sin(m\theta - (m+1)\lambda_s + \Omega_s),
+\end{equation}
+where
+\begin{equation}
+    \label{eqn:vres_AV}
+    A_V = \frac{GM_si_s}{2a_s^2}b_{3/2}^{(m)}(\beta)
+\end{equation}
+is Eqn.\ (A21) of \cite{S84}, $b_{3/2}^{(m)}$ is a Laplace coefficient evaluated at $\beta = r_V/a_s$,
+and the satellite's mean longitude $\lambda_s = \Omega_{a_s}t + \lambda_{s0}$ and longitude of ascending
+node $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t + \Omega_{s0}$ advance at constant rates. The forcing's
+argument is then $\chi = m\theta - (m+1)\lambda_s + \Omega_s = m(\theta - \Omega_pt) + \chi_0$, which is an
+$m$-armed pattern that rotates with angular velocity $\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$, where
+$\chi_0 = \Omega_{s0} - (m+1)\lambda_{s0}$. A particle feels the forcing at the frequency
+$\omega_D = m(\Omega_a - \Omega_p)$, and the inner
+vertical resonance lies at the radius $r_V$ where $\omega_D = \nu_a$, which is
+$r_V = a_s[(m - 1)/(m + 1)]^{2/3}$ when the planet's oblateness is negligible.
+
+Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{i\chi}]$, where
+$x = (r - r_V)/r_V$ is the fractional distance from resonance. Far from resonance, the
+complex amplitude $h$ is, from Eqns.\ (88) and (91)--(92) of \cite{S84},
+\begin{equation}
+    \label{eqn:vres_sol}
+    \begin{split}
+    h &= h_{\rm forced} + h_{\rm wave}, \quad h_{\rm forced} = \frac{L_V}{x}, \\
+    h_{\rm wave} &= \begin{cases} Z_w e^{-ix^2/2\epsilon} & x \ll -\epsilon^{1/2} \\
+        0 & x \gg \epsilon^{1/2}, \end{cases}
+    \end{split}
+\end{equation}
+where
+\begin{equation}
+    \label{eqn:vres_params}
+    \epsilon = \frac{2\pi G\sigma}{r_V{\cal D}}, \quad L_V = \frac{iA_V}{\cal D},
+\end{equation}
+$\sigma$ is the ring's surface density, and ${\cal D} = r\,d(\nu_a^2 - \omega_D^2)/dr$ at $r_V$, which
+is $3(m - 1)\Omega_a^2$ when oblateness is negligible.\footnote{\cite{S84} writes perturbations as
+$e^{i(\omega t - m\theta)}$, the complex conjugate of the form used here, which reverses the sign of
+$i$ in Eqns.\ (\ref{eqn:vres_sol})--(\ref{eqn:vres_params}).} The forced oscillation $h_{\rm forced}$ is
+the response of a massless ring, and $h_{\rm wave}$ is a trailing spiral bending wave on the inner side
+of the resonance that propagates inward. The wave's amplitude
+\begin{equation}
+    \label{eqn:vres_amp}
+    |Z_w| = \left(\frac{2\pi}{\epsilon}\right)^{1/2}|L_V| = A_V\left(\frac{r_V}{G\sigma{\cal D}}\right)^{1/2}
+\end{equation}
+is constant, while its wavelength
+\begin{equation}
+    \label{eqn:vres_lambda}
+    \lambda = \frac{4\pi^2G\sigma}{{\cal D}|x|}
+\end{equation}
+shrinks with distance from resonance.
+
+Equations (\ref{eqn:vres_sol})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
+\code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless
+particles (Section \ref{sec:waves_massless}), which checks the forcing $A_V$, the resonance's location
+$r_V$ and ${\cal D}$, which together also set the wave's amplitude. The wave is tested by a
+self-gravitating ring (Section \ref{sec:waves_ring}). A third test may include the ring's viscosity,
+which damps the wave \citep[Eqns.\ (97)--(98) of][]{S84}.
+
+\subsection{Massless particles}
+\label{sec:waves_massless}
+
+A ring of massless particles has no wave, only the forced oscillation $h_{\rm forced}$ of Eqn.\ (\ref{eqn:vres_sol}),
+which, expressed as an inclination $|h_{\rm forced}|/r_V$, is
+\begin{equation}
+    \label{eqn:vres_inc}
+    i_f = \frac{M_s}{M_p}\frac{\beta^2b_{3/2}^{(m)}(\beta)}{6(m - 1)|x|}\,i_s
+\end{equation}
+when the planet's oblateness is negligible. The simulation uses $J_2 = 0.01$ and $R_p = 0.5$, in
+natural units where $G = M_p = 1$. Its ring is 81 streamlines of 6 particles each, spanning
+$1 \le r \le 1.04$, and an $m = 2$ satellite with $i_s = 0.01$ at $a_s = 2.125$ puts $r_V = 1.02$
+mid-ring. The satellite's mass grows as $M_s = 10^{-6}(1 - e^{-t/\tau})$ with $\tau = 10^4$, or about
+1600 orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
+motion remains averages away over time. Figure \ref{fig:vres} shows that the particles' inclinations,
+averaged over the last $10^4$ of the simulation's $2\times10^4$ orbits, are in excellent agreement with
+Eqn.\ (\ref{eqn:vres_inc}), to within 4\%, and the differences are of order $x$, which
+Eqn.\ (\ref{eqn:vres_inc}) neglects. The test's
+notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/vertical_resonance/vertical_resonance.ipynb}}
+also compares each particle's vertical motion over time to the exact solution, which the simulation
+follows to within $4\times10^{-11}$ in $z$.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/vertical_resonance.pdf}
+\caption{Inclinations $\langle i\rangle$ of massless particles near a satellite's $m = 2$ inner
+vertical resonance, averaged over each streamline's particles and over the last $10^4$ orbits of the
+simulation of Section \ref{sec:waves_massless} (dots), plotted vs.\ their average fractional distance
+from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\ref{eqn:vres_inc}).
+The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
+\label{fig:vres}
+\end{figure}
+
+\subsection{A self-gravitating ring}
+\label{sec:waves_ring}
+
+%stub: in progress
+In progress. The same satellite forcing a ring of nonzero mass, whose simulated bending wave is
+compared with the wavelength and amplitude of Eqns.\ (\ref{eqn:vres_amp})--(\ref{eqn:vres_lambda}) and
+the trailing phase of Eqn.\ (\ref{eqn:vres_sol}). The wave front propagates inward at the group velocity
+$\pi G\sigma/\nu_a$, so the simulation stops before the front reaches the ring's inner edge.
 
 
 \appendix
