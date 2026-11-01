@@ -193,3 +193,26 @@ seen in only one paper is marked as such.
 - Prefer plain words to coined terms ("near point", "distance") and cut asides that another section
   already covers.
 - One idea per sentence where the sentence would otherwise need a parenthetical.
+- Lead to a result; don't open with it. A derivation should arrive at its conclusion ("…which means the
+  near point lies very near the crossing point"), not state the inequality first and then justify it.
+- Take the simplest route to a result: an argument that |φ| ≪ 1 beats a chain of inequalities.
+- State a geometric fact and its consequence in one short clause: "these form a right triangle, so
+  |d₀|² = Δ² + |d₁|²". Number such a result if a later argument uses it.
+- Define a quantity by what it means physically, tied to a direction or motion the reader knows: s is
+  "the streamline's slope relative to circular motion in the ring plane, the θ̂ direction".
+- Every symbol in a figure is used in the text; drop the ones that aren't.
+- Check that each equation agrees with the figure that illustrates it (signs, which side is the
+  hypotenuse).
+- Precise notation: a particle orbits at Ω_a (its mean angular velocity), not Ω.
+- When a result comes from the literature, state the solution with its defining parameters and cite the
+  source's equation numbers; don't reproduce the equation of motion it solves.
+- Name a solution's parts by their roles: h = h_forced + h_wave, with h_wave given by cases (on the wave
+  side and zero otherwise).
+- One defined quantity per display: "A_z = … (25), where A_V = … (26)", not a stacked block.
+- Write time-dependent quantities explicitly in t (λ_s = Ω_{a_s}t + λ_{s0}), so that what follows from
+  them, such as a pattern speed, is visibly derived.
+- A test of the code is reported briefly and to the point: the theory it checks, the setup in a few
+  sentences, one figure that compares simulation to the theory curve the text uses (only that curve),
+  and the agreement in a number; the remaining detail stays in the test's notebook, linked in a footnote.
+- Theory first, then the tests it makes possible: a theory subsection ends by listing the tests ("gives
+  us a few opportunities to test…"), and each test then gets its own subsection.

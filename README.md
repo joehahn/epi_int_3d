@@ -90,7 +90,10 @@ on are in [notes/epi_int_lite_issues.md](notes/epi_int_lite_issues.md).
   than a collection of research notes and findings. It compiles with
   [tectonic](https://tectonic-typesetting.github.io/) (`brew install tectonic`;
   `cd paper && tectonic epi_int_3d.tex`). The AASTeX v7.0.2 class and bibliography style, and the paper's
-  bibliography, are kept in `paper/`.
+  bibliography, are kept in `paper/`. `uv run python tools/lint_paper.py` checks references, citations,
+  figure files and the style guide's equation and figure naming; `uv run python tools/paper_diff.py <rev>`
+  marks up the changes since a git revision ([latexdiff](https://ctan.org/pkg/latexdiff),
+  `brew install latexdiff`) and lists the pages they fall on, for review.
 
 ### Tests:
 
