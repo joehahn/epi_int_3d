@@ -6,7 +6,7 @@
 #
 #tests/bending_waves: a self-gravitating ring of uniform surface density whose outer part straddles a
 #satellite's m = 2 inner vertical resonance at r_V = 1.0032, 80% of the way across the ring (epi_int_3d,
-#4 November 2026). The satellite's mass grows over time_grow, and the spiral bending wave it launches at r_V
+#4 November 2026). The satellite is at full mass from t = 0, and the spiral bending wave it launches at r_V
 #propagates inward at the group velocity pi G sigma/nu (notes/equations.md B10), reaching the inner edge
 #after about 4100 orbits; the run stops before then. The wave's amplitude, wavelength and phase are compared
 #with Shu (1984) (notes/equations.md B7-B8, paper Section 4.3). Sized in notes/phase2c/bending_wave_theory.md
@@ -62,7 +62,7 @@ satellite = {
     'resonance': 'vertical',          #'vertical' (inner vertical resonance) or 'horizontal' (inner Lindblad)
     'm': 2,                           #number of spiral arms, m >= 2 for 'vertical'
     'mass_final': 2.5e-7,             #satellite mass/planet mass once grown
-    'time_grow': 1.0e3,               #mass = mass_final*(1 - exp(-time/time_grow))
+    'time_grow': -1.0,                #mass = mass_final*(1 - exp(-time/time_grow)); <= 0: mass_final from t = 0
     'r': 2.090314689118,              #satellite's orbit radius a_s (circular)
     't': 0.0,                         #its initial mean longitude lambda_s
     'inclination': 0.01,              #i_s

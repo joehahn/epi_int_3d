@@ -5,7 +5,7 @@ The satellite is set by the dict `satellite` in inputs.py (notes/phase2c/bending
         'resonance': 'vertical',   #'vertical' (inner vertical resonance) or 'horizontal' (inner Lindblad)
         'm': 2,                    #number of spiral arms, m >= 2 for 'vertical'
         'mass_final': 1.0e-9,      #satellite mass/planet mass once grown; < 0 turns the satellite off
-        'time_grow': 1.0e3,        #mass = mass_final*(1 - exp(-time/time_grow))
+        'time_grow': 1.0e3,        #mass = mass_final*(1 - exp(-time/time_grow)); <= 0: mass_final from time = 0
         'r': 2.0911,               #satellite's orbit radius a_s (circular)
         't': 0.0,                  #its initial mean longitude lambda_s
         'inclination': 1.0e-3,     #i_s, for 'vertical'
@@ -74,6 +74,9 @@ class Satellite:
         self.time = 0.0
 
     def mass(self, time):
+        """The satellite's mass at time: grown as 1 - exp(-time/time_grow), or mass_final throughout if time_grow <= 0."""
+        if self.time_grow <= 0:
+            return self.mass_final
         return self.mass_final*(1.0 - np.exp(-time/self.time_grow))
 
     def longitudes(self, time):
