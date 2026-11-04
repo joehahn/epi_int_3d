@@ -9,7 +9,8 @@
 #every 9th streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
 #by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale is the largest
 #that keeps adjacent curves apart in every frame. Both show every 2nd output and are committed; bending_waves.ipynb
-#links to them.
+#links to them. Each is also written as docs/bending_waves/<name>.html, with play, pause and a frame slider, served by
+#GitHub Pages at https://joehahn.github.io/epi_int_3d/bending_waves/ (GitHub's file view shows such a page's source).
 #
 #Run from tests/bending_waves:  uv run python animate.py [output_folder]
 
@@ -87,6 +88,11 @@ anim = animation.FuncAnimation(fig, frame, frames=range(1, len(o['times']), 2), 
 out = os.path.join(HERE, 'bending_wave.gif')
 anim.save(out, writer=animation.PillowWriter(fps=5), dpi=80)
 print('wrote', out, f'({os.path.getsize(out)/1e6:.1f} MB)')
+SITE = os.path.join(REPO, 'docs', 'bending_waves')
+os.makedirs(SITE, exist_ok=True)
+html = os.path.join(SITE, 'bending_wave.html')
+anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=80)
+print('wrote', html)
 
 
 #the line version: every 9th streamline, z(phi) offset by x
@@ -128,3 +134,6 @@ anim2 = animation.FuncAnimation(fig2, frame2, frames=range(1, len(o['times']), 2
 out2 = os.path.join(HERE, 'bending_wave_lines.gif')
 anim2.save(out2, writer=animation.PillowWriter(fps=5), dpi=80)
 print('wrote', out2, f'({os.path.getsize(out2)/1e6:.1f} MB)')
+html2 = os.path.join(SITE, 'bending_wave_lines.html')
+anim2.save(html2, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=80)
+print('wrote', html2)

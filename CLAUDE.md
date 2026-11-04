@@ -35,6 +35,8 @@ decisions, ground rules) and `README.md`.
   epi_int_3d's own driver, with vertical motion (the drift and 3D ring gravity: `notes/phase3/`); its ring gravity fixes epi_int_lite issues 7 and 9 by default (inputs `fix_lambda`, `nearpoint`, `shape_slope`, and `vertical_gravity` for the 3D wire; `epi_int_lite_gravity = True` restores the reference's, which the regression tests and benchmark set), Numba kernels for ring gravity (`kernels.py`)
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
   with only ring gravity swapped for the kernel.
+- `docs/`: the GitHub Pages site (https://joehahn.github.io/epi_int_3d/), animations with play and pause; written by
+  each test's `animate.py`.
 - `tests/nominal/`: epi_int_3d's own nominal ringlet (not from epi_int_lite); its `inputs.py`
   applies `tools/patches.py`.
 - `tests/self_confining/`: epi_int_lite's nominal model (hahn25; its `runs/self_confining/nominal`), run by
