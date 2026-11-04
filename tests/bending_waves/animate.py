@@ -1,16 +1,15 @@
 #animate.py
 #
 #Animate tests/bending_waves: the ring's height z above or below the plane (grayscale, white above, black below,
-#in units of the wave amplitude |Z_w| of B8), one frame per output, seen face-on in the frame that rotates with the
+#in units of the wave amplitude |Z_w| of B8), seen face-on in the frame that rotates with the
 #satellite's pattern speed Omega_p, where the m = 2 spiral bending wave is stationary. The ring's width is stretched
 #radially so that the wave is visible. Each streamline's particles are interpolated along the streamline with a
 #periodic cubic spline in longitude onto a fixed longitude grid (the streamlines stay circular to ~1e-8 of their
-#spacing, so each is plotted at its mean radius). Writes bending_wave.png, an animated PNG of every 2nd output, which
-#bending_waves.ipynb shows (committed; GitHub's notebook view shows PNG output but not GIFs or linked images),
-#and figs/bending_wave_lines.gif (git-ignored):
+#spacing, so each is plotted at its mean radius). Writes bending_wave.gif, and bending_wave_lines.gif:
 #every 3rd streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
 #by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale is the largest
-#that keeps adjacent curves apart in every frame.
+#that keeps adjacent curves apart in every frame. Both show every 2nd output and are committed; bending_waves.ipynb
+#links to them.
 #
 #Run from tests/bending_waves:  uv run python animate.py [output_folder]
 
@@ -83,10 +82,9 @@ def frame(k):
     return mesh, title
 
 
-os.makedirs(os.path.join(HERE, 'figs'), exist_ok=True)
 anim = animation.FuncAnimation(fig, frame, frames=range(1, len(o['times']), 2), blit=False)
-out = os.path.join(HERE, 'bending_wave.png')
-anim.save(out, writer=animation.PillowWriter(fps=5), dpi=70)
+out = os.path.join(HERE, 'bending_wave.gif')
+anim.save(out, writer=animation.PillowWriter(fps=5), dpi=80)
 print('wrote', out, f'({os.path.getsize(out)/1e6:.1f} MB)')
 
 
@@ -124,7 +122,7 @@ def frame2(k):
     return lines + [title2]
 
 
-anim2 = animation.FuncAnimation(fig2, frame2, frames=len(o['times']), blit=False)
-out2 = os.path.join(HERE, 'figs', 'bending_wave_lines.gif')
-anim2.save(out2, writer=animation.PillowWriter(fps=8), dpi=80)
+anim2 = animation.FuncAnimation(fig2, frame2, frames=range(1, len(o['times']), 2), blit=False)
+out2 = os.path.join(HERE, 'bending_wave_lines.gif')
+anim2.save(out2, writer=animation.PillowWriter(fps=5), dpi=80)
 print('wrote', out2, f'({os.path.getsize(out2)/1e6:.1f} MB)')
