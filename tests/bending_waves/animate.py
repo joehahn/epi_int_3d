@@ -30,6 +30,7 @@ from matplotlib import animation
 from scipy.interpolate import CubicSpline
 from vertical_analysis import load3d, ring_sigma, nu_a
 import satellite as satellite_module
+from helper_fns import wrap_ring
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 folder = sys.argv[1] if len(sys.argv) > 1 else None
@@ -100,13 +101,13 @@ scale = 0.9*gap*Z_w/dz                                                  #offset 
 fig2, ax2 = plt.subplots(figsize=(8, 8))
 lines = [ax2.plot([], [], '-', lw=0.6, color='k')[0] for _ in picks]
 ax2.axhline(0, color='r', lw=0.8, ls='--')
-ax2.set_xlim(-np.pi, np.pi)
+ax2.set_xlim(-1, 1)
 ax2.set_ylim(x0.min() - gap, x0.max() + gap)
-ax2.set_xlabel(r'longitude in the frame rotating at $\Omega_p$')
+ax2.set_xlabel(r'longitude in the frame rotating at $\Omega_p$, $/\pi$')
 ax2.set_ylabel(r'$x = (r - r_V)/r_V$, plus each streamline height $z$')
 ax2.text(1.01, 0.0, f"{p['number_of_streamlines']} streamlines,\nevery {every}rd shown\n{p['particles_per_streamline']} particles/streamline\n"
          f"dt = {p['dt']:g}\n\nred: $r_V$\nbar: $z = 2|Z_w|$", transform=ax2.transAxes, fontsize=9, va='bottom')
-ax2.plot([np.pi*1.04]*2, [x0.max() - scale, x0.max() + scale], 'k-', lw=2, clip_on=False)
+ax2.plot([1.04]*2, [x0.max() - scale, x0.max() + scale], 'k-', lw=2, clip_on=False)
 title2 = ax2.set_title('')
 fig2.subplots_adjust(right=0.78)
 
@@ -116,8 +117,9 @@ def frame2(k):
     xk = (o['r'][k].mean(axis=1) - sat.r_V)/sat.r_V
     for line, j in zip(lines, picks):
         i = np.argsort(rot[j])
-        th, z = rot[j, i], o['z'][k, j, i]
-        line.set_data(np.append(th, th[0] + 2*np.pi), xk[j] + scale*np.append(z, z[0])/Z_w)
+        th = wrap_ring(rot[j, i][None, :], longitude=True)[0]           #the end particles repeated across the edges,
+        z = wrap_ring(o['z'][k, j, i][None, :])[0]                      #so each curve spans -pi to pi
+        line.set_data(th/np.pi, xk[j] + scale*z/Z_w)
     title2.set_text(f'$t = {o["times"][k]/tau_c:.2f}\\,\\tau_c$  ({o["times"][k]/(2*np.pi):.0f} orbits)')
     return lines + [title2]
 
