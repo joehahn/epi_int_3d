@@ -5,7 +5,8 @@
 #satellite's pattern speed Omega_p, where the m = 2 spiral bending wave is stationary. The ring's width is stretched
 #radially so that the wave is visible. Each streamline's particles are interpolated along the streamline with a
 #periodic cubic spline in longitude onto a fixed longitude grid (the streamlines stay circular to ~1e-8 of their
-#spacing, so each is plotted at its mean radius). Writes bending_wave.gif, which bending_waves.ipynb shows (committed),
+#spacing, so each is plotted at its mean radius). Writes bending_wave.png, an animated PNG of every 2nd output, which
+#bending_waves.ipynb shows (committed; GitHub's notebook view shows PNG output but not GIFs or linked images),
 #and figs/bending_wave_lines.gif (git-ignored):
 #every 3rd streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
 #by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale is the largest
@@ -83,9 +84,9 @@ def frame(k):
 
 
 os.makedirs(os.path.join(HERE, 'figs'), exist_ok=True)
-anim = animation.FuncAnimation(fig, frame, frames=len(o['times']), blit=False)
-out = os.path.join(HERE, 'bending_wave.gif')
-anim.save(out, writer=animation.PillowWriter(fps=8), dpi=80)
+anim = animation.FuncAnimation(fig, frame, frames=range(1, len(o['times']), 2), blit=False)
+out = os.path.join(HERE, 'bending_wave.png')
+anim.save(out, writer=animation.PillowWriter(fps=5), dpi=70)
 print('wrote', out, f'({os.path.getsize(out)/1e6:.1f} MB)')
 
 
