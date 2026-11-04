@@ -6,9 +6,9 @@
 #radially so that the wave is visible. Each streamline's particles are interpolated along the streamline with a
 #periodic cubic spline in longitude onto a fixed longitude grid (the streamlines stay circular to ~1e-8 of their
 #spacing, so each is plotted at its mean radius). Writes bending_wave.gif, and bending_wave_lines.gif:
-#every 9th streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
-#by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale is the largest
-#that keeps adjacent curves apart in every frame. Both show every 2nd output and are committed; bending_waves.ipynb
+#every 3rd streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
+#by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale draws |Z_w| as
+#two curve spacings, so curves overlap where neighbours are out of phase. Both show every 2nd output and are committed; bending_waves.ipynb
 #links to them. Each is also written as docs/bending_waves/<name>.html, with play, pause and a frame slider, served by
 #GitHub Pages at https://joehahn.github.io/epi_int_3d/bending_waves/ (GitHub's file view shows such a page's source).
 #
@@ -95,23 +95,20 @@ anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mo
 print('wrote', html)
 
 
-#the line version: every 9th streamline, z(phi) offset by x
-every = 9
+#the line version: every 3rd streamline, z(phi) offset by x
+every = 3
 picks = np.arange(0, p['number_of_streamlines'], every)
 x0 = (o['r'][0][picks].mean(axis=1) - sat.r_V)/sat.r_V
 gap = np.median(np.diff(x0))
-#the largest height difference between adjacent shown streamlines at the same longitude, over all frames (on the
-#spline grid), fills 90% of the gap between them, so the curves never cross
-dz = max(np.abs(np.diff(height(k)[0][picks], axis=0)).max() for k in range(len(o['times'])))
-scale = 0.9*gap*Z_w/dz                                                  #offset per unit z/|Z_w|
-fig2, ax2 = plt.subplots(figsize=(8, 8))
-lines = [ax2.plot([], [], '-', lw=0.6, color='k')[0] for _ in picks]
+scale = 2.0*gap                                                         #|Z_w| is drawn as two curve spacings
+fig2, ax2 = plt.subplots(figsize=(8, 11))
+lines = [ax2.plot([], [], '-', lw=0.5, color='k')[0] for _ in picks]
 ax2.axhline(0, color='r', lw=0.8, ls='--')
 ax2.set_xlim(-1, 1)
 ax2.set_ylim(x0.min() - gap, x0.max() + gap)
 ax2.set_xlabel(r'longitude in the frame rotating at $\Omega_p$, $/\pi$')
 ax2.set_ylabel(r'$x = (r - r_V)/r_V$, plus each streamline height $z$')
-ax2.text(1.01, 0.0, f"{p['number_of_streamlines']} streamlines,\nevery {every}th shown\n{p['particles_per_streamline']} particles/streamline\n"
+ax2.text(1.01, 0.0, f"{p['number_of_streamlines']} streamlines,\nevery {every}rd shown\n{p['particles_per_streamline']} particles/streamline\n"
          f"dt = {p['dt']:g}\n\nred: $r_V$\nbar: $z = 2|Z_w|$", transform=ax2.transAxes, fontsize=9, va='bottom')
 ax2.plot([1.04]*2, [x0.max() - scale, x0.max() + scale], 'k-', lw=2, clip_on=False)
 title2 = ax2.set_title('')
