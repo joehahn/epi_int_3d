@@ -6,7 +6,8 @@
 #(notes/equations.md G14) on m = 2 streamlines whose velocities are not along their shapes, as for a
 #pattern rotating at Omega_p = Omega/2. And the 3D kernel (G16, G17; the paper's Eqn. 23): at z = 0 it is
 #the planar nearpoint and shape_slope kernel bit for bit; out of the plane it matches the near point
-#computed as a vector, Delta = d0 - (d0.t)t; and a rigidly tilted flat ringlet is pulled within its plane.
+#computed as a vector, Delta = d0 - (d0.t)t; a rigidly tilted flat ringlet is pulled within its plane; and a corrugated
+#ringlet is pulled back by the finite lattice's restoring force (B13).
 #
 #Run:  uv run pytest tests/test_kernels.py
 
@@ -175,3 +176,26 @@ def test_3d_tilted_ringlet():
     A = np.sqrt(Ar**2 + At**2 + Az**2)
     assert np.abs(An[:, 1:-1]).max() < 5e-7*A[:, 1:-1].max()         #measured 1.6e-8
     assert np.abs(Az[:, 1:-1]).max() > 0.05*A[:, 1:-1].max()        #and the pull does have a z part
+
+
+def test_3d_bending_restoring_force():
+    """An axisymmetric corrugation z = Z cos(k(a - a_mid)) of a circular ringlet of 270 streamlines: the 3D kernel's
+    vertical pull on the middle streamline is -X Z, the finite lattice's restoring force B13 (notes/equations.md),
+    X = (4 G sigma/Delta)(pi phi/2 - phi^2/4) - 2 G sigma (1/d_in + 1/d_out), phi = k Delta, sigma = lambda/Delta,
+    and not the continuum's 2 pi G sigma k, which it misses by up to 10% at 11 streamlines per wavelength."""
+    Nr, W = 270, 0.004
+    a, lam, (lw, tw, rw, vrw, vtw) = circular_ringlet(Nr=Nr, Nt=32, width=W, m_ring=1.0e-9)
+    Delta = W/(Nr - 1)
+    mid = Nr//2
+    sigma = lam[mid, 0]/Delta
+    d_in, d_out = a[mid] - a[0] + Delta/2, a[-1] - a[mid] + Delta/2
+    kern = kernels.get_kernel_3d(True, parallel=False)
+    for per in (50, 21, 11):
+        k = 2*np.pi/(per*Delta)
+        z = 1.0e-6*np.cos(k*(a - a[mid]))[:, None]*np.ones((1, 32))
+        Ar, At, Az = kern(lw, 1.0, rw, tw, wrap_ring(z))
+        phi = k*Delta
+        X = (4*sigma/Delta)*(np.pi*phi/2 - phi**2/4) - 2*sigma*(1/d_in + 1/d_out)
+        #measured 0.2% at 50 per wavelength (the cos terms B13 drops), 0.03% at 11
+        np.testing.assert_allclose(-Az[mid, 1:-1]/z[mid], X, rtol=3e-3)
+        assert abs(-Az[mid, 1]/z[mid, 0]/(2*np.pi*sigma*k) - 1) > 0.01

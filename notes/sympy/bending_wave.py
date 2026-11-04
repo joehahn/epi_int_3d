@@ -218,4 +218,28 @@ D_V = 3*(m - 1)*Gs*Mp/rV_**3
 i_f = A_V/(D_V*xx_)/rV_
 check('B12: i_f = A_V/(D_V |x| r_V) = (M_s/M_p) i_s beta_V^2 b/(6(m-1)|x|)',
       i_f - (Ms/Mp)*isat*(rV_/as_)**2*bb/(6*(m - 1)*xx_))
+# --- B13: the restoring force of a bending wave in a finite lattice of streamlines. In an infinite lattice of wires
+# spaced Delta (lambda = sigma Delta), the corrugation z_j = Z cos(j phi), phi = k Delta, pulls wire 0 back with
+# X(phi) Z, X = (2 G sigma/Delta) sum_{n != 0} (1 - cos n phi)/n^2 = (4 G sigma/Delta)(pi phi/2 - phi^2/4)  (P7).
+# A ring that ends at its edges lacks the wires beyond them. Their "1" terms, the pull of each wire on the displaced
+# particle, sum to (2 G sigma/Delta) sum_{n >= n_e} 1/n^2 ~ 2 G sigma/((n_e - 1/2) Delta) = 2 G sigma/d, with d = the
+# distance to the edge streamline plus Delta/2; their cos terms oscillate and sum to O(1/(n_e^2 phi)). So
+#   nu^2 - omega_D^2 = -X(k Delta) + 2 G sigma (1/d_in + 1/d_out),  i.e.  D_V |x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out) ---
+Nn = sp.symbols('N', positive=True)
+tail = sp.polygamma(1, Nn)                             # sum_{n >= N} 1/n^2
+lead = sp.series(tail - 1/(Nn - sp.Rational(1, 2)), Nn, sp.oo, 4).removeO()
+check('B13: sum_{n >= N} 1/n^2 - 1/(N - 1/2) = O(N^-3)', sp.limit(lead*Nn**2, Nn, sp.oo))
+for Nv in (5, 50):
+    close(f'B13: sum_{{n >= {Nv}}} 1/n^2 vs 1/(N - 1/2)', float(sp.polygamma(1, Nv)), 1/(Nv - 0.5), 0.12/Nv**2)    # ~1/(12 N^2)
+Nr = 270                                               # the finite lattice: wire i of Nr, G = sigma = Delta = 1
+for i, per in ((135, 50), (135, 11), (60, 21), (230, 21)):
+    ph = 2*np.pi/per
+    nn = np.arange(-i, Nr - i)
+    nn = nn[nn != 0]
+    finite = 2*np.sum((1 - np.cos(nn*ph))/nn**2)
+    X = 4*(np.pi*ph/2 - ph**2/4)
+    edges = 2*(1/(i + 0.5) + 1/(Nr - 1 - i + 0.5))
+    cos_tail = 2*(1/(i**2*ph) + 1/((Nr - 1 - i)**2*ph))  # the dropped cos terms' size
+    close(f'B13: finite lattice, wire {i} of {Nr}, {per} wires per wavelength: X - 2 G sigma (1/d_in + 1/d_out)',
+          finite, X - edges, 2*cos_tail/(X - edges))
 print('all bending-wave checks passed')

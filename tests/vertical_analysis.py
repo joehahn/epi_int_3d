@@ -112,3 +112,69 @@ def forced_vertical(p, o):
     forced = (F*np.exp(1j*w*time)/(nu**2 - w**2)).real
     return sat, dict(z=z, forced=forced, x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
                      free_over_forced=(np.abs(C) + np.abs(D))*np.abs(nu**2 - w**2)/np.abs(F))
+
+
+def ring_sigma(p):
+    """The surface density of a ring of uniform sigma spanning 1 <= r <= 1 + radial_width."""
+    return p['total_ring_mass']/(np.pi*((1 + p['radial_width'])**2 - 1))
+
+
+def bending_wave(sat, sigma, x, G=1.0):
+    """The steady forced bending wave h(x) of B8 (notes/equations.md), Z = Re[h e^{i chi}]:
+    h = -i K F e^{-i L x^2/2} int_x^inf e^{i L s^2/2} ds, K = r_V/(2 pi G sigma), L = D_V K, F = i A_V, written with
+    the Fresnel integrals: int_x^inf e^{i L s^2/2} ds = (pi/L)^{1/2} [(1 + i)/2 - C(u) - i S(u)], u = x (L/pi)^{1/2}."""
+    from scipy.special import fresnel
+    K = sat.r_V/(2*np.pi*G*sigma)
+    L = sat.D_V*K
+    F = 1j*sat.mass_final*sat.A_V_per_mass
+    S, C = fresnel(x*np.sqrt(L/np.pi))
+    return -1j*K*F*np.exp(-1j*L*x**2/2)*np.sqrt(np.pi/L)*((1 + 1j)/2 - C - 1j*S)
+
+
+def simulated_h(p, o, k):
+    """Each streamline's complex amplitude h at output k, from a least-squares fit of its particles'
+    z = Re[h e^{i chi}] = Re(h) cos chi - Im(h) sin chi, and its fractional distance x from r_V."""
+    import satellite as satellite_module
+    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
+    lam, node = sat.longitudes(o['times'][k])
+    chi = sat.m*o['t'][k] - (sat.m + 1)*lam + node
+    h = np.empty(chi.shape[0], dtype=complex)
+    for j in range(chi.shape[0]):
+        A = np.column_stack([np.cos(chi[j]), -np.sin(chi[j])])
+        (re, im), *_ = np.linalg.lstsq(A, o['z'][k, j], rcond=None)
+        h[j] = re + 1j*im
+    x = (o['r'][k].mean(axis=1) - sat.r_V)/sat.r_V
+    return sat, x, h
+
+
+def satellite_torque(p, o, k):
+    """The torque that the full resonant potential Phi = A_V z sin(chi), whose -dPhi/dz is fast/satellite.py's A_z,
+    exerts on each streamline at output k: mu r A_theta = -mu dPhi/dtheta = -mu m A_V z cos(chi), summed over its
+    particles (mu = particle mass). fast/satellite.py applies only A_z, so the ring itself does not feel this torque."""
+    import satellite as satellite_module
+    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
+    lam, node = sat.longitudes(o['times'][k])
+    chi = sat.m*o['t'][k] - (sat.m + 1)*lam + node
+    mu = p['total_ring_mass']/p['number_of_particles']
+    A_V = sat.mass(o['times'][k])*sat.A_V_per_mass
+    return -(mu*sat.m*A_V*o['z'][k]*np.cos(chi)).sum(axis=1)
+
+
+def wave_wavenumber(p, sat, x, G=1.0):
+    """The local wavenumber k(x) of the free bending wave at x < 0, from three dispersion relations, near r_V
+    where nu^2 - omega_D^2 = D_V x (B5): the continuum's D_V|x| = 2 pi G sigma k (B7); a lattice of streamlines
+    spaced Delta, D_V|x| = X(k Delta) = (4 G sigma/Delta)(pi k Delta/2 - (k Delta)^2/4) (the paper's zigzag_X); and
+    that lattice cut off at the ring's edges, which lacks the pull of the streamlines beyond them,
+    D_V|x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out), with d the distance to each edge plus Delta/2 (B13)."""
+    from scipy.optimize import brentq
+    sig = ring_sigma(p)
+    W, N = p['radial_width'], p['number_of_streamlines']
+    Delta = W/(N - 1)
+    r = sat.r_V*(1 + np.asarray(x, dtype=float))
+    d_in, d_out = r - 1 + Delta/2, 1 + W - r + Delta/2
+    lattice = lambda k: (4*G*sig/Delta)*(np.pi*k*Delta/2 - (k*Delta)**2/4)
+    k_cont = sat.D_V*np.abs(x)/(2*np.pi*G*sig)
+    k_lat = np.array([brentq(lambda k: lattice(k) - sat.D_V*abs(xx), 0.0, np.pi/Delta) for xx in np.ravel(x)])
+    k_edge = np.array([brentq(lambda k: lattice(k) - 2*G*sig*(1/di + 1/do) - sat.D_V*abs(xx), 0.0, np.pi/Delta)
+                       for xx, di, do in zip(np.ravel(x), np.ravel(d_in), np.ravel(d_out))])
+    return k_cont, k_lat.reshape(np.shape(x)), k_edge.reshape(np.shape(x))

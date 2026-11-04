@@ -42,7 +42,8 @@ decisions, ground rules) and `README.md`.
   each figure beside the original run's (`original_figs/`, taken from the original notebook) and compares
   the numbers that notebook printed. `tests/vertical_resonance/`: test particles at a satellite's vertical
   resonance (`fast/satellite.py`, the Fourier satellite set by inputs.py's `satellite` dict; theory in
-  `notes/phase2c/`). `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  `notes/phase2c/`). `tests/bending_waves/`: the spiral bending wave that satellite launches in a self-gravitating
+  ring, compared with Shu (1984) and with B13, the finite lattice's restoring force. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
 
 ## Running

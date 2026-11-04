@@ -9,11 +9,11 @@ skipped unless --force is given.
   which gives the same results bit for bit.
 - epi_int_3d's own tests (EPI_INT_3D_TESTS: tests/nominal, tests/inclined, tests/self_confining (epi_int_lite's
   nominal ringlet, compared with that run's figures), tests/vertical_resonance (test particles at a
-  satellite's vertical resonance), and any test with an
+  satellite's vertical resonance), tests/bending_waves (a self-gravitating ring's bending wave), and any test with an
   `inclination` in inputs.py) always run with fast/epi_int_3d.py and its default ring gravity, as
   described in the paper.
 
-Run:  uv run python tools/run_simulations.py                     #all 26 test simulations
+Run:  uv run python tools/run_simulations.py                     #all 27 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
       uv run python tools/run_simulations.py tests/libration -j 8  #the 20 libration runs
       uv run python tools/run_simulations.py tests/spreading --fast  #the faster driver, same results
@@ -33,7 +33,7 @@ DRIVER = REPO/'source'/'epi_int_lite.py'
 FAST_DRIVER = REPO/'fast'/'epi_int_3d.py'
 
 
-EPI_INT_3D_TESTS = ('nominal', 'inclined', 'self_confining', 'vertical_resonance')    #epi_int_3d's own tests, under tests/
+EPI_INT_3D_TESTS = ('nominal', 'inclined', 'self_confining', 'vertical_resonance', 'bending_waves')    #epi_int_3d's own tests, under tests/
 
 
 def own_test(folder):

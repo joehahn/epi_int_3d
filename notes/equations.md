@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B12); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B13); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -69,3 +69,4 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | B10 | c_g = −πGσ/ω_D ≈ −πGσ/ν_V; front at x_f ≈ −πGσt/(ν_V r_V) | stop condition (Phase 2e) | ✅ | ✅ | ☐ | |
 | B11 | test particle under a satellite of mass ∝ 1 − e^{−t/τ}, from z = v_z = 0: z = Re{F e^{iφ}[e^{iω_D t}/(ν² − ω_D²) − e^{(iω_D − 1/τ)t}/((iω_D − 1/τ)² + ν²)] + C e^{iνt} + D e^{−iνt}}, C, D from z(0) = z′(0) = 0; the free part never decays and is ~ 1/(τ\|ν − ω_D\|) of the forced | zero-mass ring test (`tests/vertical_resonance`, planned) | ✅ | ✅ | ☐ | adiabatic where τ\|ν − ω_D\| ≫ 1, i.e. \|x\| ≫ 2ν_V/(D_V τ) |
 | B12 | forced inclination of a test particle near r_V: i_f = A_V/(a\|ν² − ω_D²\|) ≃ A_V/(D_V\|x\|r_V); Keplerian: i_f = (M_s/M_p) i_s β_V² b_{3/2}^{(m)}(β_V)/[6(m−1)\|x\|] | paper Section 4.2 (Eqn. 31, Fig. 2), `tests/vertical_resonance` | ✅ | ✅ | ☐ | = Shu (1984)'s \|L_V/x\|/r_V; within 5% of the exact amplitude for \|x\| ≤ 0.02 in `tests/vertical_resonance`, where the simulated inclinations match the exact amplitude to 1–4% (13% beside r_V, the free part) |
+| B13 | restoring force of a bending wave in a finite lattice of streamlines: D_V\|x\| = X(kΔ) − 2Gσ(1/d_in + 1/d_out), X = (4Gσ/Δ)(πkΔ/2 − (kΔ)²/4) (P7), d = distance to each edge + Δ/2: the ring lacks the pull of the streamlines beyond its edges, Σ_{n≥N} 1/n² ≃ 1/(N − ½) | `tests/bending_waves` (wavenumber), `tests/vertical_analysis.py` `wave_wavenumber`, `tests/test_kernels.py` | ✅ | ✅ (finite lattice sums) | ☐ | the code's 3D gravity on a corrugated ring matches it to 0.2%; it raises the wavenumber over the continuum B7 by up to ~7% in `tests/bending_waves` |
