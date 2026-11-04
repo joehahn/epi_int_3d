@@ -118,7 +118,7 @@ output to theory:
 - bending_waves: a self-gravitating ring whose outer part straddles a satellite's m = 2 inner vertical resonance; the
   spiral bending wave launched there should match Shu (1984)'s amplitude, wavelength and torque, once the ring's
   finite width and streamline spacing are allowed for, [bending_waves.ipynb](tests/bending_waves/bending_waves.ipynb)
-  (epi_int_3d only; about 3 min)
+  (epi_int_3d only; about 11 min)
 
 To run all 27 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
 one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,
