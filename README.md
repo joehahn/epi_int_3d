@@ -40,13 +40,20 @@ It is the same pattern as my other repos, applied to research rather than to a b
 
 ---
 
-*Work in progress — Phase 0b: epi_int_lite has been ported to Python 3 (the reference
-implementation, in `source/`), and faster drivers (`fast/`) give its results bit for bit.
-The vertical motion has begun: inclined orbits drift correctly in the planet's oblate gravitational potential.*
+*Work in progress — Phase 3, the 3D code ([notes/phases.csv](notes/phases.csv)). epi_int_lite has been
+ported to Python 3 (the reference implementation, in `source/`), and faster drivers (`fast/`) give its
+results bit for bit. epi_int_3d adds the vertical motion and the 3D ring gravity. It now simulates a spiral
+bending wave in a self-gravitating ring, launched by a satellite at a vertical resonance. The wave's amplitude
+and torque agree with Shu (1984)'s linear theory to about 3%, and its wavenumber agrees to 1% once the
+finite ring's streamline spacing and edges are allowed for
+([bending_waves.ipynb](tests/bending_waves/bending_waves.ipynb); animations at
+[joehahn.github.io/epi_int_3d](https://joehahn.github.io/epi_int_3d/)). The paper's Sections 2–4 (the vertical
+motion, a streamline's 3D gravity and bending-wave theory) are drafted; the self-gravitating ring's
+results (Section 4.3) are being written up.*
 
-epi_int_3d will extend the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
+epi_int_3d extends the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
-started as a copy of its master branch, commit 5e0942a) into the vertical direction, and use
+started as a copy of its master branch, commit 5e0942a) into the vertical direction, and uses
 it to simulate spiral bending waves.
 The project also serves as a demo of using an AI coding agent (Claude Code) to accelerate
 research: reviewing papers, deriving equations, porting and extending code, testing,
