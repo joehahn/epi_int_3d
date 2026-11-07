@@ -12,7 +12,8 @@ inclined to the rings, at the ring location where the moon's periodic vertical t
 the ring particles' own vertical oscillation, and the wave then propagates away from that resonance as a
 tightly wound spiral. Comparing the simulated waves and bending-wave theory with Cassini spacecraft
 observations of those waves will then allow us to infer the rings' physical properties, such as their
-surface mass density and viscosity.
+surface mass density and viscosity. epi_int_3d will also simulate spiral density waves, the in-plane waves
+that a moon launches at its Lindblad resonances (planned).
 
 A secondary and riskier subtask of this project is to test whether Claude can learn the [Cassini data
 archive](https://pds-rings.seti.org/cassini/) (NASA PDS Ring-Moon Systems Node) well enough to find the relevant observations of bending waves and then compare them with the
@@ -27,8 +28,8 @@ Independent AI and machine learning consultant, [JMH DataSciences](https://jmh-d
 Built end-to-end with [Claude Code](https://claude.com/claude-code).
 
 **For researchers:** epi_int_3d extends the 2D streamline N-body code epi_int_lite (Hahn et al. 2025,
-ApJ, 986, 220) into the vertical direction, to simulate spiral bending waves in self-gravitating
-planetary rings. Its faster drivers reproduce the published code bit for bit, every derived equation
+ApJ, 986, 220) into the vertical direction, to simulate spiral bending waves (and, planned, spiral density waves) in
+self-gravitating planetary rings. Its faster drivers reproduce the published code bit for bit, every derived equation
 has a symbolic (sympy) check, and the code, tests, notes and the draft paper are all open.
 
 **For R&D and industry:** this repo shows that an AI agent can carry a long, open-ended technical
@@ -54,7 +55,7 @@ results (Section 4.3) are being written up.*
 epi_int_3d extends the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`
 started as a copy of its master branch, commit 5e0942a) into the vertical direction, and uses
-it to simulate spiral bending waves.
+it to simulate spiral bending waves, and later spiral density waves.
 The project also serves as a demo of using an AI coding agent (Claude Code) to accelerate
 research: reviewing papers, deriving equations, porting and extending code, testing,
 running simulations, and drafting the journal paper.
