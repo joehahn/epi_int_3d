@@ -1,32 +1,114 @@
-{"activity": "code", "inputs": ["fast/bookkeeping.py"], "context": ["notes/equations.md", "source/helper_fns.py"],
+{
+ "activity": "code",
+ "inputs": [
+  "fast/bookkeeping.py"
+ ],
+ "context": [
+  "notes/equations.md",
+  "source/helper_fns.py"
+ ],
  "findings": [
-  {"id": "gpt-1", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "medium",
+  {
+   "id": "gpt-1",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "medium",
    "where": "crossed: x0 = tw[s, j - 1]",
    "finding": "The crossing check's 3-point Lagrange stencil on the inner streamline is chosen by particle index, not by longitude, so if neighboring streamlines' particles drift apart in longitude it extrapolates and can report a false crossing.",
    "verdict": "partly",
    "comment": "Right in principle, and the same index-based stencil is epi_int_lite's own design (source/helper_fns.py interpolate_fn), used also by delta_f and so by the viscous and pressure forces; the kernel must match the reference bit for bit. Measured in our runs, same-index particles on neighboring streamlines stay within 1.37 particle spacings (self_confining, 135,000 orbits) and 0.78 (bending_waves), so the stencil brackets or nearly brackets the target and the smooth streamline makes the mild extrapolation harmless. Not changing the kernel; logging the assumption as epi_int_lite issue 11 and adding a check of the offset to the regression tests.",
-   "fix": "notes/epi_int_lite_issues.md issue 11; offset check in tests (to do)"},
-  {"id": "gpt-2", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "medium",
+   "fix": "notes/epi_int_lite_issues.md issue 11; offset check in tests (to do)",
+   "tiebreak": {
+    "id": "gpt-1",
+    "ruling": "claude",
+    "reason": "The Numba kernel in `fast/bookkeeping.py` is explicitly designed to match the reference implementation (`source/helper_fns.py`) bit-for-bit, which uses the same index-based stencil via `interpolate_fn`. Furthermore, because particles on each streamline are sorted by longitude at every velocity kick (`sort_streamlines`), the j-th particle on any streamline stays near the same longitude across streamlines, making Claude's decision to document the assumption and add a regression check rather than alter the reference-matching kernel appropriate.",
+    "fix": "",
+    "judge": "gemini"
+   }
+  },
+  {
+   "id": "gpt-2",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "medium",
    "where": "_adjust: angle -= TWOPI",
    "finding": "_adjust shifts by 2 pi only once, so an angle outside [-3 pi, 3 pi] is not brought into [-pi, pi]; e.g. dt = 4 pi leaves t near 2 pi, breaking the longitude convention that sorting and wrapping need.",
    "verdict": "disagree",
    "comment": "It is helper_fns.adjust_angle exactly (one shift each way), which the kernel must match bit for bit. Its argument cannot leave [-3 pi, 3 pi] in use: M from atan2 is in [-pi, pi], wt in [-pi, pi], Omega_a/kappa_a = 1 + O(J2 (Rp/a)^2), e << 1, and kappa dt is a small fraction of an orbit (timesteps are ~1/100 of an orbit or less), so the sum is below 2 pi + small. The dt = 4 pi example is outside the code's use.",
-   "fix": ""},
-  {"id": "gpt-3", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "low", "where": "file header, docstrings",
-   "finding": "No C1 header; docstrings instead of comments (C6).", "verdict": "agree",
-   "comment": "fast/ predates the code style guide; restyling it is on the to-do list in PLAN.md.", "fix": "deferred to the fast/ restyle"},
-  {"id": "gpt-4", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "low", "where": "Nr, Nt; i, j, k",
-   "finding": "Abbreviated counts (C11) and generic loop indices (C13).", "verdict": "agree",
-   "comment": "As gpt-3.", "fix": "deferred to the fast/ restyle"},
-  {"id": "gpt-5", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "low", "where": "if angle > np.pi:",
-   "finding": "Conditions without parentheses (C18); bracketed factors without spacing (C17).", "verdict": "agree",
-   "comment": "As gpt-3.", "fix": "deferred to the fast/ restyle"},
-  {"id": "gpt-6", "reviewer": "gpt", "reply": "reviews/2026-11-08-code-gpt.md", "severity": "low", "where": "def drift(r, t, ...",
-   "finding": "Arrays before parameters and outputs written in place, contrary to C19.", "verdict": "agree",
-   "comment": "In-place output arrays are needed for preallocated Numba kernels, as the reviewer notes; the parameter order can follow C19 in the restyle.", "fix": "deferred to the fast/ restyle"},
-  {"id": "gemini-1", "reviewer": "gemini", "reply": "reviews/2026-11-08-code-gemini.md", "severity": "low", "where": "_adjust",
+   "fix": "",
+   "tiebreak": {
+    "id": "gpt-2",
+    "ruling": "claude",
+    "reason": "`_adjust` is an exact scalar translation of `helper_fns.adjust_angle` required for bit-for-bit equivalence with the reference code. In all call sites within `drift`, the inputs are combinations of bounded angles in `[-pi, pi]` and a single sub-orbital timestep `Kap * dt`, so the argument never exceeds `[-3*pi, 3*pi]` in valid physical simulations.",
+    "fix": "",
+    "judge": "gemini"
+   }
+  },
+  {
+   "id": "gpt-3",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "low",
+   "where": "file header, docstrings",
+   "finding": "No C1 header; docstrings instead of comments (C6).",
+   "verdict": "agree",
+   "comment": "fast/ predates the code style guide; restyling it is on the to-do list in PLAN.md.",
+   "fix": "deferred to the fast/ restyle"
+  },
+  {
+   "id": "gpt-4",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "low",
+   "where": "Nr, Nt; i, j, k",
+   "finding": "Abbreviated counts (C11) and generic loop indices (C13).",
+   "verdict": "agree",
+   "comment": "As gpt-3.",
+   "fix": "deferred to the fast/ restyle"
+  },
+  {
+   "id": "gpt-5",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "low",
+   "where": "if angle > np.pi:",
+   "finding": "Conditions without parentheses (C18); bracketed factors without spacing (C17).",
+   "verdict": "agree",
+   "comment": "As gpt-3.",
+   "fix": "deferred to the fast/ restyle"
+  },
+  {
+   "id": "gpt-6",
+   "reviewer": "gpt",
+   "reply": "reviews/2026-11-08-code-gpt.md",
+   "severity": "low",
+   "where": "def drift(r, t, ...",
+   "finding": "Arrays before parameters and outputs written in place, contrary to C19.",
+   "verdict": "agree",
+   "comment": "In-place output arrays are needed for preallocated Numba kernels, as the reviewer notes; the parameter order can follow C19 in the restyle.",
+   "fix": "deferred to the fast/ restyle"
+  },
+  {
+   "id": "gemini-1",
+   "reviewer": "gemini",
+   "reply": "reviews/2026-11-08-code-gemini.md",
+   "severity": "low",
+   "where": "_adjust",
    "finding": "_adjust wraps only inputs in [-3 pi, 3 pi]; a multi-orbit dt would leave t > pi. No change needed if dt is always small and the reference does a single shift.",
-   "verdict": "agree", "comment": "Both conditions hold (see gpt-2).", "fix": ""},
-  {"id": "gemini-2", "reviewer": "gemini", "reply": "reviews/2026-11-08-code-gemini.md", "severity": "low", "where": "whole file",
+   "verdict": "agree",
+   "comment": "Both conditions hold (see gpt-2).",
+   "fix": ""
+  },
+  {
+   "id": "gemini-2",
+   "reviewer": "gemini",
+   "reply": "reviews/2026-11-08-code-gemini.md",
+   "severity": "low",
+   "where": "whole file",
    "finding": "Style breaches of C1, C6, C10, C13, C14, C15, C18, C19, to be addressed in the scheduled fast/ restyle.",
-   "verdict": "agree", "comment": "As gpt-3.", "fix": "deferred to the fast/ restyle"}]}
+   "verdict": "agree",
+   "comment": "As gpt-3.",
+   "fix": "deferred to the fast/ restyle"
+  }
+ ]
+}

@@ -5,3 +5,4 @@
 {"date": "2026-11-08", "activity": "derive", "reviewer": "claude", "model": "anthropic/claude-opus-5.5", "input": "reviews/problems/vertical_motion.md", "usd": 0.5759, "tokens_in": 5581, "tokens_out": 27678}
 {"date": "2026-11-08", "activity": "code", "reviewer": "gpt", "model": "openai/gpt-6-astra", "input": "fast/bookkeeping.py", "reply": "reviews/2026-11-08-code-gpt.md", "usd": 0.3284, "tokens_in": 13581, "tokens_out": 3173}
 {"date": "2026-11-08", "activity": "code", "reviewer": "gemini", "model": "google/gemini-4-argon", "input": "fast/bookkeeping.py", "reply": "reviews/2026-11-08-code-gemini.md", "usd": 0.0381, "tokens_in": 14572, "tokens_out": 895}
+{"date": "2026-11-08", "activity": "tiebreak", "reviewer": "gemini", "model": "google/gemini-4-argon", "input": "reviews/2026-11-08-code-verdicts.json", "reply": "reviews/2026-11-08-code-verdicts.json", "usd": 0.0426, "tokens_in": 19892, "tokens_out": 278}
