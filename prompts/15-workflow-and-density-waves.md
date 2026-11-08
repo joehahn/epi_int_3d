@@ -39,3 +39,20 @@ existing paper figures.]
 
 [Diagrams are plain line drawings on white in the same font and palette (V17); no 2D color maps without
 asking (V18); restyling `vertical_resonance` and `zigzag` on the to-do list.]
+
+push. go ahead with the derivations guide
+
+[Pushed. Drafted `style/derivations.md` from hahn07 §2 and the appendices of hahn13 and hahn25 (quotes checked
+against the PDF pages): set up the physical system and split it into parts; every approximation with its physical
+reason, small quantity and order; assumptions stated and checked later; dimensionless functions checked in their
+limits; each term interpreted; results the code uses written as numbered steps. Open questions: whether `notes/`
+derivations follow it from the start, and the preferred method.]
+
+2 i prefer equations of motion and fluxes. but I'll occasionally use orbit elements and the disturbing function when that is more convenient 1 i dont understand
+
+[Added as D4a. Explained question 1: derivations are written twice, as Claude's terse working notes in `notes/`
+and again in the author's style for the paper; should the style apply from the start?]
+
+the derivation in the notes should do the math in my preferred style
+
+[D0: derivations in `notes/` follow the guide from the start, as drafts of the paper's appendices.]
