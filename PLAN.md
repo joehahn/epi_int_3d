@@ -330,6 +330,9 @@ density waves are the first feature built through the whole pipeline.
      Citations still go through SciX.
    - **Disputes:** where CC rejects or partly accepts a finding, a model not involved in it rules
      (ABW's `tiebreak.py`). Editorial decisions stay yours.
+   - *Built 2026-11-08:* `tools/review.py` (`--derive`, `--code`, `--test`, `--paper`, each with
+     its style guide; `--context`, `--diff`, `--focus`, `--dry-run`) and `tools/tiebreak.py`, sharing
+     `tools/openrouter.py`. CC writes `reviews/<date>-<activity>-verdicts.json` after each review.
 3. **Fewer knock-on edits.**
    - *One source for every number:* scripts write the paper's numbers into a LaTeX macro file the
      paper includes, and every figure is made by script, so nothing is hand-copied.

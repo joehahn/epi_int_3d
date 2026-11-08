@@ -119,3 +119,12 @@ if we keep drift as is today, the error in z and vz if of order e*i?
 [Yes: O(a e i) in z, periodic at ν_a ± κ_a, not secular; negligible for near-circular rings.]
 
 keep drift as is, what's next?
+
+[Proposed the rest of Phase 3b: 1 review modes, 2 the dependency chain, 3 one source for the paper's numbers,
+4 the ledger dashboard.]
+
+push, then go ahead with 1
+
+[Pushed. `tools/review.py` gained `--code`, `--test` and `--paper` (each with its style guide, a shared findings
+format, `--context`, `--diff`, `--focus`); `tools/tiebreak.py` sends findings Claude disputes to a model not
+involved in them; shared helpers in `tools/openrouter.py`.]
