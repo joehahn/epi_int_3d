@@ -17,8 +17,8 @@ REPO = Path(__file__).resolve().parent.parent
 PAPER = REPO/'paper'
 
 #(pattern, advice): words the style guide rules out, matched case-insensitively outside comments
-BANNED = [(r'\btest particles?\b', '"massless particles" or "tracer particles" (writing_style.md, Vocabulary)'),
-          (r'\bTherefore,', '"Consequently," (writing_style.md, Sentences and connectives)')]
+BANNED = [(r'\btest particles?\b', '"massless particles" or "tracer particles" (writing_style.md, P53)'),
+          (r'\bTherefore,', '"Consequently," (writing_style.md, P9)')]
 CASE_SENSITIVE = {r'\bTherefore,'}
 
 

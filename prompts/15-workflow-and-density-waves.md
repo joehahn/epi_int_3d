@@ -56,3 +56,8 @@ and again in the author's style for the paper; should the style apply from the s
 the derivation in the notes should do the math in my preferred style
 
 [D0: derivations in `notes/` follow the guide from the start, as drafts of the paper's appendices.]
+
+push, then number the paper guide's rules
+
+[Pushed. `joes_papers/writing_style.md`'s 70 rules numbered P1–P70, with a note that rule numbers are permanent
+(new rules take the next free number or a lettered one, e.g. P9a); `tools/lint_paper.py` cites P9 and P53.]
