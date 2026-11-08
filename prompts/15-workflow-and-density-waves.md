@@ -61,3 +61,50 @@ push, then number the paper guide's rules
 
 [Pushed. `joes_papers/writing_style.md`'s 70 rules numbered P1–P70, with a note that rule numbers are permanent
 (new rules take the next free number or a lettered one, e.g. P9a); `tools/lint_paper.py` cites P9 and P53.]
+
+is the above happening now?
+
+[Not yet: the outside-review tooling had not been built. Next step: an OpenRouter key, then the derivation
+bake-off.]
+
+what does 2 mean? i'll create a new openrouter key for this project, create a .env file and i'll paste key
+
+[Explained the bake-off: the same derivation problem sent blind to each model, to see which derives best.
+Created a git-ignored `.env` (mode 600) for the key.]
+
+key pasted. proceed
+
+[Verified the key ($50 limit). Wrote `tools/review.py` (OpenRouter; replies saved unedited in `reviews/`, costs by
+activity in `reviews/costs.jsonl`) and `reviews/problems/vertical_motion.md`, prompt 01 made self-contained with
+no answers given. Dry run: at most $2.62 for GPT, Gemini and Claude.]
+
+does key auto replenish when we hit $50? do i need to adjust something in openrouter?
+
+[No: the key's $50 cap is lifetime unless given a reset, and the account balance is separate.]
+
+i think auto top-up is set to replenish, will that top off the new key? or should i change the key to no limit?
+
+[Auto top-up refills the account, not the key's cap. Recommended keeping $50 with a monthly reset.]
+
+key is set to monthlyu
+
+go
+
+[Sent the vertical-motion problem to `openai/gpt-6-astra`, `google/gemini-4-argon` and
+`anthropic/claude-opus-5.5`.]
+
+[All three derivations correct. GPT solved for the O(e·i) term; Claude used z = r sin i sin(θ − Ω), leaving an
+O(e·i·J₂(R_p/a)²) error; Gemini matched V2–V8. Total cost $2.55, including a first round where Gemini and Claude
+spent their whole budget reasoning (fixed by capping reasoning tokens).]
+
+pop ABC into this browser
+
+[Published the three, anonymized as A, B and C, as a private artifact.]
+
+which do you think writes most like me?
+
+[C, then B, then A, with the caveat that I knew the key and one was Claude's.]
+
+lets use b for now
+
+[B was Claude's. Recorded in PLAN.md: CC stays the author of derivations; GPT is the main math reviewer.]

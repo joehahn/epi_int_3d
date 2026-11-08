@@ -308,6 +308,14 @@ density waves are the first feature built through the whole pipeline.
    - **Bake-off first.** GPT and Gemini (and Claude) each derive one already-verified result, e.g.
      the vertical drift (`notes/phase3/`), graded on correctness and closeness to your style. If
      another model clearly derives better, it drafts derivations and CC puts them in your style.
+     *Done 2026-11-08* (`tools/review.py`, problem `reviews/problems/vertical_motion.md`, replies in
+     `reviews/`, $2.55 in all). All three were correct. GPT (`openai/gpt-6-astra`) went furthest,
+     solving for the O(e·i) term our V2–V8 drop; Claude (`anthropic/claude-opus-5.5`) used the
+     Keplerian form z = r sin i sin(θ − Ω), leaving only an O(e·i·J₂(R_p/a)²) error; Gemini
+     (`google/gemini-4-argon`) matched V2–V8. Ranked blind on style, Claude's was chosen (the author:
+     "lets use b for now"), so CC stays the author of derivations, and GPT, the strongest on the math,
+     is the main math reviewer. Open: whether the drift adopts GPT's or Claude's improved vertical
+     solution (it would change V2–V8 and `fast/bookkeeping.py`).
    - **Reviewers:** GPT and Gemini as the main pair (math and code), Grok optionally as a third
      opinion on the paper. Models are picked from OpenRouter's list when the tooling is built, then
      pinned and logged. A script modeled on ABW's `scripts/review.py`; raw reviews kept unedited.

@@ -1,0 +1,5 @@
+{"date": "2026-11-08", "activity": "derive", "reviewer": "gpt", "model": "openai/gpt-6-astra", "input": "reviews/problems/vertical_motion.md", "usd": 0.9146, "tokens_in": 3884, "tokens_out": 17322}
+{"date": "2026-11-08", "activity": "derive", "reviewer": "gemini", "model": "google/gemini-4-argon", "input": "reviews/problems/vertical_motion.md", "usd": 0.3281, "tokens_in": 4027, "tokens_out": 32000}
+{"date": "2026-11-08", "activity": "derive", "reviewer": "claude", "model": "anthropic/claude-opus-5.5", "input": "reviews/problems/vertical_motion.md", "usd": 0.6623, "tokens_in": null, "tokens_out": null, "note": "empty reply (all tokens spent reasoning); cost from the key's usage, not logged by review.py"}
+{"date": "2026-11-08", "activity": "derive", "reviewer": "gemini", "model": "google/gemini-4-argon", "input": "reviews/problems/vertical_motion.md", "usd": 0.0713, "tokens_in": 4027, "tokens_out": 6327}
+{"date": "2026-11-08", "activity": "derive", "reviewer": "claude", "model": "anthropic/claude-opus-5.5", "input": "reviews/problems/vertical_motion.md", "usd": 0.5759, "tokens_in": 5581, "tokens_out": 27678}
