@@ -25,6 +25,9 @@ decisions, ground rules) and `README.md`.
 - `paper/`: the mock ApJ paper (AASTeX 7.0.2). `papers/`: reference PDFs by others (git-ignored).
   `joes_papers/`: the author's own papers (git-ignored except hahn25) and `writing_style.md`, the author's
   style for the paper, drawn from them.
+- `style/`: the author's style guides, drawn from his pre-AI work, with numbered rules: `code.md` (C),
+  `testing.md` (T), and `dataviz.md` (V), `derivations.md` (D) to come; the paper's is
+  `joes_papers/writing_style.md`. Follow the matching guide for all new code, test notebooks and figures.
 - `prompts/`: the final version of each prompt that drove the project, `NN-short-name.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),

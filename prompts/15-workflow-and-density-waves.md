@@ -13,3 +13,18 @@ lets put reviewing fast code on our todo list, we dont have to tackle that now, 
 [`PLAN.md` draft v9: Phase 3b (style guides, one author and outside reviewers, fewer knock-ons, the ledger), Phase 3c (linear spiral density waves), a density-wave row in Phase 4 and a note that agreement with theory is a judgment call, Phase 5 and the decisions narrowed to linear waves only with no Cassini data, and restyling `fast/` on the to-do list.]
 
 commit, then start the code and testing style guides
+
+[Committed the plan. Drafted `style/code.md` (C1–C25) from `source/` and `style/testing.md` (T1–T21) from seven
+pre-AI notebooks: the four ported tests and, from the epi_int_lite repo, the self-confining nominal run, the
+number-of-streamlines convergence study and the equilibrium study. Each guide lists Claude's habits that break
+its rules. Open questions: `exec` and `import *`, input checking, markdown cells, seaborn, restyling Claude's notebooks.]
+
+the purpose of most tests are to: confirm sim output agrees with theory, show that output agrees with expectations, and that constants of the motion are conserved reasonably well. usually documents via to-the-point plots make the point at a glance. some of which are publication quality and go into journal articles or conference reports
+
+[Added as the testing guide's statement of purpose, and T22: one point per plot, the key plot drawn as a candidate paper figure.]
+
+2 follow my style 3 my notebooks often have a comment explaining its purpose, do that in my comments' style in voice. 4 plots should use seaborn and preserve my appearance. should we make a data vis style guide? 5 unsure we'll deal with that later. 1 i dont understand the question
+
+[No input checks (C4); a purpose comment and no markdown (T3); the author's seaborn setup (T7); restyling Claude's notebooks on the to-do list. Explained question 1: `exec` of inputs.py and `import *` hide where names come from; recommended keeping `exec` everywhere and `import *` in notebooks, with explicit imports in new modules. Recommended a data-visualization guide covering notebook plots, paper figures, animations and the Pages site.]
+
+agreed on 1, commit and do the data vis guide
