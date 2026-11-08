@@ -1,4 +1,4 @@
-# epi_int_3d — project plan (draft v8)
+# epi_int_3d — project plan (draft v9)
 
 **Goal:** show how an AI coding agent (Claude Code, "CC") can speed up a real astrophysics
 research project. The project extends the 2D epi_int_lite streamline N-body integrator
@@ -285,6 +285,71 @@ z = 0 runs unchanged bit for bit. A rigidly inclined narrow ringlet's nodes stay
 without it they spread 0.39 rad. Next: the quantitative inclined-ringlet test (nodal libration versus
 theory), then satellite forcing (2c).
 
+## Phase 3b — Workflow: style guides, outside review, the ledger (decided 2026-11-08)
+
+**Goal:** finish the project as correctly as possible, with the math, code, tests, figures and paper
+in your style and voice, and with as few interventions by you as possible. Modeled on
+agent-banking-watch (ABW), adapted to a physics paper. Done in this order, before 3c, so that the
+density waves are the first feature built through the whole pipeline.
+
+1. **Style guides, one per activity**, each drawn from your pre-AI work the way
+   `joes_papers/writing_style.md` was drawn from your papers, each with numbered rules (D3, C7, …)
+   so that reviews and ledger cards can cite them, and each with a "From the author's edits" section
+   that turns every correction you make into a rule, so the same correction isn't needed twice:
+   - *Derivations* (D): from the appendices of the papers in `joes_papers/`.
+   - *Code* (C): from epi_int_lite, i.e. `source/`.
+   - *Testing and validation* (T): from the original epi_int_lite notebooks (commit `99a7753`).
+   - *Data visualization* (V): from those notebooks' figures and the papers' figures.
+   - *Paper* (P): the existing `joes_papers/writing_style.md`, rules numbered.
+2. **One author, outside reviewers.** CC (Claude) derives, writes code, writes tests and drafts
+   prose, each against its style guide: one author keeps the style consistent, and the author must
+   be the one working in the repo (sympy, runs, tests, rendering). Models from other companies only
+   review:
+   - **Bake-off first.** GPT and Gemini (and Claude) each derive one already-verified result, e.g.
+     the vertical drift (`notes/phase3/`), graded on correctness and closeness to your style. If
+     another model clearly derives better, it drafts derivations and CC puts them in your style.
+   - **Reviewers:** GPT and Gemini as the main pair (math and code), Grok optionally as a third
+     opinion on the paper. Models are picked from OpenRouter's list when the tooling is built, then
+     pinned and logged. A script modeled on ABW's `scripts/review.py`; raw reviews kept unedited.
+   - **Math:** blind re-derivation (the reviewer gets the problem, not CC's answer), then the two
+     are compared. sympy stays the ground truth, and your hand check the final word.
+   - **Code:** the diff plus the equation it implements (match, units, signs).
+   - **Tests:** would this test fail if the code were wrong? Each reviewer names a plausible bug the
+     test would miss.
+   - **Paper:** every claim against the result behind it, plus a skeptical-referee read.
+     Citations still go through SciX.
+   - **Disputes:** where CC rejects or partly accepts a finding, a model not involved in it rules
+     (ABW's `tiebreak.py`). Editorial decisions stay yours.
+3. **Fewer knock-on edits.**
+   - *One source for every number:* scripts write the paper's numbers into a LaTeX macro file the
+     paper includes, and every figure is made by script, so nothing is hand-copied.
+   - *Dependencies:* each ledger item records what it depends on (paragraph → equation → sympy
+     check → code → test → figure) and those files' hashes; a change marks everything downstream stale.
+   - *Knock-on pass:* after every change CC fixes the stale items and lists each fix with a
+     one-line reason, so you can veto it.
+4. **The ledger.** A claude.ai artifact dashboard, as in ABW, with its own database that the page
+   and CC both read and write. Cards for each paper paragraph, equation, code unit, test and figure,
+   linked along the dependency chain, so clicking a claim shows everything behind it and its status
+   (drafted → sympy-checked → reviewed → hand-verified, or stale). Each card links to the style
+   guide rules it is checked against and shows the reviewers' findings with CC's verdict, the
+   tiebreak ruling, and a box for your note. `notes/equations.md` folds into it. **Costs** are
+   broken down by activity (derive, code, test, write, review per model, tiebreak) plus your time
+   from `notes/human_time.md`; outside reviews are exact, and CC's split within a session is an
+   estimate (an extension of `tools/session_time.py`).
+
+## Phase 3c — Spiral density waves (decided 2026-11-08)
+
+Linear only. The density-wave counterpart of `tests/bending_waves/`, in `tests/density_waves/`:
+the Fourier satellite (`fast/satellite.py`) forcing an m ≥ 2 inner Lindblad resonance in a
+self-gravitating ring. The motion is planar, so `source/` and `fast/epi_int_3d.py` can be compared.
+Theory (derived in GT notation, sympy-checked, in `notes/equations.md`) and the comparisons:
+- wavenumber k(r) against the WKB dispersion relation, including the onset at resonance;
+- the angular momentum flux the wave carries against the Goldreich & Tremaine (1979) torque;
+- the amplitude profile against Shu (1984), with the finite lattice's restoring force treated as B13
+  does for bending waves;
+- the wave travels outward from the ILR (bending waves travel inward), a quick sign check;
+- convergence in the number of streamlines and the timestep.
+
 ## Phase 4 — Testing
 
 | Test | Expectation |
@@ -300,19 +365,21 @@ theory), then satellite forcing (2c).
 | Wave-front timing | front position vs. time matches the group velocity; runs stop before it reaches the edge |
 | Energy / angular momentum | conserved to the expected tolerance |
 
+| Linear density wave from an inner Lindblad resonance (3c) | wavelength vs. x, torque and amplitude match linear theory; `source/` and `fast/epi_int_3d.py` agree |
+
+Whether a simulation agrees with theory is a judgment call made by you and CC together, not a
+pass/fail threshold, and not something the outside reviewers rule on (they check only that the
+test code computes what it says it does).
+
 **Gate:** all tests pass and the plots look right to you.
 
 ## Phase 5 — Science runs
 
-**Scope (decided): linear validation plus a nonlinear parameter study.** Saturn-specific
-comparison with Cassini data is out of scope for this paper.
+**Scope (revised 2026-11-08): linear waves only**, bending and density. Saturn-specific
+comparison with Cassini data is out of scope for this version of the project.
 
-- Linear bending waves: validation and convergence (number of streamlines, timestep).
-- **Nonlinear spiral bending waves** (λ_b ≲ A). The open problem flagged in hahn25: does a
-  shrinking bending wave go nonlinear and drive in-plane density waves?
-- Parameter study: vary the forcing amplitude (hence wave amplitude A) and the ring surface
-  density σ₀ (hence wavelength λ_b), and map where the transition to nonlinearity occurs and
-  whether density waves are launched.
+- Linear bending and density waves: validation and convergence (number of streamlines, timestep).
+- *Dropped 2026-11-08:* the nonlinear bending-wave parameter study (λ_b ≲ A).
 - **Compute: multicore VMs on Google Cloud.**
   - Software environment: the same `uv.lock` used on the Mac, installed on the VM with
     `uv sync --frozen` (optionally baked into a container image), so both run identical code.
@@ -361,7 +428,10 @@ comparison with Cassini data is out of scope for this paper.
 
 - Repo `joehahn/epi_int_3d`, private until ready, public since 2026-10-20 (MIT license); fresh git history; epi_int_lite referenced by URL.
 - Target journal: ApJ.
-- Science scope: linear validation + nonlinear parameter study (no Saturn/Cassini comparison).
+- Science scope: linear bending and density waves only (revised 2026-11-08); no Saturn/Cassini data.
+- Workflow (2026-11-08, Phase 3b): CC authors everything against per-activity style guides; GPT and
+  Gemini review (Grok optional, paper only); a ledger dashboard tracks every item, its dependencies,
+  reviews and costs by activity.
 - Port to the newest Python that Numba supports, then optimize for speed (Phase 0b).
 - Bending wave: m = 2–3, ~20 crests, ~20 streamlines per wavelength, ~20 particles per streamline.
 - Math in Goldreich & Tremaine notation; Shu's results are rederived/translated (GT m = −Shu m).
@@ -384,6 +454,12 @@ comparison with Cassini data is out of scope for this paper.
   that paid for it cost (2026-10-20).
 
 ## Open questions to settle
+
+- **To do, later: review `fast/` against the code style guide** (decided 2026-11-08). `fast/` was
+  written in CC's own style before the guide existed. Restyle the parts you read
+  (`fast/epi_int_3d.py`, `fast/satellite.py`) so they can be spot-checked at a glance; the Numba
+  kernels and bookkeeping probably stay as they are, since the regression suite proves them bit for
+  bit. The regression suite makes any restyling safe.
 
 - **To do, later: fix the tangential zigzag** (decided 2026-10-19, not analyzed further for now). At
   333 streamlines the nominal ringlet's streamlines cross through a particle-scale sawtooth along each
