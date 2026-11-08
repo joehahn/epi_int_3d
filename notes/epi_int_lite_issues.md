@@ -22,7 +22,8 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 | 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | `patches.apply(fix_seam=True)`; `fast/epi_int_3d.py` input `fix_seam` (default on) | the plots, yes; the evolution, no (≤ 6×10⁻⁵ in q) |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
-(issue 3), and properties of the pressure and viscosity scheme (issue 5). Issue 8, the omitted pull
+(issue 3), properties of the pressure and viscosity scheme (issue 5), and index-based interpolation
+stencils, harmless so far (issue 11). Issue 8, the omitted pull
 of a particle's own streamline, was a deliberate choice and stays as it is for now. Issue 2 was an outdated
 test input, fixed in this repo's copy.
 
@@ -294,3 +295,21 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   inertial longitude and every particle passes through it, so its error was spread thinly over the
   ring. Fixed; the σ plot's notch is gone.
 
+
+## 11. Interpolation stencils are chosen by particle index, not by longitude
+
+- **Found:** GPT's code review of `fast/bookkeeping.py` (`reviews/2026-11-08-code-gpt.md`, finding 1;
+  verdict in `reviews/2026-11-08-code-verdicts.json`), 2026-11-08.
+- **What:** `interpolate_fn` takes the neighbour streamline's particles j − 1, j, j + 1 as the
+  three-point Lagrange stencil for particle j, assuming same-index particles on neighbouring streamlines
+  stay near the same longitude. If they drift apart by more than a particle spacing 2π/Nt, the stencil
+  no longer brackets the target and the interpolation becomes extrapolation. Everything built on
+  `interpolate_fn` assumes this: the crossing check (`fast/bookkeeping.crossed`), `delta_f` and so the
+  viscous and pressure forces, and the surface density.
+- **How large:** in the final states of our runs the largest offset is 1.37 particle spacings
+  (`tests/self_confining`, 135,000 orbits, Nt = 241) and 0.78 (`tests/bending_waves`, 3,500 orbits),
+  measured 2026-11-08. So the stencil brackets or nearly brackets the target, and the streamlines are
+  smooth on that scale; no effect has been seen.
+- **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
+- **Fix:** none needed yet. To do: a check of the largest same-index offset in the regression tests, so
+  a run where streamlines shear apart is caught.
