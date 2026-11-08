@@ -314,8 +314,10 @@ density waves are the first feature built through the whole pipeline.
      Keplerian form z = r sin i sin(θ − Ω), leaving only an O(e·i·J₂(R_p/a)²) error; Gemini
      (`google/gemini-4-argon`) matched V2–V8. Ranked blind on style, Claude's was chosen (the author:
      "lets use b for now"), so CC stays the author of derivations, and GPT, the strongest on the math,
-     is the main math reviewer. Open: whether the drift adopts GPT's or Claude's improved vertical
-     solution (it would change V2–V8 and `fast/bookkeeping.py`).
+     is the main math reviewer. Both GPT's and Claude's vertical solutions remove most of the drift's
+     O(e·i) error (periodic, at ν_a ± κ_a, not secular); the drift stays as is (the author, 2026-11-08),
+     since that error is a fraction of a percent for the near-circular rings simulated here. Revisit for
+     inclined eccentric ringlets.
    - **Reviewers:** GPT and Gemini as the main pair (math and code), Grok optionally as a third
      opinion on the paper. Models are picked from OpenRouter's list when the tooling is built, then
      pinned and logged. A script modeled on ABW's `scripts/review.py`; raw reviews kept unedited.

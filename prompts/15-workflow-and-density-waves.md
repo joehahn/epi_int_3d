@@ -108,3 +108,14 @@ which do you think writes most like me?
 lets use b for now
 
 [B was Claude's. Recorded in PLAN.md: CC stays the author of derivations; GPT is the main math reviewer.]
+
+what are the new terms suggested by  GPT's and Claude for drift?
+
+[Both add O(e) terms to z = a i sin ψ: z ≃ a i[(1 − α e cos M) sin ψ + β e sin M cos ψ]; Claude's has α = 1,
+β = 2Ω_a/κ_a, GPT's solves for α ≈ 1 + q, β ≈ 2(1 + 4q).]
+
+if we keep drift as is today, the error in z and vz if of order e*i?
+
+[Yes: O(a e i) in z, periodic at ν_a ± κ_a, not secular; negligible for near-circular rings.]
+
+keep drift as is, what's next?
