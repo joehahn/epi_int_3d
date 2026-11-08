@@ -28,3 +28,14 @@ the purpose of most tests are to: confirm sim output agrees with theory, show th
 [No input checks (C4); a purpose comment and no markdown (T3); the author's seaborn setup (T7); restyling Claude's notebooks on the to-do list. Explained question 1: `exec` of inputs.py and `import *` hide where names come from; recommended keeping `exec` everywhere and `import *` in notebooks, with explicit imports in new modules. Recommended a data-visualization guide covering notebook plots, paper figures, animations and the Pages site.]
 
 agreed on 1, commit and do the data vis guide
+
+[Committed the code and testing guides. Drafted `style/dataviz.md` from all 29 hahn25 figures (the author's
+notebook plots placed directly in the paper) and the notebooks: seaborn's gray grid, one 10×6 panel at column
+width, theory dashed in the simulation's color, the reference run thicker, word-then-symbol labels, normalized
+axes, no titles on paper figures, PDFs made by script. Open questions: diagrams, color maps, restyling the
+existing paper figures.]
+
+1 unsure do whats best. 2 those claude-generated color maps are likely going to get deleted. 3 do later
+
+[Diagrams are plain line drawings on white in the same font and palette (V17); no 2D color maps without
+asking (V18); restyling `vertical_resonance` and `zigzag` on the to-do list.]

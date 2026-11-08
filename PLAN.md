@@ -462,6 +462,8 @@ comparison with Cassini data is out of scope for this version of the project.
   bit. The regression suite makes any restyling safe.
 - **Undecided, later: restyle the notebooks Claude wrote** (e.g. `tests/bending_waves/bending_waves.ipynb`)
   against `style/testing.md`, or leave them as they are (2026-11-08).
+- **To do, later: restyle the paper's data figures** `paper/figures/vertical_resonance.py` and
+  `zigzag.py` against `style/dataviz.md` (2026-11-08).
 
 - **To do, later: fix the tangential zigzag** (decided 2026-10-19, not analyzed further for now). At
   333 streamlines the nominal ringlet's streamlines cross through a particle-scale sawtooth along each
