@@ -1,0 +1,320 @@
+{
+ "claim:drift_rotation": {
+  "date": "2026-11-09",
+  "hash": "f71e4561d1c9",
+  "needs": {
+   "code:vertical_drift": "cac5e539d361",
+   "paper:eqn:i_node": "df29a18a52d5",
+   "sympy:V8": "0ba1e148a666",
+   "test:inclined": "f1d9bc105c2c"
+  }
+ },
+ "claim:frequency_relation": {
+  "date": "2026-11-09",
+  "hash": "dc7e0bc312ee",
+  "needs": {
+   "paper:eqn:laplace": "e81a792253c4",
+   "sympy:V7": "e3ccfae5eb4c"
+  }
+ },
+ "claim:neglected_terms": {
+  "date": "2026-11-09",
+  "hash": "dc7e0bc312ee",
+  "needs": {
+   "paper:eqn:nu": "45881a76adfc",
+   "sympy:V6": "5472eaff9cd3"
+  }
+ },
+ "claim:phase_from_lambda": {
+  "date": "2026-11-09",
+  "hash": "d6ce9377a71f",
+  "needs": {
+   "paper:eqn:node": "4206e3c3c4ce",
+   "paper:eqn:zvz": "70ddb011eb53",
+   "sympy:V2": "53da6d751f2e",
+   "sympy:V4": "e00d54253909"
+  }
+ },
+ "code:drift": {
+  "date": "2026-11-09",
+  "hash": "a16d87bc9e34",
+  "needs": {
+   "code:omega_kappa": "f87a66a984e1",
+   "eq:H1": "154f6cbe9051",
+   "eq:H2": "a9c6f2b9d54d",
+   "eq:H3": "f7017c75bd8e"
+  }
+ },
+ "code:exact_orbits": {
+  "date": "2026-11-09",
+  "hash": "dbec2df05f67",
+  "needs": {}
+ },
+ "code:incline": {
+  "date": "2026-11-09",
+  "hash": "7c530e64b556",
+  "needs": {
+   "code:nu_a": "8629023eb42e",
+   "eq:V2": "d4b0dc07a66b"
+  }
+ },
+ "code:inclined_metrics": {
+  "date": "2026-11-09",
+  "hash": "37fa8560a818",
+  "needs": {
+   "code:nodal_rate": "bc7117846b35"
+  }
+ },
+ "code:nodal_rate": {
+  "date": "2026-11-09",
+  "hash": "bc7117846b35",
+  "needs": {
+   "eq:V4": "a5b6ce9026e5"
+  }
+ },
+ "code:nu_a": {
+  "date": "2026-11-09",
+  "hash": "8629023eb42e",
+  "needs": {
+   "eq:V1": "5fa44b52addf"
+  }
+ },
+ "code:omega_kappa": {
+  "date": "2026-11-09",
+  "hash": "f87a66a984e1",
+  "needs": {}
+ },
+ "code:vertical_drift": {
+  "date": "2026-11-09",
+  "hash": "cac5e539d361",
+  "needs": {
+   "eq:V1": "5fa44b52addf",
+   "eq:V8": "2215b23710d5"
+  }
+ },
+ "code:vertical_elements": {
+  "date": "2026-11-09",
+  "hash": "0b4b956b0ca6",
+  "needs": {
+   "code:nu_a": "8629023eb42e",
+   "eq:V3": "d096bddf441b"
+  }
+ },
+ "eq:H1": {
+  "date": "2026-11-09",
+  "hash": "154f6cbe9051",
+  "needs": {}
+ },
+ "eq:H2": {
+  "date": "2026-11-09",
+  "hash": "a9c6f2b9d54d",
+  "needs": {}
+ },
+ "eq:H3": {
+  "date": "2026-11-09",
+  "hash": "f7017c75bd8e",
+  "needs": {}
+ },
+ "eq:V1": {
+  "date": "2026-11-09",
+  "hash": "5fa44b52addf",
+  "needs": {}
+ },
+ "eq:V2": {
+  "date": "2026-11-09",
+  "hash": "d4b0dc07a66b",
+  "needs": {}
+ },
+ "eq:V3": {
+  "date": "2026-11-09",
+  "hash": "d096bddf441b",
+  "needs": {}
+ },
+ "eq:V4": {
+  "date": "2026-11-09",
+  "hash": "a5b6ce9026e5",
+  "needs": {}
+ },
+ "eq:V5": {
+  "date": "2026-11-09",
+  "hash": "352ce44d84cd",
+  "needs": {}
+ },
+ "eq:V6": {
+  "date": "2026-11-09",
+  "hash": "1f75cec7fb15",
+  "needs": {}
+ },
+ "eq:V7": {
+  "date": "2026-11-09",
+  "hash": "3d5421de6dd2",
+  "needs": {}
+ },
+ "eq:V8": {
+  "date": "2026-11-09",
+  "hash": "2215b23710d5",
+  "needs": {}
+ },
+ "notebook:inclined": {
+  "date": "2026-11-09",
+  "hash": "3d4dab75b086",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:exact_orbits": "dbec2df05f67",
+   "code:incline": "7c530e64b556",
+   "code:inclined_metrics": "37fa8560a818",
+   "code:nodal_rate": "bc7117846b35",
+   "code:vertical_drift": "cac5e539d361",
+   "code:vertical_elements": "0b4b956b0ca6"
+  }
+ },
+ "paper:appendix_inplane": {
+  "date": "2026-11-09",
+  "hash": "9675bdc15f35",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "sympy:H1": "04874fce1e63",
+   "sympy:H2": "04874fce1e63",
+   "sympy:H3": "04874fce1e63"
+  }
+ },
+ "paper:eqn:Phi_expand": {
+  "date": "2026-11-09",
+  "hash": "e44c31d00c4e",
+  "needs": {
+   "sympy:V5": "2b4ce6a6fdbe"
+  }
+ },
+ "paper:eqn:i_node": {
+  "date": "2026-11-09",
+  "hash": "df29a18a52d5",
+  "needs": {
+   "sympy:V3": "ccfc873f23bc"
+  }
+ },
+ "paper:eqn:laplace": {
+  "date": "2026-11-09",
+  "hash": "e81a792253c4",
+  "needs": {
+   "sympy:V7": "e3ccfae5eb4c"
+  }
+ },
+ "paper:eqn:node": {
+  "date": "2026-11-09",
+  "hash": "4206e3c3c4ce",
+  "needs": {
+   "sympy:V4": "e00d54253909"
+  }
+ },
+ "paper:eqn:nu": {
+  "date": "2026-11-09",
+  "hash": "45881a76adfc",
+  "needs": {
+   "sympy:V1": "5eb9ab9f8996"
+  }
+ },
+ "paper:eqn:nu_r": {
+  "date": "2026-11-09",
+  "hash": "b2306b84c25c",
+  "needs": {
+   "sympy:V1": "5eb9ab9f8996",
+   "sympy:V5": "2b4ce6a6fdbe"
+  }
+ },
+ "paper:eqn:zvz": {
+  "date": "2026-11-09",
+  "hash": "70ddb011eb53",
+  "needs": {
+   "sympy:V2": "53da6d751f2e"
+  }
+ },
+ "sympy:H1": {
+  "date": "2026-11-09",
+  "hash": "04874fce1e63",
+  "needs": {
+   "eq:H1": "154f6cbe9051"
+  }
+ },
+ "sympy:H2": {
+  "date": "2026-11-09",
+  "hash": "04874fce1e63",
+  "needs": {
+   "eq:H2": "a9c6f2b9d54d"
+  }
+ },
+ "sympy:H3": {
+  "date": "2026-11-09",
+  "hash": "04874fce1e63",
+  "needs": {
+   "eq:H3": "f7017c75bd8e"
+  }
+ },
+ "sympy:V1": {
+  "date": "2026-11-09",
+  "hash": "5eb9ab9f8996",
+  "needs": {
+   "eq:V1": "5fa44b52addf"
+  }
+ },
+ "sympy:V2": {
+  "date": "2026-11-09",
+  "hash": "53da6d751f2e",
+  "needs": {
+   "eq:V2": "d4b0dc07a66b"
+  }
+ },
+ "sympy:V3": {
+  "date": "2026-11-09",
+  "hash": "ccfc873f23bc",
+  "needs": {
+   "eq:V3": "d096bddf441b"
+  }
+ },
+ "sympy:V4": {
+  "date": "2026-11-09",
+  "hash": "e00d54253909",
+  "needs": {
+   "eq:V4": "a5b6ce9026e5"
+  }
+ },
+ "sympy:V5": {
+  "date": "2026-11-09",
+  "hash": "2b4ce6a6fdbe",
+  "needs": {
+   "eq:V5": "352ce44d84cd"
+  }
+ },
+ "sympy:V6": {
+  "date": "2026-11-09",
+  "hash": "5472eaff9cd3",
+  "needs": {
+   "eq:V6": "1f75cec7fb15"
+  }
+ },
+ "sympy:V7": {
+  "date": "2026-11-09",
+  "hash": "e3ccfae5eb4c",
+  "needs": {
+   "eq:V7": "3d5421de6dd2"
+  }
+ },
+ "sympy:V8": {
+  "date": "2026-11-09",
+  "hash": "0ba1e148a666",
+  "needs": {
+   "eq:V8": "2215b23710d5"
+  }
+ },
+ "test:inclined": {
+  "date": "2026-11-09",
+  "hash": "f1d9bc105c2c",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:exact_orbits": "dbec2df05f67",
+   "code:incline": "7c530e64b556",
+   "code:inclined_metrics": "37fa8560a818",
+   "code:vertical_drift": "cac5e539d361",
+   "code:vertical_elements": "0b4b956b0ca6"
+  }
+ }
+}

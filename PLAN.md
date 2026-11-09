@@ -340,6 +340,14 @@ density waves are the first feature built through the whole pipeline.
      check → code → test → figure) and those files' hashes; a change marks everything downstream stale.
    - *Knock-on pass:* after every change CC fixes the stale items and lists each fix with a
      one-line reason, so you can veto it.
+   - *Built 2026-11-09:* `tools/chain.py` and the chain `notes/chain.json` (its state in
+     `notes/chain_state.json`). Each node is a piece of a file: a table row of `notes/equations.md`, the
+     sections of a sympy script, a Python function, a LaTeX equation or section, or a paragraph found by a
+     phrase; whitespace and the Hand column don't count as edits. A node is edited, stale (something it
+     needs changed), new, missing or ok; `--run` reruns the checks (sympy, pytest) of nodes that aren't ok.
+     The first chain covers the vertical motion, 45 nodes: V1–V8 and H1–H3, their sympy checks, the drift
+     code, `test_inclined`, the inclined notebook, the paper's equations and four claims; all confirmed
+     2026-11-09. To add: the G (streamline gravity) and B (bending wave) chains, the figures.
 4. **The ledger.** A claude.ai artifact dashboard, as in ABW, with its own database that the page
    and CC both read and write. Cards for each paper paragraph, equation, code unit, test and figure,
    linked along the dependency chain, so clicking a claim shows everything behind it and its status

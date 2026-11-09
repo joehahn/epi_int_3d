@@ -1,0 +1,401 @@
+{
+ "nodes": [
+  {
+   "id": "eq:V1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V1",
+   "needs": [],
+   "note": "vertical frequency nu_a"
+  },
+  {
+   "id": "eq:V2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V2",
+   "needs": [],
+   "note": "elements to z, v_z"
+  },
+  {
+   "id": "eq:V3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V3",
+   "needs": [],
+   "note": "z, v_z to elements"
+  },
+  {
+   "id": "eq:V4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V4",
+   "needs": [],
+   "note": "nodal regression"
+  },
+  {
+   "id": "eq:V5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V5",
+   "needs": [],
+   "note": "potential expanded in z"
+  },
+  {
+   "id": "eq:V6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V6",
+   "needs": [],
+   "note": "the O(e i) residual"
+  },
+  {
+   "id": "eq:V7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V7",
+   "needs": [],
+   "note": "Laplace: kappa^2 + nu^2 = 2 Omega^2"
+  },
+  {
+   "id": "eq:V8",
+   "kind": "equation",
+   "anchor": "notes/equations.md#V8",
+   "needs": [],
+   "note": "vertical drift as a rotation"
+  },
+  {
+   "id": "eq:H1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#H1",
+   "needs": [],
+   "note": "in-plane solution conserves h"
+  },
+  {
+   "id": "eq:H2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#H2",
+   "needs": [],
+   "note": "a from h"
+  },
+  {
+   "id": "eq:H3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#H3",
+   "needs": [],
+   "note": "e sin M, e cos M from coordinates"
+  },
+  {
+   "id": "sympy:V1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V1",
+   "needs": [
+    "eq:V1"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V2",
+   "needs": [
+    "eq:V2"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V3",
+   "needs": [
+    "eq:V3"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V4",
+   "needs": [
+    "eq:V4"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V5",
+   "needs": [
+    "eq:V5"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V6",
+   "needs": [
+    "eq:V6"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V7",
+   "needs": [
+    "eq:V7"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:V8",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#V8",
+   "needs": [
+    "eq:V8"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:H1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#H1",
+   "needs": [
+    "eq:H1"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:H2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#H2",
+   "needs": [
+    "eq:H2"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "sympy:H3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/vertical_motion.py#H3",
+   "needs": [
+    "eq:H3"
+   ],
+   "check": "uv run python notes/sympy/vertical_motion.py"
+  },
+  {
+   "id": "code:omega_kappa",
+   "kind": "code",
+   "anchor": "fast/bookkeeping.py::_omega_kappa",
+   "needs": [],
+   "note": "Omega_a, kappa_a (paper Eqn. Omega_kappa)"
+  },
+  {
+   "id": "code:drift",
+   "kind": "code",
+   "anchor": "fast/bookkeeping.py::drift",
+   "needs": [
+    "eq:H1",
+    "eq:H2",
+    "eq:H3",
+    "code:omega_kappa"
+   ],
+   "note": "in-plane drift"
+  },
+  {
+   "id": "code:vertical_drift",
+   "kind": "code",
+   "anchor": "fast/bookkeeping.py::vertical_drift",
+   "needs": [
+    "eq:V1",
+    "eq:V8"
+   ],
+   "note": "vertical drift"
+  },
+  {
+   "id": "code:nu_a",
+   "kind": "code",
+   "anchor": "fast/epi_int_3d.py::nu_a",
+   "needs": [
+    "eq:V1"
+   ]
+  },
+  {
+   "id": "code:vertical_elements",
+   "kind": "code",
+   "anchor": "fast/epi_int_3d.py::vertical_elements",
+   "needs": [
+    "eq:V3",
+    "code:nu_a"
+   ]
+  },
+  {
+   "id": "code:incline",
+   "kind": "code",
+   "anchor": "fast/epi_int_3d.py::Ring.incline",
+   "needs": [
+    "eq:V2",
+    "code:nu_a"
+   ],
+   "note": "initial z, v_z"
+  },
+  {
+   "id": "code:nodal_rate",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::nodal_rate",
+   "needs": [
+    "eq:V4"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "code:inclined_metrics",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::inclined_metrics",
+   "needs": [
+    "code:nodal_rate"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "code:exact_orbits",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::exact_orbits",
+   "needs": [],
+   "note": "test helper: exact 3D J2 orbits"
+  },
+  {
+   "id": "test:inclined",
+   "kind": "test",
+   "anchor": "tests/test_vertical.py::test_inclined",
+   "needs": [
+    "code:drift",
+    "code:vertical_drift",
+    "code:vertical_elements",
+    "code:incline",
+    "code:inclined_metrics",
+    "code:exact_orbits"
+   ],
+   "check": "uv run pytest -q tests/test_vertical.py::test_inclined"
+  },
+  {
+   "id": "notebook:inclined",
+   "kind": "notebook",
+   "anchor": "tests/inclined/inclined.ipynb",
+   "needs": [
+    "code:drift",
+    "code:vertical_drift",
+    "code:vertical_elements",
+    "code:incline",
+    "code:inclined_metrics",
+    "code:exact_orbits",
+    "code:nodal_rate"
+   ]
+  },
+  {
+   "id": "paper:eqn:Phi_expand",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:Phi_expand",
+   "needs": [
+    "sympy:V5"
+   ]
+  },
+  {
+   "id": "paper:eqn:nu_r",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:nu_r",
+   "needs": [
+    "sympy:V5",
+    "sympy:V1"
+   ]
+  },
+  {
+   "id": "paper:eqn:nu",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:nu",
+   "needs": [
+    "sympy:V1"
+   ]
+  },
+  {
+   "id": "paper:eqn:laplace",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:laplace",
+   "needs": [
+    "sympy:V7"
+   ]
+  },
+  {
+   "id": "paper:eqn:zvz",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:zvz",
+   "needs": [
+    "sympy:V2"
+   ]
+  },
+  {
+   "id": "paper:eqn:node",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:node",
+   "needs": [
+    "sympy:V4"
+   ]
+  },
+  {
+   "id": "paper:eqn:i_node",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:i_node",
+   "needs": [
+    "sympy:V3"
+   ]
+  },
+  {
+   "id": "paper:appendix_inplane",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#sec:appendix_inplane",
+   "needs": [
+    "sympy:H1",
+    "sympy:H2",
+    "sympy:H3",
+    "code:drift"
+   ]
+  },
+  {
+   "id": "claim:neglected_terms",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@where the neglected terms are of order",
+   "needs": [
+    "sympy:V6",
+    "paper:eqn:nu"
+   ],
+   "note": "the oscillator drops O(e i) and O(i^3) terms"
+  },
+  {
+   "id": "claim:frequency_relation",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@relates the three frequencies",
+   "needs": [
+    "sympy:V7",
+    "paper:eqn:laplace"
+   ],
+   "note": "kappa^2 + nu^2 = 2 Omega^2"
+  },
+  {
+   "id": "claim:phase_from_lambda",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@Measuring the phase from",
+   "needs": [
+    "sympy:V2",
+    "sympy:V4",
+    "paper:eqn:zvz",
+    "paper:eqn:node"
+   ],
+   "note": "the vertical phase advances at exactly nu_a"
+  },
+  {
+   "id": "claim:drift_rotation",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@is simply a rotation",
+   "needs": [
+    "sympy:V8",
+    "code:vertical_drift",
+    "test:inclined",
+    "paper:eqn:i_node"
+   ],
+   "note": "the drift's vertical part is a rotation through nu_a dt"
+  }
+ ]
+}

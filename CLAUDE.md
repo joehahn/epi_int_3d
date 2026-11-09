@@ -32,7 +32,7 @@ decisions, ground rules) and `README.md`.
 - `tools/`: `session_time.py` (time/token/cost per phase), `compare_notebooks.py` (Python 2
   versus Python 3 notebook outputs), `run_simulations.py` (runs the test simulations in parallel),
   `patches.py` (run-time changes to `source/`: the fixed crossing check, edge taper, edge-flux fix, seam fix),
-  `review.py` (outside reviews through OpenRouter: `--derive`, `--code`, `--test`, `--paper`; raw replies and costs in `reviews/`), `tiebreak.py` (a model not involved rules on findings Claude disputed), `openrouter.py` (what those two share), `make_bib.py` (the paper's bibliography), `lint_paper.py` (the paper's mechanical checks), `paper_diff.py`
+  `review.py` (outside reviews through OpenRouter: `--derive`, `--code`, `--test`, `--paper`; raw replies and costs in `reviews/`), `tiebreak.py` (a model not involved rules on findings Claude disputed), `openrouter.py` (what those two share), `chain.py` (the dependency chain in `notes/chain.json`: marks what is downstream of a change as stale), `make_bib.py` (the paper's bibliography), `lint_paper.py` (the paper's mechanical checks), `paper_diff.py`
   (the paper's changes since a git revision, marked up, in the git-ignored `paper/diff/`).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
   epi_int_3d's own driver, with vertical motion (the drift and 3D ring gravity: `notes/phase3/`); its ring gravity fixes epi_int_lite issues 7 and 9 by default (inputs `fix_lambda`, `nearpoint`, `shape_slope`, and `vertical_gravity` for the 3D wire; `epi_int_lite_gravity = True` restores the reference's, which the regression tests and benchmark set), Numba kernels for ring gravity (`kernels.py`)
@@ -95,6 +95,10 @@ decisions, ground rules) and `README.md`.
   For larger revisions, give the author `uv run python tools/paper_diff.py <rev>` (it prints the changed
   pages) to review instead of the whole paper. When an edit request reflects a general preference, add
   it as a rule to the style guide's "From the author's edits to this paper" section.
+- Knock-on pass: after each change, run `uv run python tools/chain.py`. Clear what it lists: `--run` reruns
+  the sympy checks and tests and confirms those that pass; check the rest (code, notebooks, figures, paper
+  passages) and `--confirm` them; report each with a one-line reason, so the author can veto it. Give each
+  new equation, code unit, test, figure and paper claim a node in `notes/chain.json` when it is made.
 - epi_int (IDL) is treated as a 2D code.
 - Ask before creating or deleting any cloud resource, and before any outside review that costs money
   (show the `--dry-run` estimate). After a review, record a verdict on each finding (agree, partly,

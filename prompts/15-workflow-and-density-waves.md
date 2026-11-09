@@ -128,3 +128,25 @@ push, then go ahead with 1
 [Pushed. `tools/review.py` gained `--code`, `--test` and `--paper` (each with its style guide, a shared findings
 format, `--context`, `--diff`, `--focus`); `tools/tiebreak.py` sends findings Claude disputes to a model not
 involved in them; shared helpers in `tools/openrouter.py`.]
+
+run it
+
+[Code review of `fast/bookkeeping.py` by GPT and Gemini, $0.37. Both confirmed V1, V8 and H1–H3 exactly. Verdicts
+in `reviews/2026-11-08-code-verdicts.json`: GPT's stencil finding partly (epi_int_lite's design; offsets measured
+at most 1.37 spacings; logged as epi_int_lite issue 11), its angle-wrapping finding disagreed (matches the
+reference, argument bounded), the style findings deferred to the `fast/` restyle.]
+
+run it
+
+[Tiebreak by Gemini, $0.04: both disputed findings ruled for Claude, though its reason on the stencil was wrong
+(sorting orders particles within a streamline, not across them); the measured offsets carry the verdict.]
+
+whats next?
+
+[Proposed the rest of Phase 3b in order: 2 the dependency chain, 3 the paper's numbers as LaTeX macros, 4 the
+ledger.]
+
+yes
+
+[Pushed. `tools/chain.py` and `notes/chain.json`: 45 nodes for the vertical motion, from equations V1–V8 and
+H1–H3 through sympy, code, `test_inclined` and the paper; a change marks what is downstream stale.]
