@@ -386,7 +386,7 @@ density waves are the first feature built through the whole pipeline.
      box; "Apply changes" sends the notes to Claude Code, which revises the paper and replies on each card.
      The chain table, the chart of items by kind, the hours chart and the findings table are gone; the chain
      feeds the cards instead, and the costs are one view. The first dashboard,
-     https://claude.ai/artifact/L54vp4Q4cLf6Cm99Mu41JV, is retired.
+     https://claude.ai/artifact/L54vp4Q4cLf6Cm99Mu41JV, was deleted.
 
 ## Phase 3c — Spiral density waves (decided 2026-11-08)
 
