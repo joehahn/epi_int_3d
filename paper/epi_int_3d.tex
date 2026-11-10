@@ -1,7 +1,7 @@
 %epi_int_3d.tex
 %
 %mock ApJ paper on epi_int_3d: N-body simulations of spiral bending waves in planetary rings.
-%Work in progress; the vertical-motion and vertical-gravity sections are drafted.
+%Work in progress; Sections 2-4 and Appendices A-D are drafted.
 %
 %AASTeX v7.0.2 (aastex702.cls, aasjournalv7.bst) is kept in this folder.
 %to compile (tectonic runs bibtex itself):
@@ -16,6 +16,7 @@
 \thickmuskip=5mu plus 5mu minus 2mu   %and around =
 \newcommand{\code}[1]{\texttt{#1}}   %code names; make it {#1} for roman
 \input{numbers/vertical_resonance}   %numbers from the simulations, by tools/paper_numbers.py
+\input{numbers/bending_waves}
 
 %journal
 \received{not yet}
@@ -48,7 +49,7 @@ gravity that one streamline exerts on another (Section \ref{sec:gravity}), its r
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and the vertical
 restoring force of a bending wave (Appendix \ref{sec:wire_continuum}), and the theory of spiral bending
 waves at a vertical resonance with its tests (Section \ref{sec:waves}): the forced response of massless
-particles, and (in progress) the waves of a self-gravitating ring.
+particles, and the bending wave that the satellite launches in a self-gravitating ring.
 \end{abstract}
 
 
@@ -478,11 +479,63 @@ The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
 \subsection{A self-gravitating ring}
 \label{sec:waves_ring}
 
-%stub: in progress
-In progress. The same satellite forcing a ring of nonzero mass, whose simulated bending wave is
-compared with the wavelength and amplitude of Eqns.\ (\ref{eqn:vres_amp})--(\ref{eqn:vres_lambda}) and
-the trailing phase of Eqn.\ (\ref{eqn:vres_sol}). The wave front propagates inward at the group velocity
-$\pi G\sigma/\nu_a$, so the simulation stops before the front reaches the ring's inner edge.
+%numbers from tests/bending_waves by tools/paper_numbers.py; figure by figures/bending_wave.py
+The same kind of satellite also launches a spiral bending wave in a ring that has mass. This ring is
+\bwNstreamlines\ streamlines of \bwNparticles\ particles each, spanning $1 \le r \le \bwRmax$, whose total
+mass $\bwRingMass$ gives it the uniform surface density $\sigma = \bwSigma$. It has no viscosity or
+pressure, and $J_2$ and $R_p$ are as in Section \ref{sec:waves_massless}. An $m = \bwM$ satellite of mass
+$M_s = \bwMs$ and inclination $i_s = \bwIs$ at $a_s = \bwAs$ puts the resonance at $r_V = \bwRV$,
+\bwAcrossPercent\% of the way across the ring, and the satellite is at full mass from $t = 0$. These
+parameters do not correspond to any real ring and satellite. Rather, they were chosen so that the wave is
+linear and well resolved: its amplitude $|Z_w|$, Eqn.\ (\ref{eqn:vres_amp}), keeps $|kZ_w| \le \bwkZ$
+everywhere in the ring, and its wavelength, Eqn.\ (\ref{eqn:vres_lambda}), spans about
+\bwPerWavelength\ streamlines even at the ring's inner edge, where it is shortest.
+
+The wave propagates inward at the group velocity $c_g = \pi G\sigma/\nu_a$ that follows from the
+bending-wave dispersion relation of Appendix \ref{sec:wire_continuum}, so it takes the time
+$\tau_c = (r_V - 1)/c_g$, about \bwCrossOrbits\ orbits, to cross from $r_V$ to the ring's inner edge. The
+simulation stops at $\bwOrbits$ orbits, or $\bwRunFraction\,\tau_c$, before the wave can reflect there.
+Figure \ref{fig:bwave} shows the wave being launched at $r_V$ and propagating inward. Switching the
+satellite on at full mass also starts a free vertical oscillation everywhere, so at first every streamline
+moves as a massless particle would. The ring's self-gravity then takes over: the response near $r_V$
+settles onto linear theory, and the wave front advances inward at about $c_g$. The front overshoots linear
+theory a little, since it carries along the free oscillation that was started at resonance, and a small
+residue of that oscillation remains ahead of the front. Behind the front, though, the simulated
+inclinations are in excellent agreement with linear theory, with about \bwCrests\ wavelengths of the wave
+in place by the end of the run. There the wave's amplitude is within \bwAmpPercent\% of $|Z_w|$, and its
+phase winds inward as the trailing wave of Eqn.\ (\ref{eqn:vres_sol}) does. On the nonwave side of the
+resonance, the forced response is up to \bwForcedPercent\% larger than linear theory's. That theory is for
+an infinite sheet, which has ring matter beyond this ring's outer edge, and that is the likely cause,
+though it has not been quantified. The satellite pulls only vertically, and the wave leaves no mark in
+the ring plane: no particle moves radially by more than $\bwRadial$, well under 1\% of the streamline
+spacing $\Delta = \bwSpacing$.
+
+The simulated wave's wavenumber, measured from the radial gradient of its phase, is
+\bwKcontPercent\% larger than Eqn.\ (\ref{eqn:vres_lambda})'s (the median behind the front), i.e., its
+wavelength is that much shorter. This is because the simulated ring is a finite lattice of streamlines
+rather than the infinite, continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes, and both
+differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum} shows that the lattice's
+spacing reduces self-gravity's restoring force from $2\pi G\sigma|k|$ to $X(k\Delta)$, and that the ring's
+edges reduce it further, by $2G\sigma(1/d_{\rm in} + 1/d_{\rm out})$. With the lattice allowed for, the
+simulated wavenumber is \bwKlatPercent\% larger than expected, and with the edges allowed for too,
+Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger. The remainder is the lattice's: in a ring
+half as wide, doubling the number of streamlines lowers the wavenumber's excess over
+Eqn.\ (\ref{eqn:vres_lambda}) from \bwNarrowKcontPercent\% to \bwDoubledKcontPercent\%, while its excess
+over Eqn.\ (\ref{eqn:wire_edges}) is then \bwDoubledKedgePercent\%. The test's
+notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/bending_waves/bending_waves.ipynb}}
+also compares the wave's complex amplitude and the satellite's torque on the ring with linear theory.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/bending_wave.pdf}
+\caption{Inclinations $i$ of the streamlines in the self-gravitating ring of Section \ref{sec:waves_ring},
+averaged over each streamline's particles, plotted vs.\ their fractional distance from resonance $x$, at
+six times $t$ in units of the time $\tau_c$ that the wave takes to propagate from $r_V$ to the ring's inner
+edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$, where $h$ is the
+trailing solution of Eqn.\ (88) of \cite{S84}, which tends to Eqns.\ (\ref{eqn:vres_sol}) away from
+resonance.}
+\label{fig:bwave}
+\end{figure}
 
 
 \appendix
@@ -767,6 +820,22 @@ $\phi \rightarrow 0$. At the zigzag $\phi = \pi$, the extra restoring force is h
 value, as it is in the plane. Vertically, however, the lattice's self-gravity is stabilizing, so
 the resolution limit of Eqn.\ (\ref{eqn:zigzag_R}), which concerns in-plane modes, has no vertical
 counterpart.
+
+A ring of finite width also lacks the streamlines beyond its edges. Consider a streamline whose $N$th
+neighbor on one side would be the first one beyond the ring's edge. The sum of Eqn.\ (\ref{eqn:wire_lattice})
+then stops at $n = N - 1$ on that side, and the missing terms are
+$(2G\sigma Z_0/\Delta)\sum_{n \ge N}(\cos n\phi - 1)/n^2$. Their cosines nearly cancel when the wave is
+shorter than the distance to the edge, while $\sum_{n \ge N}1/n^2 \simeq 1/(N - \frac{1}{2})$, so the
+missing pull is about $2G\sigma Z_0/d$, where $d = (N - \frac{1}{2})\Delta$ is the streamline's distance
+to the ring's edge plus half a spacing. Near $r_V$, where $\omega_D^2 - \nu_a^2 \simeq {\cal D}|x|$ on the
+wave side, the lattice's restoring force so replaces the continuum's ${\cal D}|x| = 2\pi G\sigma|k|$ with
+\begin{equation}
+    \label{eqn:wire_edges}
+    {\cal D}|x| = X(k\Delta) - 2G\sigma\left(\frac{1}{d_{\rm in}} + \frac{1}{d_{\rm out}}\right),
+\end{equation}
+where $d_{\rm in}$ and $d_{\rm out}$ are the distances to the ring's inner and outer edges, so
+measured. Both terms lower the restoring force at a given $k$, so the wave's wavenumber is larger than in
+the continuum, by the amounts that Section \ref{sec:waves_ring} finds.
 
 
 \bibliography{epi_int_3d}{}

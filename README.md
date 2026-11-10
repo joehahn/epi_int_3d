@@ -49,8 +49,8 @@ and torque agree with Shu (1984)'s linear theory to about 3%, and its wavenumber
 finite ring's streamline spacing and edges are allowed for
 ([bending_waves.ipynb](tests/bending_waves/bending_waves.ipynb); animations at
 [joehahn.github.io/epi_int_3d](https://joehahn.github.io/epi_int_3d/)). The paper's Sections 2–4 (the vertical
-motion, a streamline's 3D gravity and bending-wave theory) are drafted; the self-gravitating ring's
-results (Section 4.3) are being written up.*
+motion, a streamline's 3D gravity, bending-wave theory and its tests, Section 4.3's self-gravitating ring
+included) are drafted.*
 
 epi_int_3d extends the 2D [epi_int_lite](https://github.com/joehahn/epi_int_lite) streamline
 N-body integrator for gravitating planetary rings (Hahn et al. 2025, ApJ, 986, 220; `source/`

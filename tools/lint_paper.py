@@ -40,6 +40,7 @@ def sentence_start(text, pos):
     before = text[:pos].rstrip(' \t({')
     if before == '' or before.endswith('\n\n'):
         return True
+    before = before.rstrip(' \t\n({')                             #a sentence may end on the line above
     display = re.search(r'\\end\{(equation|align|eqnarray)\*?\}$', before.rstrip())
     if display:                                                    #after a display: did its math end a sentence?
         before = re.sub(r'(\\label\{[^}]*\}|\\end\{\w+\*?\}|\\nonumber|\\\\|\s)+$', '',

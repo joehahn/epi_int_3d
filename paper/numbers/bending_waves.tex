@@ -1,0 +1,31 @@
+%bending_waves.tex
+%
+%written by tools/paper_numbers.py; do not edit by hand
+
+\newcommand{\bwNstreamlines}{540}   %inputs.py number_of_streamlines
+\newcommand{\bwNparticles}{32}   %inputs.py particles_per_streamline
+\newcommand{\bwRmax}{1.008}   %inputs.py 1 + radial_width
+\newcommand{\bwRingMass}{4\times10^{-9}}   %inputs.py total_ring_mass
+\newcommand{\bwSigma}{7.9\times10^{-8}}   %ring_sigma, the uniform surface density
+\newcommand{\bwM}{2}   %inputs.py satellite m
+\newcommand{\bwIs}{0.01}   %inputs.py satellite inclination
+\newcommand{\bwMs}{2.5\times10^{-7}}   %inputs.py satellite mass_final
+\newcommand{\bwAs}{2.097}   %inputs.py satellite r
+\newcommand{\bwRV}{1.0064}   %fast/satellite.py r_V (B4)
+\newcommand{\bwAcrossPercent}{80}   %r_V's place across the ring, percent from the inner edge
+\newcommand{\bwOrbits}{3500}   %the run's length in orbits
+\newcommand{\bwCrossOrbits}{4100}   %crossing time to the inner edge in orbits (B10)
+\newcommand{\bwRunFraction}{0.86}   %run length over the crossing time
+\newcommand{\bwPerWavelength}{11}   %streamlines per wavelength at the inner edge (B7)
+\newcommand{\bwkZ}{0.03}   %largest |k Z_w|, at the inner edge
+\newcommand{\bwCrests}{14}   %wavelengths between the front at the end and r_V
+\newcommand{\bwAmpPercent}{3}   %median |h_wave|/|Z_w| - 1, percent
+\newcommand{\bwKcontPercent}{5.5}   %median k/k_continuum - 1, percent (B7)
+\newcommand{\bwKlatPercent}{2.3}   %median k/k_lattice - 1, percent (B13)
+\newcommand{\bwKedgePercent}{0.9}   %median k/k_lattice+edges - 1, percent (B13)
+\newcommand{\bwForcedPercent}{9}   %largest |h - B8|/|B8| outside the resonance zone, percent
+\newcommand{\bwRadial}{4\times10^{-8}}   %largest radial excursion of any particle
+\newcommand{\bwSpacing}{1.5\times10^{-5}}   %streamline spacing
+\newcommand{\bwNarrowKcontPercent}{7.2}   %half-width ring, 270 streamlines: k/k_continuum - 1, percent
+\newcommand{\bwDoubledKcontPercent}{4.8}   %half-width ring, 540 streamlines: k/k_continuum - 1, percent
+\newcommand{\bwDoubledKedgePercent}{0.5}   %half-width ring, 540 streamlines: k/k_lattice+edges - 1, percent

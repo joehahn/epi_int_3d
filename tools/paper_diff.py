@@ -17,8 +17,9 @@ OUT = PAPER/'diff'
 #latexdiff brackets every change with \DIF{add,del}begin ... \DIF{add,del}end; make each write "b" or "e" and its
 #page number (expanded when the page ships out) to epi_int_3d_diff.difpages
 PAGE_HOOKS = r'''\newwrite\difpages \immediate\openout\difpages=\jobname.difpages
-''' + ''.join(r'''\let\DIF%(k)sOrig\DIF%(k)s \renewcommand{\DIF%(k)s}{\DIF%(k)sOrig\write\difpages{%(c)s\thepage}}
-''' % dict(k=k, c=k[3]) for k in ['addbegin', 'addend', 'delbegin', 'delend'])
+''' + ''.join(r'''\let\DIF%(k)sOrig\DIF%(k)s \renewcommand{\DIF%(k)s}{%(lv)s\DIF%(k)sOrig\write\difpages{%(c)s\thepage}}
+''' % dict(k=k, c=k[3], lv=r'\leavevmode' if k.endswith('begin') else '') for k in ['addbegin', 'addend', 'delbegin', 'delend'])
+#(\leavevmode: a change that starts a paragraph would otherwise strike out text in vertical mode, which TeX refuses)
 
 
 def changed_pages(log):
@@ -49,10 +50,11 @@ def main():
     tex.write_text(diff)
     for f in ['aastex702.cls', 'aasjournalv7.bst', 'epi_int_3d.bib']:
         shutil.copy(PAPER/f, OUT/f)
-    figs = OUT/'figures'
-    if figs.is_symlink() or figs.exists():
-        figs.unlink()
-    figs.symlink_to(PAPER/'figures')
+    for folder in ['figures', 'numbers']:                              #the figures and the number macros the paper \inputs
+        link = OUT/folder
+        if link.is_symlink() or link.exists():
+            link.unlink()
+        link.symlink_to(PAPER/folder)
     run = subprocess.run(['tectonic', '--keep-intermediates', tex.name], cwd=OUT, capture_output=True, text=True)
     pdf = OUT/'epi_int_3d_diff.pdf'
     if run.returncode != 0 or not pdf.exists():

@@ -184,3 +184,12 @@ yes, add it
 
 [The ledger and README now show what the author paid (the $100/month subscription, one payment per month begun
 since 2026-10-11, plus outside reviews: about $103 so far) beside Claude Code's API-price cost.]
+
+skip density waves for now ... push and go on to Section 4.3, the bending wave in a self-gravitating ring
+
+[Section 4.3 drafted from tests/bending_waves: setup and why (linear, resolved), Fig. 3 (inclination vs. x at six
+times, linear theory dashed; `paper/figures/bending_wave.py`, in the data-viz style), amplitude within 3% of
+|Z_w|, wavenumber 5.5% above the continuum and 0.9% above the lattice-with-edges relation, now Eqn. (D12) in
+Appendix D. All 27 of its numbers are macros from `tools/paper_numbers.py`; ten new chain nodes. Fixed on the way:
+`lint_paper.py` misread a sentence that starts on a new line; `paper_diff.py` lacked `paper/numbers/` and failed
+when a change starts a paragraph; the notebook's "about 20 crests" is 14 wavelengths behind the front.]
