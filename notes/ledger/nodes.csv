@@ -1,0 +1,202 @@
+id,kind,status,reason,anchor,needs,needed_by,note,check,confirmed,hand,file
+eq:V1,equation,ok,confirmed 2026-11-10,notes/equations.md#V1,,sympy:V1 code:vertical_drift code:nu_a eq:B4 code:satellite_nu,vertical frequency nu_a,,2026-11-10,no,notes/equations.md
+eq:V2,equation,ok,confirmed 2026-11-10,notes/equations.md#V2,,sympy:V2 code:incline,"elements to z, v_z",,2026-11-10,no,notes/equations.md
+eq:V3,equation,ok,confirmed 2026-11-10,notes/equations.md#V3,,sympy:V3 code:vertical_elements,"z, v_z to elements",,2026-11-10,no,notes/equations.md
+eq:V4,equation,ok,confirmed 2026-11-10,notes/equations.md#V4,,sympy:V4 code:nodal_rate,nodal regression,,2026-11-10,no,notes/equations.md
+eq:V5,equation,ok,confirmed 2026-11-10,notes/equations.md#V5,,sympy:V5,potential expanded in z,,2026-11-10,no,notes/equations.md
+eq:V6,equation,ok,confirmed 2026-11-10,notes/equations.md#V6,,sympy:V6,the O(e i) residual,,2026-11-10,no,notes/equations.md
+eq:V7,equation,ok,confirmed 2026-11-10,notes/equations.md#V7,,sympy:V7,Laplace: kappa^2 + nu^2 = 2 Omega^2,,2026-11-10,no,notes/equations.md
+eq:V8,equation,ok,confirmed 2026-11-10,notes/equations.md#V8,,sympy:V8 code:vertical_drift,vertical drift as a rotation,,2026-11-10,no,notes/equations.md
+eq:H1,equation,ok,confirmed 2026-11-10,notes/equations.md#H1,,sympy:H1 code:drift,in-plane solution conserves h,,2026-11-10,n/a,notes/equations.md
+eq:H2,equation,ok,confirmed 2026-11-10,notes/equations.md#H2,,sympy:H2 code:drift,a from h,,2026-11-10,n/a,notes/equations.md
+eq:H3,equation,ok,confirmed 2026-11-10,notes/equations.md#H3,,sympy:H3 code:drift,"e sin M, e cos M from coordinates",,2026-11-10,n/a,notes/equations.md
+sympy:V1,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V1,eq:V1,paper:eqn:nu_r paper:eqn:nu,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V2,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V2,eq:V2,paper:eqn:zvz claim:phase_from_lambda,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V3,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V3,eq:V3,paper:eqn:i_node,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V4,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V4,eq:V4,paper:eqn:node claim:phase_from_lambda,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V5,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V5,eq:V5,paper:eqn:Phi_expand paper:eqn:nu_r,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V6,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V6,eq:V6,claim:neglected_terms,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V7,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V7,eq:V7,paper:eqn:laplace claim:frequency_relation,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:V8,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#V8,eq:V8,claim:drift_rotation,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:H1,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#H1,eq:H1,paper:appendix_inplane,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:H2,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#H2,eq:H2,paper:appendix_inplane,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+sympy:H3,sympy,ok,confirmed 2026-11-09,notes/sympy/vertical_motion.py#H3,eq:H3,paper:appendix_inplane,,uv run python notes/sympy/vertical_motion.py,2026-11-09,,notes/sympy/vertical_motion.py
+code:omega_kappa,code,ok,confirmed 2026-11-10,fast/bookkeeping.py::_omega_kappa,,code:drift,"Omega_a, kappa_a (paper Eqn. Omega_kappa)",,2026-11-10,,fast/bookkeeping.py
+code:drift,code,ok,confirmed 2026-11-10,fast/bookkeeping.py::drift,eq:H1 eq:H2 eq:H3 code:omega_kappa,test:inclined notebook:inclined paper:appendix_inplane test:vertical_resonance notebook:vertical_resonance figure:vertical_resonance numbers:vertical_resonance,in-plane drift,,2026-11-10,,fast/bookkeeping.py
+code:vertical_drift,code,ok,confirmed 2026-11-10,fast/bookkeeping.py::vertical_drift,eq:V1 eq:V8,test:inclined notebook:inclined claim:drift_rotation test:vertical_resonance notebook:vertical_resonance notebook:bending_waves figure:vertical_resonance numbers:vertical_resonance,vertical drift,,2026-11-10,,fast/bookkeeping.py
+code:nu_a,code,ok,confirmed 2026-11-10,fast/epi_int_3d.py::nu_a,eq:V1,code:vertical_elements code:incline,,,2026-11-10,,fast/epi_int_3d.py
+code:vertical_elements,code,ok,confirmed 2026-11-10,fast/epi_int_3d.py::vertical_elements,eq:V3 code:nu_a,test:inclined notebook:inclined,,,2026-11-10,,fast/epi_int_3d.py
+code:incline,code,ok,confirmed 2026-11-10,fast/epi_int_3d.py::Ring.incline,eq:V2 code:nu_a,test:inclined notebook:inclined,"initial z, v_z",,2026-11-10,,fast/epi_int_3d.py
+code:nodal_rate,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::nodal_rate,eq:V4,code:inclined_metrics notebook:inclined,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:inclined_metrics,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::inclined_metrics,code:nodal_rate,test:inclined notebook:inclined,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:exact_orbits,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::exact_orbits,,test:inclined notebook:inclined,test helper: exact 3D J2 orbits,,2026-11-10,,tests/vertical_analysis.py
+code:run_3d,code,ok,confirmed 2026-11-10,tests/test_vertical.py::run_3d,,test:inclined test:vertical_resonance,test helper: runs fast/epi_int_3d.py,,2026-11-10,,tests/test_vertical.py
+test:inclined,test,ok,confirmed 2026-11-10,tests/test_vertical.py::test_inclined,code:drift code:vertical_drift code:vertical_elements code:incline code:inclined_metrics code:exact_orbits code:run_3d,claim:drift_rotation,,uv run pytest -q tests/test_vertical.py::test_inclined,2026-11-10,,tests/test_vertical.py
+notebook:inclined,notebook,ok,confirmed 2026-11-10,tests/inclined/inclined.ipynb,code:drift code:vertical_drift code:vertical_elements code:incline code:inclined_metrics code:exact_orbits code:nodal_rate,,,,2026-11-10,,tests/inclined/inclined.ipynb
+paper:eqn:Phi_expand,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:Phi_expand,sympy:V5,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:nu_r,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:nu_r,sympy:V5 sympy:V1,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:nu,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:nu,sympy:V1,claim:neglected_terms,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:laplace,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:laplace,sympy:V7,claim:frequency_relation,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:zvz,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:zvz,sympy:V2,claim:phase_from_lambda,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:node,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:node,sympy:V4,claim:phase_from_lambda,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:i_node,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:i_node,sympy:V3,claim:drift_rotation,,,2026-11-10,,paper/epi_int_3d.tex
+paper:appendix_inplane,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#sec:appendix_inplane,sympy:H1 sympy:H2 sympy:H3 code:drift,,,,2026-11-10,,paper/epi_int_3d.tex
+claim:neglected_terms,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@where the neglected terms are of order,sympy:V6 paper:eqn:nu,,the oscillator drops O(e i) and O(i^3) terms,,2026-11-10,,paper/epi_int_3d.tex
+claim:frequency_relation,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@relates the three frequencies,sympy:V7 paper:eqn:laplace,,kappa^2 + nu^2 = 2 Omega^2,,2026-11-10,,paper/epi_int_3d.tex
+claim:phase_from_lambda,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@Measuring the phase from,sympy:V2 sympy:V4 paper:eqn:zvz paper:eqn:node,,the vertical phase advances at exactly nu_a,,2026-11-10,,paper/epi_int_3d.tex
+claim:drift_rotation,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@is simply a rotation,sympy:V8 code:vertical_drift test:inclined paper:eqn:i_node,,the drift's vertical part is a rotation through nu_a dt,,2026-11-10,,paper/epi_int_3d.tex
+eq:P1,equation,ok,confirmed 2026-11-10,notes/equations.md#P1,,eq:P2 sympy:P1,,,2026-11-10,n/a,notes/equations.md
+eq:P2,equation,ok,confirmed 2026-11-10,notes/equations.md#P2,eq:P1,eq:P3 eq:P6 sympy:P2,,,2026-11-10,no,notes/equations.md
+eq:P3,equation,ok,confirmed 2026-11-10,notes/equations.md#P3,eq:P2,sympy:P3,,,2026-11-10,no,notes/equations.md
+eq:P4,equation,ok,confirmed 2026-11-10,notes/equations.md#P4,,sympy:P4,,,2026-11-10,n/a,notes/equations.md
+eq:P5,equation,ok,confirmed 2026-11-10,notes/equations.md#P5,,sympy:P5,,,2026-11-10,no,notes/equations.md
+eq:P6,equation,ok,confirmed 2026-11-10,notes/equations.md#P6,eq:P2,sympy:P6,,,2026-11-10,no,notes/equations.md
+eq:P7,equation,ok,confirmed 2026-11-10,notes/equations.md#P7,,eq:P8 eq:O5 eq:G5 eq:B13 sympy:P7,,,2026-11-10,no,notes/equations.md
+eq:P8,equation,ok,confirmed 2026-11-10,notes/equations.md#P8,eq:P7,eq:O5 sympy:P8,,,2026-11-10,no,notes/equations.md
+eq:O1,equation,ok,confirmed 2026-11-10,notes/equations.md#O1,,eq:O2 sympy:O1,,,2026-11-10,no,notes/equations.md
+eq:O2,equation,ok,confirmed 2026-11-10,notes/equations.md#O2,eq:O1,eq:O3 eq:O4 sympy:O2,,,2026-11-10,no,notes/equations.md
+eq:O3,equation,ok,confirmed 2026-11-10,notes/equations.md#O3,eq:O2,eq:O5 sympy:O3,,,2026-11-10,no,notes/equations.md
+eq:O4,equation,ok,confirmed 2026-11-10,notes/equations.md#O4,eq:O2,eq:O5 sympy:O4,,,2026-11-10,no,notes/equations.md
+eq:O5,equation,ok,confirmed 2026-11-10,notes/equations.md#O5,eq:O3 eq:O4 eq:P7 eq:P8,sympy:O5,,,2026-11-10,no,notes/equations.md
+eq:G1,equation,ok,confirmed 2026-11-10,notes/equations.md#G1,,eq:G2 eq:G3 eq:G8 eq:G11 sympy:G1,,,2026-11-10,no,notes/equations.md
+eq:G2,equation,ok,confirmed 2026-11-10,notes/equations.md#G2,eq:G1,eq:G4 eq:G5 eq:G7 sympy:G2,,,2026-11-10,no,notes/equations.md
+eq:G3,equation,ok,confirmed 2026-11-10,notes/equations.md#G3,eq:G1,eq:G14 sympy:G3 code:ring_gravity,,,2026-11-10,no,notes/equations.md
+eq:G4,equation,ok,confirmed 2026-11-10,notes/equations.md#G4,eq:G2,eq:B7 sympy:G4,,,2026-11-10,no,notes/equations.md
+eq:G5,equation,ok,confirmed 2026-11-10,notes/equations.md#G5,eq:G2 eq:P7,sympy:G5,,,2026-11-10,no,notes/equations.md
+eq:G6,equation,ok,confirmed 2026-11-10,notes/equations.md#G6,,eq:G10 sympy:G6 test:kernels,,,2026-11-10,no,notes/equations.md
+eq:G7,equation,ok,confirmed 2026-11-10,notes/equations.md#G7,eq:G2,eq:G9 sympy:G7,,,2026-11-10,no,notes/equations.md
+eq:G8,equation,ok,confirmed 2026-11-10,notes/equations.md#G8,eq:G1,eq:G15 sympy:G8,,,2026-11-10,no,notes/equations.md
+eq:G9,equation,ok,confirmed 2026-11-10,notes/equations.md#G9,eq:G7,eq:G10 sympy:G9,,,2026-11-10,no,notes/equations.md
+eq:G10,equation,ok,confirmed 2026-11-10,notes/equations.md#G10,eq:G6 eq:G9,eq:G11 eq:G14 eq:G20 sympy:G10,,,2026-11-10,no,notes/equations.md
+eq:G11,equation,ok,confirmed 2026-11-10,notes/equations.md#G11,eq:G1 eq:G10,eq:G12 eq:G15 eq:G16 sympy:G11,,,2026-11-10,no,notes/equations.md
+eq:G12,equation,ok,confirmed 2026-11-10,notes/equations.md#G12,eq:G11,eq:G13 sympy:G12,,,2026-11-10,no,notes/equations.md
+eq:G13,equation,ok,confirmed 2026-11-10,notes/equations.md#G13,eq:G12,sympy:G13,,,2026-11-10,no,notes/equations.md
+eq:G14,equation,ok,confirmed 2026-11-10,notes/equations.md#G14,eq:G3 eq:G10,sympy:G14 code:ring_gravity,,,2026-11-10,no,notes/equations.md
+eq:G15,equation,ok,confirmed 2026-11-10,notes/equations.md#G15,eq:G8 eq:G11,sympy:G15,,,2026-11-10,no,notes/equations.md
+eq:G16,equation,ok,confirmed 2026-11-10,notes/equations.md#G16,eq:G11,eq:G17 eq:G18 sympy:G16 code:ring_gravity_3d test:kernels,,,2026-11-10,no,notes/equations.md
+eq:G17,equation,ok,confirmed 2026-11-10,notes/equations.md#G17,eq:G16,sympy:G17 code:ring_gravity_3d,,,2026-11-10,no,notes/equations.md
+eq:G18,equation,ok,confirmed 2026-11-10,notes/equations.md#G18,eq:G16,eq:G19 sympy:G18,,,2026-11-10,no,notes/equations.md
+eq:G19,equation,ok,confirmed 2026-11-10,notes/equations.md#G19,eq:G18,sympy:G19,,,2026-11-10,no,notes/equations.md
+eq:G20,equation,ok,confirmed 2026-11-10,notes/equations.md#G20,eq:G10,sympy:G20,,,2026-11-10,no,notes/equations.md
+eq:B1,equation,ok,confirmed 2026-11-10,notes/equations.md#B1,,eq:B2 sympy:B1,,,2026-11-10,no,notes/equations.md
+eq:B2,equation,ok,confirmed 2026-11-10,notes/equations.md#B2,eq:B1,eq:B3 eq:B6 sympy:B2 code:satellite_laplace code:satellite,,,2026-11-10,no,notes/equations.md
+eq:B3,equation,ok,confirmed 2026-11-10,notes/equations.md#B3,eq:B2,sympy:B3,,,2026-11-10,n/a,notes/equations.md
+eq:B4,equation,ok,confirmed 2026-11-10,notes/equations.md#B4,eq:V1,eq:B5 sympy:B4 code:satellite,,,2026-11-10,no,notes/equations.md
+eq:B5,equation,ok,confirmed 2026-11-10,notes/equations.md#B5,eq:B4,eq:B6 eq:B8 sympy:B5 code:satellite code:wave_wavenumber,,,2026-11-10,no,notes/equations.md
+eq:B6,equation,ok,confirmed 2026-11-10,notes/equations.md#B6,eq:B2 eq:B5,eq:B11 eq:B12 sympy:B6 code:forced_vertical,,,2026-11-10,no,notes/equations.md
+eq:B7,equation,ok,confirmed 2026-11-10,notes/equations.md#B7,eq:G4,eq:B8 eq:B10 eq:B13 sympy:B7 code:wave_wavenumber,,,2026-11-10,no,notes/equations.md
+eq:B8,equation,ok,confirmed 2026-11-10,notes/equations.md#B8,eq:B5 eq:B7,eq:B9 sympy:B8 code:bending_wave,,,2026-11-10,no,notes/equations.md
+eq:B9,equation,ok,confirmed 2026-11-10,notes/equations.md#B9,eq:B8,sympy:B9 code:satellite_torque,,,2026-11-10,no,notes/equations.md
+eq:B10,equation,ok,confirmed 2026-11-10,notes/equations.md#B10,eq:B7,sympy:B10,,,2026-11-10,no,notes/equations.md
+eq:B11,equation,ok,confirmed 2026-11-10,notes/equations.md#B11,eq:B6,sympy:B11 code:forced_vertical,,,2026-11-10,no,notes/equations.md
+eq:B12,equation,ok,confirmed 2026-11-10,notes/equations.md#B12,eq:B6,sympy:B12 notebook:vertical_resonance code:vertical_resonance_numbers,,,2026-11-10,no,notes/equations.md
+eq:B13,equation,ok,confirmed 2026-11-10,notes/equations.md#B13,eq:B7 eq:P7,sympy:B13 code:wave_wavenumber test:kernels,,,2026-11-10,no,notes/equations.md
+sympy:P1,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P1,eq:P1,,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P2,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P2,eq:P2,,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P3,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P3,eq:P3,,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P4,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P4,eq:P4,,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P5,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P5,eq:P5,,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P6,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P6,eq:P6,figure:zigzag paper:eqn:zigzag_p paper:eqn:zigzag_disp,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P7,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P7,eq:P7,figure:zigzag paper:eqn:zigzag_X paper:eqn:zigzag_disp,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:P8,sympy,ok,confirmed 2026-11-10,notes/sympy/ring_pressure.py#P8,eq:P8,paper:eqn:zigzag_R,,uv run python notes/sympy/ring_pressure.py,2026-11-10,,notes/sympy/ring_pressure.py
+sympy:O1,sympy,ok,confirmed 2026-11-10,notes/sympy/viscous_overstability.py#O1,eq:O1,,,"out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf ""%s"" ""$out"" | grep -q False",2026-11-10,,notes/sympy/viscous_overstability.py
+sympy:O2,sympy,ok,confirmed 2026-11-10,notes/sympy/viscous_overstability.py#O2,eq:O2,,,"out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf ""%s"" ""$out"" | grep -q False",2026-11-10,,notes/sympy/viscous_overstability.py
+sympy:O3,sympy,ok,confirmed 2026-11-10,notes/sympy/viscous_overstability.py#O3,eq:O3,paper:eqn:overstability claim:overstability_lattice,,"out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf ""%s"" ""$out"" | grep -q False",2026-11-10,,notes/sympy/viscous_overstability.py
+sympy:O4,sympy,ok,confirmed 2026-11-10,notes/sympy/viscous_overstability.py#O4,eq:O4,claim:overstability_lattice,,"out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf ""%s"" ""$out"" | grep -q False",2026-11-10,,notes/sympy/viscous_overstability.py
+sympy:O5,sympy,ok,confirmed 2026-11-10,notes/sympy/viscous_overstability.py#O5,eq:O5,claim:overstability_lattice,,"out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf ""%s"" ""$out"" | grep -q False",2026-11-10,,notes/sympy/viscous_overstability.py
+sympy:G1,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G1,eq:G1,paper:eqn:wire_Ag,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G2,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G2,eq:G2,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G3,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G3,eq:G3,figure:wire_planar paper:eqn:wire_2d,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G4,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G4,eq:G4,paper:eqn:wire_sheet,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G5,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G5,eq:G5,paper:eqn:wire_lattice,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G6,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G6,eq:G6,figure:wire_planar claim:direction,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G7,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G7,eq:G7,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G8,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G8,eq:G8,paper:eqn:wire_D,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G9,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G9,eq:G9,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G10,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G10,eq:G10,figure:wire_planar paper:eqn:wire_slopes paper:eqn:wire_t paper:eqn:wire_2d,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G11,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G11,eq:G11,paper:eqn:wire_Acomp,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G12,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G12,eq:G12,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G13,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G13,eq:G13,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G14,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G14,eq:G14,paper:eqn:wire_lite claim:direction,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G15,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G15,eq:G15,,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G16,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G16,eq:G16,paper:eqn:wire_d paper:eqn:wire_d0 paper:eqn:wire_d1 paper:eqn:wire_d1near paper:eqn:wire_Dcomp paper:eqn:wire_D,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G17,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G17,eq:G17,paper:eqn:wire_Acomp claim:recipe,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G18,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G18,eq:G18,claim:near_point_close,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G19,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G19,eq:G19,paper:eqn:wire_pythag claim:distance,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:G20,sympy,ok,confirmed 2026-11-10,notes/sympy/streamline_gravity.py#G20,eq:G20,paper:eqn:wire_mode claim:near_point_close claim:distance,,uv run python notes/sympy/streamline_gravity.py,2026-11-10,,notes/sympy/streamline_gravity.py
+sympy:B1,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B1,eq:B1,,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B2,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B2,eq:B2,paper:eqn:vres_force paper:eqn:vres_AV,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B3,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B2,eq:B3,paper:eqn:vres_AV,the B3 check sits in the B2 section,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B4,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B4,eq:B4,claim:pattern_speed,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B5,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B5,eq:B5,paper:eqn:vres_params,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B6,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B6,eq:B6,paper:eqn:vres_sol,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B7,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B7,eq:B7,paper:eqn:vres_lambda,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B8,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B8,eq:B8,paper:eqn:vres_sol paper:eqn:vres_params paper:eqn:vres_amp,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B9,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B9,eq:B9,,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B10,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B10,eq:B10,claim:group_velocity,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B11,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B11,eq:B11,,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B12,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B12,eq:B12,figure:vertical_resonance paper:eqn:vres_inc,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+sympy:B13,sympy,ok,confirmed 2026-11-10,notes/sympy/bending_wave.py#B13,eq:B13,,,uv run python notes/sympy/bending_wave.py,2026-11-10,,notes/sympy/bending_wave.py
+code:ring_gravity,code,ok,confirmed 2026-11-10,fast/kernels.py::_make_ring_gravity,eq:G3 eq:G14,test:kernels paper:eqn:wire_lite claim:direction claim:linear_density claim:three_corrections,"planar ring gravity, with the nearpoint and shape_slope options",,2026-11-10,,fast/kernels.py
+code:ring_gravity_3d,code,ok,confirmed 2026-11-10,fast/kernels.py::_make_ring_gravity_3d,eq:G16 eq:G17,test:kernels notebook:bending_waves claim:recipe,"3D ring gravity, the paper's recipe",,2026-11-10,,fast/kernels.py
+code:satellite_laplace,code,ok,confirmed 2026-11-10,fast/satellite.py::laplace,eq:B2,code:satellite,,,2026-11-10,,fast/satellite.py
+code:satellite_nu,code,ok,confirmed 2026-11-10,fast/satellite.py::nu,eq:V1,code:satellite,,,2026-11-10,,fast/satellite.py
+code:satellite,code,ok,confirmed 2026-11-10,fast/satellite.py::Satellite,eq:B2 eq:B4 eq:B5 code:satellite_laplace code:satellite_nu,test:vertical_resonance notebook:vertical_resonance notebook:bending_waves figure:vertical_resonance code:vertical_resonance_numbers numbers:vertical_resonance claim:pattern_speed,the vertical Fourier satellite,,2026-11-10,,fast/satellite.py
+code:forced_vertical,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::forced_vertical,eq:B6 eq:B11,test:vertical_resonance notebook:vertical_resonance code:vertical_resonance_numbers,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:ring_sigma,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::ring_sigma,,notebook:bending_waves,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:bending_wave,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::bending_wave,eq:B8,notebook:bending_waves,test helper: Shu's forced wave,,2026-11-10,,tests/vertical_analysis.py
+code:simulated_h,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::simulated_h,,notebook:bending_waves,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:satellite_torque,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::satellite_torque,eq:B9,notebook:bending_waves,test helper,,2026-11-10,,tests/vertical_analysis.py
+code:wave_wavenumber,code,ok,confirmed 2026-11-10,tests/vertical_analysis.py::wave_wavenumber,eq:B5 eq:B7 eq:B13,notebook:bending_waves,test helper,,2026-11-10,,tests/vertical_analysis.py
+test:kernels,test,ok,confirmed 2026-11-10,tests/test_kernels.py,code:ring_gravity code:ring_gravity_3d eq:G6 eq:G16 eq:B13,claim:recipe claim:direction claim:linear_density,whole file: its helpers build the test ringlets,uv run pytest -q tests/test_kernels.py,2026-11-10,,tests/test_kernels.py
+test:vertical_resonance,test,ok,confirmed 2026-11-10,tests/test_vertical.py::test_vertical_resonance,code:run_3d code:satellite code:forced_vertical code:vertical_drift code:drift,claim:massless_results,,uv run pytest -q tests/test_vertical.py::test_vertical_resonance,2026-11-10,,tests/test_vertical.py
+notebook:vertical_resonance,notebook,ok,confirmed 2026-11-10,tests/vertical_resonance/vertical_resonance.ipynb,code:satellite code:forced_vertical code:vertical_drift code:drift eq:B12,claim:massless_results,,,2026-11-10,,tests/vertical_resonance/vertical_resonance.ipynb
+notebook:bending_waves,notebook,ok,confirmed 2026-11-10,tests/bending_waves/bending_waves.ipynb,code:satellite code:ring_gravity_3d code:vertical_drift code:ring_sigma code:bending_wave code:simulated_h code:satellite_torque code:wave_wavenumber,,,,2026-11-10,,tests/bending_waves/bending_waves.ipynb
+figure:wire_planar,figure,ok,confirmed 2026-11-10,paper/figures/wire_planar.py,sympy:G3 sympy:G6 sympy:G10,paper:fig:wire_planar paper:fig:wire_velocity,makes wire_planar and wire_velocity,,2026-11-10,,paper/figures/wire_planar.py
+figure:vertical_resonance,figure,ok,confirmed 2026-11-10,paper/figures/vertical_resonance.py,code:satellite code:vertical_drift code:drift sympy:B12,paper:fig:vres claim:massless_results,,,2026-11-10,,paper/figures/vertical_resonance.py
+figure:zigzag,figure,ok,confirmed 2026-11-10,paper/figures/zigzag.py,sympy:P6 sympy:P7,paper:fig:zigzag,,,2026-11-10,,paper/figures/zigzag.py
+code:latex_number,code,ok,confirmed 2026-11-10,tools/paper_numbers.py::latex_number,,numbers:vertical_resonance,how the paper's numbers are rounded and written,,2026-11-10,,tools/paper_numbers.py
+code:vertical_resonance_numbers,code,ok,confirmed 2026-11-10,tools/paper_numbers.py::vertical_resonance_numbers,code:satellite code:forced_vertical eq:B12,numbers:vertical_resonance,,,2026-11-10,,tools/paper_numbers.py
+numbers:vertical_resonance,numbers,ok,confirmed 2026-11-10,paper/numbers/vertical_resonance.tex,code:latex_number code:vertical_resonance_numbers code:satellite code:vertical_drift code:drift,paper:fig:vres claim:massless_results,Section 4.2 and Fig. vres; from tests/vertical_resonance's output,,2026-11-10,,paper/numbers/vertical_resonance.tex
+paper:eqn:wire_Ag,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_Ag,sympy:G1,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_d,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_d,sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_d0,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_d0,sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_d1,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_d1,sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_d1near,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_d1near,sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_Dcomp,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_Dcomp,sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_pythag,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_pythag,sympy:G19,claim:near_point_close,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_slopes,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_slopes,sympy:G10,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_t,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_t,sympy:G10,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_D,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_D,sympy:G8 sympy:G16,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_Acomp,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_Acomp,sympy:G11 sympy:G17,claim:recipe,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_mode,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_mode,sympy:G20,claim:near_point_close,,,2026-11-10,,paper/epi_int_3d.tex
+paper:fig:wire_planar,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#fig:wire_planar,figure:wire_planar,,,,2026-11-10,,paper/epi_int_3d.tex
+claim:near_point_close,claim,ok,confirmed 2026-11-10,"paper/epi_int_3d.tex@Lastly, note that because the streamline is tilted",sympy:G18 sympy:G20 paper:eqn:wire_pythag paper:eqn:wire_mode,,|d1| <= s Delta << Delta,,2026-11-10,,paper/epi_int_3d.tex
+claim:recipe,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@The particles' coordinates are stored in arrays,sympy:G17 code:ring_gravity_3d test:kernels paper:eqn:wire_Acomp,,how the code computes ring gravity,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_force,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_force,sympy:B2,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_AV,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_AV,sympy:B2 sympy:B3,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_sol,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_sol,sympy:B6 sympy:B8,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_params,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_params,sympy:B5 sympy:B8,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_amp,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_amp,sympy:B8,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_lambda,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_lambda,sympy:B7,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:vres_inc,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:vres_inc,sympy:B12,claim:massless_results,,,2026-11-10,,paper/epi_int_3d.tex
+paper:fig:vres,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#fig:vres,figure:vertical_resonance numbers:vertical_resonance,,,,2026-11-10,,paper/epi_int_3d.tex
+claim:pattern_speed,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@which is an $m$-armed pattern,sympy:B4 code:satellite,,Omega_p = Omega_as + nu_as/m; r_V,,2026-11-10,,paper/epi_int_3d.tex
+claim:massless_results,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@are in excellent agreement with,notebook:vertical_resonance figure:vertical_resonance test:vertical_resonance paper:eqn:vres_inc numbers:vertical_resonance,,the run's parameters; within 4% of i_f; z within 4e-11 of exact,,2026-11-10,,paper/epi_int_3d.tex
+claim:group_velocity,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@The wave front propagates inward at the group velocity,sympy:B10,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_2d,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_2d,sympy:G3 sympy:G10,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_lite,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_lite,sympy:G14 code:ring_gravity,claim:distance,,,2026-11-10,,paper/epi_int_3d.tex
+claim:distance,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@evaluates the pull's magnitude at the crossing point,sympy:G19 sympy:G20 paper:eqn:wire_lite,,,,2026-11-10,,paper/epi_int_3d.tex
+claim:direction,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@takes the wire's direction from the streamline's velocity,sympy:G6 sympy:G14 code:ring_gravity test:kernels,,the velocity tangent is off by ~m,,2026-11-10,,paper/epi_int_3d.tex
+claim:linear_density,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@evaluates every perturbing streamline's pull,code:ring_gravity test:kernels,,,,2026-11-10,,paper/epi_int_3d.tex
+claim:three_corrections,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@In an eccentric ringlet the three corrections together,code:ring_gravity,,"sums separate runs of each fix (epi_int_lite_issues.md issues 7 and 9: e changes 6e-5, 2e-6, 1e-8); never run together",,2026-11-10,,paper/epi_int_3d.tex
+paper:fig:wire_velocity,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#fig:wire_velocity,figure:wire_planar,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:zigzag_X,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:zigzag_X,sympy:P7,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:zigzag_p,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:zigzag_p,sympy:P6,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:zigzag_disp,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:zigzag_disp,sympy:P6 sympy:P7,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:zigzag_R,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:zigzag_R,sympy:P8,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:overstability,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:overstability,sympy:O3,claim:overstability_lattice,,,2026-11-10,,paper/epi_int_3d.tex
+claim:overstability_lattice,claim,ok,confirmed 2026-11-10,paper/epi_int_3d.tex@The streamline lattice follows Eqn.,sympy:O3 sympy:O4 sympy:O5 paper:eqn:overstability,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:fig:zigzag,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#fig:zigzag,figure:zigzag,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_sheet,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_sheet,sympy:G4,,,,2026-11-10,,paper/epi_int_3d.tex
+paper:eqn:wire_lattice,paper,ok,confirmed 2026-11-10,paper/epi_int_3d.tex#eqn:wire_lattice,sympy:G5,,,,2026-11-10,,paper/epi_int_3d.tex

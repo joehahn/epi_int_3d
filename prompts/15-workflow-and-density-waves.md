@@ -162,3 +162,10 @@ do the next
 [`tools/paper_numbers.py`: Section 4.2's 16 numbers computed from `tests/vertical_resonance` and its inputs, written
 as macros to `paper/numbers/vertical_resonance.tex`, which the paper `\input`s; a chain node, so a rerun that
 changes a number marks the claims quoting it stale. The PDF's text is unchanged.]
+
+push. do the next
+
+[The ledger: a claude.ai dashboard (https://claude.ai/artifact/L54vp4Q4cLf6Cm99Mu41JV) fed by `tools/ledger.py`'s three
+exports: the chain with statuses and hand checks, the review findings with verdicts and tiebreaks, and the costs
+(outside reviews, Claude Code per phase, Joe's hours). Fixed along the way: `notes/equations.md` rows with escaped
+pipes were hashed only in part by `chain.py`, and G18's row had unescaped pipes; phase 3b added to `phases.csv`.]

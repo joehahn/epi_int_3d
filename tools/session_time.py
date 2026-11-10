@@ -13,7 +13,8 @@ Reads the session logs in ~/.claude/projects/<project>/*.jsonl and reports, per 
 Phases are assigned by prompt time, using notes/phases.csv (columns: start, phase), where
 each row's phase applies from its start time until the next row's.
 
-Run:  uv run python tools/session_time.py [--away 30] [--by-session]
+Run:  uv run python tools/session_time.py [--away 30] [--by-session] [--csv out.csv]
+(--csv also writes the per-phase table, for tools/ledger.py)
 """
 import argparse
 import csv
@@ -113,12 +114,14 @@ def main():
     p.add_argument('--human-log', type=Path, default=REPO/'notes'/'human_time.md')
     p.add_argument('--away', type=float, default=30, help='minutes; longer gaps are away')
     p.add_argument('--by-session', action='store_true', help='also print each session')
+    p.add_argument('--csv', type=Path, default=None, help='also write the per-phase table here')
     args = p.parse_args()
 
     phases = load_phases(args.phases)
-    order = [ph for _, ph in phases]
+    order = list(dict.fromkeys(ph for _, ph in phases))     #a phase may recur in phases.csv
     total = defaultdict(lambda: defaultdict(float))
     open_sessions = 0
+    open_phases = set()
     for path in sorted(args.logs.glob('*.jsonl'), key=lambda f: f.stat().st_mtime):
         turns, cost = read_session(path)
         if not turns:
@@ -142,6 +145,7 @@ def main():
         cc_total = sum(cc_by_phase.values())
         if cost is None:
             open_sessions += 1
+            open_phases.update(cc_by_phase)
         elif cc_total > 0:
             for ph, s in cc_by_phase.items():
                 total[ph]['cost'] += cost*s/cc_total
@@ -163,6 +167,16 @@ def main():
               f'{int(r.get("cache_creation_input_tokens", 0)):9d} {r.get("cost", 0):7.2f}')
     if open_sessions:
         print(f'\n{open_sessions} session(s) still open: their cost is not yet in the table.')
+    if args.csv is not None:
+        with open(args.csv, 'w', newline='') as fp:
+            writer = csv.writer(fp)
+            writer.writerow(['phase', 'turns', 'cc_hours', 'human_hours', 'off_hours', 'cost_usd', 'open'])
+            for ph in order + sorted(set(off) - set(order)):
+                r = total.get(ph, {})
+                if not r and ph not in off:
+                    continue
+                writer.writerow([ph, int(r.get('turns', 0)), round(r.get('cc_h', 0), 3), round(r.get('human_h', 0), 3),
+                                 round(off.get(ph, 0), 3), round(r.get('cost', 0), 2), int(ph in open_phases)])
 
 
 if __name__ == '__main__':

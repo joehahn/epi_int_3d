@@ -34,9 +34,11 @@
 #                                                    and confirm those that pass
 #   uv run python tools/chain.py --confirm code:vertical_drift paper:drift_rotation
 #                                                    confirm nodes checked by reading them
+#   uv run python tools/chain.py --csv nodes.csv     also write every node and its status, for tools/ledger.py
 
 import argparse
 import ast
+import csv
 import datetime
 import hashlib
 import json
@@ -143,7 +145,7 @@ def python_sections(path, ID):
 #a markdown table row whose first cell is ID: its first two cells
 def markdown_row(path, ID):
     for line in whole_file(path).split('\n'):
-        cells = [cell.strip() for cell in line.split('|')]
+        cells = [cell.strip() for cell in re.split(r'(?<!\\)\|', line)]     #an escaped \| is inside a cell
         if ((len(cells) > 3) and (cells[1] == ID)):
             return cells[1] + ' | ' + cells[2]
     return None
@@ -298,6 +300,7 @@ parser.add_argument('--all', action='store_true', help='list every node, not onl
 parser.add_argument('--tree', type=str, default=None, help='show what a node needs and what needs it')
 parser.add_argument('--run', action='store_true', help='run the checks of nodes that are not ok; confirm those that pass')
 parser.add_argument('--confirm', type=str, nargs='+', default=None, help='confirm these nodes')
+parser.add_argument('--csv', type=str, default=None, help='write every node and its status to this file')
 args = parser.parse_args()
 
 #read the chain and its state, and hash every anchor
@@ -379,3 +382,20 @@ for node in ordered(nodes):
     if (status[ID] != 'ok'):
         todo = '   -> ' + (node.get('check') or how_to_confirm[node['kind']])
     print(status[ID].ljust(8), ID.ljust(28), reason[ID] + todo)
+
+#every node and its status, for the ledger
+if (args.csv is not None):
+    needed_by = {node['id']: [] for node in nodes}
+    for node in nodes:
+        for need in node['needs']:
+            needed_by[need].append(node['id'])
+    with open(args.csv, 'w', newline='') as fp:
+        writer = csv.writer(fp)
+        writer.writerow(['id', 'kind', 'status', 'reason', 'anchor', 'needs', 'needed_by', 'note', 'check', 'confirmed'])
+        for node in ordered(nodes):
+            ID = node['id']
+            confirmed = ''
+            if (ID in state):
+                confirmed = state[ID]['date']
+            writer.writerow([ID, node['kind'], status[ID], reason[ID], node['anchor'], ' '.join(node['needs']),
+                ' '.join(needed_by[ID]), node.get('note', ''), node.get('check', ''), confirmed])

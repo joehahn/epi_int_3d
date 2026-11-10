@@ -129,7 +129,7 @@
   "date": "2026-11-10",
   "hash": "cc860c117825",
   "needs": {
-   "eq:B8": "fbaca32018bf"
+   "eq:B8": "0079067546cd"
   }
  },
  "code:drift": {
@@ -151,7 +151,7 @@
   "date": "2026-11-10",
   "hash": "631a2478ef50",
   "needs": {
-   "eq:B11": "930e55fe0235",
+   "eq:B11": "afaeb66e49fe",
    "eq:B6": "6a24f47056f4"
   }
  },
@@ -279,16 +279,16 @@
   "needs": {
    "code:forced_vertical": "631a2478ef50",
    "code:satellite": "2f1dbb1340e9",
-   "eq:B12": "8045ba4b393e"
+   "eq:B12": "b7c0d30ba042"
   }
  },
  "code:wave_wavenumber": {
   "date": "2026-11-10",
   "hash": "7e76bf8be5aa",
   "needs": {
-   "eq:B13": "4c448fd74bfd",
+   "eq:B13": "49e2a12fbc96",
    "eq:B5": "f6307dfdafe9",
-   "eq:B7": "b87b697aa124"
+   "eq:B7": "8f0e98986e7c"
   }
  },
  "eq:B1": {
@@ -300,28 +300,28 @@
   "date": "2026-11-10",
   "hash": "283dfbe111cd",
   "needs": {
-   "eq:B7": "b87b697aa124"
+   "eq:B7": "8f0e98986e7c"
   }
  },
  "eq:B11": {
   "date": "2026-11-10",
-  "hash": "930e55fe0235",
+  "hash": "afaeb66e49fe",
   "needs": {
    "eq:B6": "6a24f47056f4"
   }
  },
  "eq:B12": {
   "date": "2026-11-10",
-  "hash": "8045ba4b393e",
+  "hash": "b7c0d30ba042",
   "needs": {
    "eq:B6": "6a24f47056f4"
   }
  },
  "eq:B13": {
   "date": "2026-11-10",
-  "hash": "4c448fd74bfd",
+  "hash": "49e2a12fbc96",
   "needs": {
-   "eq:B7": "b87b697aa124",
+   "eq:B7": "8f0e98986e7c",
    "eq:P7": "82faf17dea6f"
   }
  },
@@ -363,29 +363,29 @@
  },
  "eq:B7": {
   "date": "2026-11-10",
-  "hash": "b87b697aa124",
+  "hash": "8f0e98986e7c",
   "needs": {
-   "eq:G4": "e2cdbd0cc463"
+   "eq:G4": "1bc88b705dd9"
   }
  },
  "eq:B8": {
   "date": "2026-11-10",
-  "hash": "fbaca32018bf",
+  "hash": "0079067546cd",
   "needs": {
    "eq:B5": "f6307dfdafe9",
-   "eq:B7": "b87b697aa124"
+   "eq:B7": "8f0e98986e7c"
   }
  },
  "eq:B9": {
   "date": "2026-11-10",
   "hash": "a81d26e7d95e",
   "needs": {
-   "eq:B8": "fbaca32018bf"
+   "eq:B8": "0079067546cd"
   }
  },
  "eq:G1": {
   "date": "2026-11-10",
-  "hash": "01549a491860",
+  "hash": "310fc9dc48fa",
   "needs": {}
  },
  "eq:G10": {
@@ -400,7 +400,7 @@
   "date": "2026-11-10",
   "hash": "6ccbc89fce6a",
   "needs": {
-   "eq:G1": "01549a491860",
+   "eq:G1": "310fc9dc48fa",
    "eq:G10": "05a70454ced0"
   }
  },
@@ -450,23 +450,23 @@
  },
  "eq:G18": {
   "date": "2026-11-10",
-  "hash": "b669d1907201",
+  "hash": "0dbc0e651fe0",
   "needs": {
    "eq:G16": "8c38c9fc7697"
   }
  },
  "eq:G19": {
   "date": "2026-11-10",
-  "hash": "c2886b3b213a",
+  "hash": "6909b0e47922",
   "needs": {
-   "eq:G18": "b669d1907201"
+   "eq:G18": "0dbc0e651fe0"
   }
  },
  "eq:G2": {
   "date": "2026-11-10",
   "hash": "2b4cca510d6c",
   "needs": {
-   "eq:G1": "01549a491860"
+   "eq:G1": "310fc9dc48fa"
   }
  },
  "eq:G20": {
@@ -480,12 +480,12 @@
   "date": "2026-11-10",
   "hash": "a20ddfb68df5",
   "needs": {
-   "eq:G1": "01549a491860"
+   "eq:G1": "310fc9dc48fa"
   }
  },
  "eq:G4": {
   "date": "2026-11-10",
-  "hash": "e2cdbd0cc463",
+  "hash": "1bc88b705dd9",
   "needs": {
    "eq:G2": "2b4cca510d6c"
   }
@@ -514,7 +514,7 @@
   "date": "2026-11-10",
   "hash": "6892b3d6db2d",
   "needs": {
-   "eq:G1": "01549a491860"
+   "eq:G1": "310fc9dc48fa"
   }
  },
  "eq:G9": {
@@ -725,7 +725,7 @@
    "code:forced_vertical": "631a2478ef50",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "cac5e539d361",
-   "eq:B12": "8045ba4b393e"
+   "eq:B12": "b7c0d30ba042"
   }
  },
  "numbers:vertical_resonance": {
@@ -1050,21 +1050,21 @@
   "date": "2026-11-10",
   "hash": "7aa789f5c38b",
   "needs": {
-   "eq:B11": "930e55fe0235"
+   "eq:B11": "afaeb66e49fe"
   }
  },
  "sympy:B12": {
   "date": "2026-11-10",
   "hash": "05d793ee0045",
   "needs": {
-   "eq:B12": "8045ba4b393e"
+   "eq:B12": "b7c0d30ba042"
   }
  },
  "sympy:B13": {
   "date": "2026-11-10",
   "hash": "28c7098e3707",
   "needs": {
-   "eq:B13": "4c448fd74bfd"
+   "eq:B13": "49e2a12fbc96"
   }
  },
  "sympy:B2": {
@@ -1106,14 +1106,14 @@
   "date": "2026-11-10",
   "hash": "8613bc2642be",
   "needs": {
-   "eq:B7": "b87b697aa124"
+   "eq:B7": "8f0e98986e7c"
   }
  },
  "sympy:B8": {
   "date": "2026-11-10",
   "hash": "e43e55c5ab65",
   "needs": {
-   "eq:B8": "fbaca32018bf"
+   "eq:B8": "0079067546cd"
   }
  },
  "sympy:B9": {
@@ -1127,7 +1127,7 @@
   "date": "2026-11-10",
   "hash": "dbc04ec946d2",
   "needs": {
-   "eq:G1": "01549a491860"
+   "eq:G1": "310fc9dc48fa"
   }
  },
  "sympy:G10": {
@@ -1190,14 +1190,14 @@
   "date": "2026-11-10",
   "hash": "88f60922ebae",
   "needs": {
-   "eq:G18": "b669d1907201"
+   "eq:G18": "0dbc0e651fe0"
   }
  },
  "sympy:G19": {
   "date": "2026-11-10",
   "hash": "c892067bb7ae",
   "needs": {
-   "eq:G19": "c2886b3b213a"
+   "eq:G19": "6909b0e47922"
   }
  },
  "sympy:G2": {
@@ -1225,7 +1225,7 @@
   "date": "2026-11-10",
   "hash": "8179ab3cfaf2",
   "needs": {
-   "eq:G4": "e2cdbd0cc463"
+   "eq:G4": "1bc88b705dd9"
   }
  },
  "sympy:G5": {
@@ -1450,7 +1450,7 @@
   "needs": {
    "code:ring_gravity": "b009c47899ac",
    "code:ring_gravity_3d": "dd696367e669",
-   "eq:B13": "4c448fd74bfd",
+   "eq:B13": "49e2a12fbc96",
    "eq:G16": "8c38c9fc7697",
    "eq:G6": "c313bda1bf30"
   }

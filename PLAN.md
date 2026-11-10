@@ -369,6 +369,14 @@ density waves are the first feature built through the whole pipeline.
    broken down by activity (derive, code, test, write, review per model, tiebreak) plus your time
    from `notes/human_time.md`; outside reviews are exact, and CC's split within a session is an
    estimate (an extension of `tools/session_time.py`).
+   - *Built 2026-11-10:* the ledger, https://claude.ai/artifact/L54vp4Q4cLf6Cm99Mu41JV (a claude.ai
+     dashboard, private until shared). `tools/ledger.py` exports `notes/ledger/nodes.csv` (the chain, statuses,
+     hand checks), `findings.csv` (verdicts, tiebreaks) and `costs.csv` (outside reviews per call, Claude
+     Code per phase, Joe's hours); Claude uploads them. The page shows the chain by kind and status, a
+     searchable list of items, and for the picked item everything it rests on, what rests on it, and the
+     findings on its file; then the reviews and the costs. Notes go in as comments on the page. Not yet:
+     Claude Code's cost split by activity within a phase (only per phase), style-rule links per card.
+     `notes/phases.csv` gained phase 3b (from 2026-11-08 17:52 UTC).
 
 ## Phase 3c — Spiral density waves (decided 2026-11-08)
 
