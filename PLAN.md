@@ -380,6 +380,8 @@ density waves are the first feature built through the whole pipeline.
 
 ## Phase 3c — Spiral density waves (decided 2026-11-08)
 
+*Deferred (the author, 2026-11-10): skipped for now; still planned.*
+
 Linear only. The density-wave counterpart of `tests/bending_waves/`, in `tests/density_waves/`:
 the Fourier satellite (`fast/satellite.py`) forcing an m ≥ 2 inner Lindblad resonance in a
 self-gravitating ring. The motion is planar, so `source/` and `fast/epi_int_3d.py` can be compared.

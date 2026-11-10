@@ -169,3 +169,7 @@ push. do the next
 exports: the chain with statuses and hand checks, the review findings with verdicts and tiebreaks, and the costs
 (outside reviews, Claude Code per phase, Joe's hours). Fixed along the way: `notes/equations.md` rows with escaped
 pipes were hashed only in part by `chain.py`, and G18's row had unescaped pipes; phase 3b added to `phases.csv`.]
+
+skip density waves for now
+
+[Phase 3c deferred in PLAN.md, still planned.]
