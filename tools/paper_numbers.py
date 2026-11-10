@@ -1,0 +1,131 @@
+#paper_numbers.py
+#
+#by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 10 November 2026.
+#
+#compute the numbers the paper quotes from the simulations and inputs that produce them, and write them
+#as LaTeX macros into paper/numbers/<test>.tex, which paper/epi_int_3d.tex \inputs, so that no number is
+#copied into the paper by hand. Each file is a node of the dependency chain (notes/chain.json), so a rerun
+#that changes a number marks the claims that quote it as stale. Phase 3b of PLAN.md.
+#
+#usage, from the repo's top folder, after the test's simulation has run
+#(uv run python tools/run_simulations.py tests/vertical_resonance):
+#   uv run python tools/paper_numbers.py                       all tests
+#   uv run python tools/paper_numbers.py vertical_resonance    one test
+#
+#macro names are letters only (TeX's rule), prefixed by the test: \vresNstreamlines. Numbers with a power
+#of ten, e.g. $4\times10^{-11}$, must be used in math mode; plain integers and decimals work anywhere.
+
+import argparse
+import datetime
+import math
+import os
+import sys
+
+#paths
+repo_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+numbers_folder = os.path.join(repo_folder, 'paper', 'numbers')
+sys.path.insert(0, os.path.join(repo_folder, 'source'))
+sys.path.insert(0, os.path.join(repo_folder, 'fast'))
+sys.path.insert(0, os.path.join(repo_folder, 'tests'))
+import numpy as np
+from vertical_analysis import load3d, forced_vertical
+from satellite import Satellite
+
+today = datetime.date.today().isoformat()
+
+
+#x as LaTeX, to the given significant digits, rounded up if it is an upper bound;
+#powers of ten below 1e-3 or from 1e4 up, and a mantissa of 1 dropped: 10^{4}, 4\times10^{-11}
+def latex_number(x, digits=2, up=False):
+    if (x == 0.0):
+        return '0'
+    exponent = int(math.floor(math.log10(abs(x))))
+    scale = 10.0**(exponent - digits + 1)
+    if (up):
+        mantissa_digits = math.ceil(abs(x)/scale - 1.0e-9)
+    else:
+        mantissa_digits = round(abs(x)/scale)
+    value = math.copysign(mantissa_digits*scale, x)
+    #rounding up can carry into the next power of ten
+    exponent = int(math.floor(math.log10(abs(value))))
+    if ((exponent >= -3) and (exponent < 4)):
+        decimals = max(0, digits - 1 - exponent)
+        text = str(round(value, decimals))
+        if (decimals == 0):
+            text = str(int(round(value)))
+        return text
+    mantissa = value/10.0**exponent
+    mantissa_text = str(round(mantissa, digits - 1)).rstrip('0').rstrip('.')
+    if (mantissa_text == '1'):
+        return '10^{' + str(exponent) + '}'
+    return mantissa_text + '\\times10^{' + str(exponent) + '}'
+
+
+#the massless ring at a vertical resonance, Section 4.2 and Fig. vres
+def vertical_resonance_numbers():
+    test_folder = os.path.join(repo_folder, 'tests', 'vertical_resonance')
+    p, o = load3d(test_folder)
+    sat = Satellite(p['satellite'], p['J2'], p['Rp'])
+    orbits = o['times']/(2.0*np.pi)
+    numbers = []
+    #the run's inputs
+    numbers += [('vresJtwo', latex_number(p['J2'], 1), 'inputs.py J2')]
+    numbers += [('vresRp', latex_number(p['Rp'], 1), 'inputs.py Rp')]
+    numbers += [('vresNstreamlines', str(p['number_of_streamlines']), 'inputs.py number_of_streamlines')]
+    numbers += [('vresNparticles', str(p['particles_per_streamline']), 'inputs.py particles_per_streamline')]
+    numbers += [('vresRmax', latex_number(1.0 + p['radial_width'], 3), 'inputs.py 1 + radial_width')]
+    numbers += [('vresM', str(sat.m), 'inputs.py satellite m')]
+    numbers += [('vresIs', latex_number(sat.inclination, 1), 'inputs.py satellite inclination')]
+    numbers += [('vresAs', latex_number(p['satellite']['r'], 4), 'inputs.py satellite r')]
+    numbers += [('vresRV', latex_number(sat.r_V, 3), 'fast/satellite.py r_V (B4)')]
+    numbers += [('vresMs', latex_number(sat.mass_final, 1), 'inputs.py satellite mass_final')]
+    numbers += [('vresTau', latex_number(sat.time_grow, 1), 'inputs.py satellite time_grow')]
+    numbers += [('vresTauOrbits', latex_number(sat.time_grow/(2.0*np.pi), 2), 'time_grow/2 pi')]
+    numbers += [('vresOrbits', latex_number(orbits[-1], 1), 'the run\'s length in orbits')]
+    #the average over the late run, as in paper/figures/vertical_resonance.py
+    late_orbits = 1.0e4
+    late = (orbits > late_orbits)
+    numbers += [('vresAvgOrbits', latex_number(orbits[-1] - late_orbits, 1), 'orbits averaged over, from 1e4 to the end')]
+    i_avg = o['inc'][late].mean(axis=(0, 2))
+    x_avg = ((o['a'][late] - sat.r_V)/sat.r_V).mean(axis=(0, 2))
+    off_resonance = (np.abs(x_avg) > 1.0e-6)
+    i_forced = sat.mass_final*sat.inclination*sat.beta_V*sat.beta_V*sat.b/(   6.0*(sat.m - 1)*np.abs(x_avg[off_resonance])   )
+    ratio = i_avg[off_resonance]/i_forced
+    largest_departure = np.abs(ratio - 1.0).max()
+    print('simulation/B12 =', np.round(ratio.min(), 4), 'to', np.round(ratio.max(), 4))
+    numbers += [('vresAgreePercent', latex_number(100.0*largest_departure, 1, up=True),
+        'largest |<i>/B12 - 1| in percent, rounded up')]
+    #each particle's z against the exact solution B11, as in the notebook
+    sat_unused, exact = forced_vertical(p, o)
+    z_error = np.abs(o['z'] - exact['z']).max()
+    print('max |z - B11| =', z_error)
+    numbers += [('vresZerror', latex_number(z_error, 1, up=True), 'max |z - B11|, rounded up')]
+    return numbers
+
+
+#write one test's macros
+def write_numbers(test, numbers):
+    path = os.path.join(numbers_folder, test + '.tex')
+    lines = ['%' + test + '.tex', '%', '%written by tools/paper_numbers.py; do not edit by hand', '']
+    for name, value, source in numbers:
+        lines += ['\\newcommand{\\' + name + '}{' + value + '}' + '   %' + source]
+        print(name, '=', value)
+    with open(path, 'w') as fp:
+        fp.write('\n'.join(lines) + '\n')
+    print('wrote', os.path.relpath(path, repo_folder))
+
+
+#the tests that supply numbers, and their functions
+producers = {'vertical_resonance': vertical_resonance_numbers}
+
+#parse the command line
+parser = argparse.ArgumentParser()
+parser.add_argument('tests', type=str, nargs='*', default=list(producers.keys()), help='tests to compute numbers for')
+args = parser.parse_args()
+
+#compute and write each test's numbers
+os.makedirs(numbers_folder, exist_ok=True)
+for test in args.tests:
+    print('test =', test)
+    numbers = producers[test]()
+    write_numbers(test, numbers)

@@ -156,3 +156,9 @@ push, then extend the chain
 [Pushed. The chain now covers the G, B, P and O equations too: 198 nodes from `notes/equations.md` through sympy,
 `fast/kernels.py`, `fast/satellite.py`, the tests, notebooks and figure scripts to the paper's equations, figures
 and 15 claims, all confirmed after the checks passed and the claims' numbers were checked against their sources.]
+
+do the next
+
+[`tools/paper_numbers.py`: Section 4.2's 16 numbers computed from `tests/vertical_resonance` and its inputs, written
+as macros to `paper/numbers/vertical_resonance.tex`, which the paper `\input`s; a chain node, so a rerun that
+changes a number marks the claims quoting it stale. The PDF's text is unchanged.]

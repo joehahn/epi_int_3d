@@ -15,6 +15,7 @@
 \medmuskip=4mu plus 2mu minus 2mu     %keep some space around + and - in inline math
 \thickmuskip=5mu plus 5mu minus 2mu   %and around =
 \newcommand{\code}[1]{\texttt{#1}}   %code names; make it {#1} for roman
+\input{numbers/vertical_resonance}   %numbers from the simulations, by tools/paper_numbers.py
 
 %journal
 \received{not yet}
@@ -450,24 +451,24 @@ which, expressed as an inclination $|h_{\rm forced}|/r_V$, is
     \label{eqn:vres_inc}
     i_f = \frac{M_s}{M_p}\frac{\beta^2b_{3/2}^{(m)}(\beta)}{6(m - 1)|x|}\,i_s
 \end{equation}
-when the planet's oblateness is negligible. The simulation uses $J_2 = 0.01$ and $R_p = 0.5$, in
-natural units where $G = M_p = 1$. Its ring is 81 streamlines of 6 particles each, spanning
-$1 \le r \le 1.04$, and an $m = 2$ satellite with $i_s = 0.01$ at $a_s = 2.125$ puts $r_V = 1.02$
-mid-ring. The satellite's mass grows as $M_s = 10^{-6}(1 - e^{-t/\tau})$ with $\tau = 10^4$, or about
-1600 orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
+when the planet's oblateness is negligible. The simulation uses $J_2 = \vresJtwo$ and $R_p = \vresRp$, in
+natural units where $G = M_p = 1$. Its ring is \vresNstreamlines\ streamlines of \vresNparticles\ particles each, spanning
+$1 \le r \le \vresRmax$, and an $m = \vresM$ satellite with $i_s = \vresIs$ at $a_s = \vresAs$ puts $r_V = \vresRV$
+mid-ring. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
+\vresTauOrbits\ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
 motion remains averages away over time. Figure \ref{fig:vres} shows that the particles' inclinations,
-averaged over the last $10^4$ of the simulation's $2\times10^4$ orbits, are in excellent agreement with
-Eqn.\ (\ref{eqn:vres_inc}), to within 4\%, and the differences are of order $x$, which
+averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
+Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
 Eqn.\ (\ref{eqn:vres_inc}) neglects. The test's
 notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/vertical_resonance/vertical_resonance.ipynb}}
 also compares each particle's vertical motion over time to the exact solution, which the simulation
-follows to within $4\times10^{-11}$ in $z$.
+follows to within $\vresZerror$ in $z$.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/vertical_resonance.pdf}
-\caption{Inclinations $\langle i\rangle$ of massless particles near a satellite's $m = 2$ inner
-vertical resonance, averaged over each streamline's particles and over the last $10^4$ orbits of the
+\caption{Inclinations $\langle i\rangle$ of massless particles near a satellite's $m = \vresM$ inner
+vertical resonance, averaged over each streamline's particles and over the last $\vresAvgOrbits$ orbits of the
 simulation of Section \ref{sec:waves_massless} (dots), plotted vs.\ their average fractional distance
 from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\ref{eqn:vres_inc}).
 The streamline at $x = 0$, whose inclination grows without bound, is off scale.}

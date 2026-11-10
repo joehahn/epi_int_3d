@@ -53,10 +53,11 @@
  },
  "claim:massless_results": {
   "date": "2026-11-10",
-  "hash": "a9119f762208",
+  "hash": "ac27ae4bad6a",
   "needs": {
    "figure:vertical_resonance": "e6dd6a2e794b",
    "notebook:vertical_resonance": "e3ed0fc80fbf",
+   "numbers:vertical_resonance": "a985e6f9db33",
    "paper:eqn:vres_inc": "22616813c853",
    "test:vertical_resonance": "d15ffbd6a40d"
   }
@@ -169,6 +170,11 @@
    "code:nodal_rate": "bc7117846b35"
   }
  },
+ "code:latex_number": {
+  "date": "2026-11-10",
+  "hash": "001b69207eef",
+  "needs": {}
+ },
  "code:nodal_rate": {
   "date": "2026-11-10",
   "hash": "bc7117846b35",
@@ -265,6 +271,15 @@
   "needs": {
    "code:nu_a": "8629023eb42e",
    "eq:V3": "d096bddf441b"
+  }
+ },
+ "code:vertical_resonance_numbers": {
+  "date": "2026-11-10",
+  "hash": "f8f7b39547c4",
+  "needs": {
+   "code:forced_vertical": "631a2478ef50",
+   "code:satellite": "2f1dbb1340e9",
+   "eq:B12": "8045ba4b393e"
   }
  },
  "code:wave_wavenumber": {
@@ -713,6 +728,17 @@
    "eq:B12": "8045ba4b393e"
   }
  },
+ "numbers:vertical_resonance": {
+  "date": "2026-11-10",
+  "hash": "a985e6f9db33",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:latex_number": "001b69207eef",
+   "code:satellite": "2f1dbb1340e9",
+   "code:vertical_drift": "cac5e539d361",
+   "code:vertical_resonance_numbers": "f8f7b39547c4"
+  }
+ },
  "paper:appendix_inplane": {
   "date": "2026-11-10",
   "hash": "9675bdc15f35",
@@ -979,9 +1005,10 @@
  },
  "paper:fig:vres": {
   "date": "2026-11-10",
-  "hash": "b6e258ab4fe9",
+  "hash": "4c0cc9c275a2",
   "needs": {
-   "figure:vertical_resonance": "e6dd6a2e794b"
+   "figure:vertical_resonance": "e6dd6a2e794b",
+   "numbers:vertical_resonance": "a985e6f9db33"
   }
  },
  "paper:fig:wire_planar": {

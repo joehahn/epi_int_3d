@@ -353,6 +353,13 @@ density waves are the first feature built through the whole pipeline.
      (item 3 will make them nodes), the 2D regression suite, the explore/ runs behind Appendix C.
      `notes/sympy/viscous_overstability.py` prints True/False instead of asserting; its check command fails
      on a False.
+   - *Built 2026-11-10:* `tools/paper_numbers.py` computes each quoted number from its run and writes
+     `paper/numbers/<test>.tex` (`\newcommand`s, each with its source), which the paper `\input`s; each file is a
+     chain node, so a rerun that changes a number marks the claims quoting it stale. First: Section 4.2 and
+     Fig. vres (16 numbers, from `tests/vertical_resonance`); the PDF's text is unchanged. Still typed in:
+     Appendices B and C, whose numbers come from git-ignored `benchmark/runs/` and `explore/` runs; they move
+     to macros when those runs are scripted. The averaging start, 10^4 orbits, is set in both the figure
+     script and `paper_numbers.py`.
 4. **The ledger.** A claude.ai artifact dashboard, as in ABW, with its own database that the page
    and CC both read and write. Cards for each paper paragraph, equation, code unit, test and figure,
    linked along the dependency chain, so clicking a claim shows everything behind it and its status

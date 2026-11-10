@@ -2,7 +2,7 @@
 #
 #by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 9 November 2026.
 #
-#track the dependency chain, claim -> equation -> sympy check -> code -> test -> figure -> paper, and
+#track the dependency chain, claim -> equation -> sympy check -> code -> test -> figure, numbers -> paper, and
 #mark everything downstream of a change as stale. Phase 3b of PLAN.md.
 #
 #The chain is notes/chain.json, written by hand (by Claude): a list of nodes, each with an id, a kind,
@@ -61,6 +61,7 @@ how_to_confirm = {
     'notebook': 'rerun the notebook and look at its outputs',
     'figure': 'rerun the figure script and look at the figure',
     'paper': 'reread the passage against what it rests on',
+    'numbers': 'rerun the simulation (tools/run_simulations.py), then tools/paper_numbers.py; reread the claims that quote them',
 }
 
 

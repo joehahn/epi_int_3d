@@ -1371,6 +1371,36 @@
    ]
   },
   {
+   "id": "code:latex_number",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::latex_number",
+   "needs": [],
+   "note": "how the paper's numbers are rounded and written"
+  },
+  {
+   "id": "code:vertical_resonance_numbers",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::vertical_resonance_numbers",
+   "needs": [
+    "code:satellite",
+    "code:forced_vertical",
+    "eq:B12"
+   ]
+  },
+  {
+   "id": "numbers:vertical_resonance",
+   "kind": "numbers",
+   "anchor": "paper/numbers/vertical_resonance.tex",
+   "needs": [
+    "code:latex_number",
+    "code:vertical_resonance_numbers",
+    "code:satellite",
+    "code:vertical_drift",
+    "code:drift"
+   ],
+   "note": "Section 4.2 and Fig. vres; from tests/vertical_resonance's output"
+  },
+  {
    "id": "paper:eqn:wire_Ag",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:wire_Ag",
@@ -1564,7 +1594,8 @@
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#fig:vres",
    "needs": [
-    "figure:vertical_resonance"
+    "figure:vertical_resonance",
+    "numbers:vertical_resonance"
    ]
   },
   {
@@ -1585,7 +1616,8 @@
     "notebook:vertical_resonance",
     "figure:vertical_resonance",
     "test:vertical_resonance",
-    "paper:eqn:vres_inc"
+    "paper:eqn:vres_inc",
+    "numbers:vertical_resonance"
    ],
    "note": "the run's parameters; within 4% of i_f; z within 4e-11 of exact"
   },
