@@ -63,6 +63,10 @@ running simulations, and drafting the journal paper.
 - Plan: [PLAN.md](PLAN.md)
 - Prompts that drive the project: [prompts/](prompts/)
 - Equation verification status: [notes/equations.md](notes/equations.md)
+- Cost so far (2026-11-10): what the author paid, about US$103: a US$100/month Claude Code subscription over
+  the project's first month, plus US$2.96 for outside reviews (OpenRouter, [reviews/costs.jsonl](reviews/costs.jsonl)).
+  At API prices, Claude Code's work would have cost US$267 (Phases pre-0 to 3; the current session not yet counted),
+  from its session logs ([tools/session_time.py](tools/session_time.py)).
 - Reference papers: [papers/](papers/); the author's own papers and the style guide drawn from them:
   [joes_papers/](joes_papers/)
 - Python 3 port of epi_int_lite, and how it compares with the Python 2 results:

@@ -173,3 +173,14 @@ pipes were hashed only in part by `chain.py`, and G18's row had unescaped pipes;
 skip density waves for now
 
 [Phase 3c deferred in PLAN.md, still planned.]
+
+this project cost $267 thus far?
+
+[$267 is Claude Code at API prices, Phases pre-0 to 3, this session not yet counted; plus $2.96 of outside reviews.]
+
+i pay $100/month for CC subscription
+
+yes, add it
+
+[The ledger and README now show what the author paid (the $100/month subscription, one payment per month begun
+since 2026-10-11, plus outside reviews: about $103 so far) beside Claude Code's API-price cost.]

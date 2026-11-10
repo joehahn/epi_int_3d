@@ -16,6 +16,7 @@
 #then Claude uploads the three files to the dashboard.
 
 import csv
+import datetime
 import glob
 import json
 import os
@@ -30,6 +31,10 @@ nodes_file = os.path.join(ledger_folder, 'nodes.csv')
 findings_file = os.path.join(ledger_folder, 'findings.csv')
 costs_file = os.path.join(ledger_folder, 'costs.csv')
 phases_table = os.path.join(ledger_folder, 'phases.csv')
+
+#what Joe pays for Claude Code: a monthly subscription, assumed billed from the project's start
+#(the first row of notes/phases.csv), one payment at the start of each month begun
+subscription_usd_per_month = 100.0
 
 
 #the Hand column of notes/equations.md, by equation id: yes, no or n/a
@@ -126,6 +131,15 @@ def write_costs():
             rows += [{'who': 'Joe', 'phase': row['phase'], 'activity': 'all', 'model': '',
                 'usd': '', 'hours': round(hours, 3), 'date': '', 'note': 'in session plus off session'}]
     os.remove(phases_table)
+    #the subscription, one payment per month begun since the project started
+    start = datetime.date.fromisoformat(phases[0][0][:10])
+    today = datetime.date.today()
+    months = (today.year - start.year)*12 + (today.month - start.month)
+    if (today.day >= start.day):
+        months = months + 1
+    rows += [{'who': 'Joe (paid)', 'phase': 'all', 'activity': 'Claude Code subscription', 'model': 'claude',
+        'usd': round(months*subscription_usd_per_month, 2), 'hours': '', 'date': today.isoformat(),
+        'note': str(months) + ' month(s) at $' + str(int(subscription_usd_per_month)) + ' from ' + start.isoformat()}]
     columns = ['who', 'phase', 'activity', 'model', 'usd', 'hours', 'date', 'note']
     with open(costs_file, 'w', newline='') as fp:
         writer = csv.DictWriter(fp, fieldnames=columns)
