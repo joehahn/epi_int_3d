@@ -267,7 +267,8 @@
     "code:vertical_elements",
     "code:incline",
     "code:inclined_metrics",
-    "code:exact_orbits"
+    "code:exact_orbits",
+    "code:run_3d"
    ],
    "check": "uv run pytest -q tests/test_vertical.py::test_inclined"
   },
@@ -396,6 +397,1347 @@
     "paper:eqn:i_node"
    ],
    "note": "the drift's vertical part is a rotation through nu_a dt"
+  },
+  {
+   "id": "eq:P1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P1",
+   "needs": []
+  },
+  {
+   "id": "eq:P2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P2",
+   "needs": [
+    "eq:P1"
+   ]
+  },
+  {
+   "id": "eq:P3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P3",
+   "needs": [
+    "eq:P2"
+   ]
+  },
+  {
+   "id": "eq:P4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P4",
+   "needs": []
+  },
+  {
+   "id": "eq:P5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P5",
+   "needs": []
+  },
+  {
+   "id": "eq:P6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P6",
+   "needs": [
+    "eq:P2"
+   ]
+  },
+  {
+   "id": "eq:P7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P7",
+   "needs": []
+  },
+  {
+   "id": "eq:P8",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P8",
+   "needs": [
+    "eq:P7"
+   ]
+  },
+  {
+   "id": "eq:O1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O1",
+   "needs": []
+  },
+  {
+   "id": "eq:O2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O2",
+   "needs": [
+    "eq:O1"
+   ]
+  },
+  {
+   "id": "eq:O3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O3",
+   "needs": [
+    "eq:O2"
+   ]
+  },
+  {
+   "id": "eq:O4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O4",
+   "needs": [
+    "eq:O2"
+   ]
+  },
+  {
+   "id": "eq:O5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O5",
+   "needs": [
+    "eq:O3",
+    "eq:O4",
+    "eq:P7",
+    "eq:P8"
+   ]
+  },
+  {
+   "id": "eq:G1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G1",
+   "needs": []
+  },
+  {
+   "id": "eq:G2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G2",
+   "needs": [
+    "eq:G1"
+   ]
+  },
+  {
+   "id": "eq:G3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G3",
+   "needs": [
+    "eq:G1"
+   ]
+  },
+  {
+   "id": "eq:G4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G4",
+   "needs": [
+    "eq:G2"
+   ]
+  },
+  {
+   "id": "eq:G5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G5",
+   "needs": [
+    "eq:G2",
+    "eq:P7"
+   ]
+  },
+  {
+   "id": "eq:G6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G6",
+   "needs": []
+  },
+  {
+   "id": "eq:G7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G7",
+   "needs": [
+    "eq:G2"
+   ]
+  },
+  {
+   "id": "eq:G8",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G8",
+   "needs": [
+    "eq:G1"
+   ]
+  },
+  {
+   "id": "eq:G9",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G9",
+   "needs": [
+    "eq:G7"
+   ]
+  },
+  {
+   "id": "eq:G10",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G10",
+   "needs": [
+    "eq:G6",
+    "eq:G9"
+   ]
+  },
+  {
+   "id": "eq:G11",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G11",
+   "needs": [
+    "eq:G1",
+    "eq:G10"
+   ]
+  },
+  {
+   "id": "eq:G12",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G12",
+   "needs": [
+    "eq:G11"
+   ]
+  },
+  {
+   "id": "eq:G13",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G13",
+   "needs": [
+    "eq:G12"
+   ]
+  },
+  {
+   "id": "eq:G14",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G14",
+   "needs": [
+    "eq:G3",
+    "eq:G10"
+   ]
+  },
+  {
+   "id": "eq:G15",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G15",
+   "needs": [
+    "eq:G8",
+    "eq:G11"
+   ]
+  },
+  {
+   "id": "eq:G16",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G16",
+   "needs": [
+    "eq:G11"
+   ]
+  },
+  {
+   "id": "eq:G17",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G17",
+   "needs": [
+    "eq:G16"
+   ]
+  },
+  {
+   "id": "eq:G18",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G18",
+   "needs": [
+    "eq:G16"
+   ]
+  },
+  {
+   "id": "eq:G19",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G19",
+   "needs": [
+    "eq:G18"
+   ]
+  },
+  {
+   "id": "eq:G20",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G20",
+   "needs": [
+    "eq:G10"
+   ]
+  },
+  {
+   "id": "eq:B1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B1",
+   "needs": []
+  },
+  {
+   "id": "eq:B2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B2",
+   "needs": [
+    "eq:B1"
+   ]
+  },
+  {
+   "id": "eq:B3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B3",
+   "needs": [
+    "eq:B2"
+   ]
+  },
+  {
+   "id": "eq:B4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B4",
+   "needs": [
+    "eq:V1"
+   ]
+  },
+  {
+   "id": "eq:B5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B5",
+   "needs": [
+    "eq:B4"
+   ]
+  },
+  {
+   "id": "eq:B6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B6",
+   "needs": [
+    "eq:B2",
+    "eq:B5"
+   ]
+  },
+  {
+   "id": "eq:B7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B7",
+   "needs": [
+    "eq:G4"
+   ]
+  },
+  {
+   "id": "eq:B8",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B8",
+   "needs": [
+    "eq:B5",
+    "eq:B7"
+   ]
+  },
+  {
+   "id": "eq:B9",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B9",
+   "needs": [
+    "eq:B8"
+   ]
+  },
+  {
+   "id": "eq:B10",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B10",
+   "needs": [
+    "eq:B7"
+   ]
+  },
+  {
+   "id": "eq:B11",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B11",
+   "needs": [
+    "eq:B6"
+   ]
+  },
+  {
+   "id": "eq:B12",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B12",
+   "needs": [
+    "eq:B6"
+   ]
+  },
+  {
+   "id": "eq:B13",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B13",
+   "needs": [
+    "eq:B7",
+    "eq:P7"
+   ]
+  },
+  {
+   "id": "sympy:P1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P1",
+   "needs": [
+    "eq:P1"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P2",
+   "needs": [
+    "eq:P2"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P3",
+   "needs": [
+    "eq:P3"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P4",
+   "needs": [
+    "eq:P4"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P5",
+   "needs": [
+    "eq:P5"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P6",
+   "needs": [
+    "eq:P6"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P7",
+   "needs": [
+    "eq:P7"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:P8",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P8",
+   "needs": [
+    "eq:P8"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "sympy:O1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O1",
+   "needs": [
+    "eq:O1"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "sympy:O2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O2",
+   "needs": [
+    "eq:O2"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "sympy:O3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O3",
+   "needs": [
+    "eq:O3"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "sympy:O4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O4",
+   "needs": [
+    "eq:O4"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "sympy:O5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O5",
+   "needs": [
+    "eq:O5"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "sympy:G1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G1",
+   "needs": [
+    "eq:G1"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G2",
+   "needs": [
+    "eq:G2"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G3",
+   "needs": [
+    "eq:G3"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G4",
+   "needs": [
+    "eq:G4"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G5",
+   "needs": [
+    "eq:G5"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G6",
+   "needs": [
+    "eq:G6"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G7",
+   "needs": [
+    "eq:G7"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G8",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G8",
+   "needs": [
+    "eq:G8"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G9",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G9",
+   "needs": [
+    "eq:G9"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G10",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G10",
+   "needs": [
+    "eq:G10"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G11",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G11",
+   "needs": [
+    "eq:G11"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G12",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G12",
+   "needs": [
+    "eq:G12"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G13",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G13",
+   "needs": [
+    "eq:G13"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G14",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G14",
+   "needs": [
+    "eq:G14"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G15",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G15",
+   "needs": [
+    "eq:G15"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G16",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G16",
+   "needs": [
+    "eq:G16"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G17",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G17",
+   "needs": [
+    "eq:G17"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G18",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G18",
+   "needs": [
+    "eq:G18"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G19",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G19",
+   "needs": [
+    "eq:G19"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:G20",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G20",
+   "needs": [
+    "eq:G20"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "sympy:B1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B1",
+   "needs": [
+    "eq:B1"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B2",
+   "needs": [
+    "eq:B2"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B2",
+   "needs": [
+    "eq:B3"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py",
+   "note": "the B3 check sits in the B2 section"
+  },
+  {
+   "id": "sympy:B4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B4",
+   "needs": [
+    "eq:B4"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B5",
+   "needs": [
+    "eq:B5"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B6",
+   "needs": [
+    "eq:B6"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B7",
+   "needs": [
+    "eq:B7"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B8",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B8",
+   "needs": [
+    "eq:B8"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B9",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B9",
+   "needs": [
+    "eq:B9"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B10",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B10",
+   "needs": [
+    "eq:B10"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B11",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B11",
+   "needs": [
+    "eq:B11"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B12",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B12",
+   "needs": [
+    "eq:B12"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B13",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B13",
+   "needs": [
+    "eq:B13"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "code:ring_gravity",
+   "kind": "code",
+   "anchor": "fast/kernels.py::_make_ring_gravity",
+   "needs": [
+    "eq:G3",
+    "eq:G14"
+   ],
+   "note": "planar ring gravity, with the nearpoint and shape_slope options"
+  },
+  {
+   "id": "code:ring_gravity_3d",
+   "kind": "code",
+   "anchor": "fast/kernels.py::_make_ring_gravity_3d",
+   "needs": [
+    "eq:G16",
+    "eq:G17"
+   ],
+   "note": "3D ring gravity, the paper's recipe"
+  },
+  {
+   "id": "code:satellite_laplace",
+   "kind": "code",
+   "anchor": "fast/satellite.py::laplace",
+   "needs": [
+    "eq:B2"
+   ]
+  },
+  {
+   "id": "code:satellite_nu",
+   "kind": "code",
+   "anchor": "fast/satellite.py::nu",
+   "needs": [
+    "eq:V1"
+   ]
+  },
+  {
+   "id": "code:satellite",
+   "kind": "code",
+   "anchor": "fast/satellite.py::Satellite",
+   "needs": [
+    "eq:B2",
+    "eq:B4",
+    "eq:B5",
+    "code:satellite_laplace",
+    "code:satellite_nu"
+   ],
+   "note": "the vertical Fourier satellite"
+  },
+  {
+   "id": "code:run_3d",
+   "kind": "code",
+   "anchor": "tests/test_vertical.py::run_3d",
+   "needs": [],
+   "note": "test helper: runs fast/epi_int_3d.py"
+  },
+  {
+   "id": "code:forced_vertical",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::forced_vertical",
+   "needs": [
+    "eq:B6",
+    "eq:B11"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "code:ring_sigma",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::ring_sigma",
+   "needs": [],
+   "note": "test helper"
+  },
+  {
+   "id": "code:bending_wave",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::bending_wave",
+   "needs": [
+    "eq:B8"
+   ],
+   "note": "test helper: Shu's forced wave"
+  },
+  {
+   "id": "code:simulated_h",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::simulated_h",
+   "needs": [],
+   "note": "test helper"
+  },
+  {
+   "id": "code:satellite_torque",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::satellite_torque",
+   "needs": [
+    "eq:B9"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "code:wave_wavenumber",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::wave_wavenumber",
+   "needs": [
+    "eq:B5",
+    "eq:B7",
+    "eq:B13"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "test:kernels",
+   "kind": "test",
+   "anchor": "tests/test_kernels.py",
+   "needs": [
+    "code:ring_gravity",
+    "code:ring_gravity_3d",
+    "eq:G6",
+    "eq:G16",
+    "eq:B13"
+   ],
+   "check": "uv run pytest -q tests/test_kernels.py",
+   "note": "whole file: its helpers build the test ringlets"
+  },
+  {
+   "id": "test:vertical_resonance",
+   "kind": "test",
+   "anchor": "tests/test_vertical.py::test_vertical_resonance",
+   "needs": [
+    "code:run_3d",
+    "code:satellite",
+    "code:forced_vertical",
+    "code:vertical_drift",
+    "code:drift"
+   ],
+   "check": "uv run pytest -q tests/test_vertical.py::test_vertical_resonance"
+  },
+  {
+   "id": "notebook:vertical_resonance",
+   "kind": "notebook",
+   "anchor": "tests/vertical_resonance/vertical_resonance.ipynb",
+   "needs": [
+    "code:satellite",
+    "code:forced_vertical",
+    "code:vertical_drift",
+    "code:drift",
+    "eq:B12"
+   ]
+  },
+  {
+   "id": "notebook:bending_waves",
+   "kind": "notebook",
+   "anchor": "tests/bending_waves/bending_waves.ipynb",
+   "needs": [
+    "code:satellite",
+    "code:ring_gravity_3d",
+    "code:vertical_drift",
+    "code:ring_sigma",
+    "code:bending_wave",
+    "code:simulated_h",
+    "code:satellite_torque",
+    "code:wave_wavenumber"
+   ]
+  },
+  {
+   "id": "figure:wire_planar",
+   "kind": "figure",
+   "anchor": "paper/figures/wire_planar.py",
+   "needs": [
+    "sympy:G3",
+    "sympy:G6",
+    "sympy:G10"
+   ],
+   "note": "makes wire_planar and wire_velocity"
+  },
+  {
+   "id": "figure:vertical_resonance",
+   "kind": "figure",
+   "anchor": "paper/figures/vertical_resonance.py",
+   "needs": [
+    "code:satellite",
+    "code:vertical_drift",
+    "code:drift",
+    "sympy:B12"
+   ]
+  },
+  {
+   "id": "figure:zigzag",
+   "kind": "figure",
+   "anchor": "paper/figures/zigzag.py",
+   "needs": [
+    "sympy:P6",
+    "sympy:P7"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_Ag",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_Ag",
+   "needs": [
+    "sympy:G1"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_d",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_d",
+   "needs": [
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_d0",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_d0",
+   "needs": [
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_d1",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_d1",
+   "needs": [
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_d1near",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_d1near",
+   "needs": [
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_Dcomp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_Dcomp",
+   "needs": [
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_pythag",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_pythag",
+   "needs": [
+    "sympy:G19"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_slopes",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_slopes",
+   "needs": [
+    "sympy:G10"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_t",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_t",
+   "needs": [
+    "sympy:G10"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_D",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_D",
+   "needs": [
+    "sympy:G8",
+    "sympy:G16"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_Acomp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_Acomp",
+   "needs": [
+    "sympy:G11",
+    "sympy:G17"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_mode",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_mode",
+   "needs": [
+    "sympy:G20"
+   ]
+  },
+  {
+   "id": "paper:fig:wire_planar",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:wire_planar",
+   "needs": [
+    "figure:wire_planar"
+   ]
+  },
+  {
+   "id": "claim:near_point_close",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@Lastly, note that because the streamline is tilted",
+   "needs": [
+    "sympy:G18",
+    "sympy:G20",
+    "paper:eqn:wire_pythag",
+    "paper:eqn:wire_mode"
+   ],
+   "note": "|d1| <= s Delta << Delta"
+  },
+  {
+   "id": "claim:recipe",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The particles' coordinates are stored in arrays",
+   "needs": [
+    "sympy:G17",
+    "code:ring_gravity_3d",
+    "test:kernels",
+    "paper:eqn:wire_Acomp"
+   ],
+   "note": "how the code computes ring gravity"
+  },
+  {
+   "id": "paper:eqn:vres_force",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_force",
+   "needs": [
+    "sympy:B2"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_AV",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_AV",
+   "needs": [
+    "sympy:B2",
+    "sympy:B3"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_sol",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_sol",
+   "needs": [
+    "sympy:B6",
+    "sympy:B8"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_params",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_params",
+   "needs": [
+    "sympy:B5",
+    "sympy:B8"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_amp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_amp",
+   "needs": [
+    "sympy:B8"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_lambda",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_lambda",
+   "needs": [
+    "sympy:B7"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_inc",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_inc",
+   "needs": [
+    "sympy:B12"
+   ]
+  },
+  {
+   "id": "paper:fig:vres",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:vres",
+   "needs": [
+    "figure:vertical_resonance"
+   ]
+  },
+  {
+   "id": "claim:pattern_speed",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@which is an $m$-armed pattern",
+   "needs": [
+    "sympy:B4",
+    "code:satellite"
+   ],
+   "note": "Omega_p = Omega_as + nu_as/m; r_V"
+  },
+  {
+   "id": "claim:massless_results",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@are in excellent agreement with",
+   "needs": [
+    "notebook:vertical_resonance",
+    "figure:vertical_resonance",
+    "test:vertical_resonance",
+    "paper:eqn:vres_inc"
+   ],
+   "note": "the run's parameters; within 4% of i_f; z within 4e-11 of exact"
+  },
+  {
+   "id": "claim:group_velocity",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The wave front propagates inward at the group velocity",
+   "needs": [
+    "sympy:B10"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_2d",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_2d",
+   "needs": [
+    "sympy:G3",
+    "sympy:G10"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_lite",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_lite",
+   "needs": [
+    "sympy:G14",
+    "code:ring_gravity"
+   ]
+  },
+  {
+   "id": "claim:distance",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@evaluates the pull's magnitude at the crossing point",
+   "needs": [
+    "sympy:G19",
+    "sympy:G20",
+    "paper:eqn:wire_lite"
+   ]
+  },
+  {
+   "id": "claim:direction",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@takes the wire's direction from the streamline's velocity",
+   "needs": [
+    "sympy:G6",
+    "sympy:G14",
+    "code:ring_gravity",
+    "test:kernels"
+   ],
+   "note": "the velocity tangent is off by ~m"
+  },
+  {
+   "id": "claim:linear_density",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@evaluates every perturbing streamline's pull",
+   "needs": [
+    "code:ring_gravity",
+    "test:kernels"
+   ]
+  },
+  {
+   "id": "claim:three_corrections",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@In an eccentric ringlet the three corrections together",
+   "needs": [
+    "code:ring_gravity"
+   ],
+   "note": "sums separate runs of each fix (epi_int_lite_issues.md issues 7 and 9: e changes 6e-5, 2e-6, 1e-8); never run together"
+  },
+  {
+   "id": "paper:fig:wire_velocity",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:wire_velocity",
+   "needs": [
+    "figure:wire_planar"
+   ]
+  },
+  {
+   "id": "paper:eqn:zigzag_X",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:zigzag_X",
+   "needs": [
+    "sympy:P7"
+   ]
+  },
+  {
+   "id": "paper:eqn:zigzag_p",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:zigzag_p",
+   "needs": [
+    "sympy:P6"
+   ]
+  },
+  {
+   "id": "paper:eqn:zigzag_disp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:zigzag_disp",
+   "needs": [
+    "sympy:P6",
+    "sympy:P7"
+   ]
+  },
+  {
+   "id": "paper:eqn:zigzag_R",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:zigzag_R",
+   "needs": [
+    "sympy:P8"
+   ]
+  },
+  {
+   "id": "paper:eqn:overstability",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:overstability",
+   "needs": [
+    "sympy:O3"
+   ]
+  },
+  {
+   "id": "claim:overstability_lattice",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The streamline lattice follows Eqn.",
+   "needs": [
+    "sympy:O3",
+    "sympy:O4",
+    "sympy:O5",
+    "paper:eqn:overstability"
+   ]
+  },
+  {
+   "id": "paper:fig:zigzag",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:zigzag",
+   "needs": [
+    "figure:zigzag"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_sheet",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_sheet",
+   "needs": [
+    "sympy:G4"
+   ]
+  },
+  {
+   "id": "paper:eqn:wire_lattice",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_lattice",
+   "needs": [
+    "sympy:G5"
+   ]
   }
  ]
 }

@@ -345,9 +345,14 @@ density waves are the first feature built through the whole pipeline.
      sections of a sympy script, a Python function, a LaTeX equation or section, or a paragraph found by a
      phrase; whitespace and the Hand column don't count as edits. A node is edited, stale (something it
      needs changed), new, missing or ok; `--run` reruns the checks (sympy, pytest) of nodes that aren't ok.
-     The first chain covers the vertical motion, 45 nodes: V1–V8 and H1–H3, their sympy checks, the drift
-     code, `test_inclined`, the inclined notebook, the paper's equations and four claims; all confirmed
-     2026-11-09. To add: the G (streamline gravity) and B (bending wave) chains, the figures.
+     The chain covers every equation the paper rests on, 198 nodes, all confirmed 2026-11-10: the 57
+     tracked equations (V, H, P, O, G, B; each needs the earlier ones it builds on) and their sympy checks;
+     the drift, ring-gravity and satellite code and the test helpers; `test_vertical.py`, `test_kernels.py`;
+     the inclined, vertical_resonance and bending_waves notebooks; the three figure scripts; every labeled
+     equation and figure of the paper and 15 of its claims (paragraphs). Not in it yet: the paper's numbers
+     (item 3 will make them nodes), the 2D regression suite, the explore/ runs behind Appendix C.
+     `notes/sympy/viscous_overstability.py` prints True/False instead of asserting; its check command fails
+     on a False.
 4. **The ledger.** A claude.ai artifact dashboard, as in ABW, with its own database that the page
    and CC both read and write. Cards for each paper paragraph, equation, code unit, test and figure,
    linked along the dependency chain, so clicking a claim shows everything behind it and its status

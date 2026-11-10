@@ -1,6 +1,25 @@
 {
+ "claim:direction": {
+  "date": "2026-11-10",
+  "hash": "a9acc5c81d0b",
+  "needs": {
+   "code:ring_gravity": "b009c47899ac",
+   "sympy:G14": "459ad722e276",
+   "sympy:G6": "03132fa69166",
+   "test:kernels": "6d4a993dadf2"
+  }
+ },
+ "claim:distance": {
+  "date": "2026-11-10",
+  "hash": "a5ac4e1dc27d",
+  "needs": {
+   "paper:eqn:wire_lite": "3644068828a6",
+   "sympy:G19": "c892067bb7ae",
+   "sympy:G20": "e61431f60303"
+  }
+ },
  "claim:drift_rotation": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "f71e4561d1c9",
   "needs": {
    "code:vertical_drift": "cac5e539d361",
@@ -10,23 +29,76 @@
   }
  },
  "claim:frequency_relation": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "dc7e0bc312ee",
   "needs": {
    "paper:eqn:laplace": "e81a792253c4",
    "sympy:V7": "e3ccfae5eb4c"
   }
  },
+ "claim:group_velocity": {
+  "date": "2026-11-10",
+  "hash": "70656bbfdaad",
+  "needs": {
+   "sympy:B10": "e74ae9f8460d"
+  }
+ },
+ "claim:linear_density": {
+  "date": "2026-11-10",
+  "hash": "023d88c1daae",
+  "needs": {
+   "code:ring_gravity": "b009c47899ac",
+   "test:kernels": "6d4a993dadf2"
+  }
+ },
+ "claim:massless_results": {
+  "date": "2026-11-10",
+  "hash": "a9119f762208",
+  "needs": {
+   "figure:vertical_resonance": "e6dd6a2e794b",
+   "notebook:vertical_resonance": "e3ed0fc80fbf",
+   "paper:eqn:vres_inc": "22616813c853",
+   "test:vertical_resonance": "d15ffbd6a40d"
+  }
+ },
+ "claim:near_point_close": {
+  "date": "2026-11-10",
+  "hash": "05f5841b630e",
+  "needs": {
+   "paper:eqn:wire_mode": "ec59c791bf54",
+   "paper:eqn:wire_pythag": "f3186e4f704d",
+   "sympy:G18": "88f60922ebae",
+   "sympy:G20": "e61431f60303"
+  }
+ },
  "claim:neglected_terms": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "dc7e0bc312ee",
   "needs": {
    "paper:eqn:nu": "45881a76adfc",
    "sympy:V6": "5472eaff9cd3"
   }
  },
+ "claim:overstability_lattice": {
+  "date": "2026-11-10",
+  "hash": "c1fd212a2efc",
+  "needs": {
+   "paper:eqn:overstability": "fb8af391fb4e",
+   "sympy:O3": "608ba0ac9017",
+   "sympy:O4": "8c2a4c085a9b",
+   "sympy:O5": "92734ae47404"
+  }
+ },
+ "claim:pattern_speed": {
+  "date": "2026-11-10",
+  "hash": "59cf18428e22",
+  "needs": {
+   "code:satellite": "2f1dbb1340e9",
+   "sympy:B4": "719b0fce7aa0"
+  }
+ },
  "claim:phase_from_lambda": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "d6ce9377a71f",
   "needs": {
    "paper:eqn:node": "4206e3c3c4ce",
@@ -35,8 +107,32 @@
    "sympy:V4": "e00d54253909"
   }
  },
+ "claim:recipe": {
+  "date": "2026-11-10",
+  "hash": "c18af578f1e1",
+  "needs": {
+   "code:ring_gravity_3d": "dd696367e669",
+   "paper:eqn:wire_Acomp": "ff71e6d67a9e",
+   "sympy:G17": "6ee5ece5560f",
+   "test:kernels": "6d4a993dadf2"
+  }
+ },
+ "claim:three_corrections": {
+  "date": "2026-11-10",
+  "hash": "38d0853db24d",
+  "needs": {
+   "code:ring_gravity": "b009c47899ac"
+  }
+ },
+ "code:bending_wave": {
+  "date": "2026-11-10",
+  "hash": "cc860c117825",
+  "needs": {
+   "eq:B8": "fbaca32018bf"
+  }
+ },
  "code:drift": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "a16d87bc9e34",
   "needs": {
    "code:omega_kappa": "f87a66a984e1",
@@ -46,12 +142,20 @@
   }
  },
  "code:exact_orbits": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "dbec2df05f67",
   "needs": {}
  },
+ "code:forced_vertical": {
+  "date": "2026-11-10",
+  "hash": "631a2478ef50",
+  "needs": {
+   "eq:B11": "930e55fe0235",
+   "eq:B6": "6a24f47056f4"
+  }
+ },
  "code:incline": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "7c530e64b556",
   "needs": {
    "code:nu_a": "8629023eb42e",
@@ -59,33 +163,96 @@
   }
  },
  "code:inclined_metrics": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "37fa8560a818",
   "needs": {
    "code:nodal_rate": "bc7117846b35"
   }
  },
  "code:nodal_rate": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "bc7117846b35",
   "needs": {
    "eq:V4": "a5b6ce9026e5"
   }
  },
  "code:nu_a": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "8629023eb42e",
   "needs": {
    "eq:V1": "5fa44b52addf"
   }
  },
  "code:omega_kappa": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "f87a66a984e1",
   "needs": {}
  },
+ "code:ring_gravity": {
+  "date": "2026-11-10",
+  "hash": "b009c47899ac",
+  "needs": {
+   "eq:G14": "0318f41e9d26",
+   "eq:G3": "a20ddfb68df5"
+  }
+ },
+ "code:ring_gravity_3d": {
+  "date": "2026-11-10",
+  "hash": "dd696367e669",
+  "needs": {
+   "eq:G16": "8c38c9fc7697",
+   "eq:G17": "7a082c91c6d4"
+  }
+ },
+ "code:ring_sigma": {
+  "date": "2026-11-10",
+  "hash": "c65053c901a9",
+  "needs": {}
+ },
+ "code:run_3d": {
+  "date": "2026-11-10",
+  "hash": "e883637c1181",
+  "needs": {}
+ },
+ "code:satellite": {
+  "date": "2026-11-10",
+  "hash": "2f1dbb1340e9",
+  "needs": {
+   "code:satellite_laplace": "a466626d79da",
+   "code:satellite_nu": "ec64660b33ca",
+   "eq:B2": "ef33fc85a126",
+   "eq:B4": "209c09b3b0ad",
+   "eq:B5": "f6307dfdafe9"
+  }
+ },
+ "code:satellite_laplace": {
+  "date": "2026-11-10",
+  "hash": "a466626d79da",
+  "needs": {
+   "eq:B2": "ef33fc85a126"
+  }
+ },
+ "code:satellite_nu": {
+  "date": "2026-11-10",
+  "hash": "ec64660b33ca",
+  "needs": {
+   "eq:V1": "5fa44b52addf"
+  }
+ },
+ "code:satellite_torque": {
+  "date": "2026-11-10",
+  "hash": "1db262d48692",
+  "needs": {
+   "eq:B9": "a81d26e7d95e"
+  }
+ },
+ "code:simulated_h": {
+  "date": "2026-11-10",
+  "hash": "67e3f6ad9ce8",
+  "needs": {}
+ },
  "code:vertical_drift": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "cac5e539d361",
   "needs": {
    "eq:V1": "5fa44b52addf",
@@ -93,70 +260,437 @@
   }
  },
  "code:vertical_elements": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "0b4b956b0ca6",
   "needs": {
    "code:nu_a": "8629023eb42e",
    "eq:V3": "d096bddf441b"
   }
  },
+ "code:wave_wavenumber": {
+  "date": "2026-11-10",
+  "hash": "7e76bf8be5aa",
+  "needs": {
+   "eq:B13": "4c448fd74bfd",
+   "eq:B5": "f6307dfdafe9",
+   "eq:B7": "b87b697aa124"
+  }
+ },
+ "eq:B1": {
+  "date": "2026-11-10",
+  "hash": "a24edb39df02",
+  "needs": {}
+ },
+ "eq:B10": {
+  "date": "2026-11-10",
+  "hash": "283dfbe111cd",
+  "needs": {
+   "eq:B7": "b87b697aa124"
+  }
+ },
+ "eq:B11": {
+  "date": "2026-11-10",
+  "hash": "930e55fe0235",
+  "needs": {
+   "eq:B6": "6a24f47056f4"
+  }
+ },
+ "eq:B12": {
+  "date": "2026-11-10",
+  "hash": "8045ba4b393e",
+  "needs": {
+   "eq:B6": "6a24f47056f4"
+  }
+ },
+ "eq:B13": {
+  "date": "2026-11-10",
+  "hash": "4c448fd74bfd",
+  "needs": {
+   "eq:B7": "b87b697aa124",
+   "eq:P7": "82faf17dea6f"
+  }
+ },
+ "eq:B2": {
+  "date": "2026-11-10",
+  "hash": "ef33fc85a126",
+  "needs": {
+   "eq:B1": "a24edb39df02"
+  }
+ },
+ "eq:B3": {
+  "date": "2026-11-10",
+  "hash": "d92173e01246",
+  "needs": {
+   "eq:B2": "ef33fc85a126"
+  }
+ },
+ "eq:B4": {
+  "date": "2026-11-10",
+  "hash": "209c09b3b0ad",
+  "needs": {
+   "eq:V1": "5fa44b52addf"
+  }
+ },
+ "eq:B5": {
+  "date": "2026-11-10",
+  "hash": "f6307dfdafe9",
+  "needs": {
+   "eq:B4": "209c09b3b0ad"
+  }
+ },
+ "eq:B6": {
+  "date": "2026-11-10",
+  "hash": "6a24f47056f4",
+  "needs": {
+   "eq:B2": "ef33fc85a126",
+   "eq:B5": "f6307dfdafe9"
+  }
+ },
+ "eq:B7": {
+  "date": "2026-11-10",
+  "hash": "b87b697aa124",
+  "needs": {
+   "eq:G4": "e2cdbd0cc463"
+  }
+ },
+ "eq:B8": {
+  "date": "2026-11-10",
+  "hash": "fbaca32018bf",
+  "needs": {
+   "eq:B5": "f6307dfdafe9",
+   "eq:B7": "b87b697aa124"
+  }
+ },
+ "eq:B9": {
+  "date": "2026-11-10",
+  "hash": "a81d26e7d95e",
+  "needs": {
+   "eq:B8": "fbaca32018bf"
+  }
+ },
+ "eq:G1": {
+  "date": "2026-11-10",
+  "hash": "01549a491860",
+  "needs": {}
+ },
+ "eq:G10": {
+  "date": "2026-11-10",
+  "hash": "05a70454ced0",
+  "needs": {
+   "eq:G6": "c313bda1bf30",
+   "eq:G9": "8a64e329dfa7"
+  }
+ },
+ "eq:G11": {
+  "date": "2026-11-10",
+  "hash": "6ccbc89fce6a",
+  "needs": {
+   "eq:G1": "01549a491860",
+   "eq:G10": "05a70454ced0"
+  }
+ },
+ "eq:G12": {
+  "date": "2026-11-10",
+  "hash": "9d497b88714d",
+  "needs": {
+   "eq:G11": "6ccbc89fce6a"
+  }
+ },
+ "eq:G13": {
+  "date": "2026-11-10",
+  "hash": "756262c750c1",
+  "needs": {
+   "eq:G12": "9d497b88714d"
+  }
+ },
+ "eq:G14": {
+  "date": "2026-11-10",
+  "hash": "0318f41e9d26",
+  "needs": {
+   "eq:G10": "05a70454ced0",
+   "eq:G3": "a20ddfb68df5"
+  }
+ },
+ "eq:G15": {
+  "date": "2026-11-10",
+  "hash": "e2c593e08d92",
+  "needs": {
+   "eq:G11": "6ccbc89fce6a",
+   "eq:G8": "6892b3d6db2d"
+  }
+ },
+ "eq:G16": {
+  "date": "2026-11-10",
+  "hash": "8c38c9fc7697",
+  "needs": {
+   "eq:G11": "6ccbc89fce6a"
+  }
+ },
+ "eq:G17": {
+  "date": "2026-11-10",
+  "hash": "7a082c91c6d4",
+  "needs": {
+   "eq:G16": "8c38c9fc7697"
+  }
+ },
+ "eq:G18": {
+  "date": "2026-11-10",
+  "hash": "b669d1907201",
+  "needs": {
+   "eq:G16": "8c38c9fc7697"
+  }
+ },
+ "eq:G19": {
+  "date": "2026-11-10",
+  "hash": "c2886b3b213a",
+  "needs": {
+   "eq:G18": "b669d1907201"
+  }
+ },
+ "eq:G2": {
+  "date": "2026-11-10",
+  "hash": "2b4cca510d6c",
+  "needs": {
+   "eq:G1": "01549a491860"
+  }
+ },
+ "eq:G20": {
+  "date": "2026-11-10",
+  "hash": "709bf2cc475e",
+  "needs": {
+   "eq:G10": "05a70454ced0"
+  }
+ },
+ "eq:G3": {
+  "date": "2026-11-10",
+  "hash": "a20ddfb68df5",
+  "needs": {
+   "eq:G1": "01549a491860"
+  }
+ },
+ "eq:G4": {
+  "date": "2026-11-10",
+  "hash": "e2cdbd0cc463",
+  "needs": {
+   "eq:G2": "2b4cca510d6c"
+  }
+ },
+ "eq:G5": {
+  "date": "2026-11-10",
+  "hash": "aa932e4a689d",
+  "needs": {
+   "eq:G2": "2b4cca510d6c",
+   "eq:P7": "82faf17dea6f"
+  }
+ },
+ "eq:G6": {
+  "date": "2026-11-10",
+  "hash": "c313bda1bf30",
+  "needs": {}
+ },
+ "eq:G7": {
+  "date": "2026-11-10",
+  "hash": "b85a7c70b3d3",
+  "needs": {
+   "eq:G2": "2b4cca510d6c"
+  }
+ },
+ "eq:G8": {
+  "date": "2026-11-10",
+  "hash": "6892b3d6db2d",
+  "needs": {
+   "eq:G1": "01549a491860"
+  }
+ },
+ "eq:G9": {
+  "date": "2026-11-10",
+  "hash": "8a64e329dfa7",
+  "needs": {
+   "eq:G7": "b85a7c70b3d3"
+  }
+ },
  "eq:H1": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "154f6cbe9051",
   "needs": {}
  },
  "eq:H2": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "a9c6f2b9d54d",
   "needs": {}
  },
  "eq:H3": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "f7017c75bd8e",
   "needs": {}
  },
+ "eq:O1": {
+  "date": "2026-11-10",
+  "hash": "d19ec2e33c00",
+  "needs": {}
+ },
+ "eq:O2": {
+  "date": "2026-11-10",
+  "hash": "ce4d2a87cf13",
+  "needs": {
+   "eq:O1": "d19ec2e33c00"
+  }
+ },
+ "eq:O3": {
+  "date": "2026-11-10",
+  "hash": "abb2668d5fb3",
+  "needs": {
+   "eq:O2": "ce4d2a87cf13"
+  }
+ },
+ "eq:O4": {
+  "date": "2026-11-10",
+  "hash": "9d176fb1a07e",
+  "needs": {
+   "eq:O2": "ce4d2a87cf13"
+  }
+ },
+ "eq:O5": {
+  "date": "2026-11-10",
+  "hash": "c7914d7432b5",
+  "needs": {
+   "eq:O3": "abb2668d5fb3",
+   "eq:O4": "9d176fb1a07e",
+   "eq:P7": "82faf17dea6f",
+   "eq:P8": "1b4716c4a591"
+  }
+ },
+ "eq:P1": {
+  "date": "2026-11-10",
+  "hash": "a78fa91b1149",
+  "needs": {}
+ },
+ "eq:P2": {
+  "date": "2026-11-10",
+  "hash": "fad4f711f13f",
+  "needs": {
+   "eq:P1": "a78fa91b1149"
+  }
+ },
+ "eq:P3": {
+  "date": "2026-11-10",
+  "hash": "a32c7041e842",
+  "needs": {
+   "eq:P2": "fad4f711f13f"
+  }
+ },
+ "eq:P4": {
+  "date": "2026-11-10",
+  "hash": "9c9dca187164",
+  "needs": {}
+ },
+ "eq:P5": {
+  "date": "2026-11-10",
+  "hash": "ee9c42285c27",
+  "needs": {}
+ },
+ "eq:P6": {
+  "date": "2026-11-10",
+  "hash": "bd96384f80fc",
+  "needs": {
+   "eq:P2": "fad4f711f13f"
+  }
+ },
+ "eq:P7": {
+  "date": "2026-11-10",
+  "hash": "82faf17dea6f",
+  "needs": {}
+ },
+ "eq:P8": {
+  "date": "2026-11-10",
+  "hash": "1b4716c4a591",
+  "needs": {
+   "eq:P7": "82faf17dea6f"
+  }
+ },
  "eq:V1": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "5fa44b52addf",
   "needs": {}
  },
  "eq:V2": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "d4b0dc07a66b",
   "needs": {}
  },
  "eq:V3": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "d096bddf441b",
   "needs": {}
  },
  "eq:V4": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "a5b6ce9026e5",
   "needs": {}
  },
  "eq:V5": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "352ce44d84cd",
   "needs": {}
  },
  "eq:V6": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "1f75cec7fb15",
   "needs": {}
  },
  "eq:V7": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "3d5421de6dd2",
   "needs": {}
  },
  "eq:V8": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "2215b23710d5",
   "needs": {}
  },
+ "figure:vertical_resonance": {
+  "date": "2026-11-10",
+  "hash": "e6dd6a2e794b",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:satellite": "2f1dbb1340e9",
+   "code:vertical_drift": "cac5e539d361",
+   "sympy:B12": "05d793ee0045"
+  }
+ },
+ "figure:wire_planar": {
+  "date": "2026-11-10",
+  "hash": "3fab15b3667d",
+  "needs": {
+   "sympy:G10": "327af4ab5863",
+   "sympy:G3": "e10fe85f9112",
+   "sympy:G6": "03132fa69166"
+  }
+ },
+ "figure:zigzag": {
+  "date": "2026-11-10",
+  "hash": "5608371f27c7",
+  "needs": {
+   "sympy:P6": "f2b3e9f666c9",
+   "sympy:P7": "a951a7073a22"
+  }
+ },
+ "notebook:bending_waves": {
+  "date": "2026-11-10",
+  "hash": "87144ddf21c5",
+  "needs": {
+   "code:bending_wave": "cc860c117825",
+   "code:ring_gravity_3d": "dd696367e669",
+   "code:ring_sigma": "c65053c901a9",
+   "code:satellite": "2f1dbb1340e9",
+   "code:satellite_torque": "1db262d48692",
+   "code:simulated_h": "67e3f6ad9ce8",
+   "code:vertical_drift": "cac5e539d361",
+   "code:wave_wavenumber": "7e76bf8be5aa"
+  }
+ },
  "notebook:inclined": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "3d4dab75b086",
   "needs": {
    "code:drift": "a16d87bc9e34",
@@ -168,8 +702,19 @@
    "code:vertical_elements": "0b4b956b0ca6"
   }
  },
+ "notebook:vertical_resonance": {
+  "date": "2026-11-10",
+  "hash": "e3ed0fc80fbf",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:forced_vertical": "631a2478ef50",
+   "code:satellite": "2f1dbb1340e9",
+   "code:vertical_drift": "cac5e539d361",
+   "eq:B12": "8045ba4b393e"
+  }
+ },
  "paper:appendix_inplane": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "9675bdc15f35",
   "needs": {
    "code:drift": "a16d87bc9e34",
@@ -179,53 +724,516 @@
   }
  },
  "paper:eqn:Phi_expand": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "e44c31d00c4e",
   "needs": {
    "sympy:V5": "2b4ce6a6fdbe"
   }
  },
  "paper:eqn:i_node": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "df29a18a52d5",
   "needs": {
    "sympy:V3": "ccfc873f23bc"
   }
  },
  "paper:eqn:laplace": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "e81a792253c4",
   "needs": {
    "sympy:V7": "e3ccfae5eb4c"
   }
  },
  "paper:eqn:node": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "4206e3c3c4ce",
   "needs": {
    "sympy:V4": "e00d54253909"
   }
  },
  "paper:eqn:nu": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "45881a76adfc",
   "needs": {
    "sympy:V1": "5eb9ab9f8996"
   }
  },
  "paper:eqn:nu_r": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "b2306b84c25c",
   "needs": {
    "sympy:V1": "5eb9ab9f8996",
    "sympy:V5": "2b4ce6a6fdbe"
   }
  },
+ "paper:eqn:overstability": {
+  "date": "2026-11-10",
+  "hash": "fb8af391fb4e",
+  "needs": {
+   "sympy:O3": "608ba0ac9017"
+  }
+ },
+ "paper:eqn:vres_AV": {
+  "date": "2026-11-10",
+  "hash": "c407e4ae81c4",
+  "needs": {
+   "sympy:B2": "5f5ffc3772d1",
+   "sympy:B3": "5f5ffc3772d1"
+  }
+ },
+ "paper:eqn:vres_amp": {
+  "date": "2026-11-10",
+  "hash": "3f9822a753ce",
+  "needs": {
+   "sympy:B8": "e43e55c5ab65"
+  }
+ },
+ "paper:eqn:vres_force": {
+  "date": "2026-11-10",
+  "hash": "b98d92de2dcd",
+  "needs": {
+   "sympy:B2": "5f5ffc3772d1"
+  }
+ },
+ "paper:eqn:vres_inc": {
+  "date": "2026-11-10",
+  "hash": "22616813c853",
+  "needs": {
+   "sympy:B12": "05d793ee0045"
+  }
+ },
+ "paper:eqn:vres_lambda": {
+  "date": "2026-11-10",
+  "hash": "7cd32f693da1",
+  "needs": {
+   "sympy:B7": "8613bc2642be"
+  }
+ },
+ "paper:eqn:vres_params": {
+  "date": "2026-11-10",
+  "hash": "0de3f07611c0",
+  "needs": {
+   "sympy:B5": "00a36ab04250",
+   "sympy:B8": "e43e55c5ab65"
+  }
+ },
+ "paper:eqn:vres_sol": {
+  "date": "2026-11-10",
+  "hash": "54f63ba502dd",
+  "needs": {
+   "sympy:B6": "814c74d931c8",
+   "sympy:B8": "e43e55c5ab65"
+  }
+ },
+ "paper:eqn:wire_2d": {
+  "date": "2026-11-10",
+  "hash": "2e1764f2f6e2",
+  "needs": {
+   "sympy:G10": "327af4ab5863",
+   "sympy:G3": "e10fe85f9112"
+  }
+ },
+ "paper:eqn:wire_Acomp": {
+  "date": "2026-11-10",
+  "hash": "ff71e6d67a9e",
+  "needs": {
+   "sympy:G11": "ce14708c5022",
+   "sympy:G17": "6ee5ece5560f"
+  }
+ },
+ "paper:eqn:wire_Ag": {
+  "date": "2026-11-10",
+  "hash": "ef6bc860021d",
+  "needs": {
+   "sympy:G1": "dbc04ec946d2"
+  }
+ },
+ "paper:eqn:wire_D": {
+  "date": "2026-11-10",
+  "hash": "f4c31857b31e",
+  "needs": {
+   "sympy:G16": "b940466b805c",
+   "sympy:G8": "04c6f2f2b0e0"
+  }
+ },
+ "paper:eqn:wire_Dcomp": {
+  "date": "2026-11-10",
+  "hash": "5c1aaf4c8b23",
+  "needs": {
+   "sympy:G16": "b940466b805c"
+  }
+ },
+ "paper:eqn:wire_d": {
+  "date": "2026-11-10",
+  "hash": "14cd014dcc72",
+  "needs": {
+   "sympy:G16": "b940466b805c"
+  }
+ },
+ "paper:eqn:wire_d0": {
+  "date": "2026-11-10",
+  "hash": "a8a47498f49f",
+  "needs": {
+   "sympy:G16": "b940466b805c"
+  }
+ },
+ "paper:eqn:wire_d1": {
+  "date": "2026-11-10",
+  "hash": "a096bbc64aef",
+  "needs": {
+   "sympy:G16": "b940466b805c"
+  }
+ },
+ "paper:eqn:wire_d1near": {
+  "date": "2026-11-10",
+  "hash": "79eb218a4d0b",
+  "needs": {
+   "sympy:G16": "b940466b805c"
+  }
+ },
+ "paper:eqn:wire_lattice": {
+  "date": "2026-11-10",
+  "hash": "ce833ece9930",
+  "needs": {
+   "sympy:G5": "2a45f747c3b7"
+  }
+ },
+ "paper:eqn:wire_lite": {
+  "date": "2026-11-10",
+  "hash": "3644068828a6",
+  "needs": {
+   "code:ring_gravity": "b009c47899ac",
+   "sympy:G14": "459ad722e276"
+  }
+ },
+ "paper:eqn:wire_mode": {
+  "date": "2026-11-10",
+  "hash": "ec59c791bf54",
+  "needs": {
+   "sympy:G20": "e61431f60303"
+  }
+ },
+ "paper:eqn:wire_pythag": {
+  "date": "2026-11-10",
+  "hash": "f3186e4f704d",
+  "needs": {
+   "sympy:G19": "c892067bb7ae"
+  }
+ },
+ "paper:eqn:wire_sheet": {
+  "date": "2026-11-10",
+  "hash": "fc3ea4fb6528",
+  "needs": {
+   "sympy:G4": "8179ab3cfaf2"
+  }
+ },
+ "paper:eqn:wire_slopes": {
+  "date": "2026-11-10",
+  "hash": "5d7c0837c8cb",
+  "needs": {
+   "sympy:G10": "327af4ab5863"
+  }
+ },
+ "paper:eqn:wire_t": {
+  "date": "2026-11-10",
+  "hash": "ce5083a9dccb",
+  "needs": {
+   "sympy:G10": "327af4ab5863"
+  }
+ },
+ "paper:eqn:zigzag_R": {
+  "date": "2026-11-10",
+  "hash": "cb92fd5c37a0",
+  "needs": {
+   "sympy:P8": "4734f21a092e"
+  }
+ },
+ "paper:eqn:zigzag_X": {
+  "date": "2026-11-10",
+  "hash": "611af03c21e2",
+  "needs": {
+   "sympy:P7": "a951a7073a22"
+  }
+ },
+ "paper:eqn:zigzag_disp": {
+  "date": "2026-11-10",
+  "hash": "f7ac7eb61cff",
+  "needs": {
+   "sympy:P6": "f2b3e9f666c9",
+   "sympy:P7": "a951a7073a22"
+  }
+ },
+ "paper:eqn:zigzag_p": {
+  "date": "2026-11-10",
+  "hash": "4e9ba1beefe6",
+  "needs": {
+   "sympy:P6": "f2b3e9f666c9"
+  }
+ },
  "paper:eqn:zvz": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "70ddb011eb53",
   "needs": {
    "sympy:V2": "53da6d751f2e"
+  }
+ },
+ "paper:fig:vres": {
+  "date": "2026-11-10",
+  "hash": "b6e258ab4fe9",
+  "needs": {
+   "figure:vertical_resonance": "e6dd6a2e794b"
+  }
+ },
+ "paper:fig:wire_planar": {
+  "date": "2026-11-10",
+  "hash": "25efc7c9afdb",
+  "needs": {
+   "figure:wire_planar": "3fab15b3667d"
+  }
+ },
+ "paper:fig:wire_velocity": {
+  "date": "2026-11-10",
+  "hash": "8e211b2b2c9e",
+  "needs": {
+   "figure:wire_planar": "3fab15b3667d"
+  }
+ },
+ "paper:fig:zigzag": {
+  "date": "2026-11-10",
+  "hash": "bfd8f14f513b",
+  "needs": {
+   "figure:zigzag": "5608371f27c7"
+  }
+ },
+ "sympy:B1": {
+  "date": "2026-11-10",
+  "hash": "c28ae3a6ab3d",
+  "needs": {
+   "eq:B1": "a24edb39df02"
+  }
+ },
+ "sympy:B10": {
+  "date": "2026-11-10",
+  "hash": "e74ae9f8460d",
+  "needs": {
+   "eq:B10": "283dfbe111cd"
+  }
+ },
+ "sympy:B11": {
+  "date": "2026-11-10",
+  "hash": "7aa789f5c38b",
+  "needs": {
+   "eq:B11": "930e55fe0235"
+  }
+ },
+ "sympy:B12": {
+  "date": "2026-11-10",
+  "hash": "05d793ee0045",
+  "needs": {
+   "eq:B12": "8045ba4b393e"
+  }
+ },
+ "sympy:B13": {
+  "date": "2026-11-10",
+  "hash": "28c7098e3707",
+  "needs": {
+   "eq:B13": "4c448fd74bfd"
+  }
+ },
+ "sympy:B2": {
+  "date": "2026-11-10",
+  "hash": "5f5ffc3772d1",
+  "needs": {
+   "eq:B2": "ef33fc85a126"
+  }
+ },
+ "sympy:B3": {
+  "date": "2026-11-10",
+  "hash": "5f5ffc3772d1",
+  "needs": {
+   "eq:B3": "d92173e01246"
+  }
+ },
+ "sympy:B4": {
+  "date": "2026-11-10",
+  "hash": "719b0fce7aa0",
+  "needs": {
+   "eq:B4": "209c09b3b0ad"
+  }
+ },
+ "sympy:B5": {
+  "date": "2026-11-10",
+  "hash": "00a36ab04250",
+  "needs": {
+   "eq:B5": "f6307dfdafe9"
+  }
+ },
+ "sympy:B6": {
+  "date": "2026-11-10",
+  "hash": "814c74d931c8",
+  "needs": {
+   "eq:B6": "6a24f47056f4"
+  }
+ },
+ "sympy:B7": {
+  "date": "2026-11-10",
+  "hash": "8613bc2642be",
+  "needs": {
+   "eq:B7": "b87b697aa124"
+  }
+ },
+ "sympy:B8": {
+  "date": "2026-11-10",
+  "hash": "e43e55c5ab65",
+  "needs": {
+   "eq:B8": "fbaca32018bf"
+  }
+ },
+ "sympy:B9": {
+  "date": "2026-11-10",
+  "hash": "b1dc8b202f91",
+  "needs": {
+   "eq:B9": "a81d26e7d95e"
+  }
+ },
+ "sympy:G1": {
+  "date": "2026-11-10",
+  "hash": "dbc04ec946d2",
+  "needs": {
+   "eq:G1": "01549a491860"
+  }
+ },
+ "sympy:G10": {
+  "date": "2026-11-10",
+  "hash": "327af4ab5863",
+  "needs": {
+   "eq:G10": "05a70454ced0"
+  }
+ },
+ "sympy:G11": {
+  "date": "2026-11-10",
+  "hash": "ce14708c5022",
+  "needs": {
+   "eq:G11": "6ccbc89fce6a"
+  }
+ },
+ "sympy:G12": {
+  "date": "2026-11-10",
+  "hash": "25c3d60bdf20",
+  "needs": {
+   "eq:G12": "9d497b88714d"
+  }
+ },
+ "sympy:G13": {
+  "date": "2026-11-10",
+  "hash": "7460377d200b",
+  "needs": {
+   "eq:G13": "756262c750c1"
+  }
+ },
+ "sympy:G14": {
+  "date": "2026-11-10",
+  "hash": "459ad722e276",
+  "needs": {
+   "eq:G14": "0318f41e9d26"
+  }
+ },
+ "sympy:G15": {
+  "date": "2026-11-10",
+  "hash": "724dcee9a79a",
+  "needs": {
+   "eq:G15": "e2c593e08d92"
+  }
+ },
+ "sympy:G16": {
+  "date": "2026-11-10",
+  "hash": "b940466b805c",
+  "needs": {
+   "eq:G16": "8c38c9fc7697"
+  }
+ },
+ "sympy:G17": {
+  "date": "2026-11-10",
+  "hash": "6ee5ece5560f",
+  "needs": {
+   "eq:G17": "7a082c91c6d4"
+  }
+ },
+ "sympy:G18": {
+  "date": "2026-11-10",
+  "hash": "88f60922ebae",
+  "needs": {
+   "eq:G18": "b669d1907201"
+  }
+ },
+ "sympy:G19": {
+  "date": "2026-11-10",
+  "hash": "c892067bb7ae",
+  "needs": {
+   "eq:G19": "c2886b3b213a"
+  }
+ },
+ "sympy:G2": {
+  "date": "2026-11-10",
+  "hash": "9f7dfc1ea7f6",
+  "needs": {
+   "eq:G2": "2b4cca510d6c"
+  }
+ },
+ "sympy:G20": {
+  "date": "2026-11-10",
+  "hash": "e61431f60303",
+  "needs": {
+   "eq:G20": "709bf2cc475e"
+  }
+ },
+ "sympy:G3": {
+  "date": "2026-11-10",
+  "hash": "e10fe85f9112",
+  "needs": {
+   "eq:G3": "a20ddfb68df5"
+  }
+ },
+ "sympy:G4": {
+  "date": "2026-11-10",
+  "hash": "8179ab3cfaf2",
+  "needs": {
+   "eq:G4": "e2cdbd0cc463"
+  }
+ },
+ "sympy:G5": {
+  "date": "2026-11-10",
+  "hash": "2a45f747c3b7",
+  "needs": {
+   "eq:G5": "aa932e4a689d"
+  }
+ },
+ "sympy:G6": {
+  "date": "2026-11-10",
+  "hash": "03132fa69166",
+  "needs": {
+   "eq:G6": "c313bda1bf30"
+  }
+ },
+ "sympy:G7": {
+  "date": "2026-11-10",
+  "hash": "dcd9d636c489",
+  "needs": {
+   "eq:G7": "b85a7c70b3d3"
+  }
+ },
+ "sympy:G8": {
+  "date": "2026-11-10",
+  "hash": "04c6f2f2b0e0",
+  "needs": {
+   "eq:G8": "6892b3d6db2d"
+  }
+ },
+ "sympy:G9": {
+  "date": "2026-11-10",
+  "hash": "ed12bb419b83",
+  "needs": {
+   "eq:G9": "8a64e329dfa7"
   }
  },
  "sympy:H1": {
@@ -247,6 +1255,97 @@
   "hash": "04874fce1e63",
   "needs": {
    "eq:H3": "f7017c75bd8e"
+  }
+ },
+ "sympy:O1": {
+  "date": "2026-11-10",
+  "hash": "30e1bc85c73a",
+  "needs": {
+   "eq:O1": "d19ec2e33c00"
+  }
+ },
+ "sympy:O2": {
+  "date": "2026-11-10",
+  "hash": "5109a085de8c",
+  "needs": {
+   "eq:O2": "ce4d2a87cf13"
+  }
+ },
+ "sympy:O3": {
+  "date": "2026-11-10",
+  "hash": "608ba0ac9017",
+  "needs": {
+   "eq:O3": "abb2668d5fb3"
+  }
+ },
+ "sympy:O4": {
+  "date": "2026-11-10",
+  "hash": "8c2a4c085a9b",
+  "needs": {
+   "eq:O4": "9d176fb1a07e"
+  }
+ },
+ "sympy:O5": {
+  "date": "2026-11-10",
+  "hash": "92734ae47404",
+  "needs": {
+   "eq:O5": "c7914d7432b5"
+  }
+ },
+ "sympy:P1": {
+  "date": "2026-11-10",
+  "hash": "fc39c0e218c9",
+  "needs": {
+   "eq:P1": "a78fa91b1149"
+  }
+ },
+ "sympy:P2": {
+  "date": "2026-11-10",
+  "hash": "ccd6129c111e",
+  "needs": {
+   "eq:P2": "fad4f711f13f"
+  }
+ },
+ "sympy:P3": {
+  "date": "2026-11-10",
+  "hash": "6d77e029b709",
+  "needs": {
+   "eq:P3": "a32c7041e842"
+  }
+ },
+ "sympy:P4": {
+  "date": "2026-11-10",
+  "hash": "fcd2449acb40",
+  "needs": {
+   "eq:P4": "9c9dca187164"
+  }
+ },
+ "sympy:P5": {
+  "date": "2026-11-10",
+  "hash": "2a08d25c38a3",
+  "needs": {
+   "eq:P5": "ee9c42285c27"
+  }
+ },
+ "sympy:P6": {
+  "date": "2026-11-10",
+  "hash": "f2b3e9f666c9",
+  "needs": {
+   "eq:P6": "bd96384f80fc"
+  }
+ },
+ "sympy:P7": {
+  "date": "2026-11-10",
+  "hash": "a951a7073a22",
+  "needs": {
+   "eq:P7": "82faf17dea6f"
+  }
+ },
+ "sympy:P8": {
+  "date": "2026-11-10",
+  "hash": "4734f21a092e",
+  "needs": {
+   "eq:P8": "1b4716c4a591"
   }
  },
  "sympy:V1": {
@@ -306,15 +1405,38 @@
   }
  },
  "test:inclined": {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "hash": "f1d9bc105c2c",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:exact_orbits": "dbec2df05f67",
    "code:incline": "7c530e64b556",
    "code:inclined_metrics": "37fa8560a818",
+   "code:run_3d": "e883637c1181",
    "code:vertical_drift": "cac5e539d361",
    "code:vertical_elements": "0b4b956b0ca6"
+  }
+ },
+ "test:kernels": {
+  "date": "2026-11-10",
+  "hash": "6d4a993dadf2",
+  "needs": {
+   "code:ring_gravity": "b009c47899ac",
+   "code:ring_gravity_3d": "dd696367e669",
+   "eq:B13": "4c448fd74bfd",
+   "eq:G16": "8c38c9fc7697",
+   "eq:G6": "c313bda1bf30"
+  }
+ },
+ "test:vertical_resonance": {
+  "date": "2026-11-10",
+  "hash": "d15ffbd6a40d",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:forced_vertical": "631a2478ef50",
+   "code:run_3d": "e883637c1181",
+   "code:satellite": "2f1dbb1340e9",
+   "code:vertical_drift": "cac5e539d361"
   }
  }
 }

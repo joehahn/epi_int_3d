@@ -19,7 +19,8 @@
 #   path::name              a Python function, or Class.method, found with ast
 #   path#ID                 .md: the table row whose first cell is ID (its first two cells only, so
 #                           ticking the Hand column doesn't count as an edit); .py: the file's preamble
-#                           plus each '# --- ... ---' section whose header names ID (H1-H3 names H2);
+#                           plus each '# --- ... ---' (or '#---') section whose header names ID (H1-H3
+#                           names H2);
 #                           .tex: the equation or figure environment holding \label{ID}, or the
 #                           (sub)section that \label{ID} follows
 #   path@phrase             the paragraph (text between blank lines) that contains phrase
@@ -120,7 +121,7 @@ def python_sections(path, ID):
     sections = []
     current = None
     for line in lines:
-        if (line.startswith('# ---')):
+        if (re.match(r'#\s*---', line) is not None):
             if (header_names(line, ID)):
                 current = [line]
                 sections.append(current)

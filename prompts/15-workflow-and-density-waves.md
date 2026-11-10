@@ -150,3 +150,9 @@ yes
 
 [Pushed. `tools/chain.py` and `notes/chain.json`: 45 nodes for the vertical motion, from equations V1–V8 and
 H1–H3 through sympy, code, `test_inclined` and the paper; a change marks what is downstream stale.]
+
+push, then extend the chain
+
+[Pushed. The chain now covers the G, B, P and O equations too: 198 nodes from `notes/equations.md` through sympy,
+`fast/kernels.py`, `fast/satellite.py`, the tests, notebooks and figure scripts to the paper's equations, figures
+and 15 claims, all confirmed after the checks passed and the claims' numbers were checked against their sources.]
