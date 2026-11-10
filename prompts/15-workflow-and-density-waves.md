@@ -193,3 +193,23 @@ times, linear theory dashed; `paper/figures/bending_wave.py`, in the data-viz st
 Appendix D. All 27 of its numbers are macros from `tools/paper_numbers.py`; ten new chain nodes. Fixed on the way:
 `lint_paper.py` misread a sentence that starts on a new line; `paper_diff.py` lacked `paper/numbers/` and failed
 when a change starts a paragraph; the notebook's "about 20 crests" is 14 wavelengths behind the front.]
+
+we'll deal with torque later. the ledger has lots of content that I'll never look at. can you use my other projects dbs to figure out what I want to see and what can go away? also the agent-banking-watch project used cards to manage paragraphs and let me submit edits inline. should ledger do same, maybe for sections and subsections?
+
+[From the ABW ledger's database: on v2 the author wrote 19 notes, nearly all line edits or "is this clear?"
+questions, and made 40 Use/Skip choices on fixes (54 more on v1), card by card; all 48 v1 keep/trim/cut
+decisions were one "Accept Claude's calls" click; the source and reviewer panels never came up. The epi
+ledger's database held nothing of his. Proposed: the paper itself as cards, one per subsection.]
+
+i sont know what Someone republished the page since my last upload means
+
+[The new version was the dashboard template's own update, not a change to the ledger's content.]
+
+yes, build it
+
+[The paper ledger, https://claude.ai/artifact/KpgQvmghBVn7c4nTmFWxLZ: 16 cards, one per section or subsection,
+with the math typeset by MathJax, equations numbered as in the PDF (checked against the compiled paper's
+labels), number macros filled in and the five figures shown; each card's open issues (chain, lint, paper
+review) with Use/Skip, a note box, Claude's replies, and "Apply changes". `tools/ledger_cards.py` splits the
+paper into cards; `tools/ledger.py` now writes the page's database documents. The old dashboard and its CSV
+exports are retired.]

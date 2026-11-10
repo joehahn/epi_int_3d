@@ -1,0 +1,298 @@
+#ledger_cards.py
+#
+#by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 10 November 2026.
+#
+#split the paper into the ledger's cards, one per section or subsection, each holding its text as HTML
+#for the ledger page (tools/ledger.py). Math stays LaTeX, which the page typesets with MathJax; the
+#equations get the numbers the PDF gives them (checked against the compiled paper's labels), the number
+#macros of paper/numbers/ are filled in with their values, and citations and references are written out.
+#
+#used by tools/ledger.py; on its own, from the repo's top folder,
+#   uv run python tools/ledger_cards.py      prints each card's number, title and word count
+
+import glob
+import html
+import os
+import re
+import subprocess
+import tempfile
+
+#paths
+repo_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+paper_folder = os.path.join(repo_folder, 'paper')
+paper_file = os.path.join(paper_folder, 'epi_int_3d.tex')
+
+
+#the text of a {...} group starting at text[start] == '{', and the position after it
+def braced(text, start):
+    depth = 0
+    for position in range(start, len(text)):
+        if (text[position] == '{') and ((position == 0) or (text[position - 1] != '\\')):
+            depth += 1
+        elif (text[position] == '}') and (text[position - 1] != '\\'):
+            depth -= 1
+            if (depth == 0):
+                return text[start + 1:position], position + 1
+    raise ValueError('unbalanced braces after: ' + text[start:start + 60])
+
+
+#replace each \name{arg} (with optional [..] arguments before it) by what replace(arg, options) returns
+def replace_command(text, name, replace):
+    pattern = re.compile(r'\\' + name + r'((?:\[[^\]]*\])*)\{')
+    while True:
+        m = pattern.search(text)
+        if (m is None):
+            return text
+        arg, end = braced(text, m.end() - 1)
+        options = re.findall(r'\[([^\]]*)\]', m.group(1))
+        text = text[:m.start()] + replace(arg, options) + text[end:]
+
+
+#the compiled paper's labels (number by key) and bibliography (author and year by key)
+def compiled_paper():
+    with tempfile.TemporaryDirectory() as folder:
+        subprocess.run(['tectonic', '-k', '-o', folder, paper_file], cwd=paper_folder, check=True,
+            capture_output=True)
+        aux = open(os.path.join(folder, 'epi_int_3d.aux')).read()
+        bbl = open(os.path.join(folder, 'epi_int_3d.bbl')).read()
+    labels = {key: value.replace('\\hbox {', '') for key, value in re.findall(r'\\newlabel\{([^}]*)\}\{\{([^}]*)\}', aux)}
+    references = {}
+    for label, key in re.findall(r'\\bibitem\[\{(.*?)\}\]\{([^}]*)\}', bbl, flags=re.S):
+        m = re.match(r'.*\((\d{4}[a-z]?)\)(.*)$', ' '.join(label.split()))
+        authors = m.group(2).replace('{', '').replace('}', '').replace('\\&', '&').replace('~', ' ')
+        references[key] = (authors, m.group(1))
+    return labels, references
+
+
+#the number macros of paper/numbers/*.tex: value by name
+def number_macros():
+    macros = {}
+    for path in sorted(glob.glob(os.path.join(paper_folder, 'numbers', '*.tex'))):
+        text = open(path).read()
+        for m in re.finditer(r'\\newcommand\{\\(\w+)\}\{', text):
+            macros[m.group(1)], end = braced(text, m.end() - 1)
+    return macros
+
+
+#remove TeX comments (an unescaped % to the end of the line)
+def strip_comments(text):
+    return '\n'.join(re.sub(r'(?<!\\)%.*', '', line) for line in text.split('\n'))
+
+
+#fill in the number macros
+def fill_numbers(text, macros):
+    return re.sub(r'\\(\w+)(?![a-zA-Z])', lambda m: macros.get(m.group(1), m.group(0)), text)
+
+
+#turns the LaTeX of a card into HTML; keeps the equation and figure counters across cards
+class Converter:
+
+    def __init__(self, labels, references, macros):
+        self.labels = labels
+        self.references = references
+        self.macros = macros
+        self.equation = 0
+        self.figure = 0
+        self.prefix = ''                 #'' in the body, the appendix letter in an appendix
+        self.mismatches = []             #labels whose number here differs from the PDF's
+        self.leftovers = set()           #LaTeX commands this converter doesn't know
+        self.depth = 0
+        self.pieces = []
+
+    #the next equation number, checked against the PDF's when the equation has a label
+    def number_equation(self, label):
+        self.equation += 1
+        number = self.prefix + str(self.equation)
+        if ((label is not None) and (self.labels.get(label) != number)):
+            self.mismatches += [(label, number, self.labels.get(label))]
+        return number
+
+    #a displayed equation or eqnarray, as LaTeX for MathJax with \tag{n} for its numbers
+    def display(self, environment, body):
+        body = fill_numbers(body, self.macros)
+        if (environment == 'eqnarray'):
+            rows = re.split(r'\\\\', body)
+            out = []
+            for row in rows:
+                label = re.search(r'\\label\{([^}]*)\}', row)
+                row = re.sub(r'\\label\{[^}]*\}', '', row)
+                if ('\\nonumber' in row):
+                    row = row.replace('\\nonumber', '\\notag')
+                elif (row.strip() != ''):
+                    row = row + r' \tag{' + self.number_equation(label and label.group(1)) + '}'
+                out += [row.strip()]
+            latex = '\\begin{eqnarray}' + ' \\\\\n'.join(out) + '\\end{eqnarray}'
+        else:
+            label = re.search(r'\\label\{([^}]*)\}', body)
+            body = re.sub(r'\\label\{[^}]*\}', '', body).strip()
+            if ((environment == 'equation*') or ('\\nonumber' in body)):
+                body = body.replace('\\nonumber', '')
+                latex = '\\begin{equation*}' + body + '\\end{equation*}'
+            else:
+                number = self.number_equation(label and label.group(1))
+                latex = '\\begin{equation}' + body + r' \tag{' + number + '}\\end{equation}'
+        return '<span class="eq">' + html.escape(latex, quote=False) + '</span>'
+
+    #citations as the paper prints them
+    def cite(self, keys, options, style):
+        names = []
+        for key in keys.split(','):
+            authors, year = self.references[key.strip()]
+            if (style == 'citet'):
+                names += [authors + ' (' + year + ')']
+            else:
+                names += [authors + ' ' + year]
+        text = '; '.join(names)
+        if (style == 'citep'):
+            before, after = '', ''
+            if (len(options) == 1):
+                after = ', ' + options[0]
+            elif (len(options) == 2):
+                before = options[0] + ' ' if options[0] else ''
+                after = ', ' + options[1] if options[1] else ''
+            text = '(' + before + text + after + ')'
+        return html.escape(text, quote=False)
+
+    #a figure: its image (the PNG beside the PDF) and caption
+    def figure_html(self, body, assets):
+        self.figure += 1
+        name = re.search(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]*)\}', body).group(1)
+        png = os.path.basename(name).replace('.pdf', '.png')
+        caption, end = braced(body, body.index('\\caption{') + len('\\caption'))
+        label = re.search(r'\\label\{([^}]*)\}', body)
+        if (label and (self.labels.get(label.group(1)) != str(self.figure))):
+            self.mismatches += [(label.group(1), str(self.figure), self.labels.get(label.group(1)))]
+        asset = assets.get(png, {}).get('id', '')
+        return ('<figure class="fig" data-png="' + png + '" data-asset="' + asset + '">'
+            + '<figcaption><b>Figure ' + str(self.figure) + '.</b> ' + self.inline(caption, {}) + '</figcaption></figure>')
+
+    #running text: paragraphs, inline math, citations, references, footnotes, lists
+    def inline(self, text, assets):
+        top = (self.depth == 0)                          #nested calls (footnotes, captions) share the pieces
+        if top:
+            self.pieces = []
+        self.depth += 1
+        pieces = self.pieces                             #protected HTML, put back at the end
+        def keep(fragment):
+            pieces.append(fragment)
+            return '\x00' + str(len(pieces) - 1) + '\x00'
+        #figures and displayed math first
+        text = re.sub(r'\\begin\{(figure\*?)\}(?:\[[^\]]*\])?(.*?)\\end\{\1\}',
+            lambda m: keep(self.figure_html(m.group(2), assets)), text, flags=re.S)
+        text = re.sub(r'\\begin\{(equation\*?|eqnarray)\}(.*?)\\end\{\1\}',
+            lambda m: keep(self.display(m.group(1), m.group(2))), text, flags=re.S)
+        #inline math
+        text = re.sub(r'(?<!\\)\$(.+?)(?<!\\)\$',
+            lambda m: keep('$' + html.escape(fill_numbers(m.group(1), self.macros), quote=False) + '$'), text, flags=re.S)
+        #the number macros in running text (a {} after one keeps the space after it in TeX)
+        text = re.sub(r'(\\(?:vres|bw)\w+)\{\}', r'\1', text)
+        text = fill_numbers(text, self.macros)
+        #commands with arguments
+        text = replace_command(text, 'footnote', lambda arg, o: keep('<span class="fn">'
+            + self.inline(arg, assets) + '</span>'))
+        text = replace_command(text, 'url', lambda arg, o: keep('<a href="' + html.escape(arg) + '" target="_blank" rel="noopener">'
+            + html.escape(arg) + '</a>'))
+        for style in ['citep', 'citet', 'citealt', 'cite']:
+            text = replace_command(text, style, lambda arg, o, style=style:
+                keep(self.cite(arg, o, 'citet' if style == 'cite' else style)))
+        text = replace_command(text, 'ref', lambda arg, o: keep(html.escape(self.labels.get(arg, '??'))))
+        text = replace_command(text, 'label', lambda arg, o: '')
+        text = replace_command(text, 'paragraph', lambda arg, o: keep('<b>' + html.escape(arg) + '.</b>'))
+        for name in ['code', 'texttt']:
+            text = replace_command(text, name, lambda arg, o: keep('<code>'
+                + html.escape(arg.replace('\\_', '_'), quote=False) + '</code>'))
+        text = replace_command(text, 'emph', lambda arg, o: keep('<em>' + self.inline(arg, assets) + '</em>'))
+        text = re.sub(r'\\(centering|noindent|appendix)\b', '', text)
+        #lists
+        text = text.replace('\\begin{enumerate}', keep('<ol>')).replace('\\end{enumerate}', keep('</ol>'))
+        text = re.sub(r'\\item\s*', lambda m: keep('<li>'), text)
+        #the remaining text, escaped, then TeX's typography
+        text = html.escape(text, quote=False)
+        for tex, out in [('---', '\u2014'), ('--', '\u2013'), ('``', '\u201c'), ("''", '\u201d'), ('~', '\u00a0'),
+                ('\\%', '%'), ('\\_', '_'), ('\\&amp;', '&amp;'), ('\\#', '#'), ('\\$', '$'), ('\\S', '\u00a7'),
+                ('\\ldots', '\u2026'), ('\\,', '\u2009'), ('\\ ', ' '), ('.\\@', '.'), ('\\@', '')]:
+            text = text.replace(tex, out)
+        text = re.sub(r'(?<=\w)\\/', '', text)
+        self.leftovers |= set(re.findall(r'\\[a-zA-Z]+', text))
+        #paragraphs
+        paragraphs = [p.strip() for p in re.split(r'\n\s*\n', text) if p.strip()]
+        if (len(paragraphs) > 1):
+            text = ''.join('<p>' + ' '.join(p.split()) + '</p>' for p in paragraphs)
+        else:
+            text = ' '.join(text.split())
+        #put back the protected pieces, innermost last
+        self.depth -= 1
+        while top and ('\x00' in text):
+            text = re.sub(r'\x00(\d+)\x00', lambda m: pieces[int(m.group(1))], text)
+        return text
+
+
+#the paper's cards: [{id, order, number, title, level, html, words, labels, lines, tex}]
+def cards(assets=None):
+    assets = assets or {}
+    labels, references = compiled_paper()
+    macros = number_macros()
+    source = open(paper_file).read()
+    begin = source.index('\\begin{document}')
+    end = source.index('\\end{document}')
+    first_line = source[:begin].count('\n') + 1
+    body = strip_comments(source[begin:end])
+    body = re.sub(r'\\bibliographystyle\{[^}]*\}|\\bibliography\{[^}]*\}', '', body)
+    #headings
+    heads = []
+    for m in re.finditer(r'\\(section|subsection)\*?\{|\\appendix|\\begin\{abstract\}|\\end\{abstract\}', body):
+        heads += [m]
+    converter = Converter(labels, references, macros)
+    out = []
+    section = 0
+    subsection = 0
+    appendix = False
+    letters = 'ABCDEFGH'
+    for k, m in enumerate(heads):
+        start = m.end()
+        if (m.group(0) == '\\appendix'):
+            appendix = True
+            section = 0
+            converter.equation = 0           #AASTeX numbers the appendices' equations A1, A2, ..., B3, ... on one counter
+            continue
+        if (m.group(0) == '\\end{abstract}'):
+            continue
+        if (m.group(0) == '\\begin{abstract}'):
+            number, title, level, card_id = '', 'Abstract', 1, 'abstract'
+        else:
+            title, start = braced(body, m.end() - 1)
+            if (m.group(1) == 'section'):
+                section += 1
+                subsection = 0
+                level = 1
+                number = letters[section - 1] if appendix else str(section)
+                converter.prefix = number if appendix else ''
+            else:
+                subsection += 1
+                level = 2
+                number = (letters[section - 1] if appendix else str(section)) + '.' + str(subsection)
+            card_id = ('app' if appendix else 's') + number.replace('.', '-')
+        stop = heads[k + 1].start() if (k + 1 < len(heads)) else len(body)
+        tex = body[start:stop]
+        converter.leftovers = set()
+        text_html = converter.inline(tex, assets)
+        plain = re.sub(r'<[^>]+>', ' ', text_html)
+        words = len(re.findall(r'[A-Za-z]{2,}', re.sub(r'\$[^$]*\$|\\begin\{.*?\\end\{[a-z*]+\}', ' ', plain, flags=re.S)))
+        if (level == 1):
+            section_title = ((number + ' ') if number else '') + re.sub(r'<[^>]+>', '', converter.inline(title, assets))
+        if (text_html.strip() == ''):
+            continue                         #a section that opens straight into its first subsection
+        out += [{'id': card_id, 'section': section_title, 'order': len(out), 'number': number,
+            'title': converter.inline(title, assets), 'level': level, 'appendix': appendix, 'html': text_html,
+            'words': words, 'labels': re.findall(r'\\label\{([^}]*)\}', tex),
+            'lines': [first_line + body[:start].count('\n'), first_line + body[:stop].count('\n')],
+            'tex': ' '.join(tex.split()), 'leftovers': sorted(converter.leftovers)}]
+    if converter.mismatches:
+        raise ValueError('numbers that differ from the PDF (label, here, PDF): ' + str(converter.mismatches))
+    return out
+
+
+if (__name__ == '__main__'):
+    for card in cards():
+        print(card['id'].ljust(9), card['number'].ljust(5), str(card['words']).rjust(5), 'words  ',
+            card['title'][:50], '  lines', card['lines'], ' leftover:', ' '.join(card['leftovers']))

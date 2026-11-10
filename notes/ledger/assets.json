@@ -1,0 +1,22 @@
+{
+ "wire_planar.png": {
+  "id": "6a82ad9900573e075b81750977417757",
+  "hash": "077183a94868"
+ },
+ "vertical_resonance.png": {
+  "id": "39f7f9be794ad087ad045e1e993cba46",
+  "hash": "c874c3000664"
+ },
+ "bending_wave.png": {
+  "id": "910a2812037b2d91bb3394735f542715",
+  "hash": "40759731b0ab"
+ },
+ "wire_velocity.png": {
+  "id": "df94ab5ce4279fb619bc3cbc552f6de3",
+  "hash": "836866dd1e57"
+ },
+ "zigzag.png": {
+  "id": "0c83041c368e408e6a8ec881d4290e89",
+  "hash": "509160f468f2"
+ }
+}

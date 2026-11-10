@@ -377,6 +377,16 @@ density waves are the first feature built through the whole pipeline.
      findings on its file; then the reviews and the costs. Notes go in as comments on the page. Not yet:
      Claude Code's cost split by activity within a phase (only per phase), style-rule links per card.
      `notes/phases.csv` gained phase 3b (from 2026-11-08 17:52 UTC).
+   - *Rebuilt 2026-11-10 as the paper ledger,* https://claude.ai/artifact/KpgQvmghBVn7c4nTmFWxLZ, after the
+     author's use of the ABW ledger: there he wrote line edits and questions in the note boxes and chose Use or
+     Skip on suggested fixes, card by card, but accepted every keep/trim/cut call in one click and never asked
+     about the source and reviewer panels. So the page is now the paper itself, one card per section or
+     subsection (16), with the math typeset and the number macros filled in; each card lists its open issues
+     (chain items not current, lint problems, findings of the latest paper review) with Use/Skip, and a note
+     box; "Apply changes" sends the notes to Claude Code, which revises the paper and replies on each card.
+     The chain table, the chart of items by kind, the hours chart and the findings table are gone; the chain
+     feeds the cards instead, and the costs are one view. The first dashboard,
+     https://claude.ai/artifact/L54vp4Q4cLf6Cm99Mu41JV, is retired.
 
 ## Phase 3c — Spiral density waves (decided 2026-11-08)
 

@@ -1,0 +1,493 @@
+<title>epi_int_3d paper ledger</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: the paper as a stack of section cards in one reading column, each with its issues and a note
+   box at its foot; a sticky bar with the totals and the Apply button; a section index on the right. */
+:root {
+  --bg: #f3f4f6; --paper: #ffffff; --ink: #18202b; --ink-2: #485365; --ink-3: #747e8f;
+  --rule: #dde1e7; --rule-2: #c6ccd6; --accent: #1d5c74; --accent-soft: #e2eef2;
+  --warn: #9b5b00; --warn-soft: #fbf0dc; --ok: #2a7548; --ok-soft: #e3f2e9; --bad: #b0303a; --bad-soft: #fae8e9;
+  --f-text: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-ui: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111419; --paper: #1a1e25; --ink: #e5e8ed; --ink-2: #b2b9c6; --ink-3: #8a93a3;
+  --rule: #2a303b; --rule-2: #3a414e; --accent: #7cc0d6; --accent-soft: #1d3540;
+  --warn: #e3b25e; --warn-soft: #382c17; --ok: #7cc79a; --ok-soft: #1b3125; --bad: #ee8890; --bad-soft: #3a1e22;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111419; --paper: #1a1e25; --ink: #e5e8ed; --ink-2: #b2b9c6; --ink-3: #8a93a3;
+  --rule: #2a303b; --rule-2: #3a414e; --accent: #7cc0d6; --accent-soft: #1d3540;
+  --warn: #e3b25e; --warn-soft: #382c17; --ok: #7cc79a; --ok-soft: #1b3125; --bad: #ee8890; --bad-soft: #3a1e22;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); font-size: 14px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 840px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--rule); }
+.top .wrap { padding-block: 12px 10px; display: grid; gap: 8px; }
+.titlerow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+h1 { font-family: var(--f-text); font-weight: 600; font-size: 20px; margin: 0; text-wrap: balance; }
+h1 code { font-family: var(--f-mono); font-size: 17px; font-weight: 500; }
+.sub { color: var(--ink-3); font-size: 12.5px; }
+.stats { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 12.5px; color: var(--ink-2); }
+.stat b { font-family: var(--f-mono); font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.bar { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.chip { font: 500 12px var(--f-ui); border: 1px solid var(--rule-2); background: var(--paper); color: var(--ink-2); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip .n { font-family: var(--f-mono); margin-left: 4px; opacity: .8; }
+.apply { font: 600 12.5px var(--f-ui); background: var(--accent); color: var(--paper); border: 0; border-radius: 6px; padding: 5px 14px; cursor: pointer; }
+.apply:disabled { opacity: .55; cursor: default; }
+.applymsg { font-size: 12px; color: var(--ink-2); max-width: 60ch; }
+.banner { font: 500 13px var(--f-ui); background: var(--ok-soft); color: var(--ok); border-radius: 6px; padding: 8px 12px; }
+.banner.working { background: var(--accent-soft); color: var(--accent); }
+.banner.working::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: currentColor; margin-right: 8px; animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+
+main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
+.sechead { font: 600 11.5px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 16px 0 -2px; display: flex; gap: 10px; align-items: center; scroll-margin-top: 150px; }
+.sechead::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.notice { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; color: var(--ink-2); }
+
+.card { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px 14px; display: grid; gap: 12px; min-width: 0; scroll-margin-top: 150px; }
+.card[data-state="attention"] { box-shadow: inset 4px 0 0 var(--warn); }
+.cardhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.cardhead h2 { font-family: var(--f-text); font-weight: 600; font-size: 19px; margin: 0; text-wrap: balance; }
+.cardhead h2 .num { font-family: var(--f-mono); font-weight: 500; font-size: 15px; color: var(--ink-3); margin-right: 8px; }
+.cardhead code { font-family: var(--f-mono); font-size: .88em; }
+.pill { font: 600 11px var(--f-ui); padding: 1px 8px; border-radius: 999px; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.attention { background: var(--warn-soft); color: var(--warn); }
+.facts { font-size: 12px; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.facts b { font-family: var(--f-mono); font-weight: 500; color: var(--ink-2); }
+
+.text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
+.text p { margin: 0 0 .7em; } .text p:last-child { margin-bottom: 0; }
+.text code { font-family: var(--f-mono); font-size: .86em; }
+.text ol { margin: .3em 0 .7em; padding-left: 1.4em; }
+.text .eq { display: block; margin: .5em 0; overflow-x: auto; overflow-y: hidden; }
+.text .fn { display: block; font-size: 13.5px; color: var(--ink-2); border-left: 2px solid var(--rule-2); padding-left: 10px; margin: .4em 0; }
+.text .fn::before { content: "Footnote. "; font: 600 11px var(--f-ui); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+.text .fn a { overflow-wrap: anywhere; }
+.fig { margin: .8em 0; display: grid; gap: 6px; }
+.fig img { width: 100%; max-width: 640px; height: auto; border-radius: 4px; background: #fff; }
+.fig figcaption { font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.fig .missing { font: 12.5px var(--f-ui); color: var(--ink-3); border: 1px dashed var(--rule-2); border-radius: 4px; padding: 18px; text-align: center; }
+mjx-container { color: var(--ink); }
+mjx-container[display="true"] { margin: .4em 0 !important; }
+
+.issues { display: grid; gap: 8px; border-top: 1px dashed var(--rule); padding-top: 10px; }
+.issuebar { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font: 600 12.5px var(--f-ui); color: var(--ink-2); }
+.recbtn { font: 600 12px var(--f-ui); background: var(--paper); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 2px 10px; cursor: pointer; }
+.issue { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 10px; align-items: baseline; }
+.issue.skipped .itext { color: var(--ink-3); text-decoration: line-through; }
+.ik { font: 600 10.5px var(--f-ui); text-transform: uppercase; letter-spacing: .05em; color: var(--warn); min-width: 48px; }
+.ik.review { color: var(--bad); }
+.itext { min-width: 0; overflow-wrap: anywhere; }
+.itext .star { color: var(--warn); }
+.idetail { grid-column: 2 / 4; font-size: 12.5px; color: var(--ink-2); }
+.seg { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 6px; overflow: hidden; }
+.seg button { font: 500 11.5px var(--f-ui); background: var(--paper); color: var(--ink-2); border: 0; padding: 2px 9px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--rule-2); }
+.seg button[data-v="use"][aria-pressed="true"] { background: var(--ok); color: var(--paper); }
+.seg button[data-v="skip"][aria-pressed="true"] { background: var(--ink-3); color: var(--paper); }
+@media (max-width: 520px) { .issue { grid-template-columns: 1fr auto; } .ik { grid-column: 1 / 3; } .idetail { grid-column: 1 / 3; } }
+
+.note { display: grid; gap: 4px; border-top: 1px dashed var(--rule); padding-top: 10px; }
+.note label { font: 600 12px var(--f-ui); color: var(--ink-2); }
+.note textarea { font: 14px/1.5 var(--f-ui); color: var(--ink); background: var(--bg); border: 1px solid var(--rule-2); border-radius: 6px; padding: 8px 10px; min-height: 44px; resize: vertical; width: 100%; }
+.note textarea:focus { background: var(--paper); }
+.notestatus { font-size: 11.5px; color: var(--ink-3); min-height: 1em; }
+.reply { font-size: 13px; color: var(--ink); background: var(--accent-soft); border-radius: 6px; padding: 6px 10px; }
+.reply b { color: var(--accent); }
+.reply summary { cursor: pointer; font-size: 12.5px; }
+.reply .replytext { margin-top: 4px; white-space: pre-wrap; }
+.reply.stale { background: var(--bg); color: var(--ink-2); }
+.reply.stale b { color: var(--ink-2); }
+
+.costs { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; display: grid; gap: 14px; min-width: 0; }
+.costs h2 { font-family: var(--f-text); font-weight: 600; font-size: 19px; margin: 0; }
+.costs h3 { font: 600 11.5px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 4px 0 0; }
+.tot { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.tot div { display: grid; }
+.tot b { font: 500 20px var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.tot span { font-size: 12px; color: var(--ink-3); max-width: 22ch; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 480px; }
+th { text-align: left; font: 600 11px var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); border-bottom: 1px solid var(--rule-2); padding: 6px 8px; }
+th.r, td.r { text-align: right; }
+td { border-bottom: 1px solid var(--rule); padding: 6px 8px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+td.r { font-family: var(--f-mono); color: var(--ink); }
+.foot { color: var(--ink-3); font-size: 12px; max-width: 70ch; }
+
+.nav { position: fixed; z-index: 6; top: calc(env(safe-area-inset-top, 0px) + 150px); right: max(16px, env(safe-area-inset-right, 0px));
+  width: 220px; max-height: calc(100vh - 180px); overflow-y: auto; background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 8px 0; display: grid; font-size: 12.5px; }
+.nav a { display: flex; gap: 8px; padding: 3px 12px; color: var(--ink-2); text-decoration: none; border-left: 2px solid transparent; }
+.nav a .k { font: 500 11px var(--f-mono); color: var(--ink-3); min-width: 26px; }
+.nav a .w { margin-left: auto; font: 600 11px var(--f-mono); color: var(--warn); }
+.nav a.sub2 { padding-left: 22px; }
+.nav a:hover { background: var(--bg); color: var(--ink); }
+.nav a[aria-current="true"] { color: var(--ink); border-left-color: var(--accent); font-weight: 600; }
+.nav hr { border: 0; border-top: 1px solid var(--rule); margin: 6px 0; }
+.navbtn { position: fixed; z-index: 7; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  font: 600 13px var(--f-ui); background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; display: none; }
+@media (max-width: 1379px) {
+  .navbtn { display: block; }
+  .nav { top: auto; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); width: min(280px, calc(100vw - 32px)); box-shadow: 0 6px 24px rgb(0 0 0 / .18); }
+  .nav:not(.open) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="titlerow">
+      <h1><code>epi_int_3d</code> paper ledger</h1>
+      <span class="sub" id="subline">Loading the paper…</span>
+    </div>
+    <div class="stats" id="stats" hidden></div>
+    <div class="bar" id="bar" hidden></div>
+    <div class="banner" id="banner" role="status" aria-live="polite" hidden></div>
+  </div>
+</header>
+
+<nav class="nav" id="nav" aria-label="Sections"></nav>
+<button class="navbtn" id="navbtn" aria-controls="nav" aria-expanded="false">Sections</button>
+
+<main>
+  <div class="wrap" id="list">
+    <div class="notice" id="notice">Loading the paper. Each section will appear here as a card with its text, its open issues and a box for your notes to Claude.</div>
+  </div>
+</main>
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [["$", "$"]], displayMath: [], processEnvironments: true, tags: "none" },
+    svg: { fontCache: "global" },
+    options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] },
+    startup: { typeset: false, ready: () => { MathJax.startup.defaultReady(); window.dispatchEvent(new Event("mathjax-ready")); } }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" async></script>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const el = (tag, attrs = {}, ...kids) => {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") e.className = v; else if (k === "text") e.textContent = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? "" : v);
+    }
+    for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(k));
+    return e;
+  };
+  const money = x => "$" + Number(x || 0).toFixed(2);
+  const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+
+  const state = { cards: [], summary: null, costs: null, notes: {}, replies: {}, filter: "all", db: null,
+    canWrite: true, loaded: false, working: null, updated: new Set(), banner: "", applyMsg: "", sentAt: 0 };
+  const filters = [["all", "All"], ["attention", "Has issues"], ["noted", "Has my note"]];
+  const hasNote = id => { const n = state.notes[id] || {}; return !!(n.text || "").trim() || !!Object.keys(n.fixes || {}).length; };
+  const match = (c, f) => f === "all" ? true : f === "attention" ? c.state === "attention" : hasNote(c.id);
+
+  // math: each card's text is built and typeset once, then reused across renders
+  const textCache = new Map();
+  let mathReady = false;
+  const typeset = nodes => { if (mathReady && nodes.length) window.MathJax.typesetPromise(nodes).catch(() => {}); };
+  window.addEventListener("mathjax-ready", () => { mathReady = true; typeset([...textCache.values()].map(x => x.node)); });
+  function textOf(c) {
+    const cached = textCache.get(c.id);
+    if (cached && cached.html === c.html) return cached.node;
+    const node = el("div", {class: "text"});
+    node.innerHTML = c.html;      // written by tools/ledger.py from the paper
+    for (const f of node.querySelectorAll("figure.fig")) {
+      const id = f.dataset.asset;
+      const img = id ? el("img", {src: "/_blob/" + id, alt: "Figure: " + (f.querySelector("figcaption")?.textContent || "").slice(0, 120), loading: "lazy"})
+        : el("div", {class: "missing", text: "Figure " + f.dataset.png + " isn't uploaded yet."});
+      f.prepend(img);
+    }
+    textCache.set(c.id, {html: c.html, node});
+    typeset([node]);
+    return node;
+  }
+
+  function pendingNotes() {
+    return Object.entries(state.notes).filter(([id, n]) => ((n.text || "").trim() || Object.keys(n.fixes || {}).length) &&
+      (!state.replies[id] || (state.replies[id].at || "") < (n.updatedAt || ""))).length;
+  }
+
+  function renderTop() {
+    const s = state.summary || {}, C = state.cards;
+    $("#subline").textContent = `${plural(C.length, "card")}, one per section · paper as of commit ${s.commit || "?"}, ${s.commitDate || ""}`;
+    const st = $("#stats"); st.hidden = false;
+    st.replaceChildren(
+      el("span", {class: "stat"}, el("b", {text: String(C.filter(c => c.state === "attention").length)}), " cards with issues"),
+      el("span", {class: "stat", title: "Items of the dependency chain (equations, checks, code, tests, figures, claims) whose inputs haven't changed since they were last checked"},
+        "chain ", el("b", {text: `${s.chain_ok ?? "—"}/${s.chain_total ?? "—"}`}), " current"),
+      el("span", {class: "stat"}, "equations you've hand-checked ", el("b", {text: `${s.hand_yes ?? "—"}/${s.hand_needed ?? "—"}`})),
+      el("span", {class: "stat"}, "paid ", el("b", {text: money(s.paid_usd)}), " · ", el("a", {href: "#costs", text: "Costs"})));
+    const bar = $("#bar"); bar.hidden = false;
+    const pending = pendingNotes();
+    bar.replaceChildren(
+      ...filters.map(([k, label]) => el("button", {class: "chip", "aria-pressed": String(state.filter === k),
+        onclick: () => { state.filter = k; if (location.hash === "#costs") history.pushState(null, "", location.pathname + location.search); render(); }},
+        label, el("span", {class: "n", text: String(C.filter(c => match(c, k)).length)}))),
+      el("button", {class: "apply", id: "apply", onclick: e => applyNotes(e.currentTarget)}, pending ? `Apply changes (${pending})` : "Apply changes"),
+      el("span", {class: "applymsg", id: "applymsg", text: state.applyMsg || ""}));
+    const ban = $("#banner");
+    ban.hidden = !state.banner; ban.className = "banner" + (state.working ? " working" : ""); ban.textContent = state.banner || "";
+    renderNav();
+  }
+
+  // "Apply changes" posts a comment and sends it to Claude; the Claude Code session watching this page
+  // reads the notes from the database, revises the paper and replies on each card
+  async function applyNotes(btn) {
+    const say = t => { state.applyMsg = t; const m = document.getElementById("applymsg"); if (m) m.textContent = t; };
+    if (state.sentAt && Date.now() - state.sentAt < 90000) { say("Already sent. Claude is still working on it."); return; }
+    if (!pendingNotes()) { say("No new notes to apply. Type a note or choose Use or Skip on an issue first."); return; }
+    btn.disabled = true; say("Sending to Claude…");
+    try {
+      const c = await window.claude?.use?.("comments").catch(() => null);
+      if (!c || !c.sendToClaude) { say("This view can't send to Claude. In Claude Code, say \"apply my ledger notes\"."); return; }
+      const can = await c.canSendToClaude().catch(() => "off");
+      if (can !== "available") {
+        say(can === "no_session" ? "No Claude Code session is watching this page. Open Claude Code in the repo and say \"apply my ledger notes\"."
+          : can === "writers_only" ? "Only the page's editors can send notes to Claude." : "Sending to Claude isn't available here. In Claude Code, say \"apply my ledger notes\".");
+        return;
+      }
+      const anchor = await c.anchorFor(btn);
+      await c.sendToClaude({anchor, text: "Apply my ledger notes: read the notes and Use/Skip choices on this ledger, revise the paper, and reply on each card."});
+      state.sentAt = Date.now(); state.working = new Date().toISOString(); state.updated = new Set();
+      state.banner = "Working: Claude is revising the paper in Claude Code. This usually takes a few minutes. Each card updates on its own when Claude replies.";
+      say(""); renderTop();
+    } catch (err) {
+      say(err?.code === "consent_required" ? "Not sent: allow this page to comment for you, then click again."
+        : err?.code === "rate_limited" ? "Sent recently. Give Claude a minute before sending again."
+        : "Not sent. Try again, or in Claude Code say \"apply my ledger notes\".");
+    } finally { btn.disabled = false; }
+  }
+
+  function renderNav() {
+    const nav = $("#nav"), C = state.cards;
+    nav.replaceChildren(
+      el("a", {href: "#", onclick: e => { e.preventDefault(); goTo(null); }}, el("span", {class: "k", text: "↑"}), "Top"),
+      el("hr"),
+      ...C.map(c => el("a", {href: "#", class: c.level === 2 ? "sub2" : "", "data-card": c.id, onclick: e => { e.preventDefault(); goTo("card-" + c.id); }},
+        el("span", {class: "k", text: c.number || "·"}), el("span", {text: plainTitle(c)}),
+        c.issues?.length ? el("span", {class: "w", title: "open issues", text: String(c.issues.length)}) : null)),
+      el("hr"),
+      el("a", {href: "#costs", onclick: () => closeNav()}, el("span", {class: "k", text: "$"}), "Costs"));
+    spy();
+  }
+  const plainTitle = c => { const d = document.createElement("div"); d.innerHTML = c.title; return d.textContent; };
+  function goTo(id) {
+    closeNav();
+    if (location.hash === "#costs") { history.pushState(null, "", location.pathname + location.search); render(); }
+    if (!id) { window.scrollTo({top: 0, behavior: "smooth"}); return; }
+    let t = document.getElementById(id);
+    if (!t && state.filter !== "all") { state.filter = "all"; render(); t = document.getElementById(id); }
+    t?.scrollIntoView({behavior: "smooth", block: "start"});
+  }
+  function closeNav() { $("#nav").classList.remove("open"); $("#navbtn").setAttribute("aria-expanded", "false"); }
+  let spyObs = null;
+  function spy() {
+    spyObs?.disconnect();
+    if (!("IntersectionObserver" in window)) return;
+    spyObs = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting)
+        for (const a of document.querySelectorAll(".nav a[data-card]")) a.setAttribute("aria-current", String("card-" + a.dataset.card === e.target.id));
+    }, {rootMargin: "-150px 0px -60% 0px"});
+    document.querySelectorAll(".card").forEach(h => spyObs.observe(h));
+  }
+
+  function replyBlock(id) {
+    const n = state.notes[id] || {}, rep = state.replies[id];
+    if (!rep?.reply) return null;
+    const stale = (n.updatedAt || "") > (rep.at || "");
+    const when = rep.at ? new Date(rep.at).toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}) : "";
+    return el("details", {class: "reply" + (stale ? " stale" : ""), open: stale ? null : true},
+      el("summary", {}, el("b", {text: stale ? "Claude's earlier reply" : rep.status === "done" ? "✓ Claude applied this" : "Claude replied"}),
+        when ? ` · ${when}` : "", stale ? " · your newer changes aren't applied yet" : ""),
+      el("div", {class: "replytext", text: rep.reply}));
+  }
+
+  function issuesBlock(c) {
+    const issues = c.issues || [];
+    if (!issues.length) return null;
+    const box = el("div", {class: "issues"});
+    const fill = () => {
+      const g = state.notes[c.id]?.fixes || {};
+      box.replaceChildren(
+        el("div", {class: "issuebar"}, plural(issues.length, "issue"),
+          el("button", {class: "recbtn", onclick: () => chooseRecommended(c)}, "Use recommended"),
+          el("span", {class: "sub", text: "★ Claude recommends acting on it"})),
+        ...issues.map(i => el("div", {class: "issue" + (g[i.id] === "skip" ? " skipped" : "")},
+          el("span", {class: "ik " + i.kind, text: i.kind}),
+          el("span", {class: "itext"}, i.rec ? el("b", {class: "star", text: "★ "}) : null, i.text),
+          el("span", {class: "seg"}, ...["use", "skip"].map(v => el("button", {"data-v": v, "aria-pressed": String(g[i.id] === v),
+            onclick: () => chooseFix(c, i, g[i.id] === v ? "" : v), text: v === "use" ? "Use" : "Skip"}))),
+          i.detail || i.fix ? el("div", {class: "idetail", text: [i.detail, i.fix ? "Fix: " + i.fix : ""].filter(Boolean).join(" ")}) : null)));
+    };
+    fill(); box._fill = fill; return box;
+  }
+  function chooseFix(c, i, v) {
+    const fixes = {...(state.notes[c.id]?.fixes || {})};
+    if (v) fixes[i.id] = v; else delete fixes[i.id];
+    saveNote(c.id, {fixes});
+  }
+  function chooseRecommended(c) {
+    const fixes = {...(state.notes[c.id]?.fixes || {})};
+    for (const i of c.issues || []) fixes[i.id] = i.rec ? "use" : "skip";
+    saveNote(c.id, {fixes});
+  }
+
+  function card(c) {
+    const f = c.facts || {};
+    const facts = el("div", {class: "facts"},
+      el("span", {}, el("b", {text: String(c.words)}), " words"),
+      f.items ? el("span", {title: "This section's equations, figures and claims in the dependency chain"},
+        el("b", {text: `${f.items_ok}/${f.items}`}), " chain items current") : null,
+      f.equations ? el("span", {title: "The derived equations behind this section (notes/equations.md): all are checked by sympy"},
+        el("b", {text: `${f.equations_hand}/${f.equations}`}), " equations hand-checked") : null);
+    const ta = el("textarea", {id: `note-${c.id}`, rows: "2", placeholder: "Edits or questions for this section, e.g. change \"…\" to \"…\""});
+    ta.value = state.notes[c.id]?.text || "";
+    if (!state.canWrite) ta.disabled = true;
+    const status = el("div", {class: "notestatus", id: `ns-${c.id}`});
+    let timer = null;
+    ta.addEventListener("input", () => { status.textContent = "Typing…"; clearTimeout(timer); timer = setTimeout(() => { timer = null; saveNote(c.id, {text: ta.value}); }, 900); });
+    ta.addEventListener("blur", () => { if (timer) { clearTimeout(timer); timer = null; saveNote(c.id, {text: ta.value}); } });
+    const issues = issuesBlock(c);
+    const art = el("article", {class: "card", "data-state": c.state, id: `card-${c.id}`},
+      el("div", {class: "cardhead"},
+        (() => { const h = el("h2"); h.innerHTML = c.title; h.prepend(el("span", {class: "num", text: c.number})); return h; })(),
+        el("span", {class: "pill " + c.state, text: c.state === "attention" ? plural(c.issues.length, "issue") : "No open issues"})),
+      facts, textOf(c), issues,
+      el("div", {class: "note"}, el("label", {for: `note-${c.id}`, text: "Your note to Claude"}), ta, status, replyBlock(c.id)));
+    art._issues = issues;
+    return art;
+  }
+
+  function redraw(id) {
+    const old = document.getElementById(`card-${id}`), c = state.cards.find(x => x.id === id);
+    if (old && c) old.replaceWith(card(c));
+  }
+
+  function renderCosts() {
+    const k = state.costs || {}, P = k.phases || [], sub = k.subscription || {};
+    $("#list").replaceChildren(
+      el("p", {}, el("a", {href: "#", text: "← Back to the paper"})),
+      el("section", {class: "costs", id: "costs"},
+        el("h2", {text: "What the project has cost"}),
+        el("div", {class: "tot"},
+          el("div", {}, el("b", {text: money(k.paid_usd)}), el("span", {text: `paid: the Claude Code subscription (${sub.months || "?"} × ${money(sub.per_month)}) plus outside reviews`})),
+          el("div", {}, el("b", {text: money(k.cc_usd)}), el("span", {text: "Claude Code at API prices, what the same work would cost pay-as-you-go"})),
+          el("div", {}, el("b", {text: money(k.outside_usd)}), el("span", {text: "outside reviews (GPT, Gemini) through OpenRouter"})),
+          el("div", {}, el("b", {text: `${k.joe_hours ?? "—"} h`}), el("span", {text: "your time, in sessions plus logged off-session hours"})),
+          el("div", {}, el("b", {text: `${k.cc_hours ?? "—"} h`}), el("span", {text: "Claude Code working"}))),
+        el("h3", {text: "By phase"}),
+        el("div", {class: "tablewrap"}, el("table", {},
+          el("thead", {}, el("tr", {}, el("th", {text: "Phase"}), el("th", {class: "r", text: "Claude Code (API prices)"}),
+            el("th", {class: "r", text: "Claude Code hours"}), el("th", {class: "r", text: "Your hours"}), el("th", {class: "r", text: "Outside reviews"}))),
+          el("tbody", {}, ...P.map(r => el("tr", {}, el("td", {text: r.phase + (r.open ? " (open session not yet counted)" : "")}),
+            el("td", {class: "r", text: money(r.cc_usd)}), el("td", {class: "r", text: String(r.cc_hours)}),
+            el("td", {class: "r", text: String(r.joe_hours)}), el("td", {class: "r", text: r.outside_usd ? money(r.outside_usd) : "—"})))))),
+        el("p", {class: "foot", text: "A Claude Code session's cost is counted when the session ends. The subscription is counted from " + (sub.since || "the project's start") + ", one payment per month begun."})));
+  }
+
+  function render() {
+    renderTop();
+    if (location.hash === "#costs") { renderCosts(); window.scrollTo(0, 0); return; }
+    const keep = document.activeElement?.id;
+    const out = []; let sec = null;
+    for (const c of state.cards) {
+      if (!match(c, state.filter)) continue;
+      if (c.section !== sec) { sec = c.section; if (c.level === 2 || c.appendix) out.push(el("h3", {class: "sechead", text: (c.appendix ? "Appendix " : "Section ") + sec})); }
+      out.push(card(c));
+    }
+    if (!out.length) out.push(el("div", {class: "notice", text: state.filter === "attention" ? "No section has open issues." : "No section has a note from you yet."}));
+    out.push(el("p", {class: "foot", text: "Built by tools/ledger.py from the paper, the dependency chain and the reviews. Equations are numbered as in the PDF; numbers from the simulations are filled in from paper/numbers/."}));
+    $("#list").replaceChildren(...out);
+    spy();
+    if (keep) { const k = document.getElementById(keep); if (k) { k.focus(); if (k.setSelectionRange) k.setSelectionRange(k.value.length, k.value.length); } }
+  }
+
+  const writing = {};
+  async function saveNote(id, patch) {
+    const status = document.getElementById(`ns-${id}`);
+    const next = {...(state.notes[id] || {}), ...patch, updatedAt: new Date().toISOString(), card: id};
+    state.notes[id] = next;
+    if ("fixes" in patch) { document.getElementById(`card-${id}`)?._issues?._fill(); }
+    renderTop();
+    if (!state.db) { if (status) status.textContent = "Can't save: the page's storage isn't available in this view."; return; }
+    if (writing[id]) { writing[id].again = true; return; }
+    writing[id] = {again: false};
+    if (status) status.textContent = "Saving…";
+    try {
+      await state.db.doc(`notes/${id}`).set({text: next.text || "", fixes: next.fixes || {}, updatedAt: next.updatedAt, card: id});
+      if (status) status.textContent = "Saved";
+    } catch (err) {
+      if (err?.code === "invalid_argument" || err?.code === "permission_denied") { state.canWrite = false; if (status) status.textContent = "You can read this page but not save notes."; }
+      else if (status) status.textContent = "Not saved. Check your connection and edit again.";
+    } finally {
+      const again = writing[id].again; delete writing[id];
+      if (again) saveNote(id, {});
+    }
+  }
+
+  async function start() {
+    const notice = $("#notice");
+    const db = await window.claude?.use?.("db").catch(() => null);
+    if (!db) { notice.textContent = "This view can't load the paper. Open the ledger on claude.ai while signed in."; return; }
+    state.db = db;
+    const timer = setTimeout(() => { if (!state.loaded) notice.textContent = "The paper can't be reached yet. It will appear here as soon as it loads."; }, 10000);
+    db.collection("cards").orderBy("order").onSnapshot(snap => {
+      state.cards = snap.docs.map(d => d.data());
+      if (!snap.metadata?.fromCache) { state.loaded = true; clearTimeout(timer); }
+      if (!state.cards.length) { notice.textContent = "No cards yet. Claude fills this page from the paper with tools/ledger.py."; return; }
+      render();
+    }, () => { clearTimeout(timer); notice.textContent = "The paper stopped loading. Reload the page to try again."; });
+    db.doc("meta/summary").onSnapshot(s => { state.summary = s.exists ? s.data() : null; if (state.cards.length) renderTop(); }, () => {});
+    db.doc("meta/costs").onSnapshot(s => { state.costs = s.exists ? s.data() : null; if (state.cards.length && location.hash === "#costs") renderCosts(); }, () => {});
+    db.collection("notes").onSnapshot(snap => {
+      for (const d of snap.docs) if (!writing[d.id]) state.notes[d.id] = d.data();
+      if (state.cards.length) {
+        for (const d of snap.docs) {
+          const ta = document.getElementById(`note-${d.id}`);
+          if (ta && document.activeElement !== ta && !writing[d.id]) ta.value = d.data().text || "";
+          document.getElementById(`card-${d.id}`)?._issues?._fill();
+        }
+        renderTop();
+      }
+    }, () => {});
+    db.collection("replies").onSnapshot(snap => {
+      const before = state.replies;
+      state.replies = Object.fromEntries(snap.docs.map(d => [d.id, d.data()]));
+      if (state.cards.length && location.hash !== "#costs")
+        for (const id of Object.keys(state.replies)) if (JSON.stringify(before[id]) !== JSON.stringify(state.replies[id]) && document.activeElement?.id !== `note-${id}`) redraw(id);
+      if (state.working) {
+        for (const [id, r] of Object.entries(state.replies)) if ((r.at || "") > state.working) state.updated.add(id);
+        if (state.updated.size) {
+          state.banner = `Done: Claude replied on ${plural(state.updated.size, "card")}. Read the replies under your notes.`;
+          state.working = null;
+          setTimeout(() => { if (!state.working) { state.banner = ""; renderTop(); } }, 30000);
+        }
+      }
+      if (state.cards.length) renderTop();
+    }, () => {});
+  }
+  window.addEventListener("hashchange", () => { if (state.cards.length) render(); });
+  $("#navbtn").addEventListener("click", () => { const open = $("#nav").classList.toggle("open"); $("#navbtn").setAttribute("aria-expanded", String(open)); });
+  start();
+})();
+</script>

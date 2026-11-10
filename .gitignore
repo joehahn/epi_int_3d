@@ -52,3 +52,7 @@ paper/diff/
 
 # API keys for the outside reviewers (OpenRouter): never committed
 .env
+
+# the paper ledger's database documents, rebuilt by tools/ledger.py
+notes/ledger/db/
+notes/ledger/*.tmp.csv
