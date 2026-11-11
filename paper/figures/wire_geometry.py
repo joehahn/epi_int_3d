@@ -4,7 +4,7 @@
 #for notes/phase2/streamline_gravity.md.
 #hahn13 Fig. 3 moved and tilted into 3D: the gravity that a perturbing streamline a', treated as a
 #straight wire, exerts on a particle (equation G12 of notes/sympy/streamline_gravity.py). Seen from above, the wire raised a height d_z above the particle
-#but still horizontal is the planar geometry of the paper's Appendix B (wire_planar.py), with the
+#but still horizontal is the planar geometry of the paper's Appendix A (wire_planar.py), with the
 #horizontal perpendicular Delta_h = d_r cos(phi). Then:
 #(a) the vertical plane through that horizontal perpendicular: the full perpendicular Delta is the
 #    hypotenuse of Delta_h and d_z, and A_g = 2 G lambda/Delta acts along it;

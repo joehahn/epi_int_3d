@@ -120,23 +120,40 @@ Equations (\ref{eqn:eom_cyl}) then become
     \ddot{z} &=& -\nu^2(r)z + {\cal O}(z^3).
 \end{eqnarray}
 
-To first order the radial equation does not involve $z$; it is the planar equation of
-motion. \cite{H25} solved the radial part of Eqns.\ (\ref{eqn:eom_expand}) to first order in
-small displacements from circular motion, in a form that is exactly reversible: the
-conversion from the coordinates $r, \theta, v_r, v_\theta$ to the epicyclic elements
-$a, e, \tilde{\omega}, M$, and back, is exact. This is required if the solution is to be
-used in the drift step of a drift-kick N-body integrator. That solution is summarized in
-Appendix \ref{sec:appendix_inplane}. In it the particle's radius is $r = a[1 + {\cal O}(e)]$,
-its mean longitude $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$ advances at the mean
-angular velocity $\Omega_a$, and its mean anomaly $M$ advances at the epicyclic frequency
-$\kappa_a$. Note that $\Omega$ denotes the longitude of ascending node, while $\Omega_a$ is
-the mean angular velocity.
+To first order the radial equation does not involve $z$; it is the planar equation of motion. The
+vertical equation is that of a harmonic oscillator whose frequency depends on $r$. The vertical forces
+that the ring and satellites exert enter the kick step and are treated separately.
 
-So the only additional physics that \code{epi\_int\_lite}'s drift step needs in order to follow
-out-of-plane motion is the vertical equation of motion, the second of
-Eqns.\ (\ref{eqn:eom_expand}); the vertical forces that the ring and satellites exert enter
-the kick step and are treated separately. Evaluating $\nu^2(r)$ at $r = a$ reduces the
-vertical equation to the harmonic oscillator
+\subsection{Solution}
+\label{sec:elem2coords}
+
+\cite{H25} solved the planar equation of motion, the first of Eqns.\ (\ref{eqn:eom_expand}), to first
+order in small displacements from circular motion, in a form that is exactly reversible: the conversion
+from the coordinates $r, \theta, v_r, v_\theta$ to the epicyclic elements $a, e, \tilde{\omega}, M$, and
+back, is exact. This is required if the solution is to be used in the drift step of a drift-kick N-body
+integrator. That solution (Appendix A of \citealt{H25}) is restated here in the notation of this paper.
+The mean angular velocity and epicyclic frequency at semimajor axis $a$ are
+\begin{eqnarray}
+    \label{eqn:Omega_kappa}
+    \Omega_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2} \nonumber\\
+    \kappa_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 - \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
+\end{eqnarray}
+and the particle's coordinates are (Eqn.\ A9 of \citealt{H25})
+\begin{eqnarray}
+    \label{eqn:inplane}
+    r &=& \frac{a}{\sqrt{1 + 2e\cos M}} \nonumber\\
+    \theta &=& \frac{\Omega_a}{\kappa_a}(M + 2e\sin M) + \tilde{\omega} \nonumber\\
+    v_r &=& ea\kappa_a\sin M\left(\frac{r}{a}\right)^3 \nonumber\\
+    v_\theta &=& \frac{a^2\Omega_a}{r}.
+\end{eqnarray}
+These conserve $h = rv_\theta = a^2\Omega_a$ exactly and solve the planar equation of motion with errors
+of order ${\cal O}(e^2)$. The particle's radius is $r = a[1 + {\cal O}(e)]$. Its mean anomaly $M$ advances
+at the epicyclic frequency $\kappa_a$, while $a$, $e$ and $\tilde{\omega}$ are constant, so its mean
+longitude $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$ advances at the mean angular velocity
+$\Omega_a$.
+
+Evaluating $\nu^2(r)$ at $r = a$ reduces the vertical equation of motion, the second of
+Eqns.\ (\ref{eqn:eom_expand}), to the harmonic oscillator
 \begin{equation}
     \label{eqn:z_oscillator}
     \ddot{z} = -\nu_a^2 z,
@@ -159,9 +176,6 @@ $\kappa_a^2 = 3\Omega_a^2 + \partial^2\Phi/\partial r^2$ and
 $\nu_a^2 = \partial^2\Phi/\partial z^2$, Eqn.\ (\ref{eqn:laplace}) relates the three
 frequencies via $\kappa_a^2 + \nu_a^2 = 2\Omega_a^2$.
 
-\subsection{Vertical solution}
-\label{sec:elem2coords}
-
 The solution of Eqn.\ (\ref{eqn:z_oscillator}) is a sinusoid of frequency $\nu_a$ whose
 amplitude and phase define two new orbit elements, the inclination $i$ and the longitude of
 ascending node $\Omega$:
@@ -175,7 +189,8 @@ where the node regresses at the rate
     \label{eqn:node}
     \dot{\Omega} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a.
 \end{equation}
-The vertical phase $\lambda - \Omega$ then advances at exactly $\nu_a$, so
+Note that $\Omega$ is the longitude of ascending node, while $\Omega_a$ is the mean angular velocity.
+The vertical phase $\lambda - \Omega$ advances at exactly $\nu_a$, so
 Eqns.\ (\ref{eqn:zvz}) solve Eqn.\ (\ref{eqn:z_oscillator}) exactly, with $v_z = \dot{z}$,
 and the particle crosses the ring plane upward at longitude $\lambda = \Omega$.
 Measuring the phase from $\lambda$ rather than $\theta$ is what keeps the vertical motion
@@ -184,11 +199,19 @@ a pure harmonic oscillator; $\theta - \Omega$ would add an ${\cal O}(ei)$ error 
 \subsection{Coordinates to elements}
 \label{sec:coords2elem}
 
-Equations (\ref{eqn:zvz}) are inverted by a fifth step that follows steps 1--4 of
-Appendix \ref{sec:appendix_inplane}. Step 1 remains exact in three dimensions because $h$
-is conserved and $r$ is the cylindrical radius, so steps 1--4 provide $a$, $\Omega_a$,
-$\kappa_a$, $e$, $M$, $\tilde{\omega}$, and so $\lambda$. Step 5 computes $\nu_a$ from
-Eqn.\ (\ref{eqn:nu}) and then
+Equations (\ref{eqn:inplane}) and (\ref{eqn:zvz}) are inverted exactly in five steps. The first four
+are those of \cite{H25}:
+\begin{enumerate}
+\item Compute $h = rv_\theta$, then solve $h^2 = a^4\Omega_a^2$ for the semimajor axis,
+    $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h^2/2GM_pR_p$.
+\item Compute $\Omega_a$ and $\kappa_a$ from Eqns.\ (\ref{eqn:Omega_kappa}).
+\item Compute $e\sin M = (v_r/a\kappa_a)(a/r)^3$ and $e\cos M = \frac{1}{2}[(a/r)^2 - 1]$,
+    which give $e$ and $M$.
+\item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$, and so
+    $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$.
+\end{enumerate}
+Step 1 remains exact in three dimensions because $h$ is conserved and $r$ is the cylindrical radius.
+The fifth step, which is new, computes $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
 \begin{eqnarray}
     \label{eqn:i_node}
     i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu_a}\right)^2} \nonumber\\
@@ -539,39 +562,6 @@ resonance.}
 
 
 \appendix
-
-\section{The in-plane solution of Hahn et al.\ (2025)}
-\label{sec:appendix_inplane}
-
-This appendix summarizes the first-order, exactly reversible solution of the planar equation
-of motion from Appendix A of \cite{H25}, in the notation used here. The mean angular velocity
-and epicyclic frequency at semimajor axis $a$ are
-\begin{eqnarray}
-    \label{eqn:Omega_kappa}
-    \Omega_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2} \nonumber\\
-    \kappa_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 - \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2}.
-\end{eqnarray}
-In terms of the epicyclic elements $a$, $e$, $\tilde{\omega}$ and $M$, the particle's
-coordinates are
-\begin{eqnarray}
-    \label{eqn:inplane}
-    r &=& \frac{a}{\sqrt{1 + 2e\cos M}} \nonumber\\
-    \theta &=& \frac{\Omega_a}{\kappa_a}(M + 2e\sin M) + \tilde{\omega} \nonumber\\
-    v_r &=& ea\kappa_a\sin M\left(\frac{r}{a}\right)^3 \nonumber\\
-    v_\theta &=& \frac{a^2\Omega_a}{r},
-\end{eqnarray}
-which conserve $h = rv_\theta = a^2\Omega_a$ exactly and solve the planar equation of motion
-with errors of order ${\cal O}(e^2)$. The elements advance as $M \rightarrow M + \kappa_a\Delta t$,
-with $a$, $e$ and $\tilde{\omega}$ constant. Equations (\ref{eqn:inplane}) are inverted exactly by:
-\begin{enumerate}
-\item Compute $h = rv_\theta$, then solve $h^2 = a^4\Omega_a^2$ for the semimajor axis,
-    $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h^2/2GM_pR_p$.
-\item Compute $\Omega_a$ and $\kappa_a$ from Eqns.\ (\ref{eqn:Omega_kappa}).
-\item Compute $e\sin M = (v_r/a\kappa_a)(a/r)^3$ and $e\cos M = \frac{1}{2}[(a/r)^2 - 1]$,
-    which give $e$ and $M$.
-\item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$.
-\end{enumerate}
-
 
 \section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}
 \label{sec:appendix_wire2d}

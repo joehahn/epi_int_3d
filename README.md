@@ -86,7 +86,7 @@ from are listed in [joes_papers/README.md](joes_papers/README.md); only the open
 minor, and none is known to change the findings of Hahn et al. (2025). `source/` stays a straight
 port, bugs included. The fixes are applied at run time (`tools/patches.py`) or in
 `fast/epi_int_3d.py`. epi_int_3d's ring gravity has its three fixes on by default (the paper's
-Appendix B); its input `epi_int_lite_gravity = True` turns them off. The other fixes, except the
+Appendix A); its input `epi_int_lite_gravity = True` turns them off. The other fixes, except the
 crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py` with
 `epi_int_lite_gravity = True` (as the regression tests set it, and `run_simulations.py --fast` for
 the tests ported from epi_int_lite),

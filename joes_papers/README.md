@@ -23,7 +23,9 @@ Only papers with an open license are committed to this repo; for the others, use
 | `hahn08.pdf` | Hahn, J. M. 2008, ApJ, 680, 1569 — The secular evolution of a close ring-satellite system: the excitation of spiral density waves at a nearby gap edge | no (© AAS) | [doi:10.1086/588019](https://doi.org/10.1086/588019), [arXiv:0803.0576](https://arxiv.org/abs/0803.0576), [SciX 2008ApJ...680.1569H](https://scixplorer.org/abs/2008ApJ...680.1569H) |
 | `hahn07.pdf` | Hahn, J. M. 2007, ApJ, 665, 856 — The secular evolution of a close ring-satellite system: the excitation of spiral bending waves at a nearby gap edge | no (© AAS) | [doi:10.1086/519275](https://doi.org/10.1086/519275), [arXiv:0705.3797](https://arxiv.org/abs/0705.3797), [SciX 2007ApJ...665..856H](https://scixplorer.org/abs/2007ApJ...665..856H) |
 | `ward03.pdf` | Ward, W. R., & Hahn, J. M. 2003, AJ, 125, 3389 — Spiral bending waves launched at a vertical secular resonance | no (© AAS) | [doi:10.1086/374941](https://doi.org/10.1086/374941), [SciX 2003AJ....125.3389W](https://scixplorer.org/abs/2003AJ....125.3389W) |
+| `hahn95.pdf` | Hahn, J. M., Ward, W. R., & Rettig, T. W. 1995, Icarus, 117, 25 — Resonant trapping in a self-gravitating planetesimal disk (density waves at Lindblad resonances) | no (© Elsevier) | [doi:10.1006/icar.1995.1140](https://doi.org/10.1006/icar.1995.1140), [SciX 1995Icar..117...25H](https://scixplorer.org/abs/1995Icar..117...25H) |
 
 The five papers after hahn13 were retrieved on 2026-10-31 from the Wayback Machine's copies of the author's
 old SSI web page (`gemelli.spacescience.org/~hahnjm/pubs.html`, captured 2025-06-28), and each citation was
-checked against SciX the same day. The full publication list is on SciX (author "Hahn, J. M.").
+checked against SciX the same day. `hahn95.pdf`, a scan without a text layer, was copied from the author's
+Dropbox on 2026-11-11 and checked against SciX that day; it bears on the planned density-wave work. The full publication list is on SciX (author "Hahn, J. M.").

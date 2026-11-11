@@ -7,7 +7,7 @@
 #    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
 #    r and r' come from the planet, far off to the left.
 #    Vectors are drawn heavier than the streamline.
-#wire_velocity: the paper's Appendix B figure. At the crossing point the streamline's shape has the slope
+#wire_velocity: the paper's Appendix A figure. At the crossing point the streamline's shape has the slope
 #    tan(phi) = s_r = dr'/(r dtheta), while its velocity v' (dashed) is tilted less when the shape
 #    rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
 #
@@ -82,7 +82,7 @@ ax.text(-0.5, F[1]/2, r"$r'\,\delta\theta'$", fontsize=10, ha='right', va='cente
 ax.text(-0.12, 0.3, 'particle', ha='right', fontsize=10)
 save(fig, 'wire_planar')
 
-#Appendix B: the shape's slope and the velocity at the crossing point
+#Appendix A: the shape's slope and the velocity at the crossing point
 fig, ax = plt.subplots(figsize=(2.6, 3.0))
 ax.set_aspect('equal')
 ax.axis('off')

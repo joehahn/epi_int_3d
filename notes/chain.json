@@ -344,9 +344,9 @@
    ]
   },
   {
-   "id": "paper:appendix_inplane",
+   "id": "paper:inplane",
    "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#sec:appendix_inplane",
+   "anchor": "paper/epi_int_3d.tex#sec:elem2coords",
    "needs": [
     "sympy:H1",
     "sympy:H2",

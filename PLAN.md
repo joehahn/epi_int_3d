@@ -280,7 +280,7 @@ constant to 2e-13, nodes at Ω_a − ν_a to 3e-11 rad; versus exact 3D J2 integ
 off by −4i² (= cos⁸i − 1, since a comes from h_z) plus O(e²). Next: vertical streamline gravity (2b).
 
 **Status (2026-10-29):** step 2, vertical streamline gravity, is done (`notes/phase3/vertical_gravity.md`):
-the 3D wire of the paper's Eqn. 23 as the kernel `ring_gravity_3d`, input `vertical_gravity` (default on);
+the 3D wire of the paper's Eqn. 25 as the kernel `ring_gravity_3d`, input `vertical_gravity` (default on);
 z = 0 runs unchanged bit for bit. A rigidly inclined narrow ringlet's nodes stay locked (±0.012 rad) where
 without it they spread 0.39 rad. Next: the quantitative inclined-ringlet test (nodal libration versus
 theory), then satellite forcing (2c).
@@ -350,14 +350,14 @@ density waves are the first feature built through the whole pipeline.
      the drift, ring-gravity and satellite code and the test helpers; `test_vertical.py`, `test_kernels.py`;
      the inclined, vertical_resonance and bending_waves notebooks; the three figure scripts; every labeled
      equation and figure of the paper and 15 of its claims (paragraphs). Not in it yet: the paper's numbers
-     (item 3 will make them nodes), the 2D regression suite, the explore/ runs behind Appendix C.
+     (item 3 will make them nodes), the 2D regression suite, the explore/ runs behind Appendix B.
      `notes/sympy/viscous_overstability.py` prints True/False instead of asserting; its check command fails
      on a False.
    - *Built 2026-11-10:* `tools/paper_numbers.py` computes each quoted number from its run and writes
      `paper/numbers/<test>.tex` (`\newcommand`s, each with its source), which the paper `\input`s; each file is a
      chain node, so a rerun that changes a number marks the claims quoting it stale. First: Section 4.2 and
      Fig. vres (16 numbers, from `tests/vertical_resonance`); the PDF's text is unchanged. Still typed in:
-     Appendices B and C, whose numbers come from git-ignored `benchmark/runs/` and `explore/` runs; they move
+     Appendices A and B, whose numbers come from git-ignored `benchmark/runs/` and `explore/` runs; they move
      to macros when those runs are scripted. The averaging start, 10^4 orbits, is set in both the figure
      script and `paper_numbers.py`.
 4. **The ledger.** A claude.ai artifact dashboard, as in ABW, with its own database that the page
