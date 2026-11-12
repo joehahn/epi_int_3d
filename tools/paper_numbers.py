@@ -29,7 +29,8 @@ sys.path.insert(0, os.path.join(repo_folder, 'source'))
 sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
-from vertical_analysis import load3d, forced_vertical, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a
+from vertical_analysis import (load3d, forced_vertical, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
+    resonance_frequencies, satellite_torque, ring_angular_momentum)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -101,6 +102,13 @@ def vertical_resonance_numbers():
     z_error = np.abs(o['z'] - exact['z']).max()
     print('max |z - B11| =', z_error)
     numbers += [('vresZerror', latex_number(z_error, 1, up=True), 'max |z - B11|, rounded up')]
+    #nu_a^2 - omega_D^2 from each streamline's forced amplitude, against the exact value (paper/figures/resonance_location.py)
+    sat_unused, x, simulated, exact_value = resonance_frequencies(p, o)
+    off = (np.abs(x) > 1.0e-6)
+    departure = np.abs(simulated[off]/exact_value[off] - 1.0).max()
+    print('largest |simulated/exact nu^2 - omega_D^2 - 1| =', departure)
+    numbers += [('vresDpercent', latex_number(100.0*departure, 1, up=True),
+        'largest |(nu^2 - omega_D^2) from forced amplitude/exact - 1| in percent, rounded up')]
     return numbers
 
 
@@ -184,6 +192,15 @@ def bending_waves_numbers():
     radial = np.abs(o['r'] - o['r'][0]).max()
     numbers += [('bwRadial', latex_number(radial, 1), 'largest radial excursion of any particle')]
     numbers += [('bwSpacing', latex_number(spacing, 2), 'streamline spacing')]
+    #the satellite's torque against linear theory, B9, over the run's last half (paper/figures/torque.py)
+    torque_theory = -np.pi**2*sat.m*sigma*sat.r_V**2*A_V**2/sat.D_V
+    torque = np.array([satellite_torque(p, o, k).sum() for k in range(len(o['times']))])/torque_theory
+    late = torque[len(torque)//2:]
+    numbers += [('bwTorqueRatio', latex_number(late.mean(), 3), 'mean T/T_V over the last half of the run (B9)')]
+    numbers += [('bwTorqueScatter', latex_number(100.0*np.abs(late - 1.0).max(), 2, up=True), 'largest |T/T_V - 1| over the last half, percent, rounded up')]
+    #the ring's angular momentum about z (paper/figures/angular_momentum.py)
+    L = ring_angular_momentum(p, o)
+    numbers += [('bwDeltaL', latex_number(np.abs((L - L[0])/L[0]).max(), 2, up=True), 'largest |Delta L_z/L_z| over the run, rounded up')]
     print('amplitude =', np.round(comparisons['amplitude'], 4), '   crests =', np.round(crests, 2))
     #the resolution runs of a ring half as wide (the notebook's Section 7), if they have been made
     narrow = {'radial_width': 0.004, 'total_ring_mass': 1.0e-9, 'number_of_streamlines': 270, 'number_of_particles': 8640,

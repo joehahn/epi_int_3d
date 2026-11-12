@@ -48,8 +48,8 @@ gravity that one streamline exerts on another (Section \ref{sec:gravity}), its r
 \code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), and a study of the
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and the vertical
 restoring force of a bending wave (Appendix \ref{sec:wire_continuum}), and the theory of spiral bending
-waves at a vertical resonance with its tests (Section \ref{sec:waves}): the forced response of massless
-particles, and the bending wave that the satellite launches in a self-gravitating ring.
+waves at a vertical resonance with its tests against spiral wave theory (Section \ref{sec:waves}): the
+forced response of massless particles, and the bending wave that the satellite launches in a self-gravitating ring.
 \end{abstract}
 
 
@@ -425,11 +425,22 @@ $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$. Before and after each drift,
 particles' coordinates account for the planet's motion about the system's center of mass \citep{C99}.
 
 
-\section{Spiral bending waves at a vertical resonance}
+\section{Tests against spiral wave theory}
 \label{sec:waves}
 
+\code{Epi\_int\_3d} is tested here by simulating the spiral waves that a satellite launches at its
+resonances in a planetary ring and comparing them with linear wave theory. Spiral bending waves, launched at
+a vertical resonance, test the vertical motion of Section \ref{sec:vertical} and the vertical ring gravity of
+Section \ref{sec:ring_gravity}. Spiral density waves, launched at a Lindblad resonance, test the in-plane
+motion, and in a non-gravitating, pressure-supported gas disk they also test the ring pressure of
+Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here and others, is
+in the code's repository; the simulations themselves are not.
+
+\subsection{Spiral bending waves}
+\label{sec:bending}
+
 %equations B1-B12 of notes/sympy/bending_wave.py; notes/phase2c/bending_wave_theory.md
-\subsection{Theory}
+\subsubsection{Theory}
 \label{sec:waves_theory}
 
 A satellite of mass $M_s$ whose circular orbit of radius $a_s$ is inclined by $i_s$ to the ring plane
@@ -495,7 +506,7 @@ $r_V$ and ${\cal D}$, which together also set the wave's amplitude. The wave is 
 self-gravitating ring (Section \ref{sec:waves_ring}). A third test may include the ring's viscosity,
 which damps the wave \citep[Eqns.\ (97)--(98) of][]{S84}.
 
-\subsection{Massless particles}
+\subsubsection{Massless particles}
 \label{sec:waves_massless}
 
 A ring of massless particles has no wave, only the forced oscillation $h_{\rm forced}$ of Eqn.\ (\ref{eqn:vres_sol}),
@@ -517,6 +528,14 @@ notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/ver
 also compares each particle's vertical motion over time to the exact solution, which the simulation
 follows to within $\vresZerror$ in $z$.
 
+The forced response also locates the resonance. A particle forced by $A_z = -A_V\sin\chi$ oscillates as
+$z = {\rm Re}[h e^{i\chi}]$ where ${\rm Im}(h) = A_V/(\nu_a^2 - \omega_D^2)$, so each streamline's amplitude $h$,
+fit to its particles' $z$ and averaged over the last $\vresAvgOrbits$ orbits, gives the simulated
+$\nu_a^2 - \omega_D^2 = A_V/{\rm Im}(h)$. Figure \ref{fig:resloc} shows that it agrees with the exact
+$\nu_a^2 - \omega_D^2$ at the streamline's semimajor axis to within \vresDpercent\%, so it vanishes where theory
+puts the resonance, at $r_V$, and it departs from the linear approximation ${\cal D}x$ by terms of order $x^2$,
+as theory does.
+
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/vertical_resonance.pdf}
@@ -528,7 +547,18 @@ The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
 \label{fig:vres}
 \end{figure}
 
-\subsection{A self-gravitating ring}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/resonance_location.pdf}
+\caption{The quantity $\nu_a^2 - \omega_D^2$, which vanishes at the resonance, in units of ${\cal D}$, for each
+streamline of the massless ring of Section \ref{sec:waves_massless} (dots), inferred from its forced vertical
+amplitude averaged over the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$.
+The dashed curve is the exact $\nu_a^2 - \omega_D^2$, and the dotted line its linear approximation ${\cal D}x$.
+The streamline at $x = 0$, whose amplitude grows without bound, is left out.}
+\label{fig:resloc}
+\end{figure}
+
+\subsubsection{A self-gravitating ring}
 \label{sec:waves_ring}
 
 %numbers from tests/bending_waves by tools/paper_numbers.py; figure by figures/bending_wave.py
@@ -562,9 +592,10 @@ though it has not been quantified. The satellite pulls only vertically, and the 
 the ring plane: no particle moves radially by more than $\bwRadial$, well under 1\% of the streamline
 spacing $\Delta = \bwSpacing$.
 
-The simulated wave's wavenumber, measured from the radial gradient of its phase, is
-\bwKcontPercent\% larger than Eqn.\ (\ref{eqn:vres_lambda})'s (the median behind the front), i.e., its
-wavelength is that much shorter. This is because the simulated ring is a finite lattice of streamlines
+Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$, measured from the radial gradient of
+the phase of its wave part $h - L_V/x$, as in Fig.~5 of \cite{H07}. Behind the front it is \bwKcontPercent\%
+larger than the $|k| = 2\pi/\lambda$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
+that much shorter. This is because the simulated ring is a finite lattice of streamlines
 rather than the infinite, continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes, and both
 differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum} shows that the lattice's
 spacing reduces self-gravity's restoring force from $2\pi G\sigma|k|$ to $X(k\Delta)$, and that the ring's
@@ -575,7 +606,21 @@ half as wide, doubling the number of streamlines lowers the wavenumber's excess 
 Eqn.\ (\ref{eqn:vres_lambda}) from \bwNarrowKcontPercent\% to \bwDoubledKcontPercent\%, while its excess
 over Eqn.\ (\ref{eqn:wire_edges}) is then \bwDoubledKedgePercent\%. The test's
 notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/bending_waves/bending_waves.ipynb}}
-also compares the wave's complex amplitude and the satellite's torque on the ring with linear theory.
+also compares the wave's complex amplitude with linear theory.
+
+The torque that the satellite exerts on the wave tests the wave's amplitude and phase together. The satellite's
+resonant potential $A_Vz\sin\chi$ exerts the torque $T = -\sum\mu mA_Vz\cos\chi$ on the simulated ring, summed
+over its particles of mass $\mu$, while linear theory gives \citep{S84}
+\begin{equation}
+    \label{eqn:vres_torque}
+    T_V = -\frac{\pi^2m\sigma r_V^2A_V^2}{\cal D},
+\end{equation}
+which is also the angular momentum luminosity of the wave that the satellite launches. Figure \ref{fig:torque}
+shows that $T$ settles onto $T_V$ as soon as the wave is launched. Over the run's last half its mean is
+$\bwTorqueRatio\,T_V$, and it scatters by at most \bwTorqueScatter\% about $T_V$ because of the residue of the free
+oscillation. The satellite pulls only vertically, so the ring does not feel this torque, and its total
+angular momentum $L_z$ can change only through the ring's gravity and the integrator's round-off error.
+Figure \ref{fig:angmom} shows that $|\Delta L_z/L_z| \le \bwDeltaL$ over the run.
 
 \begin{figure}[ht]
 \centering
@@ -588,6 +633,40 @@ trailing solution of Eqn.\ (88) of \cite{S84}, which tends to Eqns.\ (\ref{eqn:v
 resonance.}
 \label{fig:bwave}
 \end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/wavenumber.pdf}
+\caption{The wavenumber $|k|r_V$ of the bending wave in the self-gravitating ring of Section \ref{sec:waves_ring}
+at the end of the run (dots), plotted vs.\ fractional distance from resonance $x$, from the front (dotted
+line) to the resonance zone. The blue dashed line is the continuum's dispersion relation, Eqn.\
+(\ref{eqn:vres_lambda}), and the orange dashed curve that of the finite lattice of streamlines with the ring's
+edges, Eqn.\ (\ref{eqn:wire_edges}).}
+\label{fig:wavenumber}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/torque.pdf}
+\caption{The torque $T$ that the satellite exerts on the bending wave of Section \ref{sec:waves_ring}, in units
+of linear theory's $T_V$, Eqn.\ (\ref{eqn:vres_torque}) (dashed), plotted vs.\ time $t$ in units of the wave's
+crossing time $\tau_c$.}
+\label{fig:torque}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/angular_momentum.pdf}
+\caption{The fractional change in the total angular momentum $L_z$ of the self-gravitating ring of
+Section \ref{sec:waves_ring} vs.\ time $t$ in orbits.}
+\label{fig:angmom}
+\end{figure}
+
+\subsection{Spiral density waves}
+\label{sec:density}
+
+Spiral density waves launched at a satellite's Lindblad resonance, in a self-gravitating ring and in a
+non-gravitating, pressure-supported gas disk, will be compared with linear theory later.
 
 
 \appendix

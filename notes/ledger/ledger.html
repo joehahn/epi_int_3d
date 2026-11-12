@@ -71,6 +71,7 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 
 .text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
 .text p { margin: 0; } .text p + p { text-indent: 1.5em; }
+.text .nb { margin-top: .8em; font: 13.5px var(--f-ui); color: var(--ink-2); } .text .nb a { overflow-wrap: anywhere; }
 .text h4.sub { font: italic 15px var(--f-text); color: var(--ink-2); margin: .9em 0 .3em; }
 .text code { font-family: var(--f-mono); font-size: .86em; }
 .text ol { margin: .3em 0 .7em; padding-left: 1.4em; }
@@ -350,7 +351,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
   function textOf(c) {
     const cached = textCache.get(c.id);
-    if (cached && cached.html === c.html) return cached.node;
+    if (cached && cached.html === c.html && cached.nb === String(c.notebooks || "")) return cached.node;
     const node = el("div", {class: "text"});
     node.innerHTML = c.html;      // written by tools/ledger.py from the paper
     for (const f of node.querySelectorAll("figure.fig")) {
@@ -359,7 +360,10 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
         : el("div", {class: "missing", text: "Figure " + f.dataset.png + " isn't uploaded yet."});
       f.prepend(img);
     }
-    textCache.set(c.id, {html: c.html, node});
+    if ((c.notebooks || []).length)
+      node.append(el("div", {class: "nb"}, el("b", {text: "Test notebooks: "}),
+        ...c.notebooks.flatMap((u, k) => [k ? " · " : "", el("a", {href: u, target: "_blank", rel: "noopener", text: u.split("/").slice(-2).join("/")})])));
+    textCache.set(c.id, {html: c.html, nb: String(c.notebooks || ""), node});
     typeset([node]);
     return node;
   }

@@ -18,5 +18,21 @@
  "zigzag.png": {
   "id": "0c83041c368e408e6a8ec881d4290e89",
   "hash": "509160f468f2"
+ },
+ "resonance_location.png": {
+  "id": "aa1f759895626aaf099554683e52ebc4",
+  "hash": "c74d4e1cb78d"
+ },
+ "wavenumber.png": {
+  "id": "eac47e62560dc8fdff126d9830204052",
+  "hash": "0e77ae8abe8b"
+ },
+ "torque.png": {
+  "id": "c2fcc7915bd1ca1fdf560a5758eab71f",
+  "hash": "21dd83260064"
+ },
+ "angular_momentum.png": {
+  "id": "ae7adf9ae02323b33aece64fb918df40",
+  "hash": "f5bac321b618"
  }
 }

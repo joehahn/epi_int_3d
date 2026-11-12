@@ -408,6 +408,11 @@ linear theory, as the test of how the code handles ring pressure. This needs the
 (`Q_ring`), which until then stays off (`Q_ring = -1`, CLAUDE.md) because it is untested; that rule is revised
 when this test starts. The paper's Section 2.1 already lists pressure among the ring's internal forces.
 
+Energy budget (the author, 2026-11-12): the bending-wave tests report only angular momentum (L_z is conserved
+because the Fourier satellite pulls only along z). An energy check would need the driver to accumulate the
+satellite's work and the ring's wire potential energy (E - W versus time); do that with the density waves, where
+the satellite exerts in-plane forces.
+
 ## Phase 4 — Testing
 
 | Test | Expectation |

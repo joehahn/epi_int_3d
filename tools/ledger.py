@@ -177,7 +177,7 @@ def write_cards():
             'equations': len(equations), 'equations_hand': sum(checks.get(e) == 'yes' for e in equations)}
         card['state'] = 'attention' if card['issues'] else 'ok'
         document = {key: card[key] for key in ['id', 'order', 'number', 'title', 'section', 'level', 'appendix',
-            'html', 'words', 'issues', 'facts', 'state']}
+            'html', 'words', 'issues', 'facts', 'state', 'notebooks']}
         with open(os.path.join(folder, card['id'] + '.json'), 'w') as fp:
             json.dump(document, fp, indent=1)
     #figures that need uploading: new, or changed since their upload

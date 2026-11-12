@@ -97,6 +97,7 @@ class Converter:
         self.mismatches = []             #labels whose number here differs from the PDF's
         self.leftovers = set()           #LaTeX commands this converter doesn't know
         self.depth = 0
+        self.card_number, self.subsub = '', 0   #the card being converted, and its subsubsections so far
         self.pieces = []
         self.sub = None                  #in a subequations environment, the number of lines so far
 
@@ -138,6 +139,12 @@ class Converter:
                 number = self.number_equation(label and label.group(1))
                 latex = '\\begin{equation}' + body + r' \tag{' + number + '}\\end{equation}'
         return '<span class="eq">' + html.escape(latex, quote=False) + '</span>'
+
+    #a subsubsection heading, numbered as the paper numbers it (3.1.2)
+    def subsubsection(self, title):
+        self.subsub += 1
+        return ('<h4 class="sub">' + self.card_number + '.' + str(self.subsub) + '\u2002'
+            + html.escape(title, quote=False) + '</h4>')
 
     #citations as the paper prints them
     def cite(self, keys, options, style):
@@ -225,7 +232,7 @@ class Converter:
         text = re.sub(r'\\(centering|noindent|appendix)\b', '', text)
         #subsubsection headings (sections and subsections are the cards themselves)
         text = re.sub(r'\\subsubsection\*?\{([^}]*)\}(\s*\\label\{[^}]*\})?',
-            lambda m: keep('<h4 class="sub">' + html.escape(m.group(1), quote=False) + '</h4>'), text)
+            lambda m: keep(self.subsubsection(m.group(1))), text)
         #lists
         text = text.replace('\\begin{enumerate}', keep('<ol>')).replace('\\end{enumerate}', keep('</ol>'))
         text = re.sub(r'\\item\s*', lambda m: keep('<li>'), text)
@@ -299,6 +306,7 @@ def cards(assets=None):
         stop = heads[k + 1].start() if (k + 1 < len(heads)) else len(body)
         tex = body[start:stop]
         converter.leftovers = set()
+        converter.card_number, converter.subsub = number, 0
         text_html = converter.inline(tex, assets)
         plain = re.sub(r'<[^>]+>', ' ', text_html)
         words = len(re.findall(r'[A-Za-z]{2,}', re.sub(r'\$[^$]*\$|\\begin\{.*?\\end\{[a-z*]+\}', ' ', plain, flags=re.S)))
@@ -310,6 +318,7 @@ def cards(assets=None):
             'title': converter.inline(title, assets), 'level': level, 'appendix': appendix, 'html': text_html,
             'words': words, 'labels': re.findall(r'\\label\{([^}]*)\}', tex),
             'lines': [first_line + body[:start].count('\n'), first_line + body[:stop].count('\n')],
+            'notebooks': sorted(set(re.findall(r'\\url\{(https://github\.com/[^}]*\.ipynb)\}', tex))),
             'tex': ' '.join(tex.split()), 'leftovers': sorted(converter.leftovers)}]
     if converter.mismatches:
         raise ValueError('numbers that differ from the PDF (label, here, PDF): ' + str(converter.mismatches))

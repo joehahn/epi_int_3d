@@ -1685,14 +1685,15 @@
   {
    "id": "claim:bw_wavenumber",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@The simulated wave's wavenumber, measured",
+   "anchor": "paper/epi_int_3d.tex@shows the simulated wave's wavenumber",
    "needs": [
     "numbers:bending_waves",
     "sympy:B7",
     "sympy:B13",
     "test:kernels",
     "paper:eqn:vres_lambda",
-    "paper:eqn:wire_edges"
+    "paper:eqn:wire_edges",
+    "paper:fig:wavenumber"
    ],
    "note": "k 5.5% above the continuum, 0.9% above lattice + edges"
   },
@@ -1906,6 +1907,143 @@
     "code:kick_drift_kick"
    ],
    "note": "Section 3.3: epi_int_lite's viscosity (helper_fns.accelerations) is in-plane only; bending-wave runs have none"
+  },
+  {
+   "id": "code:resonance_frequencies",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::resonance_frequencies",
+   "needs": [
+    "eq:B6",
+    "code:simulated_h"
+   ],
+   "note": "nu^2 - omega_D^2 from each streamline's forced amplitude, and exact"
+  },
+  {
+   "id": "code:ring_angular_momentum",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::ring_angular_momentum",
+   "needs": [],
+   "note": "the ring's L_z, sum of mu r v_theta"
+  },
+  {
+   "id": "figure:resonance_location",
+   "kind": "figure",
+   "anchor": "paper/figures/resonance_location.py",
+   "needs": [
+    "code:satellite",
+    "code:vertical_drift",
+    "code:drift",
+    "code:resonance_frequencies"
+   ]
+  },
+  {
+   "id": "figure:wavenumber",
+   "kind": "figure",
+   "anchor": "paper/figures/wavenumber.py",
+   "needs": [
+    "code:satellite",
+    "code:ring_gravity_3d",
+    "code:vertical_drift",
+    "code:drift",
+    "code:simulated_h",
+    "code:wave_wavenumber",
+    "code:ring_sigma"
+   ]
+  },
+  {
+   "id": "figure:torque",
+   "kind": "figure",
+   "anchor": "paper/figures/torque.py",
+   "needs": [
+    "code:satellite",
+    "code:ring_gravity_3d",
+    "code:vertical_drift",
+    "code:drift",
+    "code:satellite_torque",
+    "code:ring_sigma"
+   ]
+  },
+  {
+   "id": "figure:angular_momentum",
+   "kind": "figure",
+   "anchor": "paper/figures/angular_momentum.py",
+   "needs": [
+    "code:satellite",
+    "code:ring_gravity_3d",
+    "code:vertical_drift",
+    "code:drift",
+    "code:ring_angular_momentum",
+    "code:kick_drift_kick"
+   ]
+  },
+  {
+   "id": "paper:fig:resloc",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:resloc",
+   "needs": [
+    "figure:resonance_location",
+    "sympy:B5",
+    "sympy:B6"
+   ]
+  },
+  {
+   "id": "paper:fig:wavenumber",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:wavenumber",
+   "needs": [
+    "figure:wavenumber",
+    "sympy:B7",
+    "sympy:B13"
+   ]
+  },
+  {
+   "id": "paper:fig:torque",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:torque",
+   "needs": [
+    "figure:torque",
+    "sympy:B9"
+   ]
+  },
+  {
+   "id": "paper:fig:angmom",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:angmom",
+   "needs": [
+    "figure:angular_momentum"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_torque",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_torque",
+   "needs": [
+    "sympy:B9"
+   ]
+  },
+  {
+   "id": "claim:resonance_location",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The forced response also locates the resonance",
+   "needs": [
+    "numbers:vertical_resonance",
+    "sympy:B6",
+    "paper:fig:resloc"
+   ],
+   "note": "nu^2 - omega_D^2 from the forced amplitude matches the exact value; zero at r_V"
+  },
+  {
+   "id": "claim:bw_torque",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The torque that the satellite exerts on the wave",
+   "needs": [
+    "numbers:bending_waves",
+    "paper:eqn:vres_torque",
+    "paper:fig:torque",
+    "paper:fig:angmom",
+    "code:satellite"
+   ],
+   "note": "T settles onto T_V; L_z conserved to 1e-13"
   }
  ]
 }
