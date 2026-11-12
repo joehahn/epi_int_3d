@@ -220,3 +220,17 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
   and the agreement in a number; the remaining detail stays in the test's notebook, linked in a footnote.
 - **P70.** Theory first, then the tests it makes possible: a theory subsection ends by listing the tests ("gives
   us a few opportunities to test…"), and each test then gets its own subsection.
+- **P71.** An approximate equation uses ≃ and says what it neglects in words ("where terms of order z⁴ are
+  neglected"), rather than carrying a "+ 𝒪(z⁴)" term. Evaluate at a point with a bar, ∂Φ/∂r|_{z=0}, as with
+  ν² = ∂²Φ/∂z²|_{z=0}. (2026-11-11)
+- **P72.** Give a solution first and its parameters after it: "the particle's coordinates are (7), where the
+  mean angular velocity and epicyclic frequency are (8)". Give a symbol a subscript when it is one component
+  of a vector, or when the symbol is used elsewhere for something else (h_z, not h). (2026-11-12)
+- **P73.** Number the lines of a multi-line equation (6a, 6b) when the text cites one line, and cite it by
+  number, not "the second of Eqns. (6)". Don't display an equation that only restates an earlier one with a
+  parameter evaluated; say so in words ("so ν(r) ≃ ν(a) in it") and go to its solution. Put the source of a
+  displayed result after it: "the coordinates are (7) when written in terms of the epicyclic elements
+  (Eqn. A9 of H25)". (2026-11-12)
+- **P74.** Don't restate what is understood: leave "at r = a, z = 0" off quantities already subscripted a,
+  and don't add a sentence verifying that a stated solution solves its equation. Caveats the argument doesn't
+  use (e.g. "this holds only in a massless ring") are cut. (2026-11-12)

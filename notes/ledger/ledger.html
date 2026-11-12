@@ -146,6 +146,12 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   .nav:not(.open) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+  mjx-container[data-tex] { cursor: copy; border-radius: 3px; }
+  mjx-container[data-tex]:hover { background: var(--accent-soft); }
+  .toast { position: fixed; z-index: 9; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    max-width: min(640px, calc(100vw - 32px)); font: 500 13px var(--f-ui); background: var(--ink); color: var(--paper);
+    border-radius: 6px; padding: 8px 14px; box-shadow: 0 6px 24px rgb(0 0 0 / .18); white-space: pre-wrap; overflow-wrap: anywhere; }
+  #MJX-SVG-global-cache, svg#MJX-SVG-global-cache { display: none !important; }
 </style>
 
 <header class="top">
@@ -172,7 +178,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
 <script>
   window.MathJax = {
     tex: { inlineMath: [["$", "$"]], displayMath: [], processEnvironments: true, tags: "none" },
-    svg: { fontCache: "global" },
+    svg: { fontCache: "local" },
     options: { skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"] },
     startup: { typeset: false, ready: () => { MathJax.startup.defaultReady(); window.dispatchEvent(new Event("mathjax-ready")); } }
   };
@@ -201,11 +207,146 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   const hasNote = id => { const n = state.notes[id] || {}; return !!(n.text || "").trim() || !!Object.keys(n.fixes || {}).length; };
   const match = (c, f) => f === "all" ? true : f === "attention" ? c.state === "attention" : hasNote(c.id);
 
+  // copying math: each typeset equation carries its LaTeX (data-tex), and a copy turns it into plain Unicode
+  const tex2text = (() => {
+    const SYM = {alpha:"α",beta:"β",gamma:"γ",delta:"δ",epsilon:"ε",varepsilon:"ε",zeta:"ζ",eta:"η",theta:"θ",vartheta:"ϑ",
+      iota:"ι",kappa:"κ",lambda:"λ",mu:"μ",nu:"ν",xi:"ξ",pi:"π",rho:"ρ",sigma:"σ",tau:"τ",upsilon:"υ",phi:"ϕ",varphi:"φ",
+      chi:"χ",psi:"ψ",omega:"ω",Gamma:"Γ",Delta:"Δ",Theta:"Θ",Lambda:"Λ",Xi:"Ξ",Pi:"Π",Sigma:"Σ",Phi:"Φ",Psi:"Ψ",Omega:"Ω",
+      simeq:"≃",approx:"≈",sim:"∼",le:"≤",leq:"≤",ge:"≥",geq:"≥",ll:"≪",gg:"≫",ne:"≠",neq:"≠",lesssim:"≲",gtrsim:"≳",
+      pm:"±",mp:"∓",times:"×",cdot:"·",ldots:"…",dots:"…",cdots:"⋯",rightarrow:"→",to:"→",leftarrow:"←",leftrightarrow:"↔",
+      Rightarrow:"⇒",partial:"∂",nabla:"∇",infty:"∞",propto:"∝",equiv:"≡",sum:"∑",int:"∫",prime:"′",ell:"ℓ",
+      langle:"⟨",rangle:"⟩",perp:"⊥",parallel:"∥",degree:"°",circ:"∘",lbrace:"{",rbrace:"}",vert:"|",
+      quad:" ",qquad:"  ",",":" ",";":" ",":":" ","!":"","{":"{","}":"}","%":"%","_":"_","&":"&","#":"#",
+      sin:"sin",cos:"cos",tan:"tan",exp:"exp",ln:"ln",log:"log",max:"max",min:"min",arctan:"arctan",
+      left:"",right:"",big:"",Big:"",bigg:"",Bigg:"",displaystyle:"",nonumber:"",notag:""};
+    const ACCENT = {hat:"̂",widehat:"̂",tilde:"̃",widetilde:"̃",dot:"̇",ddot:"̈",bar:"̄",
+      overline:"̅",vec:"⃗"};
+    const FUNC = new Set(["sin","cos","tan","exp","ln","log","max","min","arctan"]);
+    const PLAIN = new Set(["text","mathrm","mathbf","boldsymbol","mathit","mathsf","mathtt","operatorname","bm","rm","bf"]);
+    const SUP = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","+":"⁺","-":"⁻","−":"⁻",
+      "=":"⁼","(":"⁽",")":"⁾",n:"ⁿ",i:"ⁱ",k:"ᵏ",m:"ᵐ",a:"ᵃ",b:"ᵇ",c:"ᶜ",d:"ᵈ",e:"ᵉ",j:"ʲ",l:"ˡ",o:"ᵒ",p:"ᵖ",r:"ʳ",
+      s:"ˢ",t:"ᵗ",u:"ᵘ",v:"ᵛ",x:"ˣ",y:"ʸ",z:"ᶻ","′":"′"};
+    const SUB = {"0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉","+":"₊","-":"₋","−":"₋",
+      "=":"₌","(":"₍",")":"₎",a:"ₐ",e:"ₑ",h:"ₕ",i:"ᵢ",j:"ⱼ",k:"ₖ",l:"ₗ",m:"ₘ",n:"ₙ",o:"ₒ",p:"ₚ",r:"ᵣ",s:"ₛ",t:"ₜ",
+      u:"ᵤ",v:"ᵥ",x:"ₓ","β":"ᵦ","γ":"ᵧ","ρ":"ᵨ","φ":"ᵩ","ϕ":"ᵩ","χ":"ᵪ"};
+    const atomic = x => /^([\p{L}\p{N}.′]\p{M}*)+$/u.test(x) || /^\(.*\)$/.test(x) && !/\).*\(/.test(x.slice(1, -1));
+    const wrap = x => atomic(x) ? x : "(" + x + ")";
+    const script = (x, map, mark) => [...x].every(ch => map[ch]) ? [...x].map(ch => map[ch]).join("") : mark + wrap(x);
+    return tex => {
+      const s = tex.replace(/\\label\{[^}]*\}/g, "").replace(/\\(begin|end)\{[^}]*\}/g, "")
+        .replace(/\\tag\{([^}]*)\}/g, " ($1)").replace(/\\\\/g, "\n").replace(/&/g, "");
+      let i = 0;
+      const name = () => { const m = /^[A-Za-z]+/.exec(s.slice(i)); if (m) { i += m[0].length; return m[0]; } return s[i++] || ""; };
+      const skip = () => { while (s[i] === " ") i++; };
+      const arg = () => {
+        skip();
+        if (s[i] === "{") { i++; return seq(true); }
+        if (s[i] === "\\") { i++; return command(name()); }
+        return s[i++] || "";
+      };
+      const command = n => {
+        if (n === "frac" || n === "dfrac" || n === "tfrac") { const a = arg(), b = arg(); return wrap(a) + "/" + wrap(b); }
+        if (n === "sqrt") {
+          let root = "";
+          if (s[i] === "[") { const j = s.indexOf("]", i); root = s.slice(i + 1, j); i = j + 1; }
+          const x = arg(); return (root === "3" ? "∛" : root === "4" ? "∜" : root ? script(root, SUP, "") : "") + "√" + wrap(x);
+        }
+        if (ACCENT[n]) { const x = arg(); return x.length === 1 ? x + ACCENT[n] : n + "(" + x + ")"; }
+        if (PLAIN.has(n)) return arg();
+        if (n === "mathcal" || n === "cal") { const x = arg(); return x === "O" ? "𝒪" : x; }
+        if (n === "left" || n === "right") { skip(); const d = s[i] === "\\" ? (i++, SYM[name()] ?? "") : s[i++]; return d === "." ? "" : d; }
+        return SYM[n] ?? n;
+      };
+      const seq = inGroup => {
+        let out = "";
+        while (i < s.length) {
+          const c = s[i];
+          if (c === "}") { i++; if (inGroup) return out; continue; }
+          if (c === "{") { i++; out += seq(true); }
+          else if (c === "^") { i++; out += script(arg(), SUP, "^"); }
+          else if (c === "_") { i++; out += script(arg(), SUB, "_"); }
+          else if (c === "\\") {
+            i++;
+            const n = name(), x = command(n);
+            if (/^d?t?frac$/.test(n) && (/[\p{L}\p{N})\]′]$/u.test(out) || /^[\s]*[A-Za-z\\([{]/.test(s.slice(i)) && !/^\s*\\(right|end|tag|\\)/.test(s.slice(i))))
+              out += "(" + x + ")";
+            else if (FUNC.has(n)) out += (/\p{L}$/u.test(out) ? " " : "") + x + (/^\s*[A-Za-z\\]/.test(s.slice(i)) ? " " : "");
+            else { out += x; if (n === "partial") skip(); }
+          }
+          else if (c === "'") { i++; out += "′"; }
+          else { out += c === "-" ? "−" : c; i++; }
+        }
+        return out;
+      };
+      return seq(false).replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").replace(/\n+/g, "\n").trim();
+    };
+  })();
+
+  document.addEventListener("copy", e => {
+    const sel = getSelection();
+    if (!sel || !sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0), a = range.commonAncestorContainer;
+    const inside = (a.nodeType === 1 ? a : a.parentElement)?.closest("mjx-container[data-tex]");
+    let text;
+    if (inside) text = tex2text(inside.dataset.tex);
+    else {
+      const frag = range.cloneContents(), boxes = frag.querySelectorAll("mjx-container");
+      if (!boxes.length) return;
+      for (const b of boxes) {
+        const t = b.dataset.tex != null ? tex2text(b.dataset.tex) : b.textContent;
+        b.replaceWith(b.getAttribute("display") === "true" ? "\n" + t + "\n" : t);
+      }
+      const tmp = el("div", {style: "position:fixed;left:-9999px;top:0;white-space:pre-wrap"});
+      tmp.append(frag); document.body.append(tmp);
+      text = tmp.innerText; tmp.remove();
+    }
+    e.clipboardData.setData("text/plain", text.replace(/\n{3,}/g, "\n\n").trim());
+    e.preventDefault();
+  });
+
+  // clicking an equation copies it as text: dragging a selection across an SVG equation picks up nothing in most browsers
+  let toastTimer = null;
+  const toast = t => {
+    let d = document.getElementById("toast");
+    if (!d) { d = el("div", {id: "toast", class: "toast", role: "status", "aria-live": "polite"}); document.body.append(d); }
+    d.textContent = t; d.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { d.hidden = true; }, 2600);
+  };
+  document.addEventListener("click", async e => {
+    const box = e.target.closest?.("mjx-container[data-tex]");
+    if (!box || String(getSelection() || "")) return;
+    const t = tex2text(box.dataset.tex);
+    // the synchronous copy first: in a framed page the clipboard API can wait on a permission that never answers
+    let ok = false;
+    const ta = el("textarea", {style: "position:fixed;left:-9999px;top:0", "aria-hidden": "true"});
+    ta.value = t; document.body.append(ta); ta.select();
+    try { ok = document.execCommand("copy"); } catch {}
+    ta.remove(); box.focus?.();
+    if (!ok && navigator.clipboard)
+      ok = await Promise.race([navigator.clipboard.writeText(t).then(() => true, () => false), new Promise(r => setTimeout(() => r(false), 1500))]);
+    toast(ok ? "Copied: " + t : "Couldn't copy here. Right-click the equation: Copy to Clipboard, TeX Commands.");
+  });
+
   // math: each card's text is built and typeset once, then reused across renders
   const textCache = new Map();
   let mathReady = false;
-  const typeset = nodes => { if (mathReady && nodes.length) window.MathJax.typesetPromise(nodes).catch(() => {}); };
-  window.addEventListener("mathjax-ready", () => { mathReady = true; typeset([...textCache.values()].map(x => x.node)); });
+  const stamp = nodes => {
+    for (const item of window.MathJax.startup.document.getMathItemsWithin(nodes))
+      if (item.typesetRoot) { item.typesetRoot.dataset.tex = item.math; item.typesetRoot.title = "Click to copy as text"; }
+  };
+  // MathJax sizes glyphs from the surrounding font, so a card is typeset only once it is on the page (a detached node
+  // measures as zero and the glyphs come out enormous), and typesetting runs one batch at a time
+  const waiting = new Set();
+  let mathChain = Promise.resolve();
+  const flushMath = () => {
+    if (!mathReady) return;
+    const nodes = [...waiting].filter(n => n.isConnected);
+    if (!nodes.length) return;
+    for (const n of nodes) waiting.delete(n);
+    mathChain = mathChain.then(() => window.MathJax.typesetPromise(nodes)).then(() => stamp(nodes)).catch(() => {});
+  };
+  const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
+  window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
   function textOf(c) {
     const cached = textCache.get(c.id);
     if (cached && cached.html === c.html) return cached.node;
@@ -380,7 +521,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
 
   function redraw(id) {
     const old = document.getElementById(`card-${id}`), c = state.cards.find(x => x.id === id);
-    if (old && c) old.replaceWith(card(c));
+    if (old && c) { old.replaceWith(card(c)); requestAnimationFrame(flushMath); }
   }
 
   function renderCosts() {
@@ -418,6 +559,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     if (!out.length) out.push(el("div", {class: "notice", text: state.filter === "attention" ? "No section has open issues." : "No section has a note from you yet."}));
     out.push(el("p", {class: "foot", text: "Built by tools/ledger.py from the paper, the dependency chain and the reviews. Equations are numbered as in the PDF; numbers from the simulations are filled in from paper/numbers/."}));
     $("#list").replaceChildren(...out);
+    requestAnimationFrame(flushMath);
     spy();
     if (keep) { const k = document.getElementById(keep); if (k) { k.focus(); if (k.setSelectionRange) k.setSelectionRange(k.value.length, k.value.length); } }
   }

@@ -21,8 +21,8 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | V6 | z̈ + ν_a²z ≃ (3GM_p/a³)[1 + (15/2)J₂(R_p/a)²] δ z, with r = a(1 + δ) | accuracy (O(e·i) residual) | ✅ | ✅ | ☐ | equals −a(dν²/da)δz |
 | V8 | drift of V2–V4 as a rotation: z′ = z cos(ν_aΔt) + (v_z/ν_a) sin(ν_aΔt), v_z′ = v_z cos(ν_aΔt) − ν_a z sin(ν_aΔt) | drift (`bookkeeping.vertical_drift`) | ✅ | ✅ | ☐ | λ − Ω advances by Ω_aΔt − (Ω_a − ν_a)Δt = ν_aΔt; equal to V2–V4 exactly; z = v_z = 0 stays 0 |
 | V7 | ∇²Φ = r⁻¹∂(r ∂Φ/∂r)/∂r + ∂²Φ/∂z² = 0, and κ_a² = 3Ω_a² + ∂²Φ/∂r², hence κ_a² + ν_a² = 2Ω_a² | frequency relation | ✅ | ✅ | ☐ | Laplace's equation outside the planet |
-| H1 | in-plane solution (hahn25 Eq. A9) conserves h = r v_θ = a²Ω_a exactly | paper Sec. 2.2 | published | ✅ | n/a | transcription check |
-| H2 | a = R_p[C + √(C² − 3J₂/2)], C = h²/2GM_pR_p | paper Sec. 2.3, step 1 | published | ✅ | n/a | transcription check |
+| H1 | in-plane solution (hahn25 Eq. A9) conserves h_z = r v_θ = a²Ω_a exactly | paper Sec. 2.2 | published | ✅ | n/a | transcription check |
+| H2 | a = R_p[C + √(C² − 3J₂/2)], C = h_z²/2GM_pR_p | paper Sec. 2.3, step 1 | published | ✅ | n/a | transcription check |
 | H3 | e sin M = (v_r/aκ_a)(a/r)³, e cos M = ½[(a/r)² − 1] | paper Sec. 2.3, step 3 | published | ✅ | n/a | transcription check |
 | P1 | A_p = [p(r−Δ) − p(r)]/λ ≃ −(1/σ)∂p/∂r, σ = λ/Δ (hahn13 Eq. 23) | `A_P` | published | ✅ | n/a | transcription check |
 | P2 | σ_j = 2λ/(r_{j+1} − r_{j−1}), A_j = −(∂p/∂r)_j/σ_j = −(p_{j+1} − p_{j−1})/2λ = −(1/σ)∂p/∂r + O(Δ²) (hahn13 Eqs. 24–25) | `surface_density`, `delta_f`, `A_P` | published | ✅ | ☐ | code matches the paper in the interior |

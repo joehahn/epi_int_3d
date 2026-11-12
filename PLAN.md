@@ -403,6 +403,11 @@ Theory (derived in GT notation, sympy-checked, in `notes/equations.md`) and the 
 - the wave travels outward from the ILR (bending waves travel inward), a quick sign check;
 - convergence in the number of streamlines and the timestep.
 
+Also a density wave in a non-gravitating, pressure-supported gas disk (the author, 2026-11-12), compared with
+linear theory, as the test of how the code handles ring pressure. This needs the ring-pressure code
+(`Q_ring`), which until then stays off (`Q_ring = -1`, CLAUDE.md) because it is untested; that rule is revised
+when this test starts. The paper's Section 2.1 already lists pressure among the ring's internal forces.
+
 ## Phase 4 — Testing
 
 | Test | Expectation |

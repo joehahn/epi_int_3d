@@ -82,119 +82,119 @@ reversibility.
 A particle orbiting an oblate planet obeys Newton's second law,
 \begin{equation}
     \label{eqn:newton}
-    \ddot{\mathbf{r}} = -\nabla\Phi,
+    \ddot{\mathbf{r}} = -\nabla\Phi_p,
 \end{equation}
-where $\Phi$ is the planet's gravitational potential. That potential is a series in the
+where $\Phi_p$ is the planet's gravitational potential. That potential is a series in the
 planet's zonal harmonics $J_{2k}$ (Eqn.\ 5 of \citealt{BL94}), and as in \cite{HS13} and
 \cite{H25} only the $J_2$ term is kept, so
 \begin{equation}
     \label{eqn:Phi3d}
-    \Phi(r,z) = -\frac{GM_p}{\rho}\left[1 - J_2\left(\frac{R_p}{\rho}\right)^2P_2\left(\frac{z}{\rho}\right)\right].
+    \Phi_p(r,z) = -\frac{GM_p}{\rho}\left[1 - J_2\left(\frac{R_p}{\rho}\right)^2P_2\left(\frac{z}{\rho}\right)\right].
 \end{equation}
 Here $M_p$ is the planet's mass, $R_p$ its radius, $r$ the particle's cylindrical radius,
-$\rho^2 = r^2 + z^2$, and $P_2(\mu) = (3\mu^2 - 1)/2$. In cylindrical coordinates
+$\rho = \sqrt{r^2 + z^2}$ the particle's distance from the planet's center, and
+$P_2(z/\rho) = (3z^2/\rho^2 - 1)/2$ is the second Legendre polynomial. In cylindrical coordinates
 $(r, \theta, z)$, Eqn.\ (\ref{eqn:newton}) is
 \begin{eqnarray}
     \label{eqn:eom_cyl}
-    \ddot{r} - r\dot{\theta}^2 &=& -\frac{\partial\Phi}{\partial r} \nonumber\\
-    \frac{d}{dt}\left(r^2\dot{\theta}\right) &=& -\frac{\partial\Phi}{\partial\theta} = 0 \nonumber\\
-    \ddot{z} &=& -\frac{\partial\Phi}{\partial z}.
+    \ddot{r} - r\dot{\theta}^2 &=& -\frac{\partial\Phi_p}{\partial r} \nonumber\\
+    \frac{d}{dt}\left(r^2\dot{\theta}\right) &=& -\frac{\partial\Phi_p}{\partial\theta} = 0 \nonumber\\
+    \ddot{z} &=& -\frac{\partial\Phi_p}{\partial z}.
 \end{eqnarray}
 The potential is independent of $\theta$, so the $z$-component of the specific angular
-momentum, $h = r^2\dot{\theta} = rv_\theta$, is conserved exactly, even when $z \ne 0$.
-The potential is also even in $z$, so near the ring plane
+momentum, $h_z = r^2\dot{\theta} = rv_\theta$, is conserved exactly.
+Because the potential is even in $z$, near the ring plane
 \begin{equation}
     \label{eqn:Phi_expand}
-    \Phi(r,z) = \Phi(r,0) + \frac{1}{2}\nu^2(r)z^2 + {\cal O}(z^4),
+    \Phi_p(r,z) \simeq \Phi_p(r,0) + \frac{1}{2}\nu^2(r)z^2,
 \end{equation}
-where $\Phi(r,0) = -GM_p/r - J_2GM_pR_p^2/2r^3$ is the midplane potential and
+where terms of order $z^4$ are neglected, $\Phi_p(r,0) = -GM_p/r - J_2GM_pR_p^2/2r^3$ is the midplane potential and
 \begin{equation}
     \label{eqn:nu_r}
-    \nu^2(r) = \left.\frac{\partial^2\Phi}{\partial z^2}\right|_{z=0}
+    \nu^2(r) = \left.\frac{\partial^2\Phi_p}{\partial z^2}\right|_{z=0}
         = \frac{GM_p}{r^3}\left[1 + \frac{9}{2}J_2\left(\frac{R_p}{r}\right)^2\right].
 \end{equation}
 Equations (\ref{eqn:eom_cyl}) then become
+\begin{subequations}
+\label{eqn:eom_expand}
 \begin{eqnarray}
-    \label{eqn:eom_expand}
-    \ddot{r} &=& \frac{h^2}{r^3} - \frac{\partial\Phi(r,0)}{\partial r} + {\cal O}(z^2) \nonumber\\
-    \ddot{z} &=& -\nu^2(r)z + {\cal O}(z^3).
+    \ddot{r} &\simeq& \frac{h_z^2}{r^3} - \left.\frac{\partial\Phi_p}{\partial r}\right|_{z=0} \label{eqn:eom_r}\\
+    \ddot{z} &\simeq& -\nu^2(r)z, \label{eqn:eom_z}
 \end{eqnarray}
+\end{subequations}
+which neglect terms of order $z^2$ in the radial equation and $z^3$ in the vertical one.
 
-To first order the radial equation does not involve $z$; it is the planar equation of motion. The
-vertical equation is that of a harmonic oscillator whose frequency depends on $r$. The vertical forces
-that the ring and satellites exert enter the kick step and are treated separately.
+So an unperturbed particle's horizontal and vertical motions are decoupled to first order in its small
+departures from a circular orbit in the ring plane. The ring's internal forces, its self-gravity,
+viscosity and pressure, can re-couple them. The vertical equation is that of a harmonic oscillator,
+so $\nu(r)$ is the frequency at which a particle at radius $r$ oscillates vertically.
 
-\subsection{Solution}
+\subsection{Unperturbed motion}
 \label{sec:elem2coords}
 
-\cite{H25} solved the planar equation of motion, the first of Eqns.\ (\ref{eqn:eom_expand}), to first
-order in small displacements from circular motion, in a form that is exactly reversible: the conversion
-from the coordinates $r, \theta, v_r, v_\theta$ to the epicyclic elements $a, e, \tilde{\omega}, M$, and
-back, is exact. This is required if the solution is to be used in the drift step of a drift-kick N-body
-integrator. That solution (Appendix A of \citealt{H25}) is restated here in the notation of this paper.
-The mean angular velocity and epicyclic frequency at semimajor axis $a$ are
-\begin{eqnarray}
-    \label{eqn:Omega_kappa}
-    \Omega_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2} \nonumber\\
-    \kappa_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 - \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
-\end{eqnarray}
-and the particle's coordinates are (Eqn.\ A9 of \citealt{H25})
+\cite{H25} solved the planar equation of motion, Eqn.\ (\ref{eqn:eom_r}), to first
+order in small displacements from circular motion, taking care to make the transformation from the
+coordinates $r, \theta, v_r, v_\theta$ to the epicyclic elements $a, e, \tilde{\omega}, M$ exactly
+reversible, so that it can be used in a drift-kick N-body integrator like the one used here. That
+solution (Appendix A of \citealt{H25}) is summarized here and then extended to $|z| > 0$.
+
+The particle's coordinates are
 \begin{eqnarray}
     \label{eqn:inplane}
     r &=& \frac{a}{\sqrt{1 + 2e\cos M}} \nonumber\\
     \theta &=& \frac{\Omega_a}{\kappa_a}(M + 2e\sin M) + \tilde{\omega} \nonumber\\
     v_r &=& ea\kappa_a\sin M\left(\frac{r}{a}\right)^3 \nonumber\\
-    v_\theta &=& \frac{a^2\Omega_a}{r}.
+    v_\theta &=& \frac{a^2\Omega_a}{r},
 \end{eqnarray}
-These conserve $h = rv_\theta = a^2\Omega_a$ exactly and solve the planar equation of motion with errors
-of order ${\cal O}(e^2)$. The particle's radius is $r = a[1 + {\cal O}(e)]$. Its mean anomaly $M$ advances
-at the epicyclic frequency $\kappa_a$, while $a$, $e$ and $\tilde{\omega}$ are constant, so its mean
-longitude $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$ advances at the mean angular velocity
-$\Omega_a$.
+when written in terms of the epicyclic elements (Eqn.\ A9 of \citealt{H25}), where the mean angular
+velocity and epicyclic frequency at semimajor axis $a$ are
+\begin{eqnarray}
+    \label{eqn:Omega_kappa}
+    \Omega_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2} \nonumber\\
+    \kappa_a &=& \sqrt{\frac{GM_p}{a^3}}\left[1 - \frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2}.
+\end{eqnarray}
+Equations (\ref{eqn:inplane}) conserve the vertical component of the particle's specific
+angular momentum vector, $h_z = rv_\theta = a^2\Omega_a$, and also solve the planar equation of motion
+with errors of order ${\cal O}(e^2)$. The particle's cylindrical radius, the length of its position
+vector projected onto the ring plane, is $r = a[1 + {\cal O}(e)]$. Its mean anomaly advances with time $t$
+at the epicyclic frequency, $M = \kappa_a t + M_0$, while $a$, $e$ and $\tilde{\omega}$ are constant, so its mean
+longitude $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$ advances with time at the mean angular velocity,
+$\lambda = \Omega_a t + \lambda_0$.
 
-Evaluating $\nu^2(r)$ at $r = a$ reduces the vertical equation of motion, the second of
-Eqns.\ (\ref{eqn:eom_expand}), to the harmonic oscillator
-\begin{equation}
-    \label{eqn:z_oscillator}
-    \ddot{z} = -\nu_a^2 z,
-\end{equation}
-with vertical frequency (Eqn.\ 17 of \citealt{BL94})
+Equation (\ref{eqn:eom_z}) is already first order in the small quantities, so $\nu(r) \simeq \nu(a)$
+and the vertical oscillation frequency becomes
 \begin{equation}
     \label{eqn:nu}
     \nu_a \equiv \nu(a) = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
 \end{equation}
-where the neglected terms are of order ${\cal O}(ei)$, due to the particle's radial excursion
-$r - a = {\cal O}(ea)$, and ${\cal O}(i^3)$. Outside the planet the potential obeys Laplace's equation, which for an axisymmetric
+(Eqn.\ 17 of \citealt{BL94}), where the neglected terms are of order ${\cal O}(ei)$ and ${\cal O}(i^3)$. Outside the planet its potential
+obeys Laplace's equation, which for an axisymmetric
 potential is
 \begin{equation}
     \label{eqn:laplace}
-    \nabla^2\Phi = \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\Phi}{\partial r}\right)
-        + \frac{\partial^2\Phi}{\partial z^2} = 0.
+    \nabla^2\Phi_p = \frac{1}{r}\frac{\partial}{\partial r}\left(r\frac{\partial\Phi_p}{\partial r}\right)
+        + \frac{\partial^2\Phi_p}{\partial z^2} = 0.
 \end{equation}
-At $r = a$ and $z = 0$, where $\Omega_a^2 = r^{-1}\partial\Phi/\partial r$,
-$\kappa_a^2 = 3\Omega_a^2 + \partial^2\Phi/\partial r^2$ and
-$\nu_a^2 = \partial^2\Phi/\partial z^2$, Eqn.\ (\ref{eqn:laplace}) relates the three
+Note that $\Omega_a^2 = r^{-1}\partial\Phi_p/\partial r$,
+$\kappa_a^2 = 3\Omega_a^2 + \partial^2\Phi_p/\partial r^2$ and
+$\nu_a^2 = \partial^2\Phi_p/\partial z^2$, so Eqn.\ (\ref{eqn:laplace}) relates the three
 frequencies via $\kappa_a^2 + \nu_a^2 = 2\Omega_a^2$.
 
-The solution of Eqn.\ (\ref{eqn:z_oscillator}) is a sinusoid of frequency $\nu_a$ whose
-amplitude and phase define two new orbit elements, the inclination $i$ and the longitude of
-ascending node $\Omega$:
+The solution of Eqn.\ (\ref{eqn:eom_z}) with $\nu = \nu_a$ is
 \begin{eqnarray}
     \label{eqn:zvz}
     z   &=& a\,i\sin(\lambda - \Omega) \nonumber\\
     v_z &=& a\nu_a i\cos(\lambda - \Omega),
 \end{eqnarray}
-where the node regresses at the rate
+whose amplitude and phase define two new orbit elements, the inclination $i$ and the longitude of
+ascending node $\Omega$. The node regresses at the rate
 \begin{equation}
     \label{eqn:node}
     \dot{\Omega} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a.
 \end{equation}
-Note that $\Omega$ is the longitude of ascending node, while $\Omega_a$ is the mean angular velocity.
-The vertical phase $\lambda - \Omega$ advances at exactly $\nu_a$, so
-Eqns.\ (\ref{eqn:zvz}) solve Eqn.\ (\ref{eqn:z_oscillator}) exactly, with $v_z = \dot{z}$,
-and the particle crosses the ring plane upward at longitude $\lambda = \Omega$.
-Measuring the phase from $\lambda$ rather than $\theta$ is what keeps the vertical motion
-a pure harmonic oscillator; $\theta - \Omega$ would add an ${\cal O}(ei)$ error to the phase.
+Also keep in mind that $\Omega$ is the longitude of ascending node, while $\Omega_a$ is the mean angular
+velocity. Measuring the phase from $\lambda$ rather than $\theta$ keeps the vertical motion a pure harmonic
+oscillator; $\theta - \Omega$ would add an ${\cal O}(ei)$ error to the phase.
 
 \subsection{Coordinates to elements}
 \label{sec:coords2elem}
@@ -202,15 +202,15 @@ a pure harmonic oscillator; $\theta - \Omega$ would add an ${\cal O}(ei)$ error 
 Equations (\ref{eqn:inplane}) and (\ref{eqn:zvz}) are inverted exactly in five steps. The first four
 are those of \cite{H25}:
 \begin{enumerate}
-\item Compute $h = rv_\theta$, then solve $h^2 = a^4\Omega_a^2$ for the semimajor axis,
-    $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h^2/2GM_pR_p$.
+\item Compute $h_z = rv_\theta$, then solve $h_z^2 = a^4\Omega_a^2$ for the semimajor axis,
+    $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h_z^2/2GM_pR_p$.
 \item Compute $\Omega_a$ and $\kappa_a$ from Eqns.\ (\ref{eqn:Omega_kappa}).
 \item Compute $e\sin M = (v_r/a\kappa_a)(a/r)^3$ and $e\cos M = \frac{1}{2}[(a/r)^2 - 1]$,
     which give $e$ and $M$.
 \item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$, and so
     $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$.
 \end{enumerate}
-Step 1 remains exact in three dimensions because $h$ is conserved and $r$ is the cylindrical radius.
+Step 1 remains exact in three dimensions because $h_z$ is conserved and $r$ is the cylindrical radius.
 The fifth step, which is new, computes $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
 \begin{eqnarray}
     \label{eqn:i_node}

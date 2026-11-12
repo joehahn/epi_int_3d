@@ -1,0 +1,61 @@
+{
+ "exported": "2026-11-12T03:33:00Z",
+ "entries": [
+  {
+   "card": "s2-1",
+   "note": "state the ρ= sqrt(r² + z²) is the particle's distance from central body. should P₂(μ) = (3μ² − 1)/2 have mu replaced by z/rho? is  (1/2)ν²(r)z² + 𝒪(z⁴) dimensionally correct? or should that equation say Φ(r,z) simeq Φ(r,0) + (1/2)ν²(r)z² with terms 𝒪(z⁴) neglected? ditto for eqn 6. should text say nu is the particle's vertical oscillation frequency, or should that be stated later? and i think \"To first order the radial equation does not involve z; it is the planar equation of motion.\" should be revised to state that to first order in the small quanties (ie small noncircular / out of plane motions) the horizontal (r,theta) are decoupled from vertical z. and that r̈ simeq h²/r³ − (∂Φ(r,0))/(∂r)  and then in text say that eqns are accurate to order z^2 and z^3",
+   "note_at": "2026-11-11T23:40:11.351Z",
+   "reply": "rho named as the distance from the planet's center; P2 written at z/rho; Eqns. 4 and 6 use ~= with the neglected orders (z^4; z^2 radial, z^3 vertical) stated in words; the paragraph after Eqn. 6 states the first-order decoupling of horizontal and vertical motion and names nu(r) as the vertical oscillation frequency.",
+   "reply_at": "2026-11-11T23:50:00.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-1",
+   "note": "drop even when z ≠ 0\n\nshould ((∂Φ(r,0))/(∂r)) be written ∂Φ(r))/(∂r)|_{z=0}?\n\ncan The radial equation is the planar equation of motion.  be deleted?\n\nshould So to first order in the small quantities, the particle's departures from circular motion and its vertical excursions, the horizontal motion in r and θ is decoupled from the vertical motion in z. be revised to say that an unperturbed particle's horizontal and vertical mostions are decoupled.  and replace \"The vertical forces that the ring and satellites exert enter the kick step and are treated separately.\" with something about the ring's internal forces (self gravity, viscosity, and pressure) might eliminate that decoupling (recouple?)",
+   "note_at": "2026-11-12T00:01:21.507Z",
+   "reply": "dropped 'even when z != 0'; Eqn. 6 uses dPhi/dr|_{z=0}; deleted 'The radial equation is the planar equation of motion.'; the paragraph now says an unperturbed particle (planet's gravity only) has decoupled horizontal and vertical motions to first order, and ends 'The ring's internal forces, its self-gravity, viscosity and pressure, can couple the two motions.'",
+   "reply_at": "2026-11-12T00:08:00.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-1",
+   "note_at": "2026-11-12T00:10:25.648Z",
+   "note": "do we need to say \"The potential is also even in z\"? drop if not. \n\nsimplify An unperturbed particle, one that feels only the planet's gravity, thus has horizontal and vertical motions that are decoupled to first order in the small quantities, its departures from circular motion and its vertical excursions.\n\nThe ring's internal forces, its self-gravity, viscosity and pressure, can couple the two motions. should come right after   decoupled. maybe say re-couple the horizontal and vertical?",
+   "reply": "kept 'even in z' (it is why Eqn. 4 has no linear term) in shorter form; simplified the decoupling sentence; moved the re-couple sentence right after it; h renamed h_z.",
+   "reply_at": "2026-11-12T00:30:00.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-2",
+   "note_at": "2026-11-12T00:18:12.606Z",
+   "note": "should this section be Unperturbed motion?\n\nand change in a form that is exactly reversible: to taking care to make transformation from coordinates to elements exactly reversible so that they can be used in a numerical drift-kick integrator like the one used here\n\nchange That solution (Appendix A of Hahn, Hamilton, Rimlinger, & Lu 2025) is restated here in the notation of this paper to That solution (Appendix A of Hahn, Hamilton, Rimlinger, & Lu 2025) is summarized here and then extened to |z|>0\n\nshould this section be broken up into 2+ paragraphs?\n\nwhat if eqn 8 came before 7?\n\nand should h = rv_θ = a²Ωₐ be described as is the vertical component of the particle's angular momentum vector? should that symbol be h_z? because later either during testing or when simulating bending waves we will look at the conservation of the in-plane angular momentum vector (what symbol should we use?). and i'm guessin that when we we simulate spiral bending waves we will look at the flux or luminosity of their in-plane ang. mom.",
+   "reply": "retitled Unperturbed motion; reworded the reversibility sentence; 'summarized here and then extended to |z| > 0'; H25 intro is its own paragraph; coordinates (Eqn. 7) now before the frequencies (Eqn. 8); h renamed h_z throughout Section 2 (also removes a clash with Shu's h(x) in Section 4). Proposed h_perp for the in-plane part; noted that bending-wave angular-momentum luminosity is in h_z. Asked whether h_perp is the wanted symbol.",
+   "reply_at": "2026-11-12T00:30:00.000Z",
+   "status": "question"
+  },
+  {
+   "card": "s2-2",
+   "note_at": "2026-11-12T00:38:33.502Z",
+   "note": "conserve h_z = rv_θ = a²Ωₐ exactly should refer to h_z as the vertical component of the particle's ang mom vector\nshould M state that it advances per M → M + κₐΔ t during integrator timestep delta-t?\n\ni think \"Evaluating ν²(r) at r = a reduces the vertical equation of motion,\" is trying to say that in Eqn (6) (should that be 6c?) v(r)\\simeq nu(a)  and so 6c becomes SHO\n\ncan due to the particle's radial excursion r − a = 𝒪(ea) be dropped? maybe leading errors are order 𝒪(ei) and 𝒪(i³).\n\nand κₐ² + νₐ² = 2Ωₐ² is true when the ring is massless. should PHi be written Phi_p to make it clear that it represents the planet's potention?\n\nis a sinusoid of frequency νₐ whose amplitude and phase define two new orbit elements, the inclination i and the longitude of ascending node Ω: define or introduce?",
+   "reply": "h_z named as the vertical component of the angular momentum vector; M = kappa_a t + M_0 and lambda = Omega_a t + lambda_0 written explicitly in t (the drift step's M -> M + kappa_a dt stays in 2.3); the nu(r) -> nu_a sentence reworded; 'due to the radial excursion' dropped; Laplace relation noted as holding for the planet's gravity alone (massless ring); Phi renamed Phi_p throughout Section 2; kept 'define' for i and Omega.",
+   "reply_at": "2026-11-12T00:50:00.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-2",
+   "note_at": "2026-11-12T03:11:55.245Z",
+   "note": " the particle's coordinates are \n<show eqns>\nwhen written n terms of the epicyclic elements,(Eqn. A9 of Hahn, Hamilton, Rimlinger, & Lu 2025) \n\nEquations (7) conserve the vertical component of the particle's specific angular momentum vector,h_z = rv_θ = a²Ωₐ, \n\nand also solve the planar equation of motion\n\n r = a[1 + 𝒪(e)] is not The particle's radius, should we call it the cyclindrical radius ie bold(r) projected to the z=0 plane?\n\nshould we say Its mean anomaly advances with time t at the epicyclic rate? ditto for mean longitude\n\n should second of Eqns. (6), refer to Eqn 6b?\n\nshould Because r ≃ a, the vertical frequency ν(r) in the vertical equation of motion, the second of Eqns. (6), can be replaced by its value at r = a, which gives the harmonic oscillator \n\nsimply say that Eqn 6b is already first order in the small qunatities so nu(r) simeq nu(a)\n\nthen skip z̈ = −νₐ² z,  (9) entirely and quote its soultion?",
+   "reply": "Done (not yet pushed).\n1. Now \"The particle's coordinates are (7) when written in terms of the epicyclic elements (Eqn. A9 of Hahn et al. 2025), where the mean angular velocity and epicyclic frequency at semimajor axis a are (8)\". The citation prints as \"Hahn et al. 2025\", which is AASTeX's form for four authors.\n2. Now \"Equations (7) conserve exactly the vertical component of the particle's specific angular momentum vector, h_z = r v_theta = a^2 Omega_a, and also solve the planar equation of motion...\". I kept \"exactly\" because the exact conservation of h_z is what makes Step 1 of 2.3 exact. Say if you want it dropped.\n3. Yes: \"The particle's cylindrical radius, the length of its position vector projected onto the ring plane, is r = a[1 + O(e)]\".\n4. Yes: M \"advances with time t at the epicyclic frequency\", and lambda \"advances with time at the mean angular velocity\".\n5. Eqn. 6's lines are now numbered 6a and 6b, and the text cites 6a and 6b.\n6. Done: \"Equation (6b) is already first order in the small quantities, so nu(r) ~= nu(a) in it, with vertical frequency (BL94) (9) where the neglected terms are of order O(ei) and O(i^3).\" The old oscillator equation z'' = -nu_a^2 z is gone. 2.2 now says \"The solution of Eqn. (6b) with nu = nu_a is a sinusoid...\", and the later check reads \"solve z'' = -nu_a^2 z exactly\", inline. From (9) on, every equation number is one lower: zvz is now (11) and i_node is (13).\nI added the general points as style rule P73: number the lines of an equation the text cites, don't display an equation that only re-evaluates a parameter, and give a displayed result's source after it.",
+   "reply_at": "2026-11-12T03:24:00.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-2",
+   "note_at": "2026-11-12T03:29:48.153Z",
+   "note": "drop exactly since its conserved, so its also conserved exactly.\n\nEquation (6b) is already first order in the small quantities, so ν(r) ≃ ν(a) and the vertical oscillation frequency becomse\n<show eqn>\n(Eqn. 17 of Borderies-Rappaport & Longaretti 1994)\n\ndelete This holds for the planet's gravity alone, so in a massless ring; a ring's self-gravity alters all three frequencies.\n\ndelete is a sinusoid of frequency νₐ \nand move whose amplitude and phase define two new orbit elements, the inclination i and the longitude of ascending node Ω:\nbelow the equation\n\nchange \"At r = a and z = 0, where\" to Note that (since r=a and z=0 is understood)\n\nchange \"Note that Ω is the longitude of ascending node, while Ωₐ is the mean angular velocity.\" to \"Also keep in mind that Ω is the longitude of ascending node, while Ωₐ is the mean angular velocity.\"\n\ncan \"The vertical phase λ − Ω advances at exactly νₐ, so Eqns. (11) solve z̈ = −νₐ²z exactly, with v_z = ż, and the particle crosses the ring plane upward at longitude λ = Ω. Measuring the phase from λ rather than θ is what keeps the vertical motion a pure harmonic oscillator; θ − Ω would add an 𝒪(ei) error to the phase.\" be deleted?",
+   "reply": "Done (not yet pushed). (Your Apply said \"no new notes\" because I had stamped my previous reply with a wrong, future time. Fixed.)\n1. Dropped \"exactly\" from the h_z sentence.\n2. Now: \"Equation (6b) is already first order in the small quantities, so nu(r) ~= nu(a) and the vertical oscillation frequency becomes (9) (Eqn. 17 of Borderies-Rappaport & Longaretti 1994), where the neglected terms are...\"\n3. Deleted the massless-ring sentence.\n4. Now: \"The solution of Eqn. (6b) with nu = nu_a is (11) whose amplitude and phase define two new orbit elements, the inclination i and the longitude of ascending node Omega. The node regresses at the rate (12).\"\n5. Now: \"Note that Omega_a^2 = r^-1 dPhi_p/dr, kappa_a^2 = ... and nu_a^2 = d2Phi_p/dz2, so Eqn. (10) relates the three frequencies via kappa_a^2 + nu_a^2 = 2 Omega_a^2.\" (r = a, z = 0 left understood.)\n6. Changed to \"Also keep in mind that...\".\n7. Partly deleted. I cut the first sentence (lambda - Omega advances at nu_a, so (11) solves the oscillator exactly; the ascending crossing at lambda = Omega), since 2.3 already says the vertical drift is an exact rotation. I kept, shortened: \"Measuring the phase from lambda rather than theta keeps the vertical motion a pure harmonic oscillator; theta - Omega would add an O(ei) error to the phase.\" That is a choice a reader re-implementing the drift could get wrong. Say if you want it gone too.",
+   "reply_at": "2026-11-12T03:32:30.000Z",
+   "status": "done"
+  }
+ ]
+}

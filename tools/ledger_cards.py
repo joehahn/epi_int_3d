@@ -98,11 +98,17 @@ class Converter:
         self.leftovers = set()           #LaTeX commands this converter doesn't know
         self.depth = 0
         self.pieces = []
+        self.sub = None                  #in a subequations environment, the number of lines so far
+
 
     #the next equation number, checked against the PDF's when the equation has a label
     def number_equation(self, label):
-        self.equation += 1
-        number = self.prefix + str(self.equation)
+        if (self.sub is None):
+            self.equation += 1
+            number = self.prefix + str(self.equation)
+        else:                            #6a, 6b, ... on one number
+            number = self.prefix + str(self.equation) + 'abcdefghijklmnopqrstuvwxyz'[self.sub]
+            self.sub += 1
         if ((label is not None) and (self.labels.get(label) != number)):
             self.mismatches += [(label, number, self.labels.get(label))]
         return number
@@ -179,8 +185,22 @@ class Converter:
         #figures and displayed math first
         text = re.sub(r'\\begin\{(figure\*?)\}(?:\[[^\]]*\])?(.*?)\\end\{\1\}',
             lambda m: keep(self.figure_html(m.group(2), assets)), text, flags=re.S)
-        text = re.sub(r'\\begin\{(equation\*?|eqnarray)\}(.*?)\\end\{\1\}',
-            lambda m: keep(self.display(m.group(1), m.group(2))), text, flags=re.S)
+        def subequations(body):            #numbered 6a, 6b, ... under one number
+            self.equation += 1
+            label = re.match(r'\s*\\label\{([^}]*)\}', body)
+            number = self.prefix + str(self.equation)
+            if (label and (self.labels.get(label.group(1)) != number)):
+                self.mismatches += [(label.group(1), number, self.labels.get(label.group(1)))]
+            self.sub = 0
+            out = re.sub(r'\\begin\{(equation\*?|eqnarray)\}(.*?)\\end\{\1\}',
+                lambda e: keep(self.display(e.group(1), e.group(2))), body, flags=re.S)
+            self.sub = None
+            return re.sub(r'^\s*\\label\{[^}]*\}', '', out)
+        def displayed(m):                  #in the paper's order, so the numbers count up
+            if (m.group(1) == 'subequations'):
+                return subequations(m.group(2))
+            return keep(self.display(m.group(1), m.group(2)))
+        text = re.sub(r'\\begin\{(subequations|equation\*?|eqnarray)\}(.*?)\\end\{\1\}', displayed, text, flags=re.S)
         #inline math
         text = re.sub(r'(?<!\\)\$(.+?)(?<!\\)\$',
             lambda m: keep('$' + html.escape(fill_numbers(m.group(1), self.macros), quote=False) + '$'), text, flags=re.S)

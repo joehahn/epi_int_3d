@@ -11,7 +11,7 @@ open issues and a box for the author's notes to Claude: https://claude.ai/artifa
     (Claude recommends acting on it) and a `detail`.
   - `meta/summary` and `meta/costs`: the top bar's totals and the Costs view.
   - `notes/<id>`: the author's note on a card (`text`) and his Use/Skip choice on each issue (`fixes`).
-  - `replies/<id>`: Claude's reply to that note (`reply`, `at`, `status`: done or question).
+  - `replies/<id>`: Claude's reply to that note (`reply`, `at`, `status`: done or question). Set `at` to the real current time (`date -u`), never a guess: the page treats a note older than its reply as handled.
 - `assets.json`: the ids of the figures uploaded to the page, with each PNG's hash; `tools/ledger.py`
   says when a figure has changed and needs uploading again.
 - `notes.json`: the record of the author's notes and Claude's replies, exported each time Claude acts on
