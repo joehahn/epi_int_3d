@@ -1,0 +1,16 @@
+{
+ "about": "Where the ledger's cited places open: each cited paper's public PDF (url) and the page, in that PDF, of each place the paper cites in it, so that a click on 'Eqn. (A21) of Shu (1984)' opens the whole paper in a new tab at that page (url#page=N; the browser's PDF viewer honors it). Locators are kind:number, the first number of a range. Shu (1984) is ADS's scan, identical to papers/shu84.pdf and read by eye. The Hahn papers are their arXiv versions, whose pages differ from the journal's (joes_papers/); their place numbers match the journal's, except that arXiv numbers H25's Eqn. (C1) as (C14). Borderies-Rappaport & Longaretti (1994) has no public copy, so its link opens its DOI with no page (nopage). tools/ledger_cards.py warns about any locator missing here.",
+ "papers": {
+  "S84": {"pdf": "papers/shu84.pdf", "url": "https://articles.adsabs.harvard.edu/pdf/1984prin.conf..513S",
+   "pages": {"eqn:88": 31, "eqn:91": 32, "eqn:97": 33, "eqn:A21": 43}},
+  "BL94": {"pdf": "papers/borderies-rappaport94.pdf", "url": "https://doi.org/10.1006/icar.1994.1011", "nopage": true,
+   "pages": {"eqn:5": 3, "eqn:17": 3}},
+  "H25": {"pdf": "joes_papers/hahn25.pdf", "url": "https://arxiv.org/pdf/2505.06639",
+   "pages": {"section:2": 2, "section:2.2": 3, "appendix:A": 30, "eqn:A9": 31, "eqn:C1": 33},
+   "notes": {"eqn:C1": "numbered (C14) in the arXiv version"}},
+  "HS13": {"pdf": "joes_papers/hahn13.pdf", "url": "https://arxiv.org/pdf/1306.1135",
+   "pages": {"fig:3": 13, "appendix:A": 50}},
+  "H07": {"pdf": "joes_papers/hahn07.pdf", "url": "https://arxiv.org/pdf/0705.3797",
+   "pages": {"fig:5": 27}}
+ }
+}

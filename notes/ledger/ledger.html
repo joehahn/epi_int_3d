@@ -71,6 +71,7 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 
 .text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
 .text p { margin: 0; } .text p + p { text-indent: 1.5em; }
+.text a.ref { color: inherit; text-decoration: underline dotted; text-underline-offset: 2px; } .text a.ref:hover { text-decoration-style: solid; }
 .text .nb { margin-top: .8em; font: 13.5px var(--f-ui); color: var(--ink-2); } .text .nb a { overflow-wrap: anywhere; }
 .text h4.sub { font: italic 15px var(--f-text); color: var(--ink-2); margin: .9em 0 .3em; }
 .text code { font-family: var(--f-mono); font-size: .86em; }
@@ -154,6 +155,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     max-width: min(640px, calc(100vw - 32px)); font: 500 13px var(--f-ui); background: var(--ink); color: var(--paper);
     border-radius: 6px; padding: 8px 14px; box-shadow: 0 6px 24px rgb(0 0 0 / .18); white-space: pre-wrap; overflow-wrap: anywhere; }
   #MJX-SVG-global-cache, svg#MJX-SVG-global-cache { display: none !important; }
+.text .subnote { margin: 12px 0 18px; border-top: 0; padding: 8px 0 0 12px; border-left: 3px solid var(--rule-2); text-indent: 0; }
+.text .subnote label { font-weight: 500; }
 </style>
 
 <header class="top">
@@ -207,7 +210,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     canWrite: true, loaded: false, working: null, updated: new Set(), banner: "", applyMsg: "", sentAt: 0 };
   const filters = [["all", "All"], ["attention", "Has issues"], ["noted", "Has my note"]];
   const hasNote = id => { const n = state.notes[id] || {}; return !!(n.text || "").trim() || !!Object.keys(n.fixes || {}).length; };
-  const match = (c, f) => f === "all" ? true : f === "attention" ? c.state === "attention" : hasNote(c.id);
+  const match = (c, f) => f === "all" ? true : f === "attention" ? c.state === "attention"
+    : hasNote(c.id) || Object.keys(state.notes).some(k => k.startsWith(c.id + "~") && hasNote(k));
 
   // copying math: each typeset equation carries its LaTeX (data-tex), and a copy turns it into plain Unicode
   const tex2text = (() => {
@@ -360,6 +364,15 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
         : el("div", {class: "missing", text: "Figure " + f.dataset.png + " isn't uploaded yet."});
       f.prepend(img);
     }
+    // a note box after each figure and at the end of each subsubsection: card() fills them, each render
+    for (const f of node.querySelectorAll("figure.fig"))
+      f.after(el("div", {class: "note subnote", "data-part": "fig-" + (f.dataset.png || "x").replace(/\.png$/, ""),
+        "data-label": (f.querySelector("figcaption b")?.textContent || "this figure").replace(/\.\s*$/, "")}));
+    const subs = [...node.querySelectorAll("h4.sub")];
+    subs.forEach((h, k) => {
+      const slot = el("div", {class: "note subnote", "data-part": "sub" + (k + 1), "data-label": h.textContent.replace(/\s+/g, " ").trim()});
+      if (subs[k + 1]) subs[k + 1].before(slot); else node.append(slot);
+    });
     if ((c.notebooks || []).length)
       node.append(el("div", {class: "nb"}, el("b", {text: "Test notebooks: "}),
         ...c.notebooks.flatMap((u, k) => [k ? " · " : "", el("a", {href: u, target: "_blank", rel: "noopener", text: u.split("/").slice(-2).join("/")})])));
@@ -457,6 +470,19 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     document.querySelectorAll(".card").forEach(h => spyObs.observe(h));
   }
 
+  // a note box: one for each card, and one for each of its subsubsections and figures (id card~part)
+  function noteBox(id, cardId, part, label, placeholder) {
+    const ta = el("textarea", {id: `note-${id}`, rows: "2", placeholder});
+    ta.value = state.notes[id]?.text || "";
+    if (!state.canWrite) ta.disabled = true;
+    const status = el("div", {class: "notestatus", id: `ns-${id}`});
+    const save = () => saveNote(id, {text: ta.value, card: cardId, ...(part ? {part} : {})});
+    let timer = null;
+    ta.addEventListener("input", () => { status.textContent = "Typing…"; clearTimeout(timer); timer = setTimeout(() => { timer = null; save(); }, 900); });
+    ta.addEventListener("blur", () => { if (timer) { clearTimeout(timer); timer = null; save(); } });
+    return [el("label", {for: `note-${id}`, text: label}), ta, status, replyBlock(id)];
+  }
+
   function replyBlock(id) {
     const n = state.notes[id] || {}, rep = state.replies[id];
     if (!rep?.reply) return null;
@@ -506,20 +532,18 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
         el("b", {text: `${f.items_ok}/${f.items}`}), " chain items current") : null,
       f.equations ? el("span", {title: "The derived equations behind this section (notes/equations.md): all are checked by sympy"},
         el("b", {text: `${f.equations_hand}/${f.equations}`}), " equations hand-checked") : null);
-    const ta = el("textarea", {id: `note-${c.id}`, rows: "2", placeholder: "Edits or questions for this section, e.g. change \"…\" to \"…\""});
-    ta.value = state.notes[c.id]?.text || "";
-    if (!state.canWrite) ta.disabled = true;
-    const status = el("div", {class: "notestatus", id: `ns-${c.id}`});
-    let timer = null;
-    ta.addEventListener("input", () => { status.textContent = "Typing…"; clearTimeout(timer); timer = setTimeout(() => { timer = null; saveNote(c.id, {text: ta.value}); }, 900); });
-    ta.addEventListener("blur", () => { if (timer) { clearTimeout(timer); timer = null; saveNote(c.id, {text: ta.value}); } });
+    const text = textOf(c), slots = [...text.querySelectorAll(".subnote")];
+    for (const s of slots)
+      s.replaceChildren(...noteBox(c.id + "~" + s.dataset.part, c.id, s.dataset.label, "Your note on " + s.dataset.label,
+        "Edits or questions for " + s.dataset.label));
     const issues = issuesBlock(c);
     const art = el("article", {class: "card", "data-state": c.state, id: `card-${c.id}`},
       el("div", {class: "cardhead"},
         (() => { const h = el("h2"); h.innerHTML = c.title; h.prepend(el("span", {class: "num", text: c.number})); return h; })(),
         el("span", {class: "pill " + c.state, text: c.state === "attention" ? plural(c.issues.length, "issue") : "No open issues"})),
-      facts, textOf(c), issues,
-      el("div", {class: "note"}, el("label", {for: `note-${c.id}`, text: "Your note to Claude"}), ta, status, replyBlock(c.id)));
+      facts, text, issues,
+      el("div", {class: "note"}, ...noteBox(c.id, c.id, null, slots.length ? "Your note on this whole section" : "Your note to Claude",
+        "Edits or questions for this section, e.g. change \"…\" to \"…\"")));
     art._issues = issues;
     return art;
   }
@@ -572,7 +596,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   const writing = {};
   async function saveNote(id, patch) {
     const status = document.getElementById(`ns-${id}`);
-    const next = {...(state.notes[id] || {}), ...patch, updatedAt: new Date().toISOString(), card: id};
+    const next = {card: id, ...(state.notes[id] || {}), ...patch, updatedAt: new Date().toISOString()};
     state.notes[id] = next;
     if ("fixes" in patch) { document.getElementById(`card-${id}`)?._issues?._fill(); }
     renderTop();
@@ -581,7 +605,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     writing[id] = {again: false};
     if (status) status.textContent = "Saving…";
     try {
-      await state.db.doc(`notes/${id}`).set({text: next.text || "", fixes: next.fixes || {}, updatedAt: next.updatedAt, card: id});
+      await state.db.doc(`notes/${id}`).set({text: next.text || "", fixes: next.fixes || {}, updatedAt: next.updatedAt, card: next.card,
+        ...(next.part ? {part: next.part} : {})});
       if (status) status.textContent = "Saved";
     } catch (err) {
       if (err?.code === "invalid_argument" || err?.code === "permission_denied") { state.canWrite = false; if (status) status.textContent = "You can read this page but not save notes."; }
@@ -621,7 +646,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       const before = state.replies;
       state.replies = Object.fromEntries(snap.docs.map(d => [d.id, d.data()]));
       if (state.cards.length && location.hash !== "#costs")
-        for (const id of Object.keys(state.replies)) if (JSON.stringify(before[id]) !== JSON.stringify(state.replies[id]) && document.activeElement?.id !== `note-${id}`) redraw(id);
+        for (const id of Object.keys(state.replies)) if (JSON.stringify(before[id]) !== JSON.stringify(state.replies[id]) && document.activeElement?.id !== `note-${id}`) redraw(id.split("~")[0]);
       if (state.working) {
         for (const [id, r] of Object.entries(state.replies)) if ((r.at || "") > state.working) state.updated.add(id);
         if (state.updated.size) {

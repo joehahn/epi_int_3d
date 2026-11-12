@@ -10,8 +10,15 @@ open issues and a box for the author's notes to Claude: https://claude.ai/artifa
     Each issue has an id that stays the same while its text does, `kind` (chain, lint or review), `rec`
     (Claude recommends acting on it) and a `detail`.
   - `meta/summary` and `meta/costs`: the top bar's totals and the Costs view.
-  - `notes/<id>`: the author's note on a card (`text`) and his Use/Skip choice on each issue (`fixes`).
+  - `notes/<id>`: the author's note on a card (`text`) and his Use/Skip choice on each issue (`fixes`). A note on one of a
+    card's subsubsections or figures has the id `<card>~sub<k>` or `<card>~fig-<png name>`, with `card` and `part`
+    (e.g. "4.1.2 Massless particles", "Figure 3") saying where it applies; its reply has the same id.
   - `replies/<id>`: Claude's reply to that note (`reply`, `at`, `status`: done or question). Set `at` to the real current time (`date -u`), never a guess: the page treats a note older than its reply as handled.
+- `citations.json`: each cited paper's public PDF (`url`: ADS's scan, or arXiv) and the page, in that PDF, of each
+  place the paper cites ("Eqn. (A21) of Shu (1984)"); the cards link the place to `url#page=N`, which opens the whole
+  paper in a new tab at that page. A paper with no free copy (BL94) links to its DOI (`nopage`). When the paper cites a
+  new place, `tools/ledger.py` says so; find its page in the public PDF (by eye for scans) and add it. The ledger's
+  own file store can't serve these: a link that leaves the page can't reach it ("not found").
 - `assets.json`: the ids of the figures uploaded to the page, with each PNG's hash; `tools/ledger.py`
   says when a figure has changed and needs uploading again.
 - `notes.json`: the record of the author's notes and Claude's replies, exported each time Claude acts on

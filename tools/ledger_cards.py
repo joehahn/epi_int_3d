@@ -12,6 +12,7 @@
 
 import glob
 import html
+import json
 import os
 import re
 import subprocess
@@ -21,6 +22,14 @@ import tempfile
 repo_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 paper_folder = os.path.join(repo_folder, 'paper')
 paper_file = os.path.join(paper_folder, 'epi_int_3d.tex')
+citations_file = os.path.join(repo_folder, 'notes', 'ledger', 'citations.json')
+
+#a place in a cited paper: "Eqn.\ (A21) of \cite{S84}", "Fig.~5 of \cite{H07}", "Appendix A of \citealt{H25}",
+#"Eqns.\ (88) and (91)--(92) of \cite{S84}" (the first number), and \citep[Eqns.\ (97)--(98) of][]{S84}
+_place = (r'(?P<kind>Eqns?\.|Figs?\.|Sections?|Appendix)(?:\\ |~|\s)+\(?(?P<number>[A-Z]?\d+(?:\.\d+)*|[A-Z])\)?'
+    r'(?:--\(?[A-Z]?\d+\)?)?(?:\s+and\s+\(?[A-Z]?\d+\)?(?:--\(?[A-Z]?\d+\)?)?)?')
+LOCATOR = re.compile(_place + r'\s+of\s+\\(?:citealt|citet|cite)\{(?P<key>\w+)\}')
+LOCATOR_CITEP = re.compile(r'\\citep\[' + _place + r'\s+of\]\[\]\{(?P<key>\w+)\}')
 
 
 #the text of a {...} group starting at text[start] == '{', and the position after it
@@ -97,6 +106,8 @@ class Converter:
         self.mismatches = []             #labels whose number here differs from the PDF's
         self.leftovers = set()           #LaTeX commands this converter doesn't know
         self.depth = 0
+        self.citations = json.load(open(citations_file))['papers'] if os.path.exists(citations_file) else {}
+        self.missing_locators = set()     #cited places that citations.json has no page for
         self.card_number, self.subsub = '', 0   #the card being converted, and its subsubsections so far
         self.pieces = []
         self.sub = None                  #in a subequations environment, the number of lines so far
@@ -146,6 +157,26 @@ class Converter:
         return ('<h4 class="sub">' + self.card_number + '.' + str(self.subsub) + '\u2002'
             + html.escape(title, quote=False) + '</h4>')
 
+    #a locator and its citation wrapped in a link to that page of the cited paper's PDF in the ledger's file store,
+    #or left as it is (and noted in self.missing_locators) when citations.json lacks the paper or the page
+    def locator_link(self, m, keep):
+        kind = {'eqn': 'eqn', 'fig': 'fig', 'sec': 'section', 'app': 'appendix'}[m.group('kind')[:3].lower()]
+        key = kind + ':' + m.group('number')
+        paper = self.citations.get(m.group('key'), {})
+        page = paper.get('pages', {}).get(key)
+        if (page is None) or (not paper.get('url')):
+            self.missing_locators.add(m.group('key') + ' ' + key)
+            return m.group(0)
+        #the whole paper, in a new tab, at that page
+        if paper.get('nopage'):
+            href, title = paper['url'], 'Opens the paper at its publisher (no free copy); the place is on page ' + str(page)
+        else:
+            href, title = paper['url'] + '#page=' + str(page), 'Opens the paper at page ' + str(page)
+        if key in paper.get('notes', {}):
+            title += ', where it is ' + paper['notes'][key]
+        return (keep('<a class="ref" href="' + href + '" target="_blank" rel="noopener" title="' + title + '">')
+            + m.group(0) + keep('</a>'))
+
     #citations as the paper prints them
     def cite(self, keys, options, style):
         names = []
@@ -157,6 +188,8 @@ class Converter:
                 names += [authors + ' ' + year]
         text = '; '.join(names)
         if (style == 'citep'):
+            options = [o.replace('\\ ', ' ').replace('---', '\u2014').replace('--', '\u2013').replace('~', '\u00a0')
+                for o in options]                #the TeX typography of the running text
             before, after = '', ''
             if (len(options) == 1):
                 after = ', ' + options[0]
@@ -214,6 +247,9 @@ class Converter:
         #the number macros in running text (a {} after one keeps the space after it in TeX)
         text = re.sub(r'(\\(?:vres|bw)\w+)\{\}', r'\1', text)
         text = fill_numbers(text, self.macros)
+        #a place in a cited paper, "Eqn. (A21) of \\cite{S84}", links to that page of its PDF (notes/ledger/citations.json)
+        text = re.sub(LOCATOR, lambda m: self.locator_link(m, keep), text)
+        text = re.sub(LOCATOR_CITEP, lambda m: self.locator_link(m, keep), text)
         #commands with arguments
         text = replace_command(text, 'footnote', lambda arg, o: keep('<span class="fn">'
             + self.inline(arg, assets) + '</span>'))
@@ -320,6 +356,8 @@ def cards(assets=None):
             'lines': [first_line + body[:start].count('\n'), first_line + body[:stop].count('\n')],
             'notebooks': sorted(set(re.findall(r'\\url\{(https://github\.com/[^}]*\.ipynb)\}', tex))),
             'tex': ' '.join(tex.split()), 'leftovers': sorted(converter.leftovers)}]
+    for missing in sorted(converter.missing_locators):
+        print('citations.json has no page for', missing, '(the ledger shows it unlinked)')
     if converter.mismatches:
         raise ValueError('numbers that differ from the PDF (label, here, PDF): ' + str(converter.mismatches))
     return out
