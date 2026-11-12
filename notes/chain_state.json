@@ -55,7 +55,7 @@
  },
  "claim:drift_rotation": {
   "date": "2026-11-11",
-  "hash": "dd1349596ebc",
+  "hash": "04682f444f71",
   "needs": {
    "code:vertical_drift": "cac5e539d361",
    "paper:eqn:i_node": "df29a18a52d5",
@@ -85,6 +85,15 @@
   "hash": "70656bbfdaad",
   "needs": {
    "sympy:B10": "e74ae9f8460d"
+  }
+ },
+ "claim:integrator": {
+  "date": "2026-11-11",
+  "hash": "04682f444f71",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:kick_drift_kick": "85b59f4c0c3d",
+   "code:vertical_drift": "cac5e539d361"
   }
  },
  "claim:linear_density": {
@@ -169,6 +178,13 @@
    "code:ring_gravity": "b009c47899ac"
   }
  },
+ "claim:viscosity_in_plane": {
+  "date": "2026-11-11",
+  "hash": "dedf81f122bf",
+  "needs": {
+   "code:kick_drift_kick": "85b59f4c0c3d"
+  }
+ },
  "code:bending_wave": {
   "date": "2026-11-10",
   "hash": "cc860c117825",
@@ -236,6 +252,11 @@
   "needs": {
    "code:nodal_rate": "bc7117846b35"
   }
+ },
+ "code:kick_drift_kick": {
+  "date": "2026-11-11",
+  "hash": "85b59f4c0c3d",
+  "needs": {}
  },
  "code:latex_number": {
   "date": "2026-11-10",

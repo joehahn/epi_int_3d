@@ -1887,6 +1887,33 @@
     "paper:eqn:wire_edges"
    ],
    "note": "the finite ring's missing pull, 2G sigma/d per edge"
+  },
+  {
+   "id": "code:kick_drift_kick",
+   "kind": "code",
+   "anchor": "fast/epi_int_3d.py::main",
+   "needs": [],
+   "note": "the kick-drift-kick loop with coordinate kicks (epi_int_lite's, C99)"
+  },
+  {
+   "id": "claim:integrator",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@second-order symplectic kick-drift-kick scheme",
+   "needs": [
+    "code:kick_drift_kick",
+    "code:drift",
+    "code:vertical_drift"
+   ],
+   "note": "Section 3.4: KDK of C99 via H25; drift exact; coordinate kicks for the planet's motion"
+  },
+  {
+   "id": "claim:viscosity_in_plane",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@uses the shear and bulk viscosity",
+   "needs": [
+    "code:kick_drift_kick"
+   ],
+   "note": "Section 3.3: epi_int_lite's viscosity (helper_fns.accelerations) is in-plane only; bending-wave runs have none"
   }
  ]
 }

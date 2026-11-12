@@ -218,19 +218,27 @@ first four from Appendix A of \cite{H25}:
 \end{enumerate}
 Once $a$ is known, the mapping $(i, \lambda - \Omega) \leftrightarrow (z, v_z/\nu_a)$ is a
 change between polar and Cartesian coordinates, so Eqns.\ (\ref{eqn:zvz}) and
-(\ref{eqn:i_node}) are exact inverses. The drift step from $t$ to $t + \Delta t$ converts
-coordinates to elements, advances $M \rightarrow M + \kappa_a\Delta t$ and
-$\Omega \rightarrow \Omega + (\Omega_a - \nu_a)\Delta t$, and converts back. Its vertical part
-is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$.
+(\ref{eqn:i_node}) are exact inverses.
 
 
-\section{The gravity of a streamline}
+\section{Ring forces}
 \label{sec:gravity}
 
+A ring particle's epicyclic motion is also perturbed by the accelerations that the surrounding ring
+exerts on it: the ring's self-gravity, its pressure, and its viscosity, which accounts for the dissipative
+collisions that occur as particles in adjacent streamlines shear past one another. \code{Epi\_int\_3d}
+computes these accelerations as \code{epi\_int\_lite} does (Section 2 of \citealt{H25}). Its particles
+are assigned to streamlines, each a closed eccentric path around the planet that is populated by
+particles that share a common semimajor axis $a$ and are distributed in longitude, so the particles
+trace out their streamlines. The particles do not interact with each other directly. Rather, each
+particle is perturbed by the accelerations exerted by the other streamlines, whose positions, slopes
+and linear densities near the particle are inferred from the particles that trace them.
+
+\subsection{Gravity}
+\label{sec:ring_gravity}
+
 %equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
-\code{Epi\_int\_3d} assigns particles to streamlines that are a closed eccentric path around the
-planet whose particles share a common semimajor axis $a$. All \code{epi\_int\_3d}
-simulations span only a narrow annulus within a broader planetary ring, so every particle is
+All \code{epi\_int\_3d} simulations span only a narrow annulus within a broader planetary ring, so every particle is
 radially close to the nearby portions of all perturbing streamlines. Which is why \code{epi\_int\_3d} and its
 predecessors (\code{epi\_int} and \code{epi\_int\_lite}) assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
 streamline at semimajor axis $a'$ is that due to a straight and infinitely long wire:
@@ -243,7 +251,7 @@ from the streamline's nearest point, which is labeled the near point in Fig.~\re
 and $\hat{\boldsymbol{\Delta}} = \boldsymbol{\Delta}/\Delta$ is the unit vector that points from the
 particle toward the near point.
 
-\subsection{The perturbing streamline's geometry}
+\subsubsection{The perturbing streamline's geometry}
 \label{sec:wire}
 
 The following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
@@ -374,7 +382,7 @@ $\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\l
 \label{fig:wire_planar}
 \end{figure}
 
-\subsection{Computing the acceleration}
+\subsubsection{Computing the acceleration}
 \label{sec:wire_code}
 
 %Phase 3 step 2: coded as fast/kernels.py ring_gravity_3d (notes/phase3/vertical_gravity.md)
@@ -393,6 +401,37 @@ ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather tha
 which is justified since Eqn.\ (\ref{eqn:wire_Ag}) assumes that $\lambda'$ varies insignificantly over
 distances of several $\Delta$ along the streamline, while the near point lies only
 $|\mathbf{d}_1| \ll \Delta$ from the crossing point.
+
+\subsection{Pressure}
+\label{sec:pressure}
+
+\code{Epi\_int\_lite} treats the ring as a dilute gas of colliding particles whose one-dimensional
+pressure is $p = c^2\sigma$, where $c$ is the particles' velocity dispersion and $\sigma$ is the ring's
+surface density (Section 2.2 of \citealt{H25}). Its treatment in three dimensions, and a test against
+the theory of spiral density waves in a non-gravitating, pressure-supported gas disk, will be
+completed later.
+
+\subsection{Viscosity}
+\label{sec:viscosity}
+
+\code{Epi\_int\_3d} uses the shear and bulk viscosity of \code{epi\_int\_lite} (Section 2.2 of
+\citealt{H25}; Appendix A of \citealt{HS13}), which act only in the ring plane. A vertical viscosity,
+which would damp bending waves, will be completed later. The bending-wave simulations of
+Section \ref{sec:waves} have no viscosity or pressure.
+
+\subsection{Advancing the particles}
+\label{sec:integrator}
+
+\code{Epi\_int\_3d} advances the particles with the second-order symplectic kick-drift-kick scheme of
+\code{epi\_int\_lite}, which is that of the MERCURY N-body integrator \citep{C99}; see Section 2.2 of
+\cite{H25}. Each timestep $\Delta t$ starts with a kick that changes each particle's velocity by the
+ring's accelerations, plus any satellite's (Section \ref{sec:waves}), applied over $\Delta t/2$. Then a
+drift advances the particle along its unperturbed orbit for $\Delta t$, and a second half kick ends the
+timestep. The drift converts coordinates to elements (Section \ref{sec:coords2elem}), advances
+$M \rightarrow M + \kappa_a\Delta t$ and $\Omega \rightarrow \Omega + (\Omega_a - \nu_a)\Delta t$, and
+converts back, so it is exact for an unperturbed particle. Its vertical part is simply a rotation of
+$(z, v_z/\nu_a)$ through the angle $\nu_a\Delta t$. Before and after each drift, small shifts of the
+particles' coordinates account for the planet's motion about the system's center of mass \citep{C99}.
 
 
 \section{Spiral bending waves at a vertical resonance}
