@@ -1,12 +1,12 @@
 {
  "claim:bw_agreement": {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "hash": "84ba3827c40c",
   "needs": {
    "notebook:bending_waves": "87144ddf21c5",
    "numbers:bending_waves": "d458f57d9640",
    "paper:eqn:vres_sol": "54f63ba502dd",
-   "paper:fig:bwave": "a4c89b032d27",
+   "paper:fig:bwave": "49c83ee42e97",
    "sympy:B10": "e74ae9f8460d",
    "sympy:B8": "e43e55c5ab65"
   }
@@ -35,8 +35,8 @@
   }
  },
  "claim:direction": {
-  "date": "2026-11-10",
-  "hash": "a9acc5c81d0b",
+  "date": "2026-11-12",
+  "hash": "06e451986759",
   "needs": {
    "code:ring_gravity": "b009c47899ac",
    "sympy:G14": "459ad722e276",
@@ -64,8 +64,8 @@
   }
  },
  "claim:edge_term": {
-  "date": "2026-11-10",
-  "hash": "6c167d11b283",
+  "date": "2026-11-12",
+  "hash": "59630b69f5be",
   "needs": {
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:eqn:wire_lattice": "ce833ece9930",
@@ -116,11 +116,11 @@
   }
  },
  "claim:near_point_close": {
-  "date": "2026-11-11",
-  "hash": "05f5841b630e",
+  "date": "2026-11-12",
+  "hash": "1dba0fc10ca1",
   "needs": {
-   "paper:eqn:wire_mode": "ec59c791bf54",
    "paper:eqn:wire_pythag": "f3186e4f704d",
+   "paper:eqn:wire_slopes": "5d7c0837c8cb",
    "sympy:G18": "88f60922ebae",
    "sympy:G20": "e61431f60303"
   }
@@ -144,8 +144,8 @@
   }
  },
  "claim:pattern_speed": {
-  "date": "2026-11-10",
-  "hash": "59cf18428e22",
+  "date": "2026-11-12",
+  "hash": "9e8da7e96cd7",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "719b0fce7aa0"
@@ -1126,8 +1126,8 @@
   }
  },
  "paper:fig:bwave": {
-  "date": "2026-11-11",
-  "hash": "a4c89b032d27",
+  "date": "2026-11-12",
+  "hash": "49c83ee42e97",
   "needs": {
    "figure:bending_wave": "8ff641584b6e",
    "sympy:B8": "e43e55c5ab65"
@@ -1142,8 +1142,8 @@
   }
  },
  "paper:fig:wire_planar": {
-  "date": "2026-11-11",
-  "hash": "25efc7c9afdb",
+  "date": "2026-11-12",
+  "hash": "5f91ab5e4f07",
   "needs": {
    "figure:wire_planar": "907422408d7c"
   }

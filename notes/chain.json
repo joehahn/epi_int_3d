@@ -1547,14 +1547,6 @@
    ]
   },
   {
-   "id": "paper:eqn:wire_mode",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_mode",
-   "needs": [
-    "sympy:G20"
-   ]
-  },
-  {
    "id": "paper:fig:wire_planar",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#fig:wire_planar",
@@ -1570,7 +1562,7 @@
     "sympy:G18",
     "sympy:G20",
     "paper:eqn:wire_pythag",
-    "paper:eqn:wire_mode"
+    "paper:eqn:wire_slopes"
    ],
    "note": "|d1| <= s Delta << Delta"
   },

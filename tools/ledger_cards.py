@@ -223,6 +223,9 @@ class Converter:
                 + html.escape(arg.replace('\\_', '_'), quote=False) + '</code>'))
         text = replace_command(text, 'emph', lambda arg, o: keep('<em>' + self.inline(arg, assets) + '</em>'))
         text = re.sub(r'\\(centering|noindent|appendix)\b', '', text)
+        #subsubsection headings (sections and subsections are the cards themselves)
+        text = re.sub(r'\\subsubsection\*?\{([^}]*)\}(\s*\\label\{[^}]*\})?',
+            lambda m: keep('<h4 class="sub">' + html.escape(m.group(1), quote=False) + '</h4>'), text)
         #lists
         text = text.replace('\\begin{enumerate}', keep('<ol>')).replace('\\end{enumerate}', keep('</ol>'))
         text = re.sub(r'\\item\s*', lambda m: keep('<li>'), text)
@@ -244,6 +247,7 @@ class Converter:
         self.depth -= 1
         while top and ('\x00' in text):
             text = re.sub(r'\x00(\d+)\x00', lambda m: pieces[int(m.group(1))], text)
+        text = re.sub(r'<p>(<h4 class="sub">.*?</h4>)</p>', r'\1', text)
         return text
 
 

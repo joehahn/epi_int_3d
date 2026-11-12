@@ -307,7 +307,7 @@ which are evaluated at the perturbed particle's longitude $\theta' = \theta$ and
 derivatives of the Lagrange polynomials. Together they give $s = (s_r^2 + s_z^2)^{1/2}$, which is the
 streamline's slope relative to circular motion in the ring plane, i.e., the
 $\hat{\boldsymbol{\theta}}$ direction, so the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by
-the angle $\varphi$, where $\tan\varphi = s$. Note that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is also the perturbing streamline's unit tangent:
+the angle $\varphi$ where $\tan\varphi = s$. Note that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is also the perturbing streamline's unit tangent:
 \begin{equation}
     \label{eqn:wire_t}
     \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N},
@@ -322,10 +322,10 @@ $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
     \label{eqn:wire_D}
     \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
 \end{equation}
-which is simply $\mathbf{d}_0$ with its component along the streamline removed.
+which is simply $\mathbf{d}_0$ minus its component along the streamline.
 
 Now equate $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$ to Eqn.\ (\ref{eqn:wire_d1}), which shows
-that the near point lies at $\delta\theta' = -c/r'$, where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N = (d_rs_r + d_zs_z)/N^2$. So at the near point
+that the near point lies at $\delta\theta' = -c/r'$ where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N = (d_rs_r + d_zs_z)/N^2$. So at the near point
 \begin{equation}
     \label{eqn:wire_d1near}
     \mathbf{d}_1 = -Nc\,\hat{\mathbf{t}} = -c(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}).
@@ -349,21 +349,12 @@ where $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$.
 Lastly, note that because the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by the angle
 $\varphi$, the right triangle of Eqn.\ (\ref{eqn:wire_pythag}) has
 $|\mathbf{d}_1| \le \Delta\tan\varphi = s\Delta$, with equality in the ring plane
-(Fig.~\ref{fig:wire_planar}). To lowest order in $e$ and $i$, any
-disturbance of the ring is a superposition of modes whose streamlines are
-\begin{eqnarray}
-    \label{eqn:wire_mode}
-    r'(\theta) &=& a'\left[1 - e\cos(\psi + \alpha)\right] \nonumber\\
-    z'(\theta) &=& a'i\sin(\psi + \beta),
-\end{eqnarray}
-where $\psi = m(\theta - \Omega_pt)$, $m$ is the mode's number of arms, $\Omega_p$ is its pattern
-speed, $e$ and $i$ are the eccentricity and inclination of the particles in streamline $a'$, and
-$\alpha$ and $\beta$ are phases. Equations (\ref{eqn:wire_slopes}) then give
-$s_r \simeq me\sin(\psi + \alpha)$ and $s_z \simeq mi\cos(\psi + \beta)$, so
-$s \lesssim m(e^2 + i^2)^{1/2}$, and the slopes of several modes simply add. Rings are nearly
-circular and nearly planar, and $m$ is modest for the waves of interest, so $s \ll 1$. Consequently,
-$\varphi \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point lies very close to
-the crossing point.
+(Fig.~\ref{fig:wire_planar}). An $m$-armed disturbance displaces streamline $a'$ radially by about
+$ea'$ and vertically by about $ia'$ where $e$ and $i$ are its particles' eccentricity and
+inclination, so Eqns.\ (\ref{eqn:wire_slopes}) give $s_r \sim me$ and $s_z \sim mi$, and
+$s \lesssim m(e^2 + i^2)^{1/2}$. Rings are nearly circular and nearly planar, and $m$ is modest for
+the waves of interest, so $s \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point
+lies very close to the crossing point.
 
 
 \begin{figure}
@@ -371,7 +362,7 @@ the crossing point.
 \includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
 \caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
 \cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
-$\hat{\boldsymbol{\theta}}$ by $\varphi$, where $\tan\varphi = s_r$, and it crosses that longitude at
+$\hat{\boldsymbol{\theta}}$ by $\varphi$ where $\tan\varphi = s_r$, and it crosses that longitude at
 $\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
 $\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
 $\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
@@ -406,7 +397,7 @@ $|\mathbf{d}_1| \ll \Delta$ from the crossing point.
 \label{sec:pressure}
 
 \code{Epi\_int\_lite} treats the ring as a dilute gas of colliding particles whose one-dimensional
-pressure is $p = c^2\sigma$, where $c$ is the particles' velocity dispersion and $\sigma$ is the ring's
+pressure is $p = c^2\sigma$ where $c$ is the particles' velocity dispersion and $\sigma$ is the ring's
 surface density (Section 2.2 of \citealt{H25}). Its treatment in three dimensions, and a test against
 the theory of spiral density waves in a non-gravitating, pressure-supported gas disk, will be
 completed later.
@@ -458,13 +449,13 @@ is Eqn.\ (A21) of \cite{S84}, $b_{3/2}^{(m)}$ is a Laplace coefficient evaluated
 and the satellite's mean longitude $\lambda_s = \Omega_{a_s}t + \lambda_{s0}$ and longitude of ascending
 node $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t + \Omega_{s0}$ advance at constant rates. The forcing's
 argument is then $\chi = m\theta - (m+1)\lambda_s + \Omega_s = m(\theta - \Omega_pt) + \chi_0$, which is an
-$m$-armed pattern that rotates with angular velocity $\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$, where
+$m$-armed pattern that rotates with angular velocity $\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ where
 $\chi_0 = \Omega_{s0} - (m+1)\lambda_{s0}$. A particle feels the forcing at the frequency
 $\omega_D = m(\Omega_a - \Omega_p)$, and the inner
 vertical resonance lies at the radius $r_V$ where $\omega_D = \nu_a$, which is
 $r_V = a_s[(m - 1)/(m + 1)]^{2/3}$ when the planet's oblateness is negligible.
 
-Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{i\chi}]$, where
+Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{i\chi}]$ where
 $x = (r - r_V)/r_V$ is the fractional distance from resonance. Far from resonance, the
 complex amplitude $h$ is, from Eqns.\ (88) and (91)--(92) of \cite{S84},
 \begin{equation}
@@ -592,7 +583,7 @@ also compares the wave's complex amplitude and the satellite's torque on the rin
 \caption{Inclinations $i$ of the streamlines in the self-gravitating ring of Section \ref{sec:waves_ring},
 averaged over each streamline's particles, plotted vs.\ their fractional distance from resonance $x$, at
 six times $t$ in units of the time $\tau_c$ that the wave takes to propagate from $r_V$ to the ring's inner
-edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$, where $h$ is the
+edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$ where $h$ is the
 trailing solution of Eqn.\ (88) of \cite{S84}, which tends to Eqns.\ (\ref{eqn:vres_sol}) away from
 resonance.}
 \label{fig:bwave}
@@ -649,7 +640,7 @@ $10^{-2}$ and so of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d}) cos
 the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
 (Fig.~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
-particles orbit at $\Omega_a$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega_a)s_r$, where $s_r$ is the
+particles orbit at $\Omega_a$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega_a)s_r$ where $s_r$ is the
 slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad resonance
 $1 - \Omega_p/\Omega_a \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
 tangential pull that transports angular momentum between streamlines, by a factor of about $m$. For
@@ -696,7 +687,7 @@ Each streamline of linear density $\lambda$ exerts the acceleration $2G\lambda/d
 wire on a particle a distance $d$ away \citep{HS13}. The pressure $p = c^2\sigma$ acts through
 the surface density $\sigma_j = 2\lambda/(r_{j+1} - r_{j-1})$ of streamline $j$ and the central
 difference $A_j = -(p_{j+1} - p_{j-1})/2\lambda$, which tends to $-\sigma^{-1}\partial p/\partial r$
-as $\Delta \rightarrow 0$. Displace the streamlines radially by $\xi_j = \xi\cos(j\phi)$, where
+as $\Delta \rightarrow 0$. Displace the streamlines radially by $\xi_j = \xi\cos(j\phi)$ where
 $\phi = k\Delta$ and $k$ is the radial wavenumber, so that $0 < \phi \le \pi$; $\phi = \pi$ is
 the shortest wave the lattice can carry, the zigzag $\xi_j = (-1)^j\xi$ of
 Fig.~\ref{fig:zigzag}a. Linearizing in $\xi$, the streamlines at $j = \pm n$ add
@@ -790,7 +781,7 @@ The crossings near ${\cal R} \simeq 0.3$ are mostly a different, numerical, prob
 ringlet without the initial twist, at $N_r = 333$ (${\cal R} \simeq 0.31$), crosses after 145
 orbits, and its code's own linearized axisymmetric modes, computed from the reference implementation's
 accelerations, grow by only $3.3\times10^{-3}$ per orbit, far too slowly. The disturbance that crosses is instead a sawtooth
-along each streamline with azimuthal wavenumber $m \simeq N_t/2$, where $N_t$ is the number of
+along each streamline with azimuthal wavenumber $m \simeq N_t/2$ where $N_t$ is the number of
 particles per streamline. It also grows in a circular ringlet, without ring gravity, and without
 viscosity, though more slowly (after about 220, 170 and 850 orbits), its onset varies
 non-monotonically with $N_t$ (with $N_t = 30$ or 50 the ringlet survives $10^4$ orbits, with 20, 40
@@ -854,7 +845,7 @@ neighbor on one side would be the first one beyond the ring's edge. The sum of E
 then stops at $n = N - 1$ on that side, and the missing terms are
 $(2G\sigma Z_0/\Delta)\sum_{n \ge N}(\cos n\phi - 1)/n^2$. Their cosines nearly cancel when the wave is
 shorter than the distance to the edge, while $\sum_{n \ge N}1/n^2 \simeq 1/(N - \frac{1}{2})$, so the
-missing pull is about $2G\sigma Z_0/d$, where $d = (N - \frac{1}{2})\Delta$ is the streamline's distance
+missing pull is about $2G\sigma Z_0/d$ where $d = (N - \frac{1}{2})\Delta$ is the streamline's distance
 to the ring's edge plus half a spacing. Near $r_V$, where $\omega_D^2 - \nu_a^2 \simeq {\cal D}|x|$ on the
 wave side, the lattice's restoring force so replaces the continuum's ${\cal D}|x| = 2\pi G\sigma|k|$ with
 \begin{equation}

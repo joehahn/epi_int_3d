@@ -234,3 +234,9 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P74.** Don't restate what is understood: leave "at r = a, z = 0" off quantities already subscripted a,
   and don't add a sentence verifying that a stated solution solves its equation. Caveats the argument doesn't
   use (e.g. "this holds only in a massless ring") are cut. (2026-11-12)
+- **P75.** No comma before a "where" that defines the symbols of the inline expression just written: "at
+  δθ′ = −c/r′ where c = (d₀·t̂)/N", "the angle φ where tan φ = s". Keep the comma when "where" names a place
+  ("Near r_V, where …") or follows a displayed equation. (2026-11-12)
+- **P76.** Prefer a short order-of-magnitude argument to a displayed derivation when only an inequality is
+  needed: "displaces the streamline by about ea′, so s_r ∼ me" rather than writing out the mode. Say "minus its
+  component" rather than "with its component removed". (2026-11-12)
