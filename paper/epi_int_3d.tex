@@ -444,9 +444,27 @@ in the code's repository; the simulations themselves are not.
 \label{sec:waves_theory}
 
 A satellite of mass $M_s$ whose circular orbit of radius $a_s$ is inclined by $i_s$ to the ring plane
-launches spiral bending waves at its vertical resonances \citep{SCL83, S84}. \code{Epi\_int\_3d} keeps
-only the resonant term of the satellite's potential, which accelerates a ring particle at longitude
-$\theta$ vertically by
+launches spiral bending waves at its vertical resonances \citep{SCL83, S84}. To first order in $i_s$ and $z$, the
+satellite accelerates a ring particle at radius $r$ and longitude $\theta$ vertically by
+\begin{equation}
+    \label{eqn:vres_full}
+    A_z = -\frac{GM_s(z - z_s)}{\Delta_s^3}
+\end{equation}
+where $z_s = a_si_s\sin(\lambda_s - \Omega_s)$ is the satellite's height above the ring plane, $\lambda_s$ and
+$\Omega_s$ are its mean longitude and longitude of ascending node, and
+$\Delta_s^2 = r^2 + a_s^2 - 2ra_s\cos(\theta - \lambda_s)$ is the particle's distance from the satellite.
+The Fourier expansion of Eqn.\ (\ref{eqn:vres_full}) in $\theta$ is
+\begin{equation}
+    \label{eqn:vres_series}
+    A_z = -\sum_{m=1}^\infty\frac{GM_si_s}{2a_s^2}b_{3/2}^{(m)}(\beta)\sin\chi_m
+\end{equation}
+where $b_{3/2}^{(m)}(\beta)$ is a Laplace coefficient of $\beta = r/a_s$ and
+$\chi_m = m\theta - (m+1)\lambda_s + \Omega_s$. The series omits the terms that do not resonate in a
+ring inside the satellite's orbit, and the $-GM_sz/\Delta_s^3$ part, which shifts the particles' vertical frequency slightly but does not force them. Each term of
+Eqn.\ (\ref{eqn:vres_series}) with $m \ge 2$ is an $m$-armed pattern that resonates with the ring particles at one
+radius, where it disturbs the ring strongly, and these resonances are well separated across the ring. So
+near one resonance only the particle's response to that one term matters \citep{S84}, and
+\code{Epi\_int\_3d} keeps only that term,
 \begin{equation}
     \label{eqn:vres_force}
     A_z = -A_V\sin(m\theta - (m+1)\lambda_s + \Omega_s),
@@ -456,9 +474,8 @@ where
     \label{eqn:vres_AV}
     A_V = \frac{GM_si_s}{2a_s^2}b_{3/2}^{(m)}(\beta)
 \end{equation}
-is Eqn.\ (A21) of \cite{S84}, $b_{3/2}^{(m)}$ is a Laplace coefficient evaluated at $\beta = r_V/a_s$,
-and the satellite's mean longitude $\lambda_s = \Omega_{a_s}t + \lambda_{s0}$ and longitude of ascending
-node $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t + \Omega_{s0}$ advance at constant rates. The forcing's
+is Eqn.\ (A21) of \cite{S84}, evaluated at $\beta = r_V/a_s$, and $\lambda_s = \Omega_{a_s}t + \lambda_{s0}$
+and $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t + \Omega_{s0}$ advance at constant rates. The forcing's
 argument is then $\chi = m\theta - (m+1)\lambda_s + \Omega_s = m(\theta - \Omega_pt) + \chi_0$, which is an
 $m$-armed pattern that rotates with angular velocity $\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ where
 $\chi_0 = \Omega_{s0} - (m+1)\lambda_{s0}$. A particle feels the forcing at the frequency

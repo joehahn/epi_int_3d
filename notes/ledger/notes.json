@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-12T03:39:00Z",
+ "exported": "2026-11-12T21:00:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -63,6 +63,14 @@
    "note": "Equations (7) and (11) can be inverted exactly via five steps, with the first four from  Appendix A of Hahn, Hamilton, Rimlinger, & Lu (2025):  \n\ncan \"Step 1 remains exact in three dimensions because h_z is conserved and r is the cylindrical radius.\" be deleted? \n\nmaybe add \"the new 5th step\" just below 4. COmpute...\n\nand then actually enumerate the 5th step\n\nshould there be a 6th?\n",
    "reply": "Step 1 sentence deleted; step 5 enumerated; opening reworded; no sixth step (steps 1-5 give all six elements; the drift paragraph is the integrator's use of the inversion).",
    "reply_at": "2026-11-12T03:38:51.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~sub1",
+   "note_at": "2026-11-12T20:38:53.064Z",
+   "note": "write Eqn 25 so that it begins with vertical accelertion due to saetllite, Az=-GM_s(z-z_s)/delta^2, then fourier expand that similar to Eqn 3 in my 1995 paper, state that the individual mth terms result in resonances that result in large disturabances of ring that  spatially segregated across the ring, reference shu to state that we only need to consider the particle's response to the mth component of fourier expansion which should have form of Eqns 25-26\n",
+   "reply": "Done. 4.1.1 now begins with A_z = -GM_s(z - z_s)/Delta_s^3 (Eqn. 25; Delta_s^3, since Delta is the streamline separation of 3.1), then its Laplace-coefficient Fourier series, much like Eqn. (3) of Hahn et al. (1995) (Eqn. 26), then the separated resonances and Shu (1984), so the code keeps the one resonant term, Eqns. (27)-(28). Checked by sympy B1-B3; HWR95 newly cited and SciX-checked. Revised 2026-11-12 from the author's follow-up: 'The Fourier expansion of Eqn. (25) in theta is (26)'; the Laplace-coefficient wording and the Hahn et al. (1995) citation are gone (style rule P77).",
+   "reply_at": "2026-11-12T20:58:52Z",
    "status": "done"
   }
  ]

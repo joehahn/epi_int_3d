@@ -1579,6 +1579,22 @@
    "note": "how the code computes ring gravity"
   },
   {
+   "id": "paper:eqn:vres_full",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_full",
+   "needs": [
+    "sympy:B1"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_series",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_series",
+   "needs": [
+    "sympy:B2"
+   ]
+  },
+  {
    "id": "paper:eqn:vres_force",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:vres_force",

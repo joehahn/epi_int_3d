@@ -157,7 +157,7 @@
  },
  "claim:pattern_speed": {
   "date": "2026-11-12",
-  "hash": "9e8da7e96cd7",
+  "hash": "8a1afb0e61fa",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "719b0fce7aa0"
@@ -1017,6 +1017,13 @@
    "sympy:B2": "5f5ffc3772d1"
   }
  },
+ "paper:eqn:vres_full": {
+  "date": "2026-11-12",
+  "hash": "3d0cd23e8d51",
+  "needs": {
+   "sympy:B1": "c28ae3a6ab3d"
+  }
+ },
  "paper:eqn:vres_inc": {
   "date": "2026-11-10",
   "hash": "22616813c853",
@@ -1037,6 +1044,13 @@
   "needs": {
    "sympy:B5": "00a36ab04250",
    "sympy:B8": "e43e55c5ab65"
+  }
+ },
+ "paper:eqn:vres_series": {
+  "date": "2026-11-12",
+  "hash": "ee8e12242ce2",
+  "needs": {
+   "sympy:B2": "5f5ffc3772d1"
   }
  },
  "paper:eqn:vres_sol": {

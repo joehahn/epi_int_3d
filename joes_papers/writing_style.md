@@ -240,3 +240,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P76.** Prefer a short order-of-magnitude argument to a displayed derivation when only an inequality is
   needed: "displaces the streamline by about ea′, so s_r ∼ me" rather than writing out the mode. Say "minus its
   component" rather than "with its component removed". (2026-11-12)
+- **P77.** When one displayed equation follows from another by a standard step, just name the step: "The Fourier
+  expansion of Eqn. (25) in θ is (26)", not how the step is done ("expanding Δ⁻³ in Laplace coefficients") or a
+  citation for a routine operation; define the symbols the result introduces after it. (2026-11-12)
