@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-12T03:33:00Z",
+ "exported": "2026-11-12T03:39:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -55,6 +55,14 @@
    "note": "drop exactly since its conserved, so its also conserved exactly.\n\nEquation (6b) is already first order in the small quantities, so ν(r) ≃ ν(a) and the vertical oscillation frequency becomse\n<show eqn>\n(Eqn. 17 of Borderies-Rappaport & Longaretti 1994)\n\ndelete This holds for the planet's gravity alone, so in a massless ring; a ring's self-gravity alters all three frequencies.\n\ndelete is a sinusoid of frequency νₐ \nand move whose amplitude and phase define two new orbit elements, the inclination i and the longitude of ascending node Ω:\nbelow the equation\n\nchange \"At r = a and z = 0, where\" to Note that (since r=a and z=0 is understood)\n\nchange \"Note that Ω is the longitude of ascending node, while Ωₐ is the mean angular velocity.\" to \"Also keep in mind that Ω is the longitude of ascending node, while Ωₐ is the mean angular velocity.\"\n\ncan \"The vertical phase λ − Ω advances at exactly νₐ, so Eqns. (11) solve z̈ = −νₐ²z exactly, with v_z = ż, and the particle crosses the ring plane upward at longitude λ = Ω. Measuring the phase from λ rather than θ is what keeps the vertical motion a pure harmonic oscillator; θ − Ω would add an 𝒪(ei) error to the phase.\" be deleted?",
    "reply": "Done (not yet pushed). (Your Apply said \"no new notes\" because I had stamped my previous reply with a wrong, future time. Fixed.)\n1. Dropped \"exactly\" from the h_z sentence.\n2. Now: \"Equation (6b) is already first order in the small quantities, so nu(r) ~= nu(a) and the vertical oscillation frequency becomes (9) (Eqn. 17 of Borderies-Rappaport & Longaretti 1994), where the neglected terms are...\"\n3. Deleted the massless-ring sentence.\n4. Now: \"The solution of Eqn. (6b) with nu = nu_a is (11) whose amplitude and phase define two new orbit elements, the inclination i and the longitude of ascending node Omega. The node regresses at the rate (12).\"\n5. Now: \"Note that Omega_a^2 = r^-1 dPhi_p/dr, kappa_a^2 = ... and nu_a^2 = d2Phi_p/dz2, so Eqn. (10) relates the three frequencies via kappa_a^2 + nu_a^2 = 2 Omega_a^2.\" (r = a, z = 0 left understood.)\n6. Changed to \"Also keep in mind that...\".\n7. Partly deleted. I cut the first sentence (lambda - Omega advances at nu_a, so (11) solves the oscillator exactly; the ascending crossing at lambda = Omega), since 2.3 already says the vertical drift is an exact rotation. I kept, shortened: \"Measuring the phase from lambda rather than theta keeps the vertical motion a pure harmonic oscillator; theta - Omega would add an O(ei) error to the phase.\" That is a choice a reader re-implementing the drift could get wrong. Say if you want it gone too.",
    "reply_at": "2026-11-12T03:32:30.000Z",
+   "status": "done"
+  },
+  {
+   "card": "s2-3",
+   "note_at": "2026-11-12T03:38:02.884Z",
+   "note": "Equations (7) and (11) can be inverted exactly via five steps, with the first four from  Appendix A of Hahn, Hamilton, Rimlinger, & Lu (2025):  \n\ncan \"Step 1 remains exact in three dimensions because h_z is conserved and r is the cylindrical radius.\" be deleted? \n\nmaybe add \"the new 5th step\" just below 4. COmpute...\n\nand then actually enumerate the 5th step\n\nshould there be a 6th?\n",
+   "reply": "Step 1 sentence deleted; step 5 enumerated; opening reworded; no sixth step (steps 1-5 give all six elements; the drift paragraph is the integrator's use of the inversion).",
+   "reply_at": "2026-11-12T03:38:51.000Z",
    "status": "done"
   }
  ]

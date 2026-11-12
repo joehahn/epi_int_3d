@@ -199,8 +199,8 @@ oscillator; $\theta - \Omega$ would add an ${\cal O}(ei)$ error to the phase.
 \subsection{Coordinates to elements}
 \label{sec:coords2elem}
 
-Equations (\ref{eqn:inplane}) and (\ref{eqn:zvz}) are inverted exactly in five steps. The first four
-are those of \cite{H25}:
+Equations (\ref{eqn:inplane}) and (\ref{eqn:zvz}) can be inverted exactly via five steps, with the
+first four from Appendix A of \cite{H25}:
 \begin{enumerate}
 \item Compute $h_z = rv_\theta$, then solve $h_z^2 = a^4\Omega_a^2$ for the semimajor axis,
     $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h_z^2/2GM_pR_p$.
@@ -209,14 +209,13 @@ are those of \cite{H25}:
     which give $e$ and $M$.
 \item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$, and so
     $\lambda = \tilde{\omega} + (\Omega_a/\kappa_a)M$.
-\end{enumerate}
-Step 1 remains exact in three dimensions because $h_z$ is conserved and $r$ is the cylindrical radius.
-The fifth step, which is new, computes $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
+\item The new fifth step: compute $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
 \begin{eqnarray}
     \label{eqn:i_node}
     i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu_a}\right)^2} \nonumber\\
     \Omega &=& \lambda - \text{atan2}(z, v_z/\nu_a).
 \end{eqnarray}
+\end{enumerate}
 Once $a$ is known, the mapping $(i, \lambda - \Omega) \leftrightarrow (z, v_z/\nu_a)$ is a
 change between polar and Cartesian coordinates, so Eqns.\ (\ref{eqn:zvz}) and
 (\ref{eqn:i_node}) are exact inverses. The drift step from $t$ to $t + \Delta t$ converts
