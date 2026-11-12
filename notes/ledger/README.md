@@ -11,8 +11,9 @@ open issues and a box for the author's notes to Claude: https://claude.ai/artifa
     (Claude recommends acting on it) and a `detail`.
   - `meta/summary` and `meta/costs`: the top bar's totals and the Costs view.
   - `notes/<id>`: the author's note on a card (`text`) and his Use/Skip choice on each issue (`fixes`). A note on one of a
-    card's subsubsections or figures has the id `<card>~sub<k>` or `<card>~fig-<png name>`, with `card` and `part`
-    (e.g. "4.1.2 Massless particles", "Figure 3") saying where it applies; its reply has the same id.
+    card's paragraphs, subsubsections or figures has the id `<card>~p<k>`, `<card>~sub<k>` or `<card>~fig-<png name>`, with `card` and `part`
+    (e.g. "4.1.2 Massless particles", "Figure 3", or a paragraph's section and opening words, since k shifts as
+    paragraphs are added) saying where it applies; its reply has the same id.
   - `replies/<id>`: Claude's reply to that note (`reply`, `at`, `status`: done or question). Set `at` to the real current time (`date -u`), never a guess: the page treats a note older than its reply as handled.
 - `citations.json`: each cited paper's public PDF (`url`: ADS's scan, or arXiv) and the page, in that PDF, of each
   place the paper cites ("Eqn. (A21) of Shu (1984)"); the cards link the place to `url#page=N`, which opens the whole

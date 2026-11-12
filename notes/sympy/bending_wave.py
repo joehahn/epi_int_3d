@@ -242,4 +242,35 @@ for i, per in ((135, 50), (135, 11), (60, 21), (230, 21)):
     cos_tail = 2*(1/(i**2*ph) + 1/((Nr - 1 - i)**2*ph))  # the dropped cos terms' size
     close(f'B13: finite lattice, wire {i} of {Nr}, {per} wires per wavelength: X - 2 G sigma (1/d_in + 1/d_out)',
           finite, X - edges, 2*cos_tail/(X - edges))
+# --- B14: the whole series. Summed over all integers m (b^(-m) = b^(m)), the z_s part of F_z is exactly
+# -(GM_s i_s/2 a_s^2) sum_m b_{3/2}^(m)(beta) sin(m theta - (m+1) lambda_s + Omega_s), at first order in i_s, for any
+# beta = r/a_s != 1 (the Laplace coefficient's integral holds for beta > 1 too). Then which m resonate: the argument's
+# rate seen by a particle at r is m(Omega_a - Omega_as) - nu_as, resonant where its size is nu_a; with J2 = 0.01, R_p = 0.5
+# (the tests), m >= 2 resonate only inside a_s, m <= -2 only outside, m = -1 (the secular term, independent of lambda_s)
+# where the nodes precess together and m = 0, 1 nowhere, all three only at r = a_s itself ---
+for beta in (0.7, 1.4):
+    Ms = np.arange(-120, 121)
+    th0, ls0, node0 = 0.7, 2.1, 0.4
+    exact = inc*np.sin(ls0 - node0)/(1 + beta**2 - 2*beta*np.cos(th0 - ls0))**1.5     # GM_s = a_s = 1
+    series = -inc/2*sum(laplace(beta, abs(mm), 1.5)*np.sin(mm*th0 - (mm + 1)*ls0 + node0) for mm in Ms)
+    close(f'B14: beta = {beta}: z_s/Delta_s^3 = -(i_s/2) sum over all m of b^(m) sin(m theta - (m+1) lambda_s + Omega_s)',
+          series, exact, 1e-9)
+J2_, Rp_ = 0.01, 0.5
+freq = lambda r, c: np.sqrt((1 + c*J2_*(Rp_/r)**2)/r**3)
+Om, nu = (lambda r: freq(r, 1.5)), (lambda r: freq(r, 4.5))
+a_s = 2.0
+rs = np.concatenate([np.linspace(0.6, a_s - 1e-3, 20000), np.linspace(a_s + 1e-3, 6.0, 20000)])
+for mm in range(-6, 7):
+    g_ = np.abs(mm*(Om(rs) - Om(a_s)) - nu(a_s)) - nu(rs)
+    flip = (np.sign(g_[:-1]) != np.sign(g_[1:])) & ((rs[:-1] - a_s)*(rs[1:] - a_s) > 0)     # not across r = a_s
+    roots = rs[:-1][flip]
+    expect = 'inside' if mm >= 2 else 'outside' if mm <= -2 else 'none'
+    found = 'none' if not len(roots) else 'inside' if roots.max() < a_s else 'outside' if roots.min() > a_s else 'both'
+    assert found == expect and len(roots) <= 1, (mm, roots)
+# the paper's form: with the satellite's longitude theta_s = Omega_as t and node Omega_s = (Omega_as - nu_as) t, both zero at
+# t = 0 (fast/satellite.py's defaults, which the tests use), the argument is m theta - omega_m t, omega_m = m Omega_as + nu_as
+tt, ths, Wa_, nua_ = sp.symbols('t theta Omega_as nu_as', real=True)
+check('B14: m theta - (m+1) theta_s + Omega_s = m theta - (m Omega_as + nu_as) t',
+      (m*ths - (m + 1)*Wa_*tt + (Wa_ - nua_)*tt) - (m*ths - (m*Wa_ + nua_)*tt))
+print('PASS  B14: m >= 2 resonate inside a_s, m <= -2 outside, m = -1, 0, 1 not away from a_s (J2 = 0.01)')
 print('all bending-wave checks passed')

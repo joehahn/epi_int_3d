@@ -518,6 +518,16 @@ comparison with Cassini data is out of scope for this version of the project.
 
 ## Open questions to settle
 
+- **To do, next: rerun everything after the vertical-phase change** (decided 2026-11-12). The vertical phase is now
+  measured from the particle's longitude θ, z = a i sin(θ − Ω), rather than from the mean longitude λ
+  (`fast/bookkeeping.vertical_drift`, `fast/epi_int_3d.py` `incline` and `vertical_elements`; notes/equations.md V2, V3, V8;
+  paper Sections 2.2, 2.3, 3.4). On `tests/inclined` it measured no loss of accuracy against the exact 3D motion: the z
+  error is set by the in-plane O(e²) longitude error either way. Nothing has been rerun since: regenerate the vertical
+  golden files (`UPDATE_GOLDEN=1 uv run pytest tests/test_vertical.py`, after checking the change is the expected O(ei)),
+  run `uv run pytest`, rerun every test with vertical motion (`tests/inclined`, `tests/vertical_resonance`,
+  `tests/bending_waves`, and any other that sets an inclination or satellite) with `tools/run_simulations.py`,
+  re-execute their notebooks, remake the paper's figures and `tools/paper_numbers.py` macros, and check the paper's quoted
+  numbers. The in-plane results and the 2D regression suite are unchanged (the vertical drift doesn't touch r, θ).
 - **To do, later: review `fast/` against the code style guide** (decided 2026-11-08). `fast/` was
   written in CC's own style before the guide existed. Restyle the parts you read
   (`fast/epi_int_3d.py`, `fast/satellite.py`) so they can be spot-checked at a glance; the Numba

@@ -243,3 +243,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P77.** When one displayed equation follows from another by a standard step, just name the step: "The Fourier
   expansion of Eqn. (25) in θ is (26)", not how the step is done ("expanding Δ⁻³ in Laplace coefficients") or a
   citation for a routine operation; define the symbols the result introduces after it. (2026-11-12)
+- **P78.** Justify an approximation by what the work actually does, plainly: "The simulations here follow particles
+  near a single mth resonance, so Epi_int_3d keeps only the resonant term", not "near one resonance only the
+  particle's response to that one term matters". (2026-11-12)

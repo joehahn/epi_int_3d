@@ -59,7 +59,7 @@ check('V7: kappa^2 = 3 Omega^2 + d2Phi/dr2 at z=0',
 
 # --- V2: elements -> coordinates; V3: coordinates -> elements ---
 inc = sp.symbols('i', positive=True)
-u = sp.symbols('u', real=True)                     # vertical phase u = lambda - node
+u = sp.symbols('u', real=True)                     # vertical phase u = theta - node (the code's), or lambda - node
 nu = sp.sqrt(nu2)
 z_V2 = a*inc*sp.sin(u)
 vz_V2 = a*nu*inc*sp.cos(u)
@@ -83,6 +83,12 @@ check('V4: du/dt = nu', sp.diff(u_t, t) - nu)
 z_t, vz_t = z_V2.subs(u, u_t), vz_V2.subs(u, u_t)
 check('V2: dz/dt = v_z', sp.diff(z_t, t) - vz_t)
 check('V2: dv_z/dt = -nu^2 z', sp.diff(vz_t, t) + nu2*z_t)
+# The code measures the phase from the longitude theta = wt + (Omega/kappa)(M + 2 e sin M) (H25 Eqn. A9) rather than from
+# lambda: theta - lambda = 2 (Omega/kappa) e sin M, so its z = a i sin(theta - node) departs from the oscillator above by
+# at most 2 (Omega/kappa) e a i, of order e i, the order that V6 shows the first-order solution already neglects
+ecc_, Mv = sp.symbols('e M', real=True)
+theta_t = wt + (Om/ka)*(Mv + 2*ecc_*sp.sin(Mv))
+check('V2: theta - lambda = 2 (Omega/kappa) e sin M', (theta_t - (wt + (Om/ka)*Mv)) - 2*(Om/ka)*ecc_*sp.sin(Mv))
 
 # --- V2 solves the exact vertical equation of motion to first order ---
 # z'' = -dPhi/dz evaluated at r = a(1 + d), where d = O(e) and z = O(i).
@@ -122,16 +128,17 @@ check('H2: a = R(C + sqrt(C^2 - 3J2/2)) solves h^2 = a^4 Omega_a^2, with h^2 = 2
 check('H3: e sin M = (v_r/a kappa_a)(a/r)^3', (vr_A/(a*ka_a))*(a/r_A)**3 - e*sp.sin(M))
 check('H3: e cos M = [(a/r)^2 - 1]/2', ((a/r_A)**2 - 1)/2 - e*sp.cos(M))
 
-# --- V8: the drift of V2-V4 is a rotation of (z, v_z/nu) by nu*dt, as coded in fast/bookkeeping.py ---
-# Elements -> coords (V2) with lambda = wt + (Omega/kappa) M; the drift advances M by kappa dt and the
-# node by (Omega - nu) dt (V4), so u = lambda - node advances by nu dt.
-wt_, M0, node0, inc, dt_ = sp.symbols('wt M_0 node_0 i dt', real=True)
+# --- V8: the drift of V2-V4 is a rotation of (z, v_z/nu) by the change in u = theta - node, as coded in
+# fast/bookkeeping.py: the in-plane drift moves the longitude from theta_0 to theta_1 and the node regresses by
+# (Omega - nu) dt (V4), so u advances by phi = (theta_1 - theta_0) - (Omega - nu) dt.
+th0, th1, node0, inc, dt_ = sp.symbols('theta_0 theta_1 node_0 i dt', real=True)
 Om_, ka_, nu_ = sp.symbols('Omega_a kappa_a nu_a', positive=True)
-u0 = wt_ + (Om_/ka_)*M0 - node0
+u0 = th0 - node0
 z0, vz0 = a*inc*sp.sin(u0), a*inc*nu_*sp.cos(u0)
-u1 = wt_ + (Om_/ka_)*(M0 + ka_*dt_) - (node0 + (Om_ - nu_)*dt_)
+u1 = th1 - (node0 + (Om_ - nu_)*dt_)
 z1, vz1 = a*inc*sp.sin(u1), a*inc*nu_*sp.cos(u1)
-c_, s_ = sp.cos(nu_*dt_), sp.sin(nu_*dt_)
+phi = (th1 - th0) - (Om_ - nu_)*dt_
+c_, s_ = sp.cos(phi), sp.sin(phi)
 check('V8: z(t+dt) = z c + (v_z/nu) s', sp.expand_trig(z1 - (z0*c_ + (vz0/nu_)*s_)))
 check('V8: v_z(t+dt) = v_z c - nu z s', sp.expand_trig(vz1 - (vz0*c_ - nu_*z0*s_)))
 

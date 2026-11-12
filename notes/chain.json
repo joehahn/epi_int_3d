@@ -377,7 +377,7 @@
   {
    "id": "claim:phase_from_lambda",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@Measuring the phase from",
+   "anchor": "paper/epi_int_3d.tex@neglect terms of order ${\\cal O}(ei)$, as Eqn.",
    "needs": [
     "sympy:V2",
     "sympy:V4",
@@ -759,6 +759,14 @@
    "needs": [
     "eq:B7",
     "eq:P7"
+   ]
+  },
+  {
+   "id": "eq:B14",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B14",
+   "needs": [
+    "eq:B2"
    ]
   },
   {
@@ -1177,6 +1185,15 @@
    "check": "uv run python notes/sympy/bending_wave.py"
   },
   {
+   "id": "sympy:B14",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B14",
+   "needs": [
+    "eq:B14"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
    "id": "code:ring_gravity",
    "kind": "code",
    "anchor": "fast/kernels.py::_make_ring_gravity",
@@ -1591,7 +1608,8 @@
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:vres_series",
    "needs": [
-    "sympy:B2"
+    "sympy:B2",
+    "sympy:B14"
    ]
   },
   {
@@ -1716,7 +1734,7 @@
   {
    "id": "claim:pattern_speed",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@which is an $m$-armed pattern",
+   "anchor": "paper/epi_int_3d.tex@an $m$-armed pattern that rotates",
    "needs": [
     "sympy:B4",
     "code:satellite"

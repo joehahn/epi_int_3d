@@ -17,14 +17,14 @@
   "needs": {
    "numbers:bending_waves": "03091e7c25d1",
    "paper:eqn:vres_amp": "3f9822a753ce",
-   "paper:eqn:vres_lambda": "7cd32f693da1",
+   "paper:eqn:vres_lambda": "acdb45aa1ea8",
    "sympy:B7": "8613bc2642be",
    "sympy:B8": "e43e55c5ab65"
   }
  },
  "claim:bw_torque": {
   "date": "2026-11-12",
-  "hash": "5123c6338a8a",
+  "hash": "87a58a4a797d",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "numbers:bending_waves": "03091e7c25d1",
@@ -35,13 +35,13 @@
  },
  "claim:bw_wavenumber": {
   "date": "2026-11-12",
-  "hash": "17efdc49d675",
+  "hash": "d8d7d03055fb",
   "needs": {
    "numbers:bending_waves": "03091e7c25d1",
-   "paper:eqn:vres_lambda": "7cd32f693da1",
+   "paper:eqn:vres_lambda": "acdb45aa1ea8",
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:fig:wavenumber": "d3643c85d6a7",
-   "sympy:B13": "28c7098e3707",
+   "sympy:B13": "cd9b798bf1a8",
    "sympy:B7": "8613bc2642be",
    "test:kernels": "6d4a993dadf2"
   }
@@ -66,11 +66,11 @@
   }
  },
  "claim:drift_rotation": {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "hash": "04682f444f71",
   "needs": {
    "code:vertical_drift": "cac5e539d361",
-   "paper:eqn:i_node": "df29a18a52d5",
+   "paper:eqn:i_node": "0954d6a20653",
    "sympy:V8": "0ba1e148a666",
    "test:inclined": "f1d9bc105c2c"
   }
@@ -81,7 +81,7 @@
   "needs": {
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:eqn:wire_lattice": "ce833ece9930",
-   "sympy:B13": "28c7098e3707"
+   "sympy:B13": "cd9b798bf1a8"
   }
  },
  "claim:frequency_relation": {
@@ -100,12 +100,12 @@
   }
  },
  "claim:integrator": {
-  "date": "2026-11-11",
-  "hash": "04682f444f71",
+  "date": "2026-11-12",
+  "hash": "36959d6b279a",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:kick_drift_kick": "85b59f4c0c3d",
-   "code:vertical_drift": "cac5e539d361"
+   "code:vertical_drift": "7031c051e0f4"
   }
  },
  "claim:linear_density": {
@@ -157,20 +157,20 @@
  },
  "claim:pattern_speed": {
   "date": "2026-11-12",
-  "hash": "8a1afb0e61fa",
+  "hash": "32d06e9cf104",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "719b0fce7aa0"
   }
  },
  "claim:phase_from_lambda": {
-  "date": "2026-11-11",
-  "hash": "3ef13bfd96e9",
+  "date": "2026-11-12",
+  "hash": "17e76a33c004",
   "needs": {
    "paper:eqn:node": "4206e3c3c4ce",
-   "paper:eqn:zvz": "70ddb011eb53",
-   "sympy:V2": "53da6d751f2e",
-   "sympy:V4": "e00d54253909"
+   "paper:eqn:zvz": "49a35a66ee3b",
+   "sympy:V2": "1762ff266d6c",
+   "sympy:V4": "cc48254a5d07"
   }
  },
  "claim:recipe": {
@@ -185,7 +185,7 @@
  },
  "claim:resonance_location": {
   "date": "2026-11-12",
-  "hash": "0c154f130339",
+  "hash": "3dc57bc9e898",
   "needs": {
    "numbers:vertical_resonance": "6a373619bf7d",
    "paper:fig:resloc": "a83e77db89d4",
@@ -260,11 +260,11 @@
   }
  },
  "code:incline": {
-  "date": "2026-11-10",
-  "hash": "7c530e64b556",
+  "date": "2026-11-12",
+  "hash": "9fa984918e88",
   "needs": {
    "code:nu_a": "8629023eb42e",
-   "eq:V2": "d4b0dc07a66b"
+   "eq:V2": "9bab778b8575"
   }
  },
  "code:inclined_metrics": {
@@ -380,19 +380,19 @@
   "needs": {}
  },
  "code:vertical_drift": {
-  "date": "2026-11-10",
-  "hash": "cac5e539d361",
+  "date": "2026-11-12",
+  "hash": "7031c051e0f4",
   "needs": {
    "eq:V1": "5fa44b52addf",
-   "eq:V8": "2215b23710d5"
+   "eq:V8": "2c5f5a983464"
   }
  },
  "code:vertical_elements": {
-  "date": "2026-11-10",
-  "hash": "0b4b956b0ca6",
+  "date": "2026-11-12",
+  "hash": "6c683f88e451",
   "needs": {
    "code:nu_a": "8629023eb42e",
-   "eq:V3": "d096bddf441b"
+   "eq:V3": "e63695780090"
   }
  },
  "code:vertical_resonance_numbers": {
@@ -445,6 +445,13 @@
   "needs": {
    "eq:B7": "8f0e98986e7c",
    "eq:P7": "82faf17dea6f"
+  }
+ },
+ "eq:B14": {
+  "date": "2026-11-12",
+  "hash": "1e78b9ca4cf8",
+  "needs": {
+   "eq:B2": "ef33fc85a126"
   }
  },
  "eq:B2": {
@@ -751,13 +758,13 @@
   "needs": {}
  },
  "eq:V2": {
-  "date": "2026-11-10",
-  "hash": "d4b0dc07a66b",
+  "date": "2026-11-12",
+  "hash": "9bab778b8575",
   "needs": {}
  },
  "eq:V3": {
-  "date": "2026-11-10",
-  "hash": "d096bddf441b",
+  "date": "2026-11-12",
+  "hash": "e63695780090",
   "needs": {}
  },
  "eq:V4": {
@@ -781,8 +788,8 @@
   "needs": {}
  },
  "eq:V8": {
-  "date": "2026-11-10",
-  "hash": "2215b23710d5",
+  "date": "2026-11-12",
+  "hash": "2c5f5a983464",
   "needs": {}
  },
  "figure:angular_momentum": {
@@ -953,10 +960,10 @@
   }
  },
  "paper:eqn:i_node": {
-  "date": "2026-11-10",
-  "hash": "df29a18a52d5",
+  "date": "2026-11-12",
+  "hash": "8f96729972a7",
   "needs": {
-   "sympy:V3": "ccfc873f23bc"
+   "sympy:V3": "89dd7f6ca1ae"
   }
  },
  "paper:eqn:laplace": {
@@ -967,10 +974,10 @@
   }
  },
  "paper:eqn:node": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "4206e3c3c4ce",
   "needs": {
-   "sympy:V4": "e00d54253909"
+   "sympy:V4": "cc48254a5d07"
   }
  },
  "paper:eqn:nu": {
@@ -996,8 +1003,8 @@
   }
  },
  "paper:eqn:vres_AV": {
-  "date": "2026-11-10",
-  "hash": "c407e4ae81c4",
+  "date": "2026-11-12",
+  "hash": "f3b6cd824da6",
   "needs": {
    "sympy:B2": "5f5ffc3772d1",
    "sympy:B3": "5f5ffc3772d1"
@@ -1011,8 +1018,8 @@
   }
  },
  "paper:eqn:vres_force": {
-  "date": "2026-11-10",
-  "hash": "b98d92de2dcd",
+  "date": "2026-11-12",
+  "hash": "41f9c300def6",
   "needs": {
    "sympy:B2": "5f5ffc3772d1"
   }
@@ -1032,8 +1039,8 @@
   }
  },
  "paper:eqn:vres_lambda": {
-  "date": "2026-11-10",
-  "hash": "7cd32f693da1",
+  "date": "2026-11-12",
+  "hash": "acdb45aa1ea8",
   "needs": {
    "sympy:B7": "8613bc2642be"
   }
@@ -1048,8 +1055,9 @@
  },
  "paper:eqn:vres_series": {
   "date": "2026-11-12",
-  "hash": "ee8e12242ce2",
+  "hash": "32738bd9f010",
   "needs": {
+   "sympy:B14": "cfcface7d72b",
    "sympy:B2": "5f5ffc3772d1"
   }
  },
@@ -1135,10 +1143,10 @@
   }
  },
  "paper:eqn:wire_edges": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "82d2cac3fc2e",
   "needs": {
-   "sympy:B13": "28c7098e3707"
+   "sympy:B13": "cd9b798bf1a8"
   }
  },
  "paper:eqn:wire_lattice": {
@@ -1192,8 +1200,8 @@
   }
  },
  "paper:eqn:zigzag_R": {
-  "date": "2026-11-10",
-  "hash": "cb92fd5c37a0",
+  "date": "2026-11-12",
+  "hash": "6fb1b9594f60",
   "needs": {
    "sympy:P8": "4734f21a092e"
   }
@@ -1221,10 +1229,10 @@
   }
  },
  "paper:eqn:zvz": {
-  "date": "2026-11-10",
-  "hash": "70ddb011eb53",
+  "date": "2026-11-12",
+  "hash": "49a35a66ee3b",
   "needs": {
-   "sympy:V2": "53da6d751f2e"
+   "sympy:V2": "1762ff266d6c"
   }
  },
  "paper:fig:angmom": {
@@ -1272,7 +1280,7 @@
   "hash": "d3643c85d6a7",
   "needs": {
    "figure:wavenumber": "0ff4c70bb3ae",
-   "sympy:B13": "28c7098e3707",
+   "sympy:B13": "cd9b798bf1a8",
    "sympy:B7": "8613bc2642be"
   }
  },
@@ -1298,8 +1306,8 @@
   }
  },
  "paper:inplane": {
-  "date": "2026-11-11",
-  "hash": "26c77a87e1ab",
+  "date": "2026-11-12",
+  "hash": "b99c602dfdf3",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "sympy:H1": "04874fce1e63",
@@ -1336,10 +1344,17 @@
   }
  },
  "sympy:B13": {
-  "date": "2026-11-10",
-  "hash": "28c7098e3707",
+  "date": "2026-11-12",
+  "hash": "cd9b798bf1a8",
   "needs": {
    "eq:B13": "49e2a12fbc96"
+  }
+ },
+ "sympy:B14": {
+  "date": "2026-11-12",
+  "hash": "cfcface7d72b",
+  "needs": {
+   "eq:B14": "1e78b9ca4cf8"
   }
  },
  "sympy:B2": {
@@ -1658,22 +1673,22 @@
   }
  },
  "sympy:V2": {
-  "date": "2026-11-09",
-  "hash": "53da6d751f2e",
+  "date": "2026-11-12",
+  "hash": "1762ff266d6c",
   "needs": {
-   "eq:V2": "d4b0dc07a66b"
+   "eq:V2": "9bab778b8575"
   }
  },
  "sympy:V3": {
-  "date": "2026-11-09",
-  "hash": "ccfc873f23bc",
+  "date": "2026-11-12",
+  "hash": "89dd7f6ca1ae",
   "needs": {
-   "eq:V3": "d096bddf441b"
+   "eq:V3": "e63695780090"
   }
  },
  "sympy:V4": {
-  "date": "2026-11-09",
-  "hash": "e00d54253909",
+  "date": "2026-11-12",
+  "hash": "cc48254a5d07",
   "needs": {
    "eq:V4": "a5b6ce9026e5"
   }
@@ -1700,10 +1715,10 @@
   }
  },
  "sympy:V8": {
-  "date": "2026-11-09",
-  "hash": "0ba1e148a666",
+  "date": "2026-11-12",
+  "hash": "af3a1a722dfe",
   "needs": {
-   "eq:V8": "2215b23710d5"
+   "eq:V8": "2c5f5a983464"
   }
  },
  "test:inclined": {

@@ -144,19 +144,22 @@ def shift1(x, dx):
         x[k] = x[k] + dx
 
 
-def vertical_drift(a, z, vz, dt, J2_45, Rp2, nu, s, c):
-    """The vertical part of the drift (notes/equations.md V8): rotate (z, vz/nu) by nu*dt, with
-    nu = nu_a (V1) at the semimajor axes a that drift() just computed; J2_45 = 4.5*J2. This is
-    V2-V4 exactly: the node regresses at Omega_a - nu_a while the mean longitude advances at
-    Omega_a. z = vz = 0 stays exactly 0. (nu, s, c are work arrays.)"""
+def vertical_drift(a, t0, t, z, vz, dt, J2_15, J2_45, Rp2, nu, s, c):
+    """The vertical part of the drift (notes/equations.md V8): rotate (z, vz/nu) by the change in the
+    vertical phase theta - node, (t - t0) - (Omega_a - nu_a)*dt, with t0 and t the longitudes before and
+    after drift(), and Omega_a, nu_a (V1) at the semimajor axes a that drift() just computed; J2_15 = 1.5*J2,
+    J2_45 = 4.5*J2. This is V2-V4: the node regresses at Omega_a - nu_a while the phase is measured from
+    the longitude theta. z = vz = 0 stays exactly 0. (nu, s, c are work arrays; s holds the angle first.)"""
     for k in prange(a.size):
         ak = a[k]
         a2 = ak*ak
         nu[k] = np.sqrt((1.0/a2/ak)*(1.0 + J2_45*(Rp2/a2)))
+        Om = np.sqrt((1.0/a2/ak)*(1.0 + J2_15*(Rp2/a2)))
+        s[k] = _adjust(t[k] - t0[k]) - (Om - nu[k])*dt
     for k in prange(a.size):              #sin and cos in separate loops, see the module docstring
-        s[k] = np.sin(nu[k]*dt)
+        c[k] = np.cos(s[k])
     for k in prange(a.size):
-        c[k] = np.cos(nu[k]*dt)
+        s[k] = np.sin(s[k])
     for k in prange(a.size):
         zk = z[k]
         vzk = vz[k]

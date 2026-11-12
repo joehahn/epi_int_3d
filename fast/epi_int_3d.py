@@ -17,7 +17,7 @@ vertical ring forces, ring gravity acts as if every particle were at z = 0, and 
 are the reference's bit for bit, with or without inclination.
 
 Optional inputs (inputs.py or -m): inclination i (default 0) and node (default 0), given to every
-particle at the start, with z = a i sin(lambda - node), vz = a nu_a i cos(lambda - node) (V2).
+particle at the start, with z = a i sin(theta - node), vz = a nu_a i cos(theta - node) (V2).
 Ring gravity has three fixes of epi_int_lite's (notes/epi_int_lite_issues.md issues 7 and 9), each
 an optional input, on by default:
 - fix_lambda: each perturbing streamline pulls with its own linear density, interpolated to the
@@ -70,10 +70,9 @@ def nu_a(J2, Rp, a):
 def vertical_elements(J2, Rp, r, t, z, vr, vt, vz):
     """Planetocentric coordinates to elements a, e, wt, M, inclination i and node (V3)."""
     a, e, wt, M = helper_fns.coords2elem(J2, Rp, r, t, vr, vt)
-    lam = wt + (helper_fns.Omega(J2, Rp, a)/helper_fns.Kappa(J2, Rp, a))*M
     nu = nu_a(J2, Rp, a)
     inc = np.sqrt((z/a)**2 + (vz/(a*nu))**2)
-    node = helper_fns.adjust_angle(lam - np.arctan2(z, vz/nu))
+    node = helper_fns.adjust_angle(t - np.arctan2(z, vz/nu))
     return a, e, wt, M, inc, node
 
 
@@ -126,12 +125,12 @@ class Ring:
         self.r, self.t, self.vr, self.vt = (np.array(x, dtype=float, order='C') for x in (r, t, vr, vt))
         self.z, self.vz = np.zeros(self.shape), np.zeros(self.shape)
         new = lambda: np.empty(self.shape)
-        self.X, self.Y, self.VX, self.VY, self.R, self.T, self.S, self.C, self.lam = (new() for _ in range(9))
+        self.X, self.Y, self.VX, self.VY, self.R, self.T, self.S, self.C, self.lam, self.T0 = (new() for _ in range(10))
         self.a, self.e, self.wt, self.M, self.NU = (new() for _ in range(5))
         self.rw, self.tw, self.zw = (np.empty((self.shape[0], self.shape[1] + 2)) for _ in range(3))
         f = lambda x: x.reshape(-1)          #flat views for the elementwise kernels
         self.f = {k: f(getattr(self, k)) for k in ('r', 't', 'vr', 'vt', 'z', 'vz', 'X', 'Y', 'VX', 'VY', 'R',
-                                                   'T', 'S', 'C', 'lam', 'a', 'e', 'wt', 'M', 'NU')}
+                                                   'T', 'S', 'C', 'lam', 'T0', 'a', 'e', 'wt', 'M', 'NU')}
         m = p['total_ring_mass']
         J2, Rp = p['J2'], p['Rp']
         self.consts = (1.5*J2, Rp*Rp, Rp, 2.0*1.0*Rp)
@@ -157,9 +156,11 @@ class Ring:
         """coords2elem, drift and elem2coords."""
         F = self.f
         J2_15, Rp2, Rp, two_GM_Rp = self.consts
+        F['T0'][:] = F['t']                       #the longitudes before the drift, for the vertical phase
         self.bk.drift(F['r'], F['t'], F['vr'], F['vt'], dt, J2_15, Rp2, Rp, two_GM_Rp,
                  F['a'], F['e'], F['wt'], F['M'], F['S'], F['C'])
-        self.bk.vertical_drift(F['a'], F['z'], F['vz'], dt, self.J2_45, Rp2, F['NU'], F['S'], F['C'])
+        self.bk.vertical_drift(F['a'], F['T0'], F['t'], F['z'], F['vz'], dt, J2_15, self.J2_45, Rp2, F['NU'],
+                               F['S'], F['C'])
 
     def mixed2planeto(self):
         """helper_fns.mixed2planeto: barycentric velocities to planetocentric."""
@@ -205,14 +206,13 @@ class Ring:
         self.planeto2mixed()
 
     def incline(self, inclination, node):
-        """Initial z, vz (V2) for inclination i and node, with lambda and a from the in-plane elements."""
+        """Initial z, vz (V2) for inclination i and node, with a from the in-plane elements."""
         p = self.p
         r, t, vr, vt = helper_fns.mixed2planeto(p['total_ring_mass'], self.r.copy(), self.t.copy(), self.vr.copy(),
                                                 self.vt.copy())
         a, e, wt, M = helper_fns.coords2elem(p['J2'], p['Rp'], r, t, vr, vt)
-        lam = wt + (helper_fns.Omega(p['J2'], p['Rp'], a)/helper_fns.Kappa(p['J2'], p['Rp'], a))*M
-        self.z[:] = a*inclination*np.sin(lam - node)
-        self.vz[:] = a*nu_a(p['J2'], p['Rp'], a)*inclination*np.cos(lam - node)
+        self.z[:] = a*inclination*np.sin(t - node)
+        self.vz[:] = a*nu_a(p['J2'], p['Rp'], a)*inclination*np.cos(t - node)
         self.vz += -self.f_bary*self.vz.sum()                 #planetocentric to barycentric, as planeto2mixed
 
     def snapshot(self):
