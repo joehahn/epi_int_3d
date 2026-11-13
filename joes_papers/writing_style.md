@@ -246,3 +246,7 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P78.** Justify an approximation by what the work actually does, plainly: "The simulations here follow particles
   near a single mth resonance, so Epi_int_3d keeps only the resonant term", not "near one resonance only the
   particle's response to that one term matters". (2026-11-12)
+- **P79.** Two short definitions may share one display, joined by "and": "ε = 2πGσ/(r_V𝒟) and L_V = iA_V/𝒟
+  (31)". A display of several lines numbers each line with a letter (32a, 32b, 32c), and a line that defines a
+  symbol of the line above starts with "where" inside the display: "h = h_forced + h_wave, (32a) where
+  h_forced = L_V/x, (32b) h_wave = … (32c)". This refines P67 and P73. (2026-11-13)

@@ -64,7 +64,9 @@ def compiled_paper():
             capture_output=True)
         aux = open(os.path.join(folder, 'epi_int_3d.aux')).read()
         bbl = open(os.path.join(folder, 'epi_int_3d.bbl')).read()
-    labels = {key: value.replace('\\hbox {', '') for key, value in re.findall(r'\\newlabel\{([^}]*)\}\{\{([^}]*)\}', aux)}
+    #a label's number may hold one level of braces: {\hbox {A1}a} is A1a, a lettered line in an appendix
+    labels = {key: re.sub(r'\\hbox \{([^}]*)\}', r'\1', value)
+        for key, value in re.findall(r'\\newlabel\{([^}]*)\}\{\{((?:[^{}]|\{[^{}]*\})*)\}', aux)}
     references = {}
     for label, key in re.findall(r'\\bibitem\[\{(.*?)\}\]\{([^}]*)\}', bbl, flags=re.S):
         m = re.match(r'.*\((\d{4}[a-z]?)\)(.*)$', ' '.join(label.split()))
@@ -94,6 +96,21 @@ def fill_numbers(text, macros):
 
 
 #turns the LaTeX of a card into HTML; keeps the equation and figure counters across cards
+#an eqnarray's rows: split at its own \\, not at those inside a nested array or cases
+def split_rows(body):
+    rows, depth, start = [], 0, 0
+    for m in re.finditer(r'\\begin\{[^}]*\}|\\end\{[^}]*\}|\\\\', body):
+        token = m.group(0)
+        if token.startswith('\\begin'):
+            depth += 1
+        elif token.startswith('\\end'):
+            depth -= 1
+        elif (depth == 0):
+            rows += [body[start:m.start()]]
+            start = m.end()
+    return rows + [body[start:]]
+
+
 class Converter:
 
     def __init__(self, labels, references, macros):
@@ -129,7 +146,7 @@ class Converter:
     def display(self, environment, body):
         body = fill_numbers(body, self.macros)
         if (environment == 'eqnarray'):
-            rows = re.split(r'\\\\', body)
+            rows = split_rows(body)
             out = []
             for row in rows:
                 label = re.search(r'\\label\{([^}]*)\}', row)
