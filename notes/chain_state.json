@@ -57,10 +57,10 @@
   }
  },
  "claim:distance": {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "hash": "b049d50bd7a7",
   "needs": {
-   "paper:eqn:wire_lite": "2c0bcf2a0ecb",
+   "paper:eqn:wire_lite": "f53846f4a15f",
    "sympy:G19": "ae00e3ddfe55",
    "sympy:G20": "e61431f60303"
   }
@@ -82,6 +82,13 @@
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:eqn:wire_lattice": "ce833ece9930",
    "sympy:B13": "8b55d9e013f5"
+  }
+ },
+ "claim:first_wavelength": {
+  "date": "2026-11-13",
+  "hash": "4b4ba6018f12",
+  "needs": {
+   "sympy:B18": "36ffd840a5f9"
   }
  },
  "claim:frequency_relation": {
@@ -156,29 +163,29 @@
   }
  },
  "claim:pattern_speed": {
-  "date": "2026-11-12",
-  "hash": "7d2dc44565f3",
+  "date": "2026-11-13",
+  "hash": "be97da80be79",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "69a723a4c7ec"
   }
  },
  "claim:phase_from_lambda": {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "hash": "4608eb3a8d3b",
   "needs": {
    "paper:eqn:node": "79c3011eee11",
-   "paper:eqn:zvz": "a2d6cf76d90d",
+   "paper:eqn:zvz": "423a7229938d",
    "sympy:V2": "1762ff266d6c",
    "sympy:V4": "cc48254a5d07"
   }
  },
  "claim:recipe": {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "hash": "c18af578f1e1",
   "needs": {
    "code:ring_gravity_3d": "dd696367e669",
-   "paper:eqn:wire_Acomp": "88c51dd605ee",
+   "paper:eqn:wire_Acomp": "cf49047ea994",
    "sympy:G17": "6ee5ece5560f",
    "test:kernels": "6d4a993dadf2"
   }
@@ -197,6 +204,14 @@
   "hash": "38d0853db24d",
   "needs": {
    "code:ring_gravity": "b009c47899ac"
+  }
+ },
+ "claim:trailing": {
+  "date": "2026-11-13",
+  "hash": "3460ab3777df",
+  "needs": {
+   "sympy:B19": "f48cded34bc8",
+   "sympy:B9": "ad423e395545"
   }
  },
  "claim:viscosity_in_plane": {
@@ -467,6 +482,27 @@
   "needs": {
    "eq:B15": "0f020c6c3b22",
    "eq:B8": "0079067546cd"
+  }
+ },
+ "eq:B17": {
+  "date": "2026-11-12",
+  "hash": "443811b41e51",
+  "needs": {
+   "eq:B15": "0f020c6c3b22"
+  }
+ },
+ "eq:B18": {
+  "date": "2026-11-13",
+  "hash": "6ebb62129857",
+  "needs": {
+   "eq:B15": "0f020c6c3b22"
+  }
+ },
+ "eq:B19": {
+  "date": "2026-11-13",
+  "hash": "bc2cf1e6b784",
+  "needs": {
+   "eq:B10": "486b39ae2fe5"
   }
  },
  "eq:B2": {
@@ -974,9 +1010,24 @@
    "sympy:V5": "2b4ce6a6fdbe"
   }
  },
+ "paper:eqn:bw_cg": {
+  "date": "2026-11-13",
+  "hash": "f361f7421cfc",
+  "needs": {
+   "sympy:B10": "75d787686330",
+   "sympy:B19": "f48cded34bc8"
+  }
+ },
+ "paper:eqn:bw_disp": {
+  "date": "2026-11-13",
+  "hash": "9ce35d95d255",
+  "needs": {
+   "sympy:B19": "f48cded34bc8"
+  }
+ },
  "paper:eqn:i_node": {
-  "date": "2026-11-12",
-  "hash": "e898a4781078",
+  "date": "2026-11-13",
+  "hash": "ee6aa634f5b4",
   "needs": {
    "sympy:V3": "89dd7f6ca1ae"
   }
@@ -1000,21 +1051,21 @@
   "date": "2026-11-12",
   "hash": "43ade4d7969e",
   "needs": {
-   "sympy:B16": "4946c8941d93"
+   "sympy:B16": "c1751de9ffb2"
   }
  },
  "paper:eqn:limit_outer": {
   "date": "2026-11-12",
   "hash": "249462a3de53",
   "needs": {
-   "sympy:B16": "4946c8941d93"
+   "sympy:B16": "c1751de9ffb2"
   }
  },
  "paper:eqn:limit_parts": {
   "date": "2026-11-12",
   "hash": "e6bac64bfe25",
   "needs": {
-   "sympy:B16": "4946c8941d93"
+   "sympy:B16": "c1751de9ffb2"
   }
  },
  "paper:eqn:node": {
@@ -1054,6 +1105,13 @@
    "sympy:B3": "b422da98805c"
   }
  },
+ "paper:eqn:vres_D": {
+  "date": "2026-11-13",
+  "hash": "1c13e687f0d2",
+  "needs": {
+   "sympy:B5": "3f8938ff32e7"
+  }
+ },
  "paper:eqn:vres_amp": {
   "date": "2026-11-12",
   "hash": "3f9822a753ce",
@@ -1076,10 +1134,11 @@
   }
  },
  "paper:eqn:vres_h": {
-  "date": "2026-11-12",
-  "hash": "15b71699cf1e",
+  "date": "2026-11-13",
+  "hash": "0e32d6eec372",
   "needs": {
    "sympy:B15": "809dccd15863",
+   "sympy:B18": "36ffd840a5f9",
    "sympy:B8": "1a6166aa8c03"
   }
  },
@@ -1097,9 +1156,17 @@
    "sympy:B7": "f2f19bbd3cb6"
   }
  },
+ "paper:eqn:vres_ode": {
+  "date": "2026-11-13",
+  "hash": "3d547a394ab6",
+  "needs": {
+   "sympy:B18": "36ffd840a5f9",
+   "sympy:B19": "f48cded34bc8"
+  }
+ },
  "paper:eqn:vres_params": {
-  "date": "2026-11-12",
-  "hash": "3056f105b4ab",
+  "date": "2026-11-13",
+  "hash": "576041e9ab3f",
   "needs": {
    "sympy:B5": "3f8938ff32e7",
    "sympy:B8": "1a6166aa8c03"
@@ -1114,9 +1181,10 @@
   }
  },
  "paper:eqn:vres_sol": {
-  "date": "2026-11-12",
-  "hash": "f022dcc38797",
+  "date": "2026-11-13",
+  "hash": "4740b01ec44c",
   "needs": {
+   "sympy:B17": "028f92fbd8a6",
    "sympy:B6": "43cc6a8df56c",
    "sympy:B8": "1a6166aa8c03"
   }
@@ -1129,16 +1197,16 @@
   }
  },
  "paper:eqn:wire_2d": {
-  "date": "2026-11-12",
-  "hash": "d9d8c86320c7",
+  "date": "2026-11-13",
+  "hash": "bdcd07b941c2",
   "needs": {
    "sympy:G10": "327af4ab5863",
    "sympy:G3": "e10fe85f9112"
   }
  },
  "paper:eqn:wire_Acomp": {
-  "date": "2026-11-12",
-  "hash": "88c51dd605ee",
+  "date": "2026-11-13",
+  "hash": "cf49047ea994",
   "needs": {
    "sympy:G11": "ce14708c5022",
    "sympy:G17": "6ee5ece5560f"
@@ -1160,8 +1228,8 @@
   }
  },
  "paper:eqn:wire_Dcomp": {
-  "date": "2026-11-12",
-  "hash": "7ee2d74a7e76",
+  "date": "2026-11-13",
+  "hash": "0a3755bdda8d",
   "needs": {
    "sympy:G16": "b940466b805c"
   }
@@ -1209,8 +1277,8 @@
   }
  },
  "paper:eqn:wire_lite": {
-  "date": "2026-11-12",
-  "hash": "2c0bcf2a0ecb",
+  "date": "2026-11-13",
+  "hash": "f53846f4a15f",
   "needs": {
    "code:ring_gravity": "b009c47899ac",
    "sympy:G14": "459ad722e276"
@@ -1281,8 +1349,8 @@
   }
  },
  "paper:eqn:zvz": {
-  "date": "2026-11-12",
-  "hash": "a2d6cf76d90d",
+  "date": "2026-11-13",
+  "hash": "423a7229938d",
   "needs": {
    "sympy:V2": "1762ff266d6c"
   }
@@ -1418,9 +1486,30 @@
  },
  "sympy:B16": {
   "date": "2026-11-12",
-  "hash": "4946c8941d93",
+  "hash": "c1751de9ffb2",
   "needs": {
    "eq:B16": "6985d7d922e5"
+  }
+ },
+ "sympy:B17": {
+  "date": "2026-11-13",
+  "hash": "028f92fbd8a6",
+  "needs": {
+   "eq:B17": "443811b41e51"
+  }
+ },
+ "sympy:B18": {
+  "date": "2026-11-13",
+  "hash": "36ffd840a5f9",
+  "needs": {
+   "eq:B18": "6ebb62129857"
+  }
+ },
+ "sympy:B19": {
+  "date": "2026-11-13",
+  "hash": "f48cded34bc8",
+  "needs": {
+   "eq:B19": "bc2cf1e6b784"
   }
  },
  "sympy:B2": {

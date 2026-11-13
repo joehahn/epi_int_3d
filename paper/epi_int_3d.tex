@@ -438,14 +438,16 @@ where $\Delta\theta$ is the drift's change in the particle's longitude. Before a
 particles' coordinates account for the planet's motion about the system's center of mass \citep{C99}.
 
 
-\section{Tests against spiral wave theory}
+\section{Using spiral wave theory to test \code{epi\_int\_3d}}
 \label{sec:waves}
 
-\code{Epi\_int\_3d} is tested here by simulating the spiral waves that a satellite launches at its
-resonances in a planetary ring and comparing them with linear wave theory. Spiral bending waves, launched at
-a vertical resonance, test the vertical motion of Section \ref{sec:vertical} and the vertical ring gravity of
-Section \ref{sec:ring_gravity}. Spiral density waves, launched at a Lindblad resonance, test the in-plane
-motion, and in a non-gravitating, pressure-supported gas disk they also test the ring pressure of
+Here we use \code{epi\_int\_3d} to simulate the spiral bending waves that a satellite launches at its
+vertical resonances in a planetary ring, which exercises the code's new vertical capability, and we compare
+them with linear wave theory to confirm the code. These waves test the vertical motion of
+Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:ring_gravity}. We will also
+simulate the spiral density waves that a satellite launches at its Lindblad resonances, to further validate
+the code's ability to simulate horizontal disturbances in a self-gravitating ring, and in a
+non-gravitating, pressure-supported gas disk those waves will also test the ring pressure of
 Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here and others, is
 in the code's repository; the simulations themselves are not.
 
@@ -453,7 +455,36 @@ in the code's repository; the simulations themselves are not.
 \label{sec:bending}
 
 %equations B1-B12 of notes/sympy/bending_wave.py; notes/phase2c/bending_wave_theory.md
-\subsubsection{Theory}
+\subsubsection{Free spiral bending waves}
+\label{sec:waves_free}
+
+A spiral bending wave displaces the ring vertically by $Z = {\rm Re}[h(r)e^{i(m\theta - \omega t)}]$, where the
+integer $m$ and the frequency $\omega$ are constant and the complex amplitude $h \propto e^{i\int k\,dr}$ winds
+with radial wavenumber $k$. The wave's crests, where $m\theta + \int k\,dr - \omega t$ is constant, rotate with
+the pattern speed $\Omega_p = \omega/m$, prograde when $\Omega_p > 0$, and a ring particle orbiting at $\Omega_a$ sees
+the wave at the Doppler-shifted frequency $\omega_m = m(\Omega_a - \Omega_p)$. The wave obeys the dispersion
+relation (Eqn.\ (84) of \citealt{S84})\footnote{\cite{S84} writes perturbations as $e^{i(\omega t - m\theta)}$,
+the complex conjugate of the form used here. His equations are therefore the complex conjugates of those here, with
+$k$ of opposite sign: his trailing waves at an inner vertical resonance have $k < 0$, where those here have $k > 0$.}
+\begin{equation}
+    \label{eqn:bw_disp}
+    \omega_m^2 = \nu_a^2 + 2\pi G\sigma|k|,
+\end{equation}
+where $\sigma$ is the ring's surface density, whose self-gravity adds to the vertical restoring force
+(Appendix \ref{sec:wire_continuum}). Since $\omega = m\Omega_a - \omega_m$, the wave's group velocity is
+\begin{equation}
+    \label{eqn:bw_cg}
+    c_g = \frac{\partial\omega}{\partial k} = -{\rm sgn}(k)\frac{\pi G\sigma}{\omega_m}
+\end{equation}
+(Eqn.\ (85) of \citealt{S84}). The dispersion relation fixes only $|k|$, and the group velocity's sign sets the
+sign of $k$. A wave is launched at a vertical resonance, where $\omega_m = \nu_a > 0$, and its angular momentum
+luminosity, which equals the torque that launches it, Eqn.\ (\ref{eqn:vres_torque}), flows away from the
+resonance, into the region where $\omega_m^2 > \nu_a^2$. At an inner vertical resonance, where $m > 0$, that region
+lies inside the resonance, so $c_g < 0$ and $k > 0$; at an outer vertical resonance, where $m < 0$, it lies
+outside, so $c_g > 0$ and $k < 0$. Either way $k$ has the sign of $m$, so along a crest the longitude
+$\theta$ decreases with $r$, and the wave is trailing \citep{S84}.
+
+\subsubsection{Forced spiral bending waves}
 \label{sec:waves_theory}
 
 A satellite of mass $M_s$ whose circular orbit of radius $a_s$ is inclined by $i_s$ to the ring plane
@@ -465,8 +496,8 @@ satellite accelerates a ring particle at radius $r$ and longitude $\theta$ verti
 \end{equation}
 where $z_s = a_si_s\sin(\theta_s - \Omega_s)$ is the satellite's height above the ring plane, its longitude
 $\theta_s = \Omega_{a_s}t$ and longitude of ascending node $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t$ advance at
-constant rates from zero at time $t = 0$, and $\Delta_s^2 = r^2 + a_s^2 - 2ra_s\cos(\theta - \theta_s)$ is the
-particle's distance from the satellite.
+constant rates from zero at time $t = 0$, and $\Delta_s$ is the particle's distance from the satellite, where
+$\Delta_s^2 = r^2 + a_s^2 - 2ra_s\cos(\theta - \theta_s)$ omits $(z - z_s)^2$, which is of second order.
 The ring's vertical excursions are much smaller than the satellite's, $|z| \ll a_si_s$, so
 $A_z \simeq GM_sz_s/\Delta_s^3$, whose Fourier expansion in $\theta$ is
 \begin{equation}
@@ -484,40 +515,47 @@ in which
     b_{3/2}^{(m)}(\beta) = \frac{2}{\pi}\int_0^\pi\frac{\cos m\phi\,d\phi}{(1 + \beta^2 - 2\beta\cos\phi)^{3/2}}
 \end{equation}
 is a Laplace coefficient of $\beta = r/a_s$ (Eqn.\ (A21) of \citealt{S84}). Each
-term with $m \ge 2$ is an $m$-armed pattern that rotates with angular velocity
-$\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius interior to
-the satellite's orbit, and these
-resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ have their resonances exterior to the
-satellite's orbit, the $m = -1$ term drives a secular resonance where the ring's nodes regress at the
-satellite's rate, which is not considered here, and the $m = 0$ and
-$m = 1$ terms have no resonance. The simulations here follow particles near a single $m$th resonance, so
+term with $|m| \ge 2$ is an $|m|$-armed pattern that rotates with angular velocity
+$\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ and launches a spiral bending wave at its one vertical resonance, which
+lies interior to the satellite's orbit when $m > 0$ and exterior when $m < 0$, and these resonances are well
+separated across the ring \citep{S84}. The $m = -1$ term drives a secular resonance where the ring's nodes
+regress at the satellite's rate, which is not considered here, and the $m = 0$ and $m = 1$ terms have no resonance. The simulations here follow particles near a single $m$th resonance, so
 \code{Epi\_int\_3d} keeps only the resonant term of the satellite's forcing,
 \begin{equation}
     \label{eqn:vres_force}
     A_z = -A_V\sin m(\theta - \Omega_pt),
 \end{equation}
-where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the Doppler-shifted forcing frequency
-$\omega_m = m(\Omega_a - \Omega_p)$, and the inner
-vertical resonance lies at the radius $r_V$ where $\omega_m = \nu_a$, so that $D \equiv \nu_a^2 - \omega_m^2$
-vanishes there, which is
-$r_V \simeq a_s[(m - 1)/(m + 1)]^{2/3}$ when $J_2$ is small.
+where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the Doppler-shifted forcing
+frequency $\omega_m$ of Section \ref{sec:waves_free}, and the inner vertical resonance lies where $\omega_m = \nu_a$, at the
+radius $r_V \simeq a_s[(m - 1)/(m + 1)]^{2/3}$ when $J_2$ is small. There the quantity
+\begin{equation}
+    \label{eqn:vres_D}
+    D \equiv \nu_a^2 - \omega_m^2,
+\end{equation}
+a measure of the distance from resonance in frequency, vanishes.
 
 Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{im(\theta - \Omega_pt)}]$ where
-$x = (r - r_V)/r_V$ is the fractional distance from resonance. The complex amplitude $h$ of the
-trailing wave is, from Eqn.\ (88) of \cite{S84},
+$x = (r - r_V)/r_V$ is the fractional distance from resonance, and $D \simeq {\cal D}x$ where
+${\cal D} = r\,dD/dr$ at $r_V$ (Eqn.\ (87a) of \citealt{S84}), which is $3(m - 1)\Omega_a^2$ when oblateness is
+negligible. The dispersion relation, Eqn.\ (\ref{eqn:bw_disp}), is $D = -2\pi G\sigma|k|$, and the wave
+here is trailing, with $k > 0$. Acting on $h \propto e^{i\int k\,dr}$, $k$ is $-i\,d/dr$, which turns the
+dispersion relation into the left side of Eqn.\ (88) of \cite{S84},
 \begin{equation}
-    \label{eqn:vres_h}
-    h(x) = -\frac{iL_V}{\epsilon}e^{-ix^2/2\epsilon}\int_x^\infty e^{is^2/2\epsilon}\,ds
+    \label{eqn:vres_ode}
+    -i\epsilon\frac{dh}{dx} + xh = L_V,
 \end{equation}
-where
+whose right side is the satellite's forcing, where
 \begin{equation}
     \label{eqn:vres_params}
-    \epsilon = \frac{2\pi G\sigma}{r_V{\cal D}} \quad \mbox{and} \quad L_V = \frac{iA_V}{\cal D},
+    \epsilon = \frac{2\pi G\sigma}{r_V{\cal D}} \quad \mbox{and} \quad L_V = \frac{iA_V}{\cal D}.
 \end{equation}
-$\sigma$ is the ring's surface density, and ${\cal D} = r\,dD/dr$ at $r_V$ (Eqn.\ (87a) of \citealt{S84}), which
-is $3(m - 1)\Omega_a^2$ when oblateness is negligible.\footnote{\cite{S84} writes perturbations as
-$e^{i(\omega t - m\theta)}$, the complex conjugate of the form used here, which reverses the sign of
-$i$ in Eqns.\ (\ref{eqn:vres_h})--(\ref{eqn:vres_sol}).} Far from resonance, where $|x| \gg \epsilon^{1/2}$, Eqn.\ (\ref{eqn:vres_h})
+The solution of Eqn.\ (\ref{eqn:vres_ode}) that has
+no wave at $x > 0$ is (Eqns.\ (89)--(90) of \citealt{S84})
+\begin{equation}
+    \label{eqn:vres_h}
+    h(x) = -\frac{iL_V}{\epsilon}e^{-ix^2/2\epsilon}\int_x^\infty e^{is^2/2\epsilon}\,ds.
+\end{equation}
+Far from resonance, where $|x| \gg \epsilon^{1/2}$, Eqn.\ (\ref{eqn:vres_h})
 tends to Eqns.\ (91)--(92) of \cite{S84},
 \begin{subequations}
 \label{eqn:vres_sol}
@@ -528,10 +566,7 @@ tends to Eqns.\ (91)--(92) of \cite{S84},
         0 & \qquad x \gg \epsilon^{1/2}. \end{array}\right. \label{eqn:vres_sol_wave}
 \end{eqnarray}
 \end{subequations}
-The forced oscillation $h_{\rm forced}$ is
-the response of a massless ring, and $h_{\rm wave}$ is a trailing spiral bending wave. Bending waves propagate away
-from the satellite \citep{S84}, so this wave lies on the inner side of the inner vertical resonance and propagates
-inward; at an outer vertical resonance it would propagate outward. The wave's amplitude
+The forced oscillation $h_{\rm forced}$, which is $iA_V/D$ to first order in $x$, is the response of a massless ring, and $h_{\rm wave}$ is a spiral bending wave. The wave's amplitude
 \begin{equation}
     \label{eqn:vres_amp}
     |Z_w| = \left(\frac{2\pi}{\epsilon}\right)^{1/2}|L_V| = A_V\left(\frac{r_V}{G\sigma{\cal D}}\right)^{1/2}
@@ -541,10 +576,11 @@ is constant, while its wavelength
     \label{eqn:vres_lambda}
     \lambda_{\rm wave} = \frac{4\pi^2G\sigma}{{\cal D}|x|}
 \end{equation}
-shrinks with distance from resonance. Appendix \ref{sec:massless_limit} shows that
+shrinks with distance from resonance. The wave's first wavelength, from $r_V$ to where its phase
+$x^2/2\epsilon$ reaches $2\pi$, is $(4\pi\epsilon)^{1/2}r_V$. Appendix \ref{sec:massless_limit} shows that
 $h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$.
 
-Equations (\ref{eqn:vres_h})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
+Equations (\ref{eqn:vres_ode})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
 \code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless
 particles (Section \ref{sec:waves_massless}), which checks the forcing $A_V$, the resonance's location
 $r_V$ and ${\cal D}$, which together also set the wave's amplitude. The wave is tested by a
@@ -618,14 +654,13 @@ linear and well resolved: its amplitude $|Z_w|$, Eqn.\ (\ref{eqn:vres_amp}), kee
 everywhere in the ring, and its wavelength, Eqn.\ (\ref{eqn:vres_lambda}), spans about
 \bwPerWavelength\ streamlines even at the ring's inner edge, where it is shortest.
 
-The wave propagates inward at the group velocity $c_g = \pi G\sigma/\nu_a$ that follows from the
-bending-wave dispersion relation of Appendix \ref{sec:wire_continuum}, so it takes the time
-$\tau_c = (r_V - 1)/c_g$, about \bwCrossOrbits\ orbits, to cross from $r_V$ to the ring's inner edge. The
+The wave propagates inward at the speed $|c_g| = \pi G\sigma/\nu_a$, Eqn.\ (\ref{eqn:bw_cg}) near resonance,
+so it takes the time $\tau_c = (r_V - 1)/|c_g|$, about \bwCrossOrbits\ orbits, to cross from $r_V$ to the ring's inner edge. The
 simulation stops at $\bwOrbits$ orbits, or $\bwRunFraction\,\tau_c$, before the wave can reflect there.
 Figure \ref{fig:bwave} shows the wave being launched at $r_V$ and propagating inward. Switching the
 satellite on at full mass also starts a free vertical oscillation everywhere, so at first every streamline
 moves as a massless particle would. The ring's self-gravity then takes over: the response near $r_V$
-settles onto linear theory, and the wave front advances inward at about $c_g$. The front overshoots linear
+settles onto linear theory, and the wave front advances inward at about $|c_g|$. The front overshoots linear
 theory a little, since it carries along the free oscillation that was started at resonance, and a small
 residue of that oscillation remains ahead of the front. Behind the front, though, the simulated
 inclinations are in excellent agreement with linear theory, with about \bwCrests\ wavelengths of the wave
@@ -952,7 +987,7 @@ $A_{g,z} \simeq 2G\lambda d_z/d_r^2$, and the sum of $A_{g,z}$ over the sheet is
     A_z = 2G\sigma Z_0\int_{-\infty}^{\infty}\frac{\cos kx - 1}{x^2}\,dx = -2\pi G\sigma|k|Z,
 \end{equation}
 which is the self-gravity term of the bending-wave dispersion relation,
-$(\omega - m\Omega_a)^2 = \nu_a^2 + 2\pi G\sigma|k|$ \citep{SCL83, S84}. So summing the wires'
+Eqn.\ (\ref{eqn:bw_disp}) \citep{SCL83, S84}. So summing the wires'
 pulls over the streamlines gives the vertical restoring force of a self-gravitating sheet, just
 as the same sum gives the $-2\pi G\sigma|k|$ term of a density wave in the plane. For bending waves,
 though, self-gravity is restoring, and adds to $\nu_a^2$.
@@ -1021,9 +1056,9 @@ The second term is $h_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_sol_wave}), with the a
 Eqn.\ (\ref{eqn:vres_amp}), and it grows as $\sigma^{-1/2}$ as $\sigma \rightarrow 0$. This is because
 Eqn.\ (\ref{eqn:vres_h}) is a steady state: the wave has had unlimited time to fill the ring inside $r_V$,
 and the satellite's torque on it, Eqn.\ (\ref{eqn:vres_torque}), which is proportional to $\sigma$, is carried
-away at the group velocity $c_g = \pi G\sigma/\nu_a$, which also is proportional to $\sigma$. So the wave's
+away at the speed $|c_g| = \pi G\sigma/\nu_a$, which also is proportional to $\sigma$. So the wave's
 angular momentum per unit area, which is proportional to $\sigma|Z_w|^2$, does not depend on $\sigma$. At any finite time $t$, though, the wave
-has reached only $x \simeq -c_gt/r_V$, which tends to zero with $\sigma$, so the inner side too has only
+has reached only $x \simeq -|c_g|t/r_V$, which tends to zero with $\sigma$, so the inner side too has only
 the forced oscillation $h_{\rm forced}$ as $\sigma \rightarrow 0$. The massless ring of
 Section \ref{sec:waves_massless} is this limit.
 

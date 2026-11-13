@@ -312,4 +312,46 @@ for ev in (1e-6, 1e-8):
         err = abs(h_eps(xv, ev) - 1/xv - wave)*abs(xv)
         assert err < 2*ev/xv**2, (ev, xv, err)
         print(f'PASS  B16: eps = {ev:.0e}, x = {xv:+.2f}: |h - L_V/x - h_wave|/|L_V/x| = {err:.1e} <= ~eps/x^2 = {ev/xv**2:.0e}')
+# --- B17: h_forced = L_V/x (paper Eqn. 32b) is the massless response iA_V/D (Section 4.1.2) to first order in x,
+# since L_V = iA_V/calD and D = calD x + O(x^2) near r_V ---
+x17, A17, cD17, c2 = sp.symbols('x A_V calD c_2', real=True, nonzero=True)
+D17 = cD17*x17 + c2*x17**2                                      # D expanded about r_V
+ratio = sp.series((sp.I*A17/D17)/((sp.I*A17/cD17)/x17), x17, 0, 1).removeO()
+check('B17: (iA_V/D)/(L_V/x) = 1 + O(x), with L_V = iA_V/calD', ratio - 1)
+# --- B18: Shu's Eqn. 88 in the paper's convention, -i eps dh/dx + x h = L_V (paper Eqn. vres_ode), which
+# Eqn. (vres_h) solves; its homogeneous solution e^{-i x^2/2 eps} is the free wave, absent at x > 0 since
+# h -> L_V/x there (B16). The wave's phase x^2/2 eps reaches 2 pi at |x| = (4 pi eps)^{1/2}: the first wavelength ---
+x18 = sp.symbols('x', real=True)
+e18 = sp.symbols('epsilon', positive=True)
+L18 = sp.symbols('L_V')
+s18 = sp.symbols('s', real=True)
+h18 = -sp.I*L18/e18*sp.exp(-sp.I*x18**2/(2*e18))*sp.Integral(sp.exp(sp.I*s18**2/(2*e18)), (s18, x18, sp.oo))
+check('B18: Eqn. (vres_h) solves -i eps dh/dx + x h = L_V', sp.expand(-sp.I*e18*h18.diff(x18).doit() + x18*h18 - L18))
+check('B18: e^{-i x^2/2 eps} solves the homogeneous equation',
+      -sp.I*e18*sp.diff(sp.exp(-sp.I*x18**2/(2*e18)), x18) + x18*sp.exp(-sp.I*x18**2/(2*e18)))
+check('B18: x^2/2 eps = 2 pi at |x| = (4 pi eps)^{1/2}', (sp.sqrt(4*sp.pi*e18))**2/(2*e18) - 2*sp.pi)
+# --- B19: free bending waves (paper Section 4.1.1). Z = Re[h e^{i(m theta - omega t)}], h ~ e^{i int k dr},
+# omega_m = m(Omega_a - Omega_p) = m Omega_a - omega. Dispersion relation omega_m^2 = nu^2 + 2 pi G sigma |k| gives
+# c_g = d omega/dk = -sgn(k) pi G sigma/omega_m; crests m theta + k r = const have d theta/dr = -k/m (trailing iff
+# k/m > 0); and with D = calD x, |k| = k > 0 and k -> -i d/dr, D h = -2 pi G sigma k h is -i eps h' + x h = 0 ---
+k19 = sp.symbols('k', real=True, nonzero=True)
+G19, sg19, nu19, Oa19, m19, r19 = sp.symbols('G sigma nu Omega_a m r', positive=True)
+wm19 = sp.sqrt(nu19**2 + 2*sp.pi*G19*sg19*sp.Abs(k19))          # omega_m > 0 near a vertical resonance
+om19 = m19*Oa19 - wm19
+check('B19: c_g = d omega/dk = -sgn(k) pi G sigma/omega_m', sp.diff(om19, k19) + sp.sign(k19)*sp.pi*G19*sg19/wm19)
+th19 = sp.symbols('theta0')
+mm = sp.symbols('m_', nonzero=True, real=True)
+check('B19: along a crest m theta + k r = const, d theta/dr = -k/m', sp.diff((th19 - k19*r19)/mm, r19) + k19/mm)
+for sk, label in ((1, 'inner (m > 0): k > 0 gives c_g < 0'), (-1, 'outer (m < 0): k < 0 gives c_g > 0')):
+    kk = sk*sp.Rational(3, 7)
+    cg = (-sp.sign(kk)*sp.pi*G19*sg19/wm19.subs(k19, kk))
+    assert sp.sign(cg) == -sk, label
+    print(f'PASS  B19: {label}')
+x19 = sp.symbols('x', real=True)
+e19, cD19, rV19 = sp.symbols('epsilon calD r_V', positive=True)
+hf = sp.Function('h')(x19)
+# D h = -2 pi G sigma k h with k h = -i dh/dr = -(i/r_V) dh/dx, D = calD x, eps = 2 pi G sigma/(r_V calD)
+lhs = cD19*x19*hf + 2*sp.pi*G19*sg19*(-sp.I/rV19)*hf.diff(x19)
+check('B19: (D h + 2 pi G sigma k h)/calD = -i eps dh/dx + x h, the left side of Eqn. (vres_ode)',
+      (lhs/cD19 - (-sp.I*e19*hf.diff(x19) + x19*hf)).subs(e19, 2*sp.pi*G19*sg19/(rV19*cD19)))
 print('all bending-wave checks passed')

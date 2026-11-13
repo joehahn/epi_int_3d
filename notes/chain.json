@@ -1229,6 +1229,57 @@
    "check": "uv run python notes/sympy/bending_wave.py"
   },
   {
+   "id": "eq:B17",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B17",
+   "needs": [
+    "eq:B15"
+   ]
+  },
+  {
+   "id": "sympy:B17",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B17",
+   "needs": [
+    "eq:B17"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "eq:B18",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B18",
+   "needs": [
+    "eq:B15"
+   ]
+  },
+  {
+   "id": "sympy:B18",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B18",
+   "needs": [
+    "eq:B18"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "eq:B19",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B19",
+   "needs": [
+    "eq:B10"
+   ]
+  },
+  {
+   "id": "sympy:B19",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B19",
+   "needs": [
+    "eq:B19"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
    "id": "code:ring_gravity",
    "kind": "code",
    "anchor": "fast/kernels.py::_make_ring_gravity",
@@ -1679,7 +1730,63 @@
    "anchor": "paper/epi_int_3d.tex#eqn:vres_h",
    "needs": [
     "sympy:B8",
-    "sympy:B15"
+    "sympy:B15",
+    "sympy:B18"
+   ]
+  },
+  {
+   "id": "paper:eqn:bw_disp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:bw_disp",
+   "needs": [
+    "sympy:B19"
+   ],
+   "note": "Shu (1984) Eqn. 84 with omega - m Omega = -omega_m"
+  },
+  {
+   "id": "paper:eqn:bw_cg",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:bw_cg",
+   "needs": [
+    "sympy:B19",
+    "sympy:B10"
+   ],
+   "note": "Shu (1984) Eqn. 85, k of opposite sign"
+  },
+  {
+   "id": "claim:trailing",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@Either way $k$ has the sign of $m$",
+   "needs": [
+    "sympy:B19",
+    "sympy:B9"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_D",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_D",
+   "needs": [
+    "sympy:B5"
+   ],
+   "note": "D = nu_a^2 - omega_m^2, Shu's Eqn. 83"
+  },
+  {
+   "id": "paper:eqn:vres_ode",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_ode",
+   "needs": [
+    "sympy:B18",
+    "sympy:B19"
+   ],
+   "note": "Shu's Eqn. 88 in the paper's convention"
+  },
+  {
+   "id": "claim:first_wavelength",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The wave's first wavelength",
+   "needs": [
+    "sympy:B18"
    ]
   },
   {
@@ -1712,7 +1819,8 @@
    "anchor": "paper/epi_int_3d.tex#eqn:vres_sol",
    "needs": [
     "sympy:B6",
-    "sympy:B8"
+    "sympy:B8",
+    "sympy:B17"
    ]
   },
   {
@@ -1783,7 +1891,7 @@
   {
    "id": "claim:bw_agreement",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@The wave propagates inward at the group velocity",
+   "anchor": "paper/epi_int_3d.tex@The wave propagates inward at the speed",
    "needs": [
     "numbers:bending_waves",
     "sympy:B8",
@@ -1812,7 +1920,7 @@
   {
    "id": "claim:pattern_speed",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@an $m$-armed pattern that rotates",
+   "anchor": "paper/epi_int_3d.tex@-armed pattern that rotates",
    "needs": [
     "sympy:B4",
     "code:satellite"

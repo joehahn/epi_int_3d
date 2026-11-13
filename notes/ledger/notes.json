@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-13T03:21:00Z",
+ "exported": "2026-11-13T04:55:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -183,6 +183,38 @@
    "note": "should \"The forced oscillation h_forced is the response of a massless ring\" refer to appendix D?\n\nand do bending waves a trailing spiral bending wave on the inner side of the resonance that propagates inward? or do the propagate away from satellite?",
    "reply": "Citation of Appendix D kept only at the paragraph's end (author's choice in Claude Code); 'Bending waves propagate away from the satellite (Shu 1984), so this wave lies on the inner side of the inner vertical resonance and propagates inward; at an outer vertical resonance it would propagate outward.'",
    "reply_at": "2026-11-13T03:20:49Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p1",
+   "note_at": "2026-11-13T04:41:28.833Z",
+   "note": "Δₛ² = r² + aₛ² − 2raₛ cos(θ − θₛ) negelcts the (z-z_s)^2 i think\n\ncan \"Each term with m ≥ 2 is an m-armed pattern that rotates with angular velocity Ωₚ = Ω_aₛ + ν_aₛ/m and resonates with the ring particles at one radius interior to the satellite's orbit, and these resonances are well separated across the ring (Shu 1984). Terms with m ≤ −2 have their resonances exterior to the satellite's orbit, the m = −1 term drives a secular resonance where the ring's nodes regress at the satellite's rate, which is not considered here, and the m = 0 and m = 1 terms have no resonance.\" be simplified by saying terms with |m|>=2 are spiral. positive m have resonances interior, negative m are exterior, then address m the m=0, +1-1 terms\n\nD is also referred to the frequecy distance from resonance since h_forced can be written as something/D",
+   "reply": "Delta_s^2 now said to omit the second-order (z - z_s)^2; the m-terms grouped as |m| >= 2 (interior for m > 0, exterior for m < 0), then m = -1, 0, 1; D called a measure of the distance from resonance in frequency, and h_forced = iA_V/D to first order in x (sympy B17); style rule P81.",
+   "reply_at": "2026-11-13T04:52:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p2",
+   "note_at": "2026-11-13T04:43:23.353Z",
+   "note": "amplitude h of the trailing wave is asserts that the bending wave is a trailing wave, but that I think depends on the sign of the wavenumber k, should we refer to the bending wave later when we discuss wavenumbers and dispersion relations?",
+   "reply": "'of the trailing wave' dropped from 4.1.1; h_wave is 'a spiral bending wave' there; trailing moved to 4.1.3 with the group velocity.",
+   "reply_at": "2026-11-13T04:52:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p4",
+   "note_at": "2026-11-13T04:45:36.911Z",
+   "note": "so this wave lies on the inner side of the inner vertical resonance and propagates inward; at an outer vertical resonance it would propagate outward.\nseems redundant since Bending waves propagate away from the satellite (Shu 1984), \n\nalso the direction the wave travel in inferred from the sign of the group veloctiy which i think is derived from the dispersion relation, so i think the direction the wave travels should be deferred until we get to that",
+   "reply": "Propagation sentence deleted from 4.1.1; 4.1.3 now: 'The wave is trailing, and it propagates inward, away from the satellite, at the group velocity c_g ... of Appendix C (Shu 1984); at an outer vertical resonance it would propagate outward.'",
+   "reply_at": "2026-11-13T04:52:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p6",
+   "note_at": "2026-11-13T04:48:05.255Z",
+   "note": "i thought we were not going to grow the satellite's mass since, when the ring can responde with a wave, makeing satellite mass=total mass at time t=0 doesnt change the outcome much",
+   "reply": "No change (author: doesn't apply to massless rings); the massless ring keeps the satellite's slow mass growth.",
+   "reply_at": "2026-11-13T04:52:20Z",
    "status": "done"
   }
  ]

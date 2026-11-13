@@ -528,6 +528,26 @@ comparison with Cassini data is out of scope for this version of the project.
   `tests/bending_waves`, and any other that sets an inclination or satellite) with `tools/run_simulations.py`,
   re-execute their notebooks, remake the paper's figures and `tools/paper_numbers.py` macros, and check the paper's quoted
   numbers. The in-plane results and the 2D regression suite are unchanged (the vertical drift doesn't touch r, θ).
+- **To do, with that rerun: the bending-wave tests** (decided 2026-11-13). `tests/bending_waves/bending_waves.ipynb`
+  gets one numbered section per test, each heading naming the paper equations or figure it backs, numbers fixed so
+  links to them stay valid:
+  1. the wave is launched at r_V and its front moves inward at |c_g| (Eqn. 26, Fig. 4);
+  2. amplitude |Z_w| and phase of h against Shu's solution (Eqns. 35-37);
+  3. wavenumber against the dispersion relation, with the lattice and edge corrections (Eqns. 25, 38, App. C, Fig. 5);
+  4. the satellite's torque equals the wave's angular momentum luminosity, and L_z is conserved (Eqn. 40, Figs. 6-7);
+  5. no in-plane motion;
+  6. k > 0 everywhere behind the front: the wave is trailing (4.1.1);
+  7. the pattern speed: the wave's phase at fixed r, fit against time (T14), advances at m Omega_p (4.1.1);
+  8. the first wavelength is (4 pi eps)^{1/2} r_V (4.1.2).
+  On hold: 9, convergence in the number of streamlines and the timestep (T15). Dropped: an outer-resonance (m < 0)
+  run. The notebook and `tools/paper_numbers.py` take their numbers from the same functions in `tests/vertical_analysis.py`;
+  each section is a `notebook:` chain node that its paper claim needs. A short narrow-ring pytest (a few hundred orbits:
+  front position, amplitude near r_V) guards against regressions. The existing narrow-ring and resolution sections stay
+  in this notebook while 9 is on hold.
+  Ledger access: each executed notebook is exported to HTML in `docs/notebooks/` on the GitHub Pages site, with an anchor
+  per section, and each card links the claim or figure inline ("notebook §2") to its section, from a `notebook` field on
+  the claim's chain node, written by `tools/ledger_cards.py`. (Pages over GitHub's own notebook view, whose anchors are
+  unreliable, and over nbviewer, a third-party service.)
 - **To do: an outside review of Section 3.1.1's derivation** (asked 2026-11-13). No outside model has reviewed the
   perturbing streamline's geometry (equations G1-G19, `notes/sympy/streamline_gravity.py`); the 2026-11-08 reviews covered
   only the vertical motion and `fast/bookkeeping.py`. Write `reviews/problems/streamline_geometry.md` with the setup and the

@@ -254,3 +254,15 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
   Doppler-shifted forcing frequency (as in Hahn 2009), with a subscript m because it varies with m; D = ν_a² − ω_m²,
   which vanishes at the resonance, and 𝒟 = r dD/dr at r_V are Shu's. Write a quantity out rather than give it a
   symbol when the symbol would clash. (2026-11-13)
+- **P81.** State a property where the result that gives it appears, not before: a wave's direction of travel and its
+  trailing sense come with the group velocity and dispersion relation, not with the solution that first shows the
+  wave. Group cases by sign where that is simpler ("terms with |m| ≥ 2 ..., interior when m > 0 and exterior when
+  m < 0"), then take the leftovers. Say what an approximation omits (Δ_s² omits the second-order (z − z_s)²). (2026-11-13)
+- **P82.** Show the equation a quoted solution solves before the solution (Shu's Eqn. 88 before Eqn. 30), and cite
+  each to the source's own equation (the equation to Shu's 88, its solution to his 89–90). Number a definition that
+  later text, figures and appendices rely on (D ≡ ν_a² − ω_m²). (2026-11-13)
+- **P83.** Give a wave's free behavior before the forced problem, as Shu (1984) does (his 2a, 2b): the dispersion
+  relation, then the group velocity, whose sign sets the sign of k and so whether the wave trails, and the pattern
+  speed, whose sign says which way it rotates. State a convention difference by which equations correspond ("his
+  equations are the complex conjugates of those here, with k of opposite sign"), never as a change in the sign of i,
+  which is always √−1. (2026-11-13)

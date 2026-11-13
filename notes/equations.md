@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B16); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B19); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -73,3 +73,6 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | B14 | the whole series: summed over all integers m (b^(−m) = b^(m)), the z_s part of F_z is exactly −(GM_s i_s/2a_s²) Σ_m b_{3/2}^{(m)}(β) sin(mθ − (m+1)λ_s + Ω_s), for β = r/a_s < 1 or > 1; with J2, m ≥ 2 resonate inside a_s, m ≤ −2 outside, m = −1 (secular), 0 and 1 not away from a_s | paper Eqn. (26), Section 4.1.1 | ✅ | ✅ (numerical, β = 0.7, 1.4; resonance scan, J2 = 0.01) | ☐ | the expansion holds for β > 1 too: b_s^{(m)}(β) = β^{−2s} b_s^{(m)}(1/β) |
 | B15 | B8 in the paper's notation: h = −(iL_V/ε) e^{−ix²/2ε} ∫ₓ^∞ e^{is²/2ε} ds, with K = 1/(ε𝒟), L = 1/ε, F = iA_V = 𝒟L_V | paper Eqn. (30), Fig. 4 | ✅ | ✅ | ☐ | Shu (1984) Eqn. 88, conjugate convention; its limits are B8's |
 | B16 | massless limit: ∫ₓ^∞ e^{is²/2ε}ds = −(ε/ix)e^{ix²/2ε}[1 + 𝒪(ε/x²)] (+ (2πε)^{1/2}e^{iπ/4} for x < 0), so h = (L_V/x)[1 + 𝒪(ε/x²)] for x > 0 and h = L_V/x − ie^{iπ/4}(2π/ε)^{1/2}L_V e^{−ix²/2ε} for x < 0; T_V/c_g and σ\|Z_w\|² independent of σ | paper Appendix D | ✅ | ✅ (symbolic, and numerical at ε = 10⁻⁶, 10⁻⁸) | ☐ | integration by parts; the wave grows as σ^{−1/2} in the steady state, but reaches only x ≃ −c_g t/r_V |
+| B17 | h_forced = L_V/x = iA_V/D [1 + 𝒪(x)], since L_V = iA_V/𝒟 and D = 𝒟x + 𝒪(x²) | paper Section 4.1.1 (after Eqn. 32) | ✅ | ✅ | ☐ | links Eqn. (32b) to the massless response Im(h) = A_V/D of Section 4.1.2 |
+| B18 | Shu (1984) Eqn. 88 in the paper's convention, −iε dh/dx + xh = L_V, solved by Eqn. (30); e^{−ix²/2ε} is its free (homogeneous) wave; the first wavelength, where x²/2ε = 2π, is (4πε)^{1/2} r_V | paper Eqns. (31), (32), Section 4.1.1 | ✅ | ✅ | ☐ | Shu's solution is his Eqns. 89–90 (with 47c) |
+| B19 | free bending waves: ω_m² = ν² + 2πGσ\|k\| gives c_g = ∂ω/∂k = −sgn(k)πGσ/ω_m; crests mθ + kr = const have dθ/dr = −k/m, so trailing iff k/m > 0; k > 0 (c_g < 0) at an IVR (m > 0), k < 0 (c_g > 0) at an OVR (m < 0); with D = 𝒟x and k → −i d/dr, Dh = −2πGσkh is −iεh′ + xh = 0 | paper Section 4.1.1, Eqns. (30)–(31), left side of Eqn. (35) | ✅ | ✅ | ☐ | Shu (1984) Eqns. 84–85, conjugate convention (his trailing s = −1) |

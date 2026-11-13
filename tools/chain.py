@@ -168,7 +168,7 @@ def latex_label(path, ID):
             end = position + after.start()
         return text[start:end]
     #an equation, eqnarray or figure label: its environment
-    begins = [m for m in re.finditer(r'\\begin\{(equation|eqnarray|figure|table|align)\*?\}', before)]
+    begins = [m for m in re.finditer(r'\\begin\{(subequations|equation|eqnarray|figure|table|align)\*?\}', before)]
     if (len(begins) == 0):
         return None
     begin = begins[-1]
