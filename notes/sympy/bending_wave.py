@@ -273,4 +273,13 @@ tt, ths, Wa_, nua_ = sp.symbols('t theta Omega_as nu_as', real=True)
 check('B14: m theta - (m+1) theta_s + Omega_s = m theta - (m Omega_as + nu_as) t',
       (m*ths - (m + 1)*Wa_*tt + (Wa_ - nua_)*tt) - (m*ths - (m*Wa_ + nua_)*tt))
 print('PASS  B14: m >= 2 resonate inside a_s, m <= -2 outside, m = -1, 0, 1 not away from a_s (J2 = 0.01)')
+# --- B15: B8 in the paper's notation, Eqn. (vres_h): with K = r_V/(2 pi G sigma) = 1/(eps D_V), L = D_V K = 1/eps and
+# F = i A_V = D_V L_V, h = -i K F exp(-i L x^2/2) int = -(i L_V/eps) exp(-i x^2/2 eps) int_x^oo exp(i s^2/2 eps) ds ---
+ep, LVs = sp.symbols('epsilon L_V')
+h_B8 = -sp.I*K*Fc*sp.exp(-sp.I*L*x**2/2)*sp.Integral(sp.exp(sp.I*L*s**2/2), (s, x, sp.oo))
+h_paper = -sp.I*LVs/ep*sp.exp(-sp.I*x**2/(2*ep))*sp.Integral(sp.exp(sp.I*s**2/(2*ep)), (s, x, sp.oo))
+check("B15: B8's h = -(i L_V/eps) e^{-i x^2/2 eps} int_x^oo e^{i s^2/2 eps} ds",
+      sp.simplify(h_B8.subs({K: 1/(ep*DVs), L: 1/ep, Fc: DVs*LVs}) - h_paper))
+check('B15: K = 1/(eps D_V) for eps = 2 pi G sigma/(r_V D_V)',
+      (rr/(2*sp.pi*Gs*sg)) - 1/((2*sp.pi*Gs*sg/(rr*DVs))*DVs))
 print('all bending-wave checks passed')

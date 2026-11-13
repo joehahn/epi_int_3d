@@ -279,6 +279,7 @@ class Converter:
                 ('\\ldots', '\u2026'), ('\\,', '\u2009'), ('\\ ', ' '), ('.\\@', '.'), ('\\@', '')]:
             text = text.replace(tex, out)
         text = re.sub(r'(?<=\w)\\/', '', text)
+        text = re.sub(r'\\raggedright\s*', '', text)      #layout only
         self.leftovers |= set(re.findall(r'\\[a-zA-Z]+', text))
         #paragraphs
         paragraphs = [p.strip() for p in re.split(r'\n\s*\n', text) if p.strip()]
@@ -291,6 +292,8 @@ class Converter:
         while top and ('\x00' in text):
             text = re.sub(r'\x00(\d+)\x00', lambda m: pieces[int(m.group(1))], text)
         text = re.sub(r'<p>(<h4 class="sub">.*?</h4>)</p>', r'\1', text)
+        #a figure is a block of its own: inside <p> the browser splits it into two empty paragraphs
+        text = re.sub(r'<p>(<figure\b.*?</figure>)</p>', r'\1', text, flags=re.S)
         return text
 
 

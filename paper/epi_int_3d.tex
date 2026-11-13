@@ -188,7 +188,7 @@ whose amplitude and phase define two new orbit elements, the inclination $i$ and
 ascending node $\Omega$. The node regresses at the rate
 \begin{equation}
     \label{eqn:node}
-    \dot{\Omega} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a.
+    \frac{d\Omega}{dt} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a.
 \end{equation}
 Also keep in mind that $\Omega$ is the longitude of ascending node, while $\Omega_a$ is the mean angular
 velocity. Equations (\ref{eqn:zvz}) neglect terms of order ${\cal O}(ei)$, as Eqn.\ (\ref{eqn:nu}) does.
@@ -198,18 +198,18 @@ velocity. Equations (\ref{eqn:zvz}) neglect terms of order ${\cal O}(ei)$, as Eq
 
 Equations (\ref{eqn:inplane}) and (\ref{eqn:zvz}) can be inverted exactly via five steps, with the
 first four from Appendix A of \cite{H25}:
-\begin{enumerate}
+\begin{enumerate}\raggedright
 \item Compute $h_z = rv_\theta$, then solve $h_z^2 = a^4\Omega_a^2$ for the semimajor axis,
     $a = R_p\left(C + \sqrt{C^2 - 3J_2/2}\right)$ where $C = h_z^2/2GM_pR_p$.
 \item Compute $\Omega_a$ and $\kappa_a$ from Eqns.\ (\ref{eqn:Omega_kappa}).
 \item Compute $e\sin M = (v_r/a\kappa_a)(a/r)^3$ and $e\cos M = \frac{1}{2}[(a/r)^2 - 1]$,
-    which give $e$ and $M$.
+    which give $e = \sqrt{(e\sin M)^2 + (e\cos M)^2}$ and $M = \text{atan2}(e\sin M, e\cos M)$.
 \item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$.
-\item The new fifth step: compute $\nu_a$ from Eqn.\ (\ref{eqn:nu}) and then
+\item The new fifth step: compute $\nu_a$ from Eqn.\ (\ref{eqn:nu}), then $i$ and $\Omega$ from
 \begin{eqnarray}
     \label{eqn:i_node}
     i &=& \sqrt{\left(\frac{z}{a}\right)^2 + \left(\frac{v_z}{a\nu_a}\right)^2} \nonumber\\
-    \Omega &=& \theta - \text{atan2}(z, v_z/\nu_a).
+    \theta - \Omega &=& \text{atan2}(z, v_z/\nu_a).
 \end{eqnarray}
 \end{enumerate}
 Once $a$ is known, the mapping $(i, \theta - \Omega) \leftrightarrow (z, v_z/\nu_a)$ is a
@@ -451,8 +451,8 @@ where $z_s = a_si_s\sin(\theta_s - \Omega_s)$ is the satellite's height above th
 $\theta_s = \Omega_{a_s}t$ and longitude of ascending node $\Omega_s = (\Omega_{a_s} - \nu_{a_s})t$ advance at
 constant rates from zero at time $t = 0$, and $\Delta_s^2 = r^2 + a_s^2 - 2ra_s\cos(\theta - \theta_s)$ is the
 particle's distance from the satellite.
-The $-GM_sz/\Delta_s^3$ part of Eqn.\ (\ref{eqn:vres_full}) only raises the particle's vertical frequency slightly,
-so it is neglected here. The Fourier expansion in $\theta$ of the remaining $GM_sz_s/\Delta_s^3$ is
+The ring's vertical excursions are much smaller than the satellite's, $|z| \ll a_si_s$, so
+$A_z \simeq GM_sz_s/\Delta_s^3$, whose Fourier expansion in $\theta$ is
 \begin{equation}
     \label{eqn:vres_series}
     A_z = -\sum_{m=-\infty}^\infty A_m\sin(m\theta - \omega_mt)
@@ -462,33 +462,36 @@ where
     \label{eqn:vres_AV}
     A_m = \frac{GM_si_s}{2a_s^2}b_{3/2}^{(m)}(\beta)
 \end{equation}
-in which $b_{3/2}^{(m)}(\beta)$ is a Laplace coefficient of $\beta = r/a_s$, and $\omega_m = m\Omega_{a_s} + \nu_{a_s}$. Each
+in which
+\begin{equation}
+    \label{eqn:laplace_b}
+    b_{3/2}^{(m)}(\beta) = \frac{2}{\pi}\int_0^\pi\frac{\cos m\phi\,d\phi}{(1 + \beta^2 - 2\beta\cos\phi)^{3/2}}
+\end{equation}
+is a Laplace coefficient of $\beta = r/a_s$, and $\omega_m = m\Omega_{a_s} + \nu_{a_s}$
+(Eqn.\ (A21) of \citealt{S84}). Each
 term with $m \ge 2$ is an $m$-armed pattern that rotates with angular velocity
-$\Omega_p = \omega_m/m = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius inside
+$\Omega_p = \omega_m/m = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius interior to
 the satellite's orbit, and these
-resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ resonate outside the
-satellite's orbit, the $m = -1$ term is the secular term, which is not considered here, and the $m = 0$ and
+resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ resonate exterior to the
+satellite's orbit, the $m = -1$ term drives a secular resonance where the ring's nodes regress at the
+satellite's rate, which is not considered here, and the $m = 0$ and
 $m = 1$ terms have no resonance. The simulations here follow particles near a single $m$th resonance, so
 \code{Epi\_int\_3d} keeps only the resonant term of the satellite's forcing,
 \begin{equation}
     \label{eqn:vres_force}
     A_z = -A_V\sin m(\theta - \Omega_pt),
 \end{equation}
-where $A_V$, which is $A_m$ evaluated at $\beta = r_V/a_s$, is Eqn.\ (A21) of \cite{S84}. A particle feels the forcing at the frequency
+where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the frequency
 $\omega_D = m(\Omega_a - \Omega_p)$, and the inner
 vertical resonance lies at the radius $r_V$ where $\omega_D = \nu_a$, which is
-$r_V = a_s[(m - 1)/(m + 1)]^{2/3}$ when the planet's oblateness is negligible.
+$r_V \simeq a_s[(m - 1)/(m + 1)]^{2/3}$ when $J_2$ is small.
 
 Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{im(\theta - \Omega_pt)}]$ where
-$x = (r - r_V)/r_V$ is the fractional distance from resonance. Far from resonance, the
-complex amplitude $h$ is, from Eqns.\ (88) and (91)--(92) of \cite{S84},
+$x = (r - r_V)/r_V$ is the fractional distance from resonance. The complex amplitude $h$ of the
+trailing wave is, from Eqn.\ (88) of \cite{S84},
 \begin{equation}
-    \label{eqn:vres_sol}
-    \begin{split}
-    h &= h_{\rm forced} + h_{\rm wave}, \quad h_{\rm forced} = \frac{L_V}{x}, \\
-    h_{\rm wave} &= \begin{cases} Z_w e^{-ix^2/2\epsilon} & x \ll -\epsilon^{1/2} \\
-        0 & x \gg \epsilon^{1/2}, \end{cases}
-    \end{split}
+    \label{eqn:vres_h}
+    h(x) = -\frac{iL_V}{\epsilon}e^{-ix^2/2\epsilon}\int_x^\infty e^{is^2/2\epsilon}\,ds
 \end{equation}
 where
 \begin{equation}
@@ -498,7 +501,17 @@ where
 $\sigma$ is the ring's surface density, and ${\cal D} = r\,d(\nu_a^2 - \omega_D^2)/dr$ at $r_V$, which
 is $3(m - 1)\Omega_a^2$ when oblateness is negligible.\footnote{\cite{S84} writes perturbations as
 $e^{i(\omega t - m\theta)}$, the complex conjugate of the form used here, which reverses the sign of
-$i$ in Eqns.\ (\ref{eqn:vres_sol})--(\ref{eqn:vres_params}).} The forced oscillation $h_{\rm forced}$ is
+$i$ in Eqns.\ (\ref{eqn:vres_h})--(\ref{eqn:vres_sol}).} Far from resonance, Eqn.\ (\ref{eqn:vres_h})
+tends to Eqns.\ (91)--(92) of \cite{S84},
+\begin{equation}
+    \label{eqn:vres_sol}
+    \begin{split}
+    h &= h_{\rm forced} + h_{\rm wave}, \quad h_{\rm forced} = \frac{L_V}{x}, \\
+    h_{\rm wave} &= \begin{cases} Z_w e^{-ix^2/2\epsilon} & x \ll -\epsilon^{1/2} \\
+        0 & x \gg \epsilon^{1/2}. \end{cases}
+    \end{split}
+\end{equation}
+The forced oscillation $h_{\rm forced}$ is
 the response of a massless ring, and $h_{\rm wave}$ is a trailing spiral bending wave on the inner side
 of the resonance that propagates inward. The wave's amplitude
 \begin{equation}
@@ -508,11 +521,11 @@ of the resonance that propagates inward. The wave's amplitude
 is constant, while its wavelength
 \begin{equation}
     \label{eqn:vres_lambda}
-    \ell = \frac{4\pi^2G\sigma}{{\cal D}|x|}
+    \lambda_{\rm wave} = \frac{4\pi^2G\sigma}{{\cal D}|x|}
 \end{equation}
 shrinks with distance from resonance.
 
-Equations (\ref{eqn:vres_sol})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
+Equations (\ref{eqn:vres_h})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
 \code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless
 particles (Section \ref{sec:waves_massless}), which checks the forcing $A_V$, the resonance's location
 $r_V$ and ${\cal D}$, which together also set the wave's amplitude. The wave is tested by a
@@ -607,7 +620,7 @@ spacing $\Delta = \bwSpacing$.
 
 Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$, measured from the radial gradient of
 the phase of its wave part $h - L_V/x$, as in Fig.~5 of \cite{H07}. Behind the front it is \bwKcontPercent\%
-larger than the $|k| = 2\pi/\ell$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
+larger than the $|k| = 2\pi/\lambda_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
 that much shorter. This is because the simulated ring is a finite lattice of streamlines
 rather than the infinite, continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes, and both
 differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum} shows that the lattice's
@@ -642,9 +655,8 @@ Figure \ref{fig:angmom} shows that $|\Delta L_z/L_z| \le \bwDeltaL$ over the run
 \caption{Inclinations $i$ of the streamlines in the self-gravitating ring of Section \ref{sec:waves_ring},
 averaged over each streamline's particles, plotted vs.\ their fractional distance from resonance $x$, at
 six times $t$ in units of the time $\tau_c$ that the wave takes to propagate from $r_V$ to the ring's inner
-edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$ where $h$ is the
-trailing solution of Eqn.\ (88) of \cite{S84}, which tends to Eqns.\ (\ref{eqn:vres_sol}) away from
-resonance.}
+edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$, with $h$ from
+Eqn.\ (\ref{eqn:vres_h}).}
 \label{fig:bwave}
 \end{figure}
 
@@ -812,11 +824,11 @@ $r_{j+1} - r_{j-1}$ and hence $\sigma_j$ and $p_j$ do not change. The viscous fl
 \cite{HS13}, which are differenced in the same way, likewise exert no force on the zigzag.
 
 A cold continuum disk ($c = 0$) is unstable to all wavelengths shorter than
-$\ell_{\rm crit} = 4\pi^2G\sigma/\kappa^2$, and the lattice hides these: by
+$\lambda_{\rm crit} = 4\pi^2G\sigma/\kappa^2$, and the lattice hides these: by
 Eqn.\ (\ref{eqn:zigzag_X}) a cold lattice is axisymmetrically stable as long as
 \begin{equation}
     \label{eqn:zigzag_R}
-    {\cal R} \equiv \frac{\ell_{\rm crit}}{2\Delta} = \frac{2\pi^2G\sigma}{\kappa^2\Delta}
+    {\cal R} \equiv \frac{\lambda_{\rm crit}}{2\Delta} = \frac{2\pi^2G\sigma}{\kappa^2\Delta}
     \simeq \frac{\pi G m_r N_r}{\kappa^2 a\Delta a^2} < 2,
 \end{equation}
 where $2\Delta$ is the shortest resolved wavelength, and the last form is for a ringlet of mass

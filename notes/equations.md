@@ -9,7 +9,7 @@ Notation: Ω_a, κ_a, ν_a are the orbital, epicyclic and vertical frequencies a
 mean anomaly).
 
 Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sympy/ring_pressure.py`
-(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B14); run with `uv run python notes/sympy/<file>.py`.
+(P1–P8) and `notes/sympy/viscous_overstability.py` (O1–O5) and `notes/sympy/streamline_gravity.py` (G1–G20) and `notes/sympy/bending_wave.py` (B1–B15); run with `uv run python notes/sympy/<file>.py`.
 
 | ID | Equation | Where used | Derived | Sympy | Hand | Notes |
 |---|---|---|---|---|---|---|
@@ -71,3 +71,4 @@ Sympy checks: `notes/sympy/vertical_motion.py` (V1–V8, H1–H3) and `notes/sym
 | B12 | forced inclination of a test particle near r_V: i_f = A_V/(a\|ν² − ω_D²\|) ≃ A_V/(D_V\|x\|r_V); Keplerian: i_f = (M_s/M_p) i_s β_V² b_{3/2}^{(m)}(β_V)/[6(m−1)\|x\|] | paper Section 4.2 (Eqn. 31, Fig. 2), `tests/vertical_resonance` | ✅ | ✅ | ☐ | = Shu (1984)'s \|L_V/x\|/r_V; within 5% of the exact amplitude for \|x\| ≤ 0.02 in `tests/vertical_resonance`, where the simulated inclinations match the exact amplitude to 1–4% (13% beside r_V, the free part) |
 | B13 | restoring force of a bending wave in a finite lattice of streamlines: D_V\|x\| = X(kΔ) − 2Gσ(1/d_in + 1/d_out), X = (4Gσ/Δ)(πkΔ/2 − (kΔ)²/4) (P7), d = distance to each edge + Δ/2: the ring lacks the pull of the streamlines beyond its edges, Σ_{n≥N} 1/n² ≃ 1/(N − ½) | `tests/bending_waves` (wavenumber), `tests/vertical_analysis.py` `wave_wavenumber`, `tests/test_kernels.py` | ✅ | ✅ (finite lattice sums) | ☐ | the code's 3D gravity on a corrugated ring matches it to 0.2%; it raises the wavenumber over the continuum B7 by up to ~7% in `tests/bending_waves` |
 | B14 | the whole series: summed over all integers m (b^(−m) = b^(m)), the z_s part of F_z is exactly −(GM_s i_s/2a_s²) Σ_m b_{3/2}^{(m)}(β) sin(mθ − (m+1)λ_s + Ω_s), for β = r/a_s < 1 or > 1; with J2, m ≥ 2 resonate inside a_s, m ≤ −2 outside, m = −1 (secular), 0 and 1 not away from a_s | paper Eqn. (26), Section 4.1.1 | ✅ | ✅ (numerical, β = 0.7, 1.4; resonance scan, J2 = 0.01) | ☐ | the expansion holds for β > 1 too: b_s^{(m)}(β) = β^{−2s} b_s^{(m)}(1/β) |
+| B15 | B8 in the paper's notation: h = −(iL_V/ε) e^{−ix²/2ε} ∫ₓ^∞ e^{is²/2ε} ds, with K = 1/(ε𝒟), L = 1/ε, F = iA_V = 𝒟L_V | paper Eqn. (30), Fig. 4 | ✅ | ✅ | ☐ | Shu (1984) Eqn. 88, conjugate convention; its limits are B8's |

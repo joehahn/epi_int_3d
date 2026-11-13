@@ -364,8 +364,15 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     node.innerHTML = c.html;      // written by tools/ledger.py from the paper
     for (const f of node.querySelectorAll("figure.fig")) {
       const id = f.dataset.asset;
-      const img = id ? el("img", {src: "/_blob/" + id, alt: "Figure: " + (f.querySelector("figcaption")?.textContent || "").slice(0, 120), loading: "lazy"})
+      // eager, not lazy: inside the viewer's frame lazy images could load partly or never
+      const img = id ? el("img", {src: "/_blob/" + id, alt: "Figure: " + (f.querySelector("figcaption")?.textContent || "").slice(0, 120), decoding: "async"})
         : el("div", {class: "missing", text: "Figure " + f.dataset.png + " isn't uploaded yet."});
+      if (id) {
+        let tries = 0;    // a failed or cut-off load is fetched again, up to three times
+        const retry = () => { if (tries++ < 3) setTimeout(() => { img.src = "/_blob/" + id + "?r=" + tries; }, 800 * tries); };
+        img.addEventListener("error", retry);
+        img.addEventListener("load", () => { if (!img.naturalWidth) retry(); });
+      }
       f.prepend(img);
     }
     // a note box after each paragraph (collapsed until used), each figure and at the end of each subsubsection:
@@ -373,6 +380,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     let where = c.number ? (c.appendix ? "Appendix " : "Section ") + c.number : "this section", k = 0;
     for (const p of node.querySelectorAll(":scope > p, :scope > h4.sub")) {
       if (p.tagName === "H4") { where = p.textContent.replace(/\s+/g, " ").trim().split(" ")[0]; continue; }
+      if (!p.textContent.trim()) continue;     // an empty paragraph gets no note box
       k += 1;
       const words = p.textContent.replace(/\s+/g, " ").trim().split(" ").slice(0, 6).join(" ");
       p.after(el("div", {class: "note subnote pnote", "data-part": "p" + k, "data-label": `${where}, paragraph “${words}…”`}));
@@ -492,7 +500,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     let timer = null;
     ta.addEventListener("input", () => { status.textContent = "Typing…"; clearTimeout(timer); timer = setTimeout(() => { timer = null; save(); }, 900); });
     ta.addEventListener("blur", () => { if (timer) { clearTimeout(timer); timer = null; save(); } });
-    return [el("label", {for: `note-${id}`, text: label}), ta, status, replyBlock(id)];
+    // no null in the list: replaceChildren(null) would print the word "null"
+    return [el("label", {for: `note-${id}`, text: label}), ta, status, replyBlock(id)].filter(Boolean);
   }
 
   function replyBlock(id) {

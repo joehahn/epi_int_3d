@@ -528,6 +528,11 @@ comparison with Cassini data is out of scope for this version of the project.
   `tests/bending_waves`, and any other that sets an inclination or satellite) with `tools/run_simulations.py`,
   re-execute their notebooks, remake the paper's figures and `tools/paper_numbers.py` macros, and check the paper's quoted
   numbers. The in-plane results and the 2D regression suite are unchanged (the vertical drift doesn't touch r, θ).
+- **To do: an outside review of Section 3.1.1's derivation** (asked 2026-11-13). No outside model has reviewed the
+  perturbing streamline's geometry (equations G1-G19, `notes/sympy/streamline_gravity.py`); the 2026-11-08 reviews covered
+  only the vertical motion and `fast/bookkeeping.py`. Write `reviews/problems/streamline_geometry.md` with the setup and the
+  results but not our derivation, then `tools/review.py --derive` on it, asking for the shortest route to those results.
+  It costs money: show the `--dry-run` estimate and ask first. Record verdicts, tiebreak the disputed ones.
 - **To do, later: review `fast/` against the code style guide** (decided 2026-11-08). `fast/` was
   written in CC's own style before the guide existed. Restyle the parts you read
   (`fast/epi_int_3d.py`, `fast/satellite.py`) so they can be spot-checked at a glance; the Numba

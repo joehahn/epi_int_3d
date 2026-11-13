@@ -1194,6 +1194,23 @@
    "check": "uv run python notes/sympy/bending_wave.py"
   },
   {
+   "id": "eq:B15",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B15",
+   "needs": [
+    "eq:B8"
+   ]
+  },
+  {
+   "id": "sympy:B15",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B15",
+   "needs": [
+    "eq:B15"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
    "id": "code:ring_gravity",
    "kind": "code",
    "anchor": "fast/kernels.py::_make_ring_gravity",
@@ -1630,6 +1647,24 @@
    ]
   },
   {
+   "id": "paper:eqn:laplace_b",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:laplace_b",
+   "needs": [
+    "sympy:B2",
+    "sympy:B14"
+   ]
+  },
+  {
+   "id": "paper:eqn:vres_h",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:vres_h",
+   "needs": [
+    "sympy:B8",
+    "sympy:B15"
+   ]
+  },
+  {
    "id": "paper:eqn:vres_sol",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:vres_sol",
@@ -1686,7 +1721,8 @@
    "anchor": "paper/epi_int_3d.tex#fig:bwave",
    "needs": [
     "figure:bending_wave",
-    "sympy:B8"
+    "sympy:B8",
+    "sympy:B15"
    ]
   },
   {
