@@ -80,8 +80,8 @@ def exact_orbits(p, o, idx, rtol=1e-11):
 def forced_vertical(p, o):
     """Each particle's z(t) for a zero-mass ring of circular test particles under fast/satellite.py's vertical
     Fourier satellite, from z = vz = 0 at t = 0 while the satellite's mass grows as 1 - exp(-t/time_grow): the
-    exact solution B11 (notes/equations.md), and its steady forced part B6, z_forced = F_z/(nu^2 - omega_D^2) at the
-    final mass. A circular particle is at theta = theta_0 + Omega_a t, so the forcing's phase chi_0 + omega_D t
+    exact solution B11 (notes/equations.md), and its steady forced part B6, z_forced = F_z/(nu^2 - omega_m^2) at the
+    final mass. A circular particle is at theta = theta_0 + Omega_a t, so the forcing's phase chi_0 + omega_m t
     follows from its current longitude, whatever its index."""
     import satellite as satellite_module
     sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
@@ -89,8 +89,8 @@ def forced_vertical(p, o):
     m, gam = sat.m, 1.0/sat.time_grow
     nu, w = nu_a(p['J2'], p['Rp'], a), m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p)
     lam, node = sat.longitudes(time)
-    chi = m*theta - (m + 1)*lam + node                                     #chi_0 + omega_D t
-    F = 1j*sat.mass_final*sat.A_V_per_mass*np.exp(1j*(chi - w*time))       #F_z = Re[F e^{i omega_D t}](1 - e^{-gam t})
+    chi = m*theta - (m + 1)*lam + node                                     #chi_0 + omega_m t
+    F = 1j*sat.mass_final*sat.A_V_per_mass*np.exp(1j*(chi - w*time))       #F_z = Re[F e^{i omega_m t}](1 - e^{-gam t})
     s = 1j*w - gam
     zp = lambda t: F*(np.exp(1j*w*t)/(nu**2 - w**2) - np.exp(s*t)/(s**2 + nu**2))
     vp = lambda t: F*(1j*w*np.exp(1j*w*t)/(nu**2 - w**2) - s*np.exp(s*t)/(s**2 + nu**2))
@@ -98,7 +98,7 @@ def forced_vertical(p, o):
     C = -(zp(0) + vp(0)/(1j*nu))/2
     D = -(zp(0) - vp(0)/(1j*nu))/2
     #B11 itself, evaluated as the equivalent Duhamel integral z = int_0^t sin(nu(t - t'))/nu f(t') dt', which does not
-    #lose precision as nu - omega_D -> 0 (where the closed form's terms cancel): f is a sum of c e^{q t'}, and
+    #lose precision as nu - omega_m -> 0 (where the closed form's terms cancel): f is a sum of c e^{q t'}, and
     #int_0^t e^{q t'} dt' = t phi1(q t), phi1(u) = (e^u - 1)/u
     def phi1(u):
         small = np.abs(u) < 1.0e-3
@@ -162,7 +162,7 @@ def satellite_torque(p, o, k):
 
 def wave_wavenumber(p, sat, x, G=1.0):
     """The local wavenumber k(x) of the free bending wave at x < 0, from three dispersion relations, near r_V
-    where nu^2 - omega_D^2 = D_V x (B5): the continuum's D_V|x| = 2 pi G sigma k (B7); a lattice of streamlines
+    where nu^2 - omega_m^2 = D_V x (B5): the continuum's D_V|x| = 2 pi G sigma k (B7); a lattice of streamlines
     spaced Delta, D_V|x| = X(k Delta) = (4 G sigma/Delta)(pi k Delta/2 - (k Delta)^2/4) (the paper's zigzag_X); and
     that lattice cut off at the ring's edges, which lacks the pull of the streamlines beyond them,
     D_V|x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out), with d the distance to each edge plus Delta/2 (B13)."""
@@ -181,10 +181,10 @@ def wave_wavenumber(p, sat, x, G=1.0):
 
 
 def resonance_frequencies(p, o, x=None, late_orbits=1.0e4):
-    """nu_a^2 - omega_D^2 for each streamline of a zero-mass ring under the vertical Fourier satellite: simulated, from
-    its forced amplitude, A_V/Im(h) (B6: z = Re[h e^{i chi}], Im h = A_V/(nu_a^2 - omega_D^2)), with h the least-squares
+    """nu_a^2 - omega_m^2 for each streamline of a zero-mass ring under the vertical Fourier satellite: simulated, from
+    its forced amplitude, A_V/Im(h) (B6: z = Re[h e^{i chi}], Im h = A_V/(nu_a^2 - omega_m^2)), with h the least-squares
     amplitude of simulated_h averaged over the outputs after late_orbits, which averages away the free oscillation;
-    and exact, at the streamline's mean semimajor axis, omega_D = m(Omega_a - Omega_p). Returns sat, x, simulated, exact.
+    and exact, at the streamline's mean semimajor axis, omega_m = m(Omega_a - Omega_p). Returns sat, x, simulated, exact.
     With x given, only the exact values at r = r_V(1 + x), and simulated = None."""
     import satellite as satellite_module
     sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])

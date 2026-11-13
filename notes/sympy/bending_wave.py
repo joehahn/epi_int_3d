@@ -8,7 +8,7 @@
 #
 # Notation (GT): the satellite, of mass M_s, is on a circular orbit of radius a_s, inclination i_s, node Omega_s and
 # mean longitude lambda_s; Omega_a and nu_a are the angular and vertical frequencies at radius a. The ring is
-# in the planet's equator, z = 0. The m-armed pattern rotates at Omega_p, and omega_D = m(Omega_a - Omega_p) is the
+# in the planet's equator, z = 0. The m-armed pattern rotates at Omega_p, and omega_m = m(Omega_a - Omega_p) is the
 # forcing frequency a ring particle feels; x = (r - r_V)/r_V is the distance from the vertical resonance r_V.
 import numpy as np
 import sympy as sp
@@ -94,7 +94,7 @@ check('B4: Keplerian r_V = a_s [(m-1)/(m+1)]^(2/3)',
       sp.simplify((m*(kep(rV) - (kep(aa) + kep(aa)/m)) - kep(rV)).subs(m, 2)) + sp.simplify(
           (m*(kep(rV) - (kep(aa) + kep(aa)/m)) - kep(rV)).subs(m, 5)))
 
-# --- B5: near r_V, nu^2 - omega_D^2 = D_V x + O(x^2), D_V = -r d(omega_D^2 - nu^2)/dr = 2 nu_V r_V (dnu/dr - m dOmega/dr);
+# --- B5: near r_V, nu^2 - omega_m^2 = D_V x + O(x^2), D_V = -r d(omega_m^2 - nu^2)/dr = 2 nu_V r_V (dnu/dr - m dOmega/dr);
 # with J2 below; Keplerian D_V = 3(m-1) Omega_V^2 ---
 Om = sp.Function('Omega')(rr)
 nu = sp.Function('nu')(rr)
@@ -111,10 +111,10 @@ D_J2_series = sp.series(DV_J2, J2, 0, 2).removeO()
 check('B5: with J2, D_V = (GM/r^3)[3(m-1) + (3/2)(8m - 15) J2 (R_p/r)^2] + O(J2^2)',
       D_J2_series - GM/rr**3*(3*(m - 1) + sp.Rational(3, 2)*(8*m - 15)*J2*(Rp/rr)**2))
 
-# --- B6: test particles: z'' + nu^2 z = F cos(omega_D t) is forced at z = F cos(omega_D t)/(nu^2 - omega_D^2) ---
+# --- B6: test particles: z'' + nu^2 z = F cos(omega_m t) is forced at z = F cos(omega_m t)/(nu^2 - omega_m^2) ---
 t, Fh, w, n_ = sp.symbols('t F omega nu', positive=True)
 zf = Fh*sp.cos(w*t)/(n_**2 - w**2)
-check('B6: forced vertical oscillation z = F/(nu^2 - omega_D^2) ~ F/(D_V x)', sp.diff(zf, t, 2) + n_**2*zf - Fh*sp.cos(w*t))
+check('B6: forced vertical oscillation z = F/(nu^2 - omega_m^2) ~ F/(D_V x)', sp.diff(zf, t, 2) + n_**2*zf - Fh*sp.cos(w*t))
 
 # --- B7: a sheet of surface density sigma, corrugated by Z = h cos(kx), pulls itself back with F_z = -2 pi G sigma |k| Z.
 # The displaced sheet is the flat one plus the layer -sigma Z delta'(z), whose potential is -d/dz of psi, the potential of
@@ -128,10 +128,10 @@ check('B7: psi jumps in dpsi/dz by 4 pi G sigma h cos(kx) (Poisson)',
 Phi1_up, Phi1_dn = -sp.diff(psi_up, zz), -sp.diff(psi_dn, zz)
 Fz_sheet = -(sp.diff(Phi1_up, zz) + sp.diff(Phi1_dn, zz)).subs(zz, 0)/2
 check('B7: F_z = -2 pi G sigma k Z on the sheet', Fz_sheet + 2*sp.pi*Gs*sg*kk*hh*sp.cos(kk*xx))
-# so (omega_D^2 - nu^2) = 2 pi G sigma |k| (the bending-wave dispersion relation); near r_V, -D_V x = 2 pi G sigma |k|:
+# so (omega_m^2 - nu^2) = 2 pi G sigma |k| (the bending-wave dispersion relation); near r_V, -D_V x = 2 pi G sigma |k|:
 # |k| = D_V |x|/(2 pi G sigma) for x < 0, wavelength 4 pi^2 G sigma/(D_V |x|); no waves for x > 0
 
-# --- B8: the forced wave. A trailing wave (k > 0) has |k| h = -i dh/dr, so (nu^2 - omega_D^2) h + 2 pi G sigma |k| h = F
+# --- B8: the forced wave. A trailing wave (k > 0) has |k| h = -i dh/dr, so (nu^2 - omega_m^2) h + 2 pi G sigma |k| h = F
 # becomes -i (2 pi G sigma/r_V) dh/dx + D_V x h = F, solved by
 #   h = -i K F exp(-i L x^2/2) int_x^oo exp(i L s^2/2) ds,  K = r_V/(2 pi G sigma), L = D_V K ---
 x, s = sp.symbols('x s', real=True)
@@ -180,14 +180,14 @@ close('B9: Re of the integral over s > x is half that over the whole plane, pi/|
 Ttot = sp.pi*m*sg*rr**2*(-K*sp.Abs(Fc)**2)*sp.pi/L
 check('B9: T = -pi^2 m sigma r_V^2 |F|^2/D_V', Ttot.subs(L, DVs*K) + sp.pi**2*m*sg*rr**2*sp.Abs(Fc)**2/DVs)
 
-# --- B10: group velocity. Inside r_V the wave has omega - m Omega = -omega_D, so omega = m Omega - sqrt(nu^2 + 2 pi G sigma k),
-# c_g = d omega/dk = -pi G sigma/omega_D ~ -pi G sigma/nu_V: inward, at a constant speed ---
-om = sp.symbols('omega_m')
+# --- B10: group velocity. Inside r_V the wave has omega - m Omega = -omega_m, so omega = m Omega - sqrt(nu^2 + 2 pi G sigma k),
+# c_g = d omega/dk = -pi G sigma/omega_m ~ -pi G sigma/nu_V: inward, at a constant speed ---
+om = sp.symbols('Omega_a')                             # the ring's angular velocity
 wk = m*om - sp.sqrt(n_**2 + 2*sp.pi*Gs*sg*kk)
-check('B10: c_g = -pi G sigma/omega_D', sp.diff(wk, kk) + sp.pi*Gs*sg/sp.sqrt(n_**2 + 2*sp.pi*Gs*sg*kk))
+check('B10: c_g = -pi G sigma/omega_m', sp.diff(wk, kk) + sp.pi*Gs*sg/sp.sqrt(n_**2 + 2*sp.pi*Gs*sg*kk))
 
 # --- B11: a test particle under a satellite whose mass grows as 1 - exp(-t/tau). A circular particle at
-# theta = theta_0 + Omega_a t feels F_z = Re[F e^{i(omega_D t + phi)}] (1 - e^{-gamma t}), gamma = 1/tau, omega_D = m(Omega_a - Omega_p).
+# theta = theta_0 + Omega_a t feels F_z = Re[F e^{i(omega_m t + phi)}] (1 - e^{-gamma t}), gamma = 1/tau, omega_m = m(Omega_a - Omega_p).
 # Starting from z = v_z = 0 (complex form; z is its real part):
 #   z = F e^{i phi}[e^{i omega t}/(nu^2 - omega^2) - e^{(i omega - gamma) t}/((i omega - gamma)^2 + nu^2)] + C e^{i nu t} + D e^{-i nu t}
 # with C, D fixed by z(0) = z'(0) = 0. The free part C, D never decays; for gamma << |nu - omega| its size,
@@ -209,7 +209,7 @@ for dw in (1e-2, 1e-3):
     ratio = free(1.0, 1.0 - dw, 1e-2*dw)
     close(f'B11: |nu - omega| = {dw}, gamma = 0.01|nu - omega|: free/forced ~ gamma/|nu - omega|', ratio, 1e-2, 2e-2)
 
-# --- B12: the forced inclination of a test particle near r_V. Its forced z (B6) has amplitude A_V/|nu^2 - omega_D^2| ~ A_V/(D_V |x|),
+# --- B12: the forced inclination of a test particle near r_V. Its forced z (B6) has amplitude A_V/|nu^2 - omega_m^2| ~ A_V/(D_V |x|),
 # so i_f = |z|/a; in the Keplerian limit (D_V = 3(m-1) GM_p/r_V^3, B5; a = r_V, beta_V = r_V/a_s)
 #   i_f = (M_s/M_p) i_s beta_V^2 b_{3/2}^(m)(beta_V)/[6(m-1)|x|]   (this is Shu 1984's |L_V/x|/r_V) ---
 Ms, Mp, isat, bb, xx_, rV_, as_ = sp.symbols('M_s M_p i_s b x r_V a_s', positive=True)
@@ -224,7 +224,7 @@ check('B12: i_f = A_V/(D_V |x| r_V) = (M_s/M_p) i_s beta_V^2 b/(6(m-1)|x|)',
 # A ring that ends at its edges lacks the wires beyond them. Their "1" terms, the pull of each wire on the displaced
 # particle, sum to (2 G sigma/Delta) sum_{n >= n_e} 1/n^2 ~ 2 G sigma/((n_e - 1/2) Delta) = 2 G sigma/d, with d = the
 # distance to the edge streamline plus Delta/2; their cos terms oscillate and sum to O(1/(n_e^2 phi)). So
-#   nu^2 - omega_D^2 = -X(k Delta) + 2 G sigma (1/d_in + 1/d_out),  i.e.  D_V |x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out) ---
+#   nu^2 - omega_m^2 = -X(k Delta) + 2 G sigma (1/d_in + 1/d_out),  i.e.  D_V |x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out) ---
 Nn = sp.symbols('N', positive=True)
 tail = sp.polygamma(1, Nn)                             # sum_{n >= N} 1/n^2
 lead = sp.series(tail - 1/(Nn - sp.Rational(1, 2)), Nn, sp.oo, 4).removeO()
@@ -268,7 +268,7 @@ for mm in range(-6, 7):
     found = 'none' if not len(roots) else 'inside' if roots.max() < a_s else 'outside' if roots.min() > a_s else 'both'
     assert found == expect and len(roots) <= 1, (mm, roots)
 # the paper's form: with the satellite's longitude theta_s = Omega_as t and node Omega_s = (Omega_as - nu_as) t, both zero at
-# t = 0 (fast/satellite.py's defaults, which the tests use), the argument is m theta - omega_m t, omega_m = m Omega_as + nu_as
+# t = 0 (fast/satellite.py's defaults, which the tests use), the argument is m theta - (m Omega_as + nu_as) t
 tt, ths, Wa_, nua_ = sp.symbols('t theta Omega_as nu_as', real=True)
 check('B14: m theta - (m+1) theta_s + Omega_s = m theta - (m Omega_as + nu_as) t',
       (m*ths - (m + 1)*Wa_*tt + (Wa_ - nua_)*tt) - (m*ths - (m*Wa_ + nua_)*tt))

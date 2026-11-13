@@ -2028,7 +2028,7 @@
     "eq:B6",
     "code:simulated_h"
    ],
-   "note": "nu^2 - omega_D^2 from each streamline's forced amplitude, and exact"
+   "note": "nu^2 - omega_m^2 from each streamline's forced amplitude, and exact"
   },
   {
    "id": "code:ring_angular_momentum",
@@ -2142,7 +2142,7 @@
     "sympy:B6",
     "paper:fig:resloc"
    ],
-   "note": "nu^2 - omega_D^2 from the forced amplitude matches the exact value; zero at r_V"
+   "note": "nu^2 - omega_m^2 from the forced amplitude matches the exact value; zero at r_V"
   },
   {
    "id": "claim:bw_torque",

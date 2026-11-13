@@ -77,11 +77,11 @@
  },
  "claim:edge_term": {
   "date": "2026-11-12",
-  "hash": "59630b69f5be",
+  "hash": "bfac1399fabf",
   "needs": {
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:eqn:wire_lattice": "ce833ece9930",
-   "sympy:B13": "cd9b798bf1a8"
+   "sympy:B13": "8b55d9e013f5"
   }
  },
  "claim:frequency_relation": {
@@ -157,10 +157,10 @@
  },
  "claim:pattern_speed": {
   "date": "2026-11-12",
-  "hash": "42e7bd7201ea",
+  "hash": "7d2dc44565f3",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
-   "sympy:B4": "719b0fce7aa0"
+   "sympy:B4": "69a723a4c7ec"
   }
  },
  "claim:phase_from_lambda": {
@@ -214,12 +214,12 @@
   }
  },
  "code:bending_wave_comparisons": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "e627d727c2e1",
   "needs": {
    "code:ring_sigma": "c65053c901a9",
    "code:simulated_h": "67e3f6ad9ce8",
-   "code:wave_wavenumber": "7e76bf8be5aa",
+   "code:wave_wavenumber": "909a79436215",
    "eq:B13": "49e2a12fbc96",
    "eq:B8": "0079067546cd"
   }
@@ -232,8 +232,8 @@
    "code:bending_wave_comparisons": "e627d727c2e1",
    "code:ring_sigma": "c65053c901a9",
    "code:simulated_h": "67e3f6ad9ce8",
-   "eq:B10": "283dfbe111cd",
-   "eq:B7": "8f0e98986e7c"
+   "eq:B10": "486b39ae2fe5",
+   "eq:B7": "821cc0da9339"
   }
  },
  "code:drift": {
@@ -252,11 +252,11 @@
   "needs": {}
  },
  "code:forced_vertical": {
-  "date": "2026-11-10",
-  "hash": "631a2478ef50",
+  "date": "2026-11-12",
+  "hash": "b9d164aa1ece",
   "needs": {
-   "eq:B11": "afaeb66e49fe",
-   "eq:B6": "6a24f47056f4"
+   "eq:B11": "cdea3587d8d1",
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "code:incline": {
@@ -305,10 +305,10 @@
  },
  "code:resonance_frequencies": {
   "date": "2026-11-12",
-  "hash": "c0c156489e39",
+  "hash": "3bd1f865e6ca",
   "needs": {
    "code:simulated_h": "67e3f6ad9ce8",
-   "eq:B6": "6a24f47056f4"
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "code:ring_angular_momentum": {
@@ -343,14 +343,14 @@
   "needs": {}
  },
  "code:satellite": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "2f1dbb1340e9",
   "needs": {
    "code:satellite_laplace": "a466626d79da",
    "code:satellite_nu": "ec64660b33ca",
    "eq:B2": "ef33fc85a126",
    "eq:B4": "209c09b3b0ad",
-   "eq:B5": "f6307dfdafe9"
+   "eq:B5": "142118db9612"
   }
  },
  "code:satellite_laplace": {
@@ -397,20 +397,20 @@
  },
  "code:vertical_resonance_numbers": {
   "date": "2026-11-12",
-  "hash": "40cd8cfb0446",
+  "hash": "64cac326a5d9",
   "needs": {
-   "code:forced_vertical": "631a2478ef50",
+   "code:forced_vertical": "b9d164aa1ece",
    "code:satellite": "2f1dbb1340e9",
-   "eq:B12": "b7c0d30ba042"
+   "eq:B12": "d87f6aac45c3"
   }
  },
  "code:wave_wavenumber": {
-  "date": "2026-11-10",
-  "hash": "7e76bf8be5aa",
+  "date": "2026-11-12",
+  "hash": "909a79436215",
   "needs": {
    "eq:B13": "49e2a12fbc96",
-   "eq:B5": "f6307dfdafe9",
-   "eq:B7": "8f0e98986e7c"
+   "eq:B5": "142118db9612",
+   "eq:B7": "821cc0da9339"
   }
  },
  "eq:B1": {
@@ -419,31 +419,31 @@
   "needs": {}
  },
  "eq:B10": {
-  "date": "2026-11-10",
-  "hash": "283dfbe111cd",
+  "date": "2026-11-12",
+  "hash": "486b39ae2fe5",
   "needs": {
-   "eq:B7": "8f0e98986e7c"
+   "eq:B7": "821cc0da9339"
   }
  },
  "eq:B11": {
-  "date": "2026-11-10",
-  "hash": "afaeb66e49fe",
+  "date": "2026-11-12",
+  "hash": "cdea3587d8d1",
   "needs": {
-   "eq:B6": "6a24f47056f4"
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "eq:B12": {
-  "date": "2026-11-10",
-  "hash": "b7c0d30ba042",
+  "date": "2026-11-12",
+  "hash": "d87f6aac45c3",
   "needs": {
-   "eq:B6": "6a24f47056f4"
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "eq:B13": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "49e2a12fbc96",
   "needs": {
-   "eq:B7": "8f0e98986e7c",
+   "eq:B7": "821cc0da9339",
    "eq:P7": "82faf17dea6f"
   }
  },
@@ -491,37 +491,37 @@
   }
  },
  "eq:B5": {
-  "date": "2026-11-10",
-  "hash": "f6307dfdafe9",
+  "date": "2026-11-12",
+  "hash": "142118db9612",
   "needs": {
    "eq:B4": "209c09b3b0ad"
   }
  },
  "eq:B6": {
-  "date": "2026-11-10",
-  "hash": "6a24f47056f4",
+  "date": "2026-11-12",
+  "hash": "5c24f8ef2261",
   "needs": {
    "eq:B2": "ef33fc85a126",
-   "eq:B5": "f6307dfdafe9"
+   "eq:B5": "142118db9612"
   }
  },
  "eq:B7": {
-  "date": "2026-11-10",
-  "hash": "8f0e98986e7c",
+  "date": "2026-11-12",
+  "hash": "821cc0da9339",
   "needs": {
    "eq:G4": "1bc88b705dd9"
   }
  },
  "eq:B8": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "0079067546cd",
   "needs": {
-   "eq:B5": "f6307dfdafe9",
-   "eq:B7": "8f0e98986e7c"
+   "eq:B5": "142118db9612",
+   "eq:B7": "821cc0da9339"
   }
  },
  "eq:B9": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "a81d26e7d95e",
   "needs": {
    "eq:B8": "0079067546cd"
@@ -836,12 +836,12 @@
  },
  "figure:resonance_location": {
   "date": "2026-11-12",
-  "hash": "8baed906c59d",
+  "hash": "668192d53dcd",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:resonance_frequencies": "c0c156489e39",
+   "code:resonance_frequencies": "3bd1f865e6ca",
    "code:satellite": "2f1dbb1340e9",
-   "code:vertical_drift": "cac5e539d361"
+   "code:vertical_drift": "7031c051e0f4"
   }
  },
  "figure:torque": {
@@ -924,14 +924,14 @@
   }
  },
  "notebook:vertical_resonance": {
-  "date": "2026-11-11",
-  "hash": "e3ed0fc80fbf",
+  "date": "2026-11-12",
+  "hash": "c8f550642547",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:forced_vertical": "631a2478ef50",
+   "code:forced_vertical": "b9d164aa1ece",
    "code:satellite": "2f1dbb1340e9",
-   "code:vertical_drift": "cac5e539d361",
-   "eq:B12": "b7c0d30ba042"
+   "code:vertical_drift": "7031c051e0f4",
+   "eq:B12": "d87f6aac45c3"
   }
  },
  "numbers:bending_waves": {
@@ -992,29 +992,29 @@
   "date": "2026-11-12",
   "hash": "675035e81c7a",
   "needs": {
-   "sympy:B14": "bf9b43e650e5",
-   "sympy:B2": "5f5ffc3772d1"
+   "sympy:B14": "a5deaebeecf6",
+   "sympy:B2": "b422da98805c"
   }
  },
  "paper:eqn:limit_inner": {
   "date": "2026-11-12",
   "hash": "43ade4d7969e",
   "needs": {
-   "sympy:B16": "f1ad7d14ef8b"
+   "sympy:B16": "4946c8941d93"
   }
  },
  "paper:eqn:limit_outer": {
   "date": "2026-11-12",
   "hash": "249462a3de53",
   "needs": {
-   "sympy:B16": "f1ad7d14ef8b"
+   "sympy:B16": "4946c8941d93"
   }
  },
  "paper:eqn:limit_parts": {
   "date": "2026-11-12",
   "hash": "e6bac64bfe25",
   "needs": {
-   "sympy:B16": "f1ad7d14ef8b"
+   "sympy:B16": "4946c8941d93"
   }
  },
  "paper:eqn:node": {
@@ -1050,82 +1050,82 @@
   "date": "2026-11-12",
   "hash": "f3b6cd824da6",
   "needs": {
-   "sympy:B2": "5f5ffc3772d1",
-   "sympy:B3": "5f5ffc3772d1"
+   "sympy:B2": "b422da98805c",
+   "sympy:B3": "b422da98805c"
   }
  },
  "paper:eqn:vres_amp": {
   "date": "2026-11-12",
   "hash": "3f9822a753ce",
   "needs": {
-   "sympy:B8": "ffb91f858eca"
+   "sympy:B8": "1a6166aa8c03"
   }
  },
  "paper:eqn:vres_force": {
   "date": "2026-11-12",
   "hash": "41f9c300def6",
   "needs": {
-   "sympy:B2": "5f5ffc3772d1"
+   "sympy:B2": "b422da98805c"
   }
  },
  "paper:eqn:vres_full": {
   "date": "2026-11-12",
   "hash": "3d0cd23e8d51",
   "needs": {
-   "sympy:B1": "c28ae3a6ab3d"
+   "sympy:B1": "8b928ac41856"
   }
  },
  "paper:eqn:vres_h": {
   "date": "2026-11-12",
   "hash": "15b71699cf1e",
   "needs": {
-   "sympy:B15": "497a43a01c8b",
-   "sympy:B8": "ffb91f858eca"
+   "sympy:B15": "809dccd15863",
+   "sympy:B8": "1a6166aa8c03"
   }
  },
  "paper:eqn:vres_inc": {
-  "date": "2026-11-10",
+  "date": "2026-11-12",
   "hash": "22616813c853",
   "needs": {
-   "sympy:B12": "05d793ee0045"
+   "sympy:B12": "7f8ae407a448"
   }
  },
  "paper:eqn:vres_lambda": {
   "date": "2026-11-12",
   "hash": "afc20a079dc2",
   "needs": {
-   "sympy:B7": "8613bc2642be"
+   "sympy:B7": "f2f19bbd3cb6"
   }
  },
  "paper:eqn:vres_params": {
   "date": "2026-11-12",
   "hash": "3056f105b4ab",
   "needs": {
-   "sympy:B5": "00a36ab04250",
-   "sympy:B8": "ffb91f858eca"
+   "sympy:B5": "3f8938ff32e7",
+   "sympy:B8": "1a6166aa8c03"
   }
  },
  "paper:eqn:vres_series": {
   "date": "2026-11-12",
-  "hash": "32738bd9f010",
+  "hash": "3f345cb35778",
   "needs": {
-   "sympy:B14": "bf9b43e650e5",
-   "sympy:B2": "5f5ffc3772d1"
+   "sympy:B14": "a5deaebeecf6",
+   "sympy:B2": "b422da98805c"
   }
  },
  "paper:eqn:vres_sol": {
   "date": "2026-11-12",
-  "hash": "7e1aaaa0f7f3",
+  "hash": "f022dcc38797",
   "needs": {
-   "sympy:B6": "814c74d931c8",
-   "sympy:B8": "24329c6a8fb1"
+   "sympy:B6": "43cc6a8df56c",
+   "sympy:B8": "1a6166aa8c03"
   }
  },
  "paper:eqn:vres_torque": {
   "date": "2026-11-12",
   "hash": "75f039e1ec55",
   "needs": {
-   "sympy:B9": "b1dc8b202f91"
+   "sympy:B9": "ad423e395545"
   }
  },
  "paper:eqn:wire_2d": {
@@ -1198,7 +1198,7 @@
   "date": "2026-11-12",
   "hash": "82d2cac3fc2e",
   "needs": {
-   "sympy:B13": "cd9b798bf1a8"
+   "sympy:B13": "8b55d9e013f5"
   }
  },
  "paper:eqn:wire_lattice": {
@@ -1304,11 +1304,11 @@
  },
  "paper:fig:resloc": {
   "date": "2026-11-12",
-  "hash": "a83e77db89d4",
+  "hash": "3beeb116ee49",
   "needs": {
-   "figure:resonance_location": "8baed906c59d",
-   "sympy:B5": "00a36ab04250",
-   "sympy:B6": "814c74d931c8"
+   "figure:resonance_location": "668192d53dcd",
+   "sympy:B5": "3f8938ff32e7",
+   "sympy:B6": "43cc6a8df56c"
   }
  },
  "paper:fig:torque": {
@@ -1368,113 +1368,113 @@
   }
  },
  "sympy:B1": {
-  "date": "2026-11-10",
-  "hash": "c28ae3a6ab3d",
+  "date": "2026-11-12",
+  "hash": "8b928ac41856",
   "needs": {
    "eq:B1": "a24edb39df02"
   }
  },
  "sympy:B10": {
-  "date": "2026-11-10",
-  "hash": "e74ae9f8460d",
+  "date": "2026-11-12",
+  "hash": "75d787686330",
   "needs": {
-   "eq:B10": "283dfbe111cd"
+   "eq:B10": "486b39ae2fe5"
   }
  },
  "sympy:B11": {
-  "date": "2026-11-10",
-  "hash": "7aa789f5c38b",
+  "date": "2026-11-12",
+  "hash": "e28681fffd3c",
   "needs": {
-   "eq:B11": "afaeb66e49fe"
+   "eq:B11": "cdea3587d8d1"
   }
  },
  "sympy:B12": {
-  "date": "2026-11-10",
-  "hash": "05d793ee0045",
+  "date": "2026-11-12",
+  "hash": "7f8ae407a448",
   "needs": {
-   "eq:B12": "b7c0d30ba042"
+   "eq:B12": "d87f6aac45c3"
   }
  },
  "sympy:B13": {
   "date": "2026-11-12",
-  "hash": "cd9b798bf1a8",
+  "hash": "8b55d9e013f5",
   "needs": {
    "eq:B13": "49e2a12fbc96"
   }
  },
  "sympy:B14": {
   "date": "2026-11-12",
-  "hash": "bf9b43e650e5",
+  "hash": "a5deaebeecf6",
   "needs": {
    "eq:B14": "1e78b9ca4cf8"
   }
  },
  "sympy:B15": {
   "date": "2026-11-12",
-  "hash": "d372249f03ea",
+  "hash": "809dccd15863",
   "needs": {
    "eq:B15": "0f020c6c3b22"
   }
  },
  "sympy:B16": {
   "date": "2026-11-12",
-  "hash": "f1ad7d14ef8b",
+  "hash": "4946c8941d93",
   "needs": {
    "eq:B16": "6985d7d922e5"
   }
  },
  "sympy:B2": {
-  "date": "2026-11-10",
-  "hash": "5f5ffc3772d1",
+  "date": "2026-11-12",
+  "hash": "b422da98805c",
   "needs": {
    "eq:B2": "ef33fc85a126"
   }
  },
  "sympy:B3": {
-  "date": "2026-11-10",
-  "hash": "5f5ffc3772d1",
+  "date": "2026-11-12",
+  "hash": "b422da98805c",
   "needs": {
    "eq:B3": "d92173e01246"
   }
  },
  "sympy:B4": {
-  "date": "2026-11-10",
-  "hash": "719b0fce7aa0",
+  "date": "2026-11-12",
+  "hash": "69a723a4c7ec",
   "needs": {
    "eq:B4": "209c09b3b0ad"
   }
  },
  "sympy:B5": {
-  "date": "2026-11-10",
-  "hash": "00a36ab04250",
+  "date": "2026-11-12",
+  "hash": "3f8938ff32e7",
   "needs": {
-   "eq:B5": "f6307dfdafe9"
+   "eq:B5": "142118db9612"
   }
  },
  "sympy:B6": {
-  "date": "2026-11-10",
-  "hash": "814c74d931c8",
+  "date": "2026-11-12",
+  "hash": "43cc6a8df56c",
   "needs": {
-   "eq:B6": "6a24f47056f4"
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "sympy:B7": {
-  "date": "2026-11-10",
-  "hash": "8613bc2642be",
+  "date": "2026-11-12",
+  "hash": "f2f19bbd3cb6",
   "needs": {
-   "eq:B7": "8f0e98986e7c"
+   "eq:B7": "821cc0da9339"
   }
  },
  "sympy:B8": {
   "date": "2026-11-12",
-  "hash": "24329c6a8fb1",
+  "hash": "1a6166aa8c03",
   "needs": {
    "eq:B8": "0079067546cd"
   }
  },
  "sympy:B9": {
-  "date": "2026-11-10",
-  "hash": "b1dc8b202f91",
+  "date": "2026-11-12",
+  "hash": "ad423e395545",
   "needs": {
    "eq:B9": "a81d26e7d95e"
   }
@@ -1813,10 +1813,10 @@
  },
  "test:vertical_resonance": {
   "date": "2026-11-12",
-  "hash": "d15ffbd6a40d",
+  "hash": "434678c04f9d",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:forced_vertical": "631a2478ef50",
+   "code:forced_vertical": "b9d164aa1ece",
    "code:run_3d": "e883637c1181",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4"

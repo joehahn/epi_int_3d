@@ -70,7 +70,7 @@ def test_vertical_resonance(tmp_path):
     near = np.abs(f["x"]) < 1.0e-6                     #the streamline at r_V
     #away from resonance the leapfrog's O(dt^2) error, ~3e-11 absolutely: up to 1.3e-3 of max|z| at |x| = 0.02
     assert err[~near].max() < 2.0e-3
-    #the streamline at x = 0 (nu - omega_D ~ 1e-14), growing secularly: 8e-7 in the full run
+    #the streamline at x = 0 (nu - omega_m ~ 1e-14), growing secularly: 8e-7 in the full run
     assert err[near].max() < 1.0e-5
     #no satellite, no vertical motion
     run_3d(TESTS/'vertical_resonance', tmp_path/'off', total_number_of_outputs=2,

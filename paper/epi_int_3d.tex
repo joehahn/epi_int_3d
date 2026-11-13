@@ -471,7 +471,7 @@ The ring's vertical excursions are much smaller than the satellite's, $|z| \ll a
 $A_z \simeq GM_sz_s/\Delta_s^3$, whose Fourier expansion in $\theta$ is
 \begin{equation}
     \label{eqn:vres_series}
-    A_z = -\sum_{m=-\infty}^\infty A_m\sin(m\theta - \omega_mt)
+    A_z = -\sum_{m=-\infty}^\infty A_m\sin[m\theta - (m\Omega_{a_s} + \nu_{a_s})t]
 \end{equation}
 where
 \begin{equation}
@@ -483,10 +483,9 @@ in which
     \label{eqn:laplace_b}
     b_{3/2}^{(m)}(\beta) = \frac{2}{\pi}\int_0^\pi\frac{\cos m\phi\,d\phi}{(1 + \beta^2 - 2\beta\cos\phi)^{3/2}}
 \end{equation}
-is a Laplace coefficient of $\beta = r/a_s$, and $\omega_m = m\Omega_{a_s} + \nu_{a_s}$
-(Eqn.\ (A21) of \citealt{S84}). Each
+is a Laplace coefficient of $\beta = r/a_s$ (Eqn.\ (A21) of \citealt{S84}). Each
 term with $m \ge 2$ is an $m$-armed pattern that rotates with angular velocity
-$\Omega_p = \omega_m/m = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius interior to
+$\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius interior to
 the satellite's orbit, and these
 resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ have their resonances exterior to the
 satellite's orbit, the $m = -1$ term drives a secular resonance where the ring's nodes regress at the
@@ -498,8 +497,9 @@ $m = 1$ terms have no resonance. The simulations here follow particles near a si
     A_z = -A_V\sin m(\theta - \Omega_pt),
 \end{equation}
 where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the Doppler-shifted forcing frequency
-$\omega_D = m(\Omega_a - \Omega_p)$, and the inner
-vertical resonance lies at the radius $r_V$ where $\omega_D = \nu_a$, which is
+$\omega_m = m(\Omega_a - \Omega_p)$, and the inner
+vertical resonance lies at the radius $r_V$ where $\omega_m = \nu_a$, so that $D \equiv \nu_a^2 - \omega_m^2$
+vanishes there, which is
 $r_V \simeq a_s[(m - 1)/(m + 1)]^{2/3}$ when $J_2$ is small.
 
 Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{im(\theta - \Omega_pt)}]$ where
@@ -514,7 +514,7 @@ where
     \label{eqn:vres_params}
     \epsilon = \frac{2\pi G\sigma}{r_V{\cal D}} \quad \mbox{and} \quad L_V = \frac{iA_V}{\cal D},
 \end{equation}
-$\sigma$ is the ring's surface density, and ${\cal D} = r\,d(\nu_a^2 - \omega_D^2)/dr$ at $r_V$, which
+$\sigma$ is the ring's surface density, and ${\cal D} = r\,dD/dr$ at $r_V$ (Eqn.\ (87a) of \citealt{S84}), which
 is $3(m - 1)\Omega_a^2$ when oblateness is negligible.\footnote{\cite{S84} writes perturbations as
 $e^{i(\omega t - m\theta)}$, the complex conjugate of the form used here, which reverses the sign of
 $i$ in Eqns.\ (\ref{eqn:vres_h})--(\ref{eqn:vres_sol}).} Far from resonance, where $|x| \gg \epsilon^{1/2}$, Eqn.\ (\ref{eqn:vres_h})
@@ -574,10 +574,10 @@ also compares each particle's vertical motion over time to the exact solution, w
 follows to within $\vresZerror$ in $z$.
 
 The forced response also locates the resonance. A particle forced by Eqn.\ (\ref{eqn:vres_force}) oscillates as
-$z = {\rm Re}[he^{im(\theta - \Omega_pt)}]$ where ${\rm Im}(h) = A_V/(\nu_a^2 - \omega_D^2)$, so each streamline's amplitude $h$,
+$z = {\rm Re}[he^{im(\theta - \Omega_pt)}]$ where ${\rm Im}(h) = A_V/D$, so each streamline's amplitude $h$,
 fit to its particles' $z$ and averaged over the last $\vresAvgOrbits$ orbits, gives the simulated
-$\nu_a^2 - \omega_D^2 = A_V/{\rm Im}(h)$. Figure \ref{fig:resloc} shows that it agrees with the exact
-$\nu_a^2 - \omega_D^2$ at the streamline's semimajor axis to within \vresDpercent\%, so it vanishes where theory
+$D = A_V/{\rm Im}(h)$. Figure \ref{fig:resloc} shows that it agrees with the exact
+$D$ at the streamline's semimajor axis to within \vresDpercent\%, so it vanishes where theory
 puts the resonance, at $r_V$, and it departs from the linear approximation ${\cal D}x$ by terms of order $x^2$,
 as theory does.
 
@@ -595,10 +595,10 @@ The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/resonance_location.pdf}
-\caption{The quantity $\nu_a^2 - \omega_D^2$, which vanishes at the resonance, in units of ${\cal D}$, for each
+\caption{The quantity $D = \nu_a^2 - \omega_m^2$, which vanishes at the resonance, in units of ${\cal D}$, for each
 streamline of the massless ring of Section \ref{sec:waves_massless} (dots), inferred from its forced vertical
 amplitude averaged over the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$.
-The dashed curve is the exact $\nu_a^2 - \omega_D^2$, and the dotted line its linear approximation ${\cal D}x$.
+The dashed curve is the exact $D$, and the dotted line its linear approximation ${\cal D}x$.
 The streamline at $x = 0$, whose amplitude grows without bound, is left out.}
 \label{fig:resloc}
 \end{figure}
@@ -977,7 +977,7 @@ then stops at $n = N - 1$ on that side, and the missing terms are
 $(2G\sigma Z_0/\Delta)\sum_{n \ge N}(\cos n\phi - 1)/n^2$. Their cosines nearly cancel when the wave is
 shorter than the distance to the edge, while $\sum_{n \ge N}1/n^2 \simeq 1/(N - \frac{1}{2})$, so the
 missing pull is about $2G\sigma Z_0/d$ where $d = (N - \frac{1}{2})\Delta$ is the streamline's distance
-to the ring's edge plus half a spacing. Near $r_V$, where $\omega_D^2 - \nu_a^2 \simeq {\cal D}|x|$ on the
+to the ring's edge plus half a spacing. Near $r_V$, where $-D \simeq {\cal D}|x|$ on the
 wave side, the lattice's restoring force so replaces the continuum's ${\cal D}|x| = 2\pi G\sigma|k|$ with
 \begin{equation}
     \label{eqn:wire_edges}

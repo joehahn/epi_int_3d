@@ -102,13 +102,13 @@ def vertical_resonance_numbers():
     z_error = np.abs(o['z'] - exact['z']).max()
     print('max |z - B11| =', z_error)
     numbers += [('vresZerror', latex_number(z_error, 1, up=True), 'max |z - B11|, rounded up')]
-    #nu_a^2 - omega_D^2 from each streamline's forced amplitude, against the exact value (paper/figures/resonance_location.py)
+    #nu_a^2 - omega_m^2 from each streamline's forced amplitude, against the exact value (paper/figures/resonance_location.py)
     sat_unused, x, simulated, exact_value = resonance_frequencies(p, o)
     off = (np.abs(x) > 1.0e-6)
     departure = np.abs(simulated[off]/exact_value[off] - 1.0).max()
-    print('largest |simulated/exact nu^2 - omega_D^2 - 1| =', departure)
+    print('largest |simulated/exact nu^2 - omega_m^2 - 1| =', departure)
     numbers += [('vresDpercent', latex_number(100.0*departure, 1, up=True),
-        'largest |(nu^2 - omega_D^2) from forced amplitude/exact - 1| in percent, rounded up')]
+        'largest |(nu^2 - omega_m^2) from forced amplitude/exact - 1| in percent, rounded up')]
     return numbers
 
 

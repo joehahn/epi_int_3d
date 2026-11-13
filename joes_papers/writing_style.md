@@ -250,3 +250,7 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
   (31)". A display of several lines numbers each line with a letter (32a, 32b, 32c), and a line that defines a
   symbol of the line above starts with "where" inside the display: "h = h_forced + h_wave, (32a) where
   h_forced = L_V/x, (32b) h_wave = … (32c)". This refines P67 and P73. (2026-11-13)
+- **P80.** Follow the author's earlier papers, then Shu (1984), for notation: ω_m = m(Ω_a − Ω_p) is the particle's
+  Doppler-shifted forcing frequency (as in Hahn 2009), with a subscript m because it varies with m; D = ν_a² − ω_m²,
+  which vanishes at the resonance, and 𝒟 = r dD/dr at r_V are Shu's. Write a quantity out rather than give it a
+  symbol when the symbol would clash. (2026-11-13)

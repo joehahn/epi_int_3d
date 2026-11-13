@@ -28,7 +28,7 @@ and vertical frequencies at radius a (V1). σ is the ring's surface density. x =
   i_s = 10⁻⁵ recovers A_V to 2×10⁻¹⁰–1.5×10⁻⁹.
 - **Pattern speed.** λ_s advances at Ω_{a_s}, and the argument of latitude λ_s − Ω_s at ν_{a_s} (V8). Hence
   mΩ_p = mΩ_{a_s} + ν_{a_s} (B4).
-- **Inner vertical resonance (IVR).** A ring particle feels the forcing at ω_D = m(Ω_a − Ω_p), so the IVR is
+- **Inner vertical resonance (IVR).** A ring particle feels the forcing at ω_m = m(Ω_a − Ω_p), so the IVR is
   at m(Ω_a − Ω_p) = ν_a, i.e. m(Ω_a − Ω_{a_s}) = ν_a + ν_{a_s}.
 - **Keplerian limit.** The resonance condition becomes (m−1)Ω_V = (m+1)Ω_{a_s}, so
   r_V = a_s[(m−1)/(m+1)]^{2/3}. For example, m = 4 is a 5:3 resonance (Mimas 5:3).
@@ -37,18 +37,18 @@ and vertical frequencies at radius a (V1). σ is the ring's surface density. x =
 
 ## 2. Response (B5–B10)
 
-- **Distance from resonance (B5).** Near r_V, ν² − ω_D² = D_V x, with D_V = 2ν_V r_V(dν/dr − m dΩ/dr) at r_V.
+- **Distance from resonance (B5).** Near r_V, ν² − ω_m² = D_V x, with D_V = 2ν_V r_V(dν/dr − m dΩ/dr) at r_V.
   - Keplerian: D_V = 3(m−1)Ω_V².
   - With J₂: D_V = (GM_p/r³)[3(m−1) + (3/2)(8m−15)J₂(R_p/r)²] + O(J₂²).
   - The code should evaluate D_V numerically from Ω_a and ν_a.
-- **Test particles (B6).** Without self-gravity, the forced response is Z = F_z/(ν² − ω_D²) ≈ F_z/(D_V x),
+- **Test particles (B6).** Without self-gravity, the forced response is Z = F_z/(ν² − ω_m²) ≈ F_z/(D_V x),
   singular at r_V. This is the first check of the satellite code.
 - **Test particles while the satellite grows (B11).** With mass ∝ 1 − e^{−t/τ} and z = v_z = 0 at t = 0, a
   particle's exact z(t) is the ramped forced response plus a free oscillation at ν. The free oscillation never
-  decays, and its size relative to the forced response is ~1/(τ|ν − ω_D|). So particles settle into B6 where
+  decays, and its size relative to the forced response is ~1/(τ|ν − ω_m|). So particles settle into B6 where
   |x| ≫ 2ν_V/(D_V τ), and the zero-mass test compares each particle's z(t) with this exact solution everywhere.
 - **Self-gravity (B7).** A sheet corrugated by Z = h cos kr pulls itself back with −2πGσ|k|Z. This gives the
-  dispersion relation (ω_D² − ν²) = 2πGσ|k|.
+  dispersion relation (ω_m² − ν²) = 2πGσ|k|.
   - Waves exist only inside r_V (x < 0). Bending waves at an IVR propagate inward, toward the planet and away
     from the satellite, the opposite direction to density waves at an inner Lindblad resonance.
   - Wavenumber: |k| = D_V|x|/(2πGσ). Wavelength: λ_b = 4π²Gσ/(D_V|x|).
@@ -65,7 +65,7 @@ and vertical frequencies at radius a (V1). σ is the ring's surface density. x =
 - **Torque (B9).** The torque on the ring is T = −π²mσr_V²A_V²/D_V. It is negative (the ring loses angular
   momentum) and independent of the ring's self-gravity. This is a second, integral test: the ring's angular
   momentum should drop at this rate once the wave is established.
-- **Group velocity (B10).** c_g = −πGσ/ω_D ≈ −πGσ/ν_V: inward, at constant speed. The front is at
+- **Group velocity (B10).** c_g = −πGσ/ω_m ≈ −πGσ/ν_V: inward, at constant speed. The front is at
   x_f ≈ −πGσ t/(ν_V r_V) after the forcing turns on. The run must stop before the front reaches the inner
   edge (Phase 2e), and the comparison uses only |x| < |x_f|.
 - **Damping.** Not included. epi_int_3d's viscosity acts in the plane only (Phase 2d), so the simulated waves
@@ -127,7 +127,7 @@ satellite = {
 - **Cross-check option.** An optional `'potential': 'direct'` replaces the Fourier term with the full point-mass
   satellite (all its terms) for the cross-check in PLAN.
 - **Choosing `time_grow`.** The growing mass is the satellite's. A switch-on that is slow compared with the
-  forcing's detuning, time_grow ≫ 1/|ν − ω_D| ≈ 2ν_V/(D_V|x|), leaves test particles in the purely forced
+  forcing's detuning, time_grow ≫ 1/|ν − ω_m| ≈ 2ν_V/(D_V|x|), leaves test particles in the purely forced
   state B6 instead of forced plus free. Near r_V, though, no growth is slow enough: the detuning there is
   set by self-gravity, and the free part becomes the wave that propagates away. So `time_grow` should also be
   short compared with the front's crossing time. Otherwise the wave's amplitude varies along it, following

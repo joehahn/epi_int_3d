@@ -6,7 +6,7 @@
 #
 #tests/vertical_resonance: a zero-mass ring of test particles straddling a satellite's m = 2 inner vertical
 #resonance at r_V = 1.02, while the satellite's mass grows slowly (epi_int_3d, 31 October 2026). Each particle
-#starts at z = vz = 0 and settles into the forced vertical oscillation z = F_z/(nu^2 - omega_D^2), plus a small
+#starts at z = vz = 0 and settles into the forced vertical oscillation z = F_z/(nu^2 - omega_m^2), plus a small
 #free oscillation that never decays (notes/equations.md B6, B11). Run with fast/epi_int_3d.py.
 #
 #define input input parameters

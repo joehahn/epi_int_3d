@@ -3,10 +3,10 @@
 #by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 12 November 2026.
 #
 #the paper's resonance-location figure (Section 4.1.2): for the zero-mass ring of tests/vertical_resonance, each
-#streamline's nu_a^2 - omega_D^2 inferred from its forced vertical amplitude, versus its fractional distance from
-#resonance x, and the exact nu_a^2 - omega_D^2 at its semimajor axis, which vanishes at r_V. A particle forced by
-#A_z = -A_V sin(chi) oscillates as z = Re[h e^{i chi}] with Im(h) = A_V/(nu_a^2 - omega_D^2) (notes/equations.md B6),
-#so nu_a^2 - omega_D^2 = A_V/Im(h), with h each streamline's least-squares amplitude averaged over the last 10^4
+#streamline's nu_a^2 - omega_m^2 inferred from its forced vertical amplitude, versus its fractional distance from
+#resonance x, and the exact nu_a^2 - omega_m^2 at its semimajor axis, which vanishes at r_V. A particle forced by
+#A_z = -A_V sin(chi) oscillates as z = Re[h e^{i chi}] with Im(h) = A_V/(nu_a^2 - omega_m^2) (notes/equations.md B6),
+#so nu_a^2 - omega_m^2 = A_V/Im(h), with h each streamline's least-squares amplitude averaged over the last 10^4
 #orbits, which averages away what free oscillation remains.
 #Needs that test's output: uv run python tools/run_simulations.py tests/vertical_resonance
 #
@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 from vertical_analysis import load3d, resonance_frequencies
 
-#read the run, and each streamline's nu_a^2 - omega_D^2, simulated and exact, in units of D_V
+#read the run, and each streamline's nu_a^2 - omega_m^2, simulated and exact, in units of D_V
 p, o = load3d(os.path.join(repo_folder, 'tests', 'vertical_resonance'))
 sat, x, simulated, exact = resonance_frequencies(p, o)
 off = np.abs(x) > 1.0e-6                     #the streamline at r_V has no steady forced amplitude
@@ -54,7 +54,7 @@ ax.axvline(0.0, color='gray', linewidth=1)
 #axes
 ax.set_xlim(x.min()/1.0e-2*1.05, x.max()/1.0e-2*1.05)
 ax.set_xlabel(r'fractional distance from resonance $x$    ($10^{-2}$)')
-ax.set_ylabel(r'$(\nu_a^2 - \omega_D^2)/{\cal D}$    ($10^{-2}$)')
+ax.set_ylabel(r'$D/{\cal D}$    ($10^{-2}$)')
 ax.legend(loc='upper left')
 
 #save
