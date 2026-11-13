@@ -1211,6 +1211,24 @@
    "check": "uv run python notes/sympy/bending_wave.py"
   },
   {
+   "id": "eq:B16",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B16",
+   "needs": [
+    "eq:B8",
+    "eq:B15"
+   ]
+  },
+  {
+   "id": "sympy:B16",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B16",
+   "needs": [
+    "eq:B16"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
    "id": "code:ring_gravity",
    "kind": "code",
    "anchor": "fast/kernels.py::_make_ring_gravity",
@@ -1662,6 +1680,30 @@
    "needs": [
     "sympy:B8",
     "sympy:B15"
+   ]
+  },
+  {
+   "id": "paper:eqn:limit_parts",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:limit_parts",
+   "needs": [
+    "sympy:B16"
+   ]
+  },
+  {
+   "id": "paper:eqn:limit_outer",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:limit_outer",
+   "needs": [
+    "sympy:B16"
+   ]
+  },
+  {
+   "id": "paper:eqn:limit_inner",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:limit_inner",
+   "needs": [
+    "sympy:B16"
    ]
   },
   {

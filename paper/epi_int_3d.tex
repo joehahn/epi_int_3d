@@ -49,7 +49,9 @@ gravity that one streamline exerts on another (Section \ref{sec:gravity}), its r
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and the vertical
 restoring force of a bending wave (Appendix \ref{sec:wire_continuum}), and the theory of spiral bending
 waves at a vertical resonance with its tests against spiral wave theory (Section \ref{sec:waves}): the
-forced response of massless particles, and the bending wave that the satellite launches in a self-gravitating ring.
+forced response of massless particles, and the bending wave that the satellite launches in a self-gravitating ring,
+which tends to the massless particles' response as the ring's surface density goes to zero
+(Appendix \ref{sec:massless_limit}).
 \end{abstract}
 
 
@@ -527,7 +529,8 @@ tends to Eqns.\ (91)--(92) of \cite{S84},
 \end{eqnarray}
 \end{subequations}
 The forced oscillation $h_{\rm forced}$ is
-the response of a massless ring, and $h_{\rm wave}$ is a trailing spiral bending wave on the inner side
+the response of a massless ring, to which Eqn.\ (\ref{eqn:vres_h}) tends as $\sigma \rightarrow 0$
+(Appendix \ref{sec:massless_limit}), and $h_{\rm wave}$ is a trailing spiral bending wave on the inner side
 of the resonance that propagates inward. The wave's amplitude
 \begin{equation}
     \label{eqn:vres_amp}
@@ -714,6 +717,7 @@ non-gravitating, pressure-supported gas disk, will be compared with linear theor
 
 \section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}
 \label{sec:appendix_wire2d}
+\setcounter{equation}{0}
 
 %equations G3, G6, G10, G14 of notes/sympy/streamline_gravity.py; epi_int_lite issues 7 and 9
 In the ring plane $d_z = s_z = 0$, and the acceleration of Section \ref{sec:wire} reduces to the geometry of Fig.~3 of \cite{HS13},
@@ -799,6 +803,7 @@ less when the shape rotates, here by half as much, as for an $m = 2$ pattern.}
 
 \section{Resolution limit of the streamline method}
 \label{sec:appendix_zigzag}
+\setcounter{equation}{0}
 
 %draft (2026-10-18); equations are sympy-checked P6, P7 in notes/sympy/ring_pressure.py
 A streamline model represents a continuous ring by $N_r$ streamlines spaced $\Delta$ apart, and
@@ -935,6 +940,7 @@ $\kappa^2 + c^2k^2$ (dotted blue). A mode is unstable where $X$ exceeds $\kappa^
 
 \section{The restoring force of a bending wave}
 \label{sec:wire_continuum}
+\setcounter{equation}{0}
 
 Equation (\ref{eqn:wire_Ag}) recovers the self-gravity of a bending wave. Consider a sheet of
 surface density $\sigma$ made of streamlines with $\lambda = \sigma\,dr'$, displaced vertically to
@@ -979,6 +985,46 @@ wave side, the lattice's restoring force so replaces the continuum's ${\cal D}|x
 where $d_{\rm in}$ and $d_{\rm out}$ are the distances to the ring's inner and outer edges, so
 measured. Both terms lower the restoring force at a given $k$, so the wave's wavenumber is larger than in
 the continuum, by the amounts that Section \ref{sec:waves_ring} finds.
+
+\section{The massless limit of the bending wave}
+\label{sec:massless_limit}
+\setcounter{equation}{0}
+
+%equations B16, sympy-checked in notes/sympy/bending_wave.py
+Equation (\ref{eqn:vres_h}) tends to the forced oscillation $h_{\rm forced} = L_V/x$ as the ring's surface
+density $\sigma \rightarrow 0$, which sends $\epsilon \rightarrow 0$. On the outer side of the resonance,
+$x > 0$, integrate the integral in Eqn.\ (\ref{eqn:vres_h}) by parts using
+$e^{is^2/2\epsilon} = (\epsilon/is)\,d(e^{is^2/2\epsilon})/ds$:
+\begin{equation}
+    \label{eqn:limit_parts}
+    \int_x^\infty e^{is^2/2\epsilon}\,ds = -\frac{\epsilon}{ix}e^{ix^2/2\epsilon}
+        + \frac{\epsilon}{i}\int_x^\infty \frac{e^{is^2/2\epsilon}}{s^2}\,ds.
+\end{equation}
+Integrating the last term by parts the same way shows that it is of order $\epsilon^2/x^3$, smaller than the
+first by a factor of order $\epsilon/x^2$. Inserting the first term into Eqn.\ (\ref{eqn:vres_h}) then gives
+\begin{equation}
+    \label{eqn:limit_outer}
+    h = \frac{L_V}{x}\left[1 + {\cal O}\left(\frac{\epsilon}{x^2}\right)\right],
+\end{equation}
+so $h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$ at any fixed $x > 0$.
+
+On the inner side, $x < 0$, the range of integration passes through $s = 0$, where $\epsilon/is$ diverges, so
+write the integral as $\int_{-\infty}^\infty - \int_{-\infty}^x$. The first is the Fresnel integral
+$(2\pi\epsilon)^{1/2}e^{i\pi/4}$, and the second integrates by parts as above, so
+\begin{equation}
+    \label{eqn:limit_inner}
+    h = \frac{L_V}{x}\left[1 + {\cal O}\left(\frac{\epsilon}{x^2}\right)\right]
+        - ie^{i\pi/4}\left(\frac{2\pi}{\epsilon}\right)^{1/2}L_Ve^{-ix^2/2\epsilon}.
+\end{equation}
+The second term is $h_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_sol_wave}), with the amplitude $|Z_w|$ of
+Eqn.\ (\ref{eqn:vres_amp}), and it grows as $\sigma^{-1/2}$ as $\sigma \rightarrow 0$. This is because
+Eqn.\ (\ref{eqn:vres_h}) is a steady state: the wave has had unlimited time to fill the ring inside $r_V$,
+and the satellite's torque on it, Eqn.\ (\ref{eqn:vres_torque}), which is proportional to $\sigma$, is carried
+away at the group velocity $c_g = \pi G\sigma/\nu_a$, which also is proportional to $\sigma$. So the wave's
+angular momentum per unit area, which is proportional to $\sigma|Z_w|^2$, does not depend on $\sigma$. At any finite time $t$, though, the wave
+has reached only $x \simeq -c_gt/r_V$, which tends to zero with $\sigma$, so the inner side too has only
+the forced oscillation $h_{\rm forced}$ as $\sigma \rightarrow 0$. The massless ring of
+Section \ref{sec:waves_massless} is this limit.
 
 
 \bibliography{epi_int_3d}{}

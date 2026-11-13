@@ -282,4 +282,34 @@ check("B15: B8's h = -(i L_V/eps) e^{-i x^2/2 eps} int_x^oo e^{i s^2/2 eps} ds",
       sp.simplify(h_B8.subs({K: 1/(ep*DVs), L: 1/ep, Fc: DVs*LVs}) - h_paper))
 check('B15: K = 1/(eps D_V) for eps = 2 pi G sigma/(r_V D_V)',
       (rr/(2*sp.pi*Gs*sg)) - 1/((2*sp.pi*Gs*sg/(rr*DVs))*DVs))
+# --- B16: the massless limit (paper Appendix D). Integrating by parts with e^{i s^2/2 eps} = (eps/i s) d/ds e^{i s^2/2 eps},
+# int_x^oo e^{i s^2/2 eps} ds = -(eps/i x) e^{i x^2/2 eps} [1 + O(eps/x^2)] for x > 0; for x < 0 add the whole Fresnel
+# integral (2 pi eps)^{1/2} e^{i pi/4}. So h = L_V/x [1 + O(eps/x^2)] for x > 0, h -> h_forced as eps -> 0, and for x < 0
+# h = L_V/x - i e^{i pi/4} (2 pi/eps)^{1/2} L_V e^{-i x^2/2 eps}, whose wave term has |Z_w| of B8 ---
+sv = sp.symbols('s', real=True)
+ep_ = sp.symbols('epsilon', positive=True)
+E = sp.exp(sp.I*sv**2/(2*ep_))
+check('B16: d/ds[(eps/i s) e^{i s^2/2 eps}] = e^{i s^2/2 eps} - (eps/i s^2) e^{i s^2/2 eps}',
+      sp.diff(ep_/(sp.I*sv)*E, sv) - (E - ep_/(sp.I*sv**2)*E))
+fres = sp.integrate(E, (sv, -sp.oo, sp.oo))
+check('B16: int_-oo^oo e^{i s^2/2 eps} ds = (2 pi eps)^{1/2} e^{i pi/4}',
+      sp.simplify(sp.expand_complex(fres - sp.sqrt(2*sp.pi*ep_)*sp.exp(sp.I*sp.pi/4))))
+xs_ = sp.symbols('x', real=True, nonzero=True)
+check('B16: -(i L_V/eps) e^{-i x^2/2 eps} * (-(eps/i x) e^{i x^2/2 eps}) = L_V/x',
+      -sp.I*LVs/ep_*sp.exp(-sp.I*xs_**2/(2*ep_))*(-(ep_/(sp.I*xs_))*sp.exp(sp.I*xs_**2/(2*ep_))) - LVs/xs_)
+check('B16: |(i L_V/eps)(2 pi eps)^{1/2}| = (2 pi/eps)^{1/2} |L_V|, the |Z_w| of B8',
+      sp.Abs(sp.I*LVs/ep_*sp.sqrt(2*sp.pi*ep_)) - sp.sqrt(2*sp.pi/ep_)*sp.Abs(LVs))
+sg_, G_, rV_, D_, AV_, nu_, m_ = sp.symbols('sigma G r_V D A_V nu m', positive=True)
+Zw2 = AV_**2*rV_/(G_*sg_*D_)                                   # |Z_w|^2, paper Eqn. (vres_amp)
+check('B16: T_V/c_g and sigma |Z_w|^2 are both independent of sigma',
+      sp.diff((sp.pi**2*m_*sg_*rV_**2*AV_**2/D_)/(sp.pi*G_*sg_/nu_), sg_) + sp.diff(sg_*Zw2, sg_))
+def h_eps(xv, ev):
+    """Eqn. (vres_h) with L_V = 1, from B8's Fresnel form (K = 1/eps, L = 1/eps, F = 1)."""
+    return h_num(xv, 1/ev, 1/ev, 1.0)
+for ev in (1e-6, 1e-8):
+    for xv in (0.01, -0.01):
+        wave = -1j*np.exp(1j*np.pi/4)*np.sqrt(2*np.pi/ev)*np.exp(-1j*xv**2/(2*ev)) if xv < 0 else 0
+        err = abs(h_eps(xv, ev) - 1/xv - wave)*abs(xv)
+        assert err < 2*ev/xv**2, (ev, xv, err)
+        print(f'PASS  B16: eps = {ev:.0e}, x = {xv:+.2f}: |h - L_V/x - h_wave|/|L_V/x| = {err:.1e} <= ~eps/x^2 = {ev/xv**2:.0e}')
 print('all bending-wave checks passed')

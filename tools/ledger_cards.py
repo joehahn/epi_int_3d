@@ -340,7 +340,7 @@ def cards(assets=None):
         if (m.group(0) == '\\appendix'):
             appendix = True
             section = 0
-            converter.equation = 0           #AASTeX numbers the appendices' equations A1, A2, ..., B3, ... on one counter
+            converter.equation = 0
             continue
         if (m.group(0) == '\\end{abstract}'):
             continue
@@ -354,6 +354,8 @@ def cards(assets=None):
                 level = 1
                 number = letters[section - 1] if appendix else str(section)
                 converter.prefix = number if appendix else ''
+                if appendix:                     #each appendix restarts at 1 (\setcounter{equation}{0}): A1, B1, ...
+                    converter.equation = 0
             else:
                 subsection += 1
                 level = 2
