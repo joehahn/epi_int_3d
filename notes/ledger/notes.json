@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-13T03:15:40Z",
+ "exported": "2026-11-13T03:21:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -181,9 +181,9 @@
    "card": "s4-1~p4",
    "note_at": "2026-11-13T03:14:14.213Z",
    "note": "should \"The forced oscillation h_forced is the response of a massless ring\" refer to appendix D?\n\nand do bending waves a trailing spiral bending wave on the inner side of the resonance that propagates inward? or do the propagate away from satellite?",
-   "reply": "Asked whether to cite Appendix D twice in the paragraph; 'propagates inward, away from the satellite' (inner vertical resonance).",
-   "reply_at": "2026-11-13T03:15:20Z",
-   "status": "question"
+   "reply": "Citation of Appendix D kept only at the paragraph's end (author's choice in Claude Code); 'Bending waves propagate away from the satellite (Shu 1984), so this wave lies on the inner side of the inner vertical resonance and propagates inward; at an outer vertical resonance it would propagate outward.'",
+   "reply_at": "2026-11-13T03:20:49Z",
+   "status": "done"
   }
  ]
 }
