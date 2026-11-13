@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-13T02:11:40Z",
+ "exported": "2026-11-13T03:15:40Z",
  "entries": [
   {
    "card": "s2-1",
@@ -136,6 +136,54 @@
    "reply": "Done. 'interior to' / 'exterior to' the satellite's orbit; the m = -1 term now 'drives a secular resonance where the ring's nodes regress at the satellite's rate, which is not considered here' (resonance where nu_a = Omega_a - dOmega_s/dt).",
    "reply_at": "2026-11-13T02:11:29Z",
    "status": "done"
+  },
+  {
+   "card": "s4-1~p3",
+   "note_at": "2026-11-13T02:35:29.603Z",
+   "note": "add and just left of h_wave",
+   "reply": "Done. (32c) now starts with 'and h_wave = ...', matching 'where' on (32b).",
+   "reply_at": "2026-11-13T02:49:07Z",
+   "status": "done"
+  },
+  {
+   "card": "appD~p2",
+   "note_at": "2026-11-13T02:48:07.234Z",
+   "note": "\\setcounter{equation}{0}",
+   "reply": "Hidden on the ledger (the card builder drops \\setcounter); kept in the paper, where it restarts each appendix's equations at 1.",
+   "reply_at": "2026-11-13T02:49:07Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p4",
+   "note_at": "2026-11-13T02:58:49.889Z",
+   "note": "move \"to which Eqn. (30) tends as σ → 0 (Appendix D) \" to end of paragraph and state that Appendix D shows that h>h_wave as sigma>0\n",
+   "reply": "Done. Clause removed from the first sentence; the paragraph now ends 'Appendix D shows that h -> h_forced as sigma -> 0.' (read as h -> h_forced).",
+   "reply_at": "2026-11-13T02:59:34Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p1",
+   "note_at": "2026-11-13T03:09:59.687Z",
+   "note": "i think ωₘ = mΩ_aₛ + ν_aₛ is referred to as the forcing frequency in some of my papers\n\nsay Terms with m ≤ −2 have their resonance  exterior to the satellite's orbit\n\nshould Av be replaced with A_m?",
+   "reply": "Done. 'Doppler-shifted forcing frequency' (H09, Ward & Hahn 2003) is omega_D, now named so; 'have their resonances exterior to'; kept A_V, the constant value of A_m at r_V that the code and theory use.",
+   "reply_at": "2026-11-13T03:15:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p2",
+   "note_at": "2026-11-13T03:12:28.639Z",
+   "note": "what does Far from resonance, mean, where |x|>>sqrt(2epsilon)?",
+   "reply": "Done. 'Far from resonance, where |x| >> epsilon^{1/2}', the resonance zone's width, matching Eqn. (32c).",
+   "reply_at": "2026-11-13T03:15:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p4",
+   "note_at": "2026-11-13T03:14:14.213Z",
+   "note": "should \"The forced oscillation h_forced is the response of a massless ring\" refer to appendix D?\n\nand do bending waves a trailing spiral bending wave on the inner side of the resonance that propagates inward? or do the propagate away from satellite?",
+   "reply": "Asked whether to cite Appendix D twice in the paragraph; 'propagates inward, away from the satellite' (inner vertical resonance).",
+   "reply_at": "2026-11-13T03:15:20Z",
+   "status": "question"
   }
  ]
 }

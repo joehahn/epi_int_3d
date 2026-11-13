@@ -157,7 +157,7 @@
  },
  "claim:pattern_speed": {
   "date": "2026-11-12",
-  "hash": "39dc2a7035b8",
+  "hash": "42e7bd7201ea",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "719b0fce7aa0"
@@ -1115,7 +1115,7 @@
  },
  "paper:eqn:vres_sol": {
   "date": "2026-11-12",
-  "hash": "1e5981735a07",
+  "hash": "7e1aaaa0f7f3",
   "needs": {
    "sympy:B6": "814c74d931c8",
    "sympy:B8": "24329c6a8fb1"

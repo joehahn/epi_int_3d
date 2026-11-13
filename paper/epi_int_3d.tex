@@ -488,7 +488,7 @@ is a Laplace coefficient of $\beta = r/a_s$, and $\omega_m = m\Omega_{a_s} + \nu
 term with $m \ge 2$ is an $m$-armed pattern that rotates with angular velocity
 $\Omega_p = \omega_m/m = \Omega_{a_s} + \nu_{a_s}/m$ and resonates with the ring particles at one radius interior to
 the satellite's orbit, and these
-resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ resonate exterior to the
+resonances are well separated across the ring \citep{S84}. Terms with $m \le -2$ have their resonances exterior to the
 satellite's orbit, the $m = -1$ term drives a secular resonance where the ring's nodes regress at the
 satellite's rate, which is not considered here, and the $m = 0$ and
 $m = 1$ terms have no resonance. The simulations here follow particles near a single $m$th resonance, so
@@ -497,7 +497,7 @@ $m = 1$ terms have no resonance. The simulations here follow particles near a si
     \label{eqn:vres_force}
     A_z = -A_V\sin m(\theta - \Omega_pt),
 \end{equation}
-where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the frequency
+where $A_V$ is $A_m$ evaluated at $\beta = r_V/a_s$. A particle feels the forcing at the Doppler-shifted forcing frequency
 $\omega_D = m(\Omega_a - \Omega_p)$, and the inner
 vertical resonance lies at the radius $r_V$ where $\omega_D = \nu_a$, which is
 $r_V \simeq a_s[(m - 1)/(m + 1)]^{2/3}$ when $J_2$ is small.
@@ -517,21 +517,21 @@ where
 $\sigma$ is the ring's surface density, and ${\cal D} = r\,d(\nu_a^2 - \omega_D^2)/dr$ at $r_V$, which
 is $3(m - 1)\Omega_a^2$ when oblateness is negligible.\footnote{\cite{S84} writes perturbations as
 $e^{i(\omega t - m\theta)}$, the complex conjugate of the form used here, which reverses the sign of
-$i$ in Eqns.\ (\ref{eqn:vres_h})--(\ref{eqn:vres_sol}).} Far from resonance, Eqn.\ (\ref{eqn:vres_h})
+$i$ in Eqns.\ (\ref{eqn:vres_h})--(\ref{eqn:vres_sol}).} Far from resonance, where $|x| \gg \epsilon^{1/2}$, Eqn.\ (\ref{eqn:vres_h})
 tends to Eqns.\ (91)--(92) of \cite{S84},
 \begin{subequations}
 \label{eqn:vres_sol}
 \begin{eqnarray}
     h &=& h_{\rm forced} + h_{\rm wave}, \label{eqn:vres_sol_h}\\
     \mbox{where} \quad h_{\rm forced} &=& \frac{L_V}{x}, \label{eqn:vres_sol_forced}\\
-    h_{\rm wave} &=& \left\{\begin{array}{ll} Z_w e^{-ix^2/2\epsilon} & \qquad x \ll -\epsilon^{1/2} \\
+    \mbox{and} \quad h_{\rm wave} &=& \left\{\begin{array}{ll} Z_w e^{-ix^2/2\epsilon} & \qquad x \ll -\epsilon^{1/2} \\
         0 & \qquad x \gg \epsilon^{1/2}. \end{array}\right. \label{eqn:vres_sol_wave}
 \end{eqnarray}
 \end{subequations}
 The forced oscillation $h_{\rm forced}$ is
-the response of a massless ring, to which Eqn.\ (\ref{eqn:vres_h}) tends as $\sigma \rightarrow 0$
-(Appendix \ref{sec:massless_limit}), and $h_{\rm wave}$ is a trailing spiral bending wave on the inner side
-of the resonance that propagates inward. The wave's amplitude
+the response of a massless ring, and $h_{\rm wave}$ is a trailing spiral bending wave. Bending waves propagate away
+from the satellite \citep{S84}, so this wave lies on the inner side of the inner vertical resonance and propagates
+inward; at an outer vertical resonance it would propagate outward. The wave's amplitude
 \begin{equation}
     \label{eqn:vres_amp}
     |Z_w| = \left(\frac{2\pi}{\epsilon}\right)^{1/2}|L_V| = A_V\left(\frac{r_V}{G\sigma{\cal D}}\right)^{1/2}
@@ -541,7 +541,8 @@ is constant, while its wavelength
     \label{eqn:vres_lambda}
     \lambda_{\rm wave} = \frac{4\pi^2G\sigma}{{\cal D}|x|}
 \end{equation}
-shrinks with distance from resonance.
+shrinks with distance from resonance. Appendix \ref{sec:massless_limit} shows that
+$h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$.
 
 Equations (\ref{eqn:vres_h})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
 \code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless

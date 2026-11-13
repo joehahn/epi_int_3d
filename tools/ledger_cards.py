@@ -296,7 +296,7 @@ class Converter:
                 ('\\ldots', '\u2026'), ('\\,', '\u2009'), ('\\ ', ' '), ('.\\@', '.'), ('\\@', '')]:
             text = text.replace(tex, out)
         text = re.sub(r'(?<=\w)\\/', '', text)
-        text = re.sub(r'\\raggedright\s*', '', text)      #layout only
+        text = re.sub(r'\\raggedright\s*|\\setcounter\{[^}]*\}\{[^}]*\}\s*', '', text)      #layout only
         self.leftovers |= set(re.findall(r'\\[a-zA-Z]+', text))
         #paragraphs
         paragraphs = [p.strip() for p in re.split(r'\n\s*\n', text) if p.strip()]
