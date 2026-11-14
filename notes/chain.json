@@ -1739,9 +1739,10 @@
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:bw_disp",
    "needs": [
-    "sympy:B19"
+    "sympy:B19",
+    "sympy:B5"
    ],
-   "note": "Shu (1984) Eqn. 84 with omega - m Omega = -omega_m"
+   "note": "Shu (1984) Eqn. 84 with omega - m Omega = -omega_m; written as D = nu_a^2 - omega_m^2 = -2 pi G sigma |k| (Shu Eqns. 83-84; D defined here)"
   },
   {
    "id": "paper:eqn:bw_cg",
@@ -1765,15 +1766,6 @@
     "bending_waves#test6",
     "bending_waves#test7"
    ]
-  },
-  {
-   "id": "paper:eqn:vres_D",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:vres_D",
-   "needs": [
-    "sympy:B5"
-   ],
-   "note": "D = nu_a^2 - omega_m^2, Shu's Eqn. 83"
   },
   {
    "id": "paper:eqn:vres_ode",

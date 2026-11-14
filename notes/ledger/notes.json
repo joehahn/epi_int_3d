@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-13T04:55:00Z",
+ "exported": "2026-11-14T20:32:08Z",
  "entries": [
   {
    "card": "s2-1",
@@ -215,6 +215,14 @@
    "note": "i thought we were not going to grow the satellite's mass since, when the ring can responde with a wave, makeing satellite mass=total mass at time t=0 doesnt change the outcome much",
    "reply": "No change (author: doesn't apply to massless rings); the massless ring keeps the satellite's slow mass growth.",
    "reply_at": "2026-11-13T04:52:20Z",
+   "status": "done"
+  },
+  {
+   "card": "s4-1~p1",
+   "note_at": "2026-11-14T20:29:14.502Z",
+   "note": "i think the dispersion relation is oftern written as D= ωₘ²-νₐ² = 2π Gσ|k|,  should we do that here?\n\n\ncan \"Each term with m ≥ 2 is an m-armed pattern that rotates with angular velocity Ωₚ = Ω_aₛ + ν_aₛ/m and resonates with the ring particles at one radius interior to the satellite's orbit, and these resonances are well separated across the ring (Shu 1984). Terms with m ≤ −2 have their resonances exterior to the satellite's orbit, the m = −1 term drives a secular resonance where the ring's nodes regress at the satellite's rate, which is not considered here, and the m = 0 and m = 1 terms have no resonance.\" be simplified by saying terms with |m|>=2 are spiral. positive m have resonances interior, negative m are exterior, then address m the m=0, +1-1 terms\n\nD is also referred to the frequecy distance from resonance since h_forced can be written as something/D",
+   "reply": "Yes, with Shu's sign: Eqn. (25) is now D = nu_a^2 - omega_m^2 = -2 pi G sigma |k| (Shu Eqn. 83 with h ~ e^{ikr}); flipping D's sign would flip h_forced = iA_V/D and calD. The separate equation for D in 4.1.2 is dropped; there D = -2 pi G sigma k for the trailing (k > 0) wave. Equations after it renumbered.",
+   "reply_at": "2026-11-14T20:32:08Z",
    "status": "done"
   }
  ]

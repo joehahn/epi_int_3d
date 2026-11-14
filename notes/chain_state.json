@@ -95,8 +95,8 @@
   }
  },
  "claim:first_wavelength": {
-  "date": "2026-11-13",
-  "hash": "4b4ba6018f12",
+  "date": "2026-11-14",
+  "hash": "13e6690ee4a3",
   "needs": {
    "sympy:B18": "36ffd840a5f9"
   }
@@ -173,8 +173,8 @@
   }
  },
  "claim:pattern_speed": {
-  "date": "2026-11-13",
-  "hash": "be97da80be79",
+  "date": "2026-11-14",
+  "hash": "0596d1837591",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
    "sympy:B4": "69a723a4c7ec"
@@ -217,8 +217,8 @@
   }
  },
  "claim:trailing": {
-  "date": "2026-11-13",
-  "hash": "3460ab3777df",
+  "date": "2026-11-14",
+  "hash": "693688b855b0",
   "needs": {
    "sympy:B19": "f48cded34bc8",
    "sympy:B9": "ad423e395545"
@@ -1029,10 +1029,11 @@
   }
  },
  "paper:eqn:bw_disp": {
-  "date": "2026-11-13",
-  "hash": "9ce35d95d255",
+  "date": "2026-11-14",
+  "hash": "3120b808e257",
   "needs": {
-   "sympy:B19": "f48cded34bc8"
+   "sympy:B19": "f48cded34bc8",
+   "sympy:B5": "3f8938ff32e7"
   }
  },
  "paper:eqn:i_node": {
