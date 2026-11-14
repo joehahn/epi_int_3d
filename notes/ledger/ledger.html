@@ -70,7 +70,8 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 .facts b { font-family: var(--f-mono); font-weight: 500; color: var(--ink-2); }
 
 .text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
-.text p { margin: 0; } .text p + p, .text .pnote + p { text-indent: 1.5em; }
+.text p { margin: 0; } .text p + p, .text .pblock + .pblock > p { text-indent: 1.5em; }
+.pblock { display: flex; flex-direction: column; } .pblock > .subnote { order: 2; }   /* a paragraph or figure, its note under it */
 .text .pnote { margin: 0 0 4px; text-indent: 0; }
 .text .pnote.open { margin: 6px 0 12px; padding: 6px 0 0 12px; border-left: 3px solid var(--rule-2); }
 .text .pnote > button.pbtn { font: 12px var(--f-ui); color: var(--ink-3); background: none; border: 0; padding: 0; cursor: pointer; }
@@ -156,12 +157,15 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
    (and Claude's reply under it) to the right of it; narrower screens keep one column, the note under its paragraph */
 @media (min-width: 1100px) {
   .wrap { max-width: none; margin: 0; }
-  .text { max-width: none; display: grid; grid-template-columns: minmax(0, 70ch) minmax(280px, 400px); column-gap: 28px; align-items: start; }
-  .text > * { grid-column: 1; }
-  .text > .subnote { grid-column: 2; margin: 0 0 10px; }
-  .text .pnote.open { margin: 0 0 10px; padding: 0 0 0 12px; }
-  .text > .subnote:not(.pnote) { border-top: 0; padding: 0 0 0 12px; border-left: 3px solid var(--rule-2); }
-  .text .pnote > button.pbtn { padding-top: 3px; }
+  /* sidenotes: each note floats into the right margin from its paragraph's top line; a tall note pushes only the
+     notes below it down (clear: right), never the text */
+  .text { max-width: calc(70ch + 428px); padding-right: 428px; }
+  .pblock { display: block; }
+  .text .subnote, .text .pnote, .text .pnote.open { float: right; clear: right; width: 400px; margin: 0 -428px 8px 0;
+    padding: 0 0 0 12px; border-top: 0; border-left: 3px solid var(--rule-2); }
+  .text .pnote:not(.open) { border-left-color: transparent; }
+  .text h4.sub, .text .nb { clear: none; }
+  .text::after { content: ""; display: block; clear: both; }    /* the last notes stay inside the card */
 }
 @media (min-width: 1380px) { .wrap { padding-right: 256px; } }    /* room for the fixed contents panel */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
@@ -395,11 +399,18 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       if (!p.textContent.trim()) continue;     // an empty paragraph gets no note box
       k += 1;
       const words = p.textContent.replace(/\s+/g, " ").trim().split(" ").slice(0, 6).join(" ");
-      p.after(el("div", {class: "note subnote pnote", "data-part": "p" + k, "data-label": `${where}, paragraph “${words}…”`}));
+      // the note goes first in its block, so on wide screens it floats beside the paragraph's top line (CSS puts it
+      // under the paragraph on narrow ones)
+      const blk = el("div", {class: "pblock"});
+      p.replaceWith(blk);
+      blk.append(el("div", {class: "note subnote pnote", "data-part": "p" + k, "data-label": `${where}, paragraph “${words}…”`}), p);
     }
-    for (const f of node.querySelectorAll("figure.fig"))
-      f.after(el("div", {class: "note subnote", "data-part": "fig-" + (f.dataset.png || "x").replace(/\.png$/, ""),
-        "data-label": (f.querySelector("figcaption b")?.textContent || "this figure").replace(/\.\s*$/, "")}));
+    for (const f of node.querySelectorAll("figure.fig")) {
+      const blk = el("div", {class: "pblock"});
+      f.replaceWith(blk);
+      blk.append(el("div", {class: "note subnote", "data-part": "fig-" + (f.dataset.png || "x").replace(/\.png$/, ""),
+        "data-label": (f.querySelector("figcaption b")?.textContent || "this figure").replace(/\.\s*$/, "")}), f);
+    }
     const subs = [...node.querySelectorAll("h4.sub")];
     subs.forEach((h, k) => {
       const slot = el("div", {class: "note subnote", "data-part": "sub" + (k + 1), "data-label": h.textContent.replace(/\s+/g, " ").trim()});
@@ -521,7 +532,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     if (!rep?.reply) return null;
     const stale = (n.updatedAt || "") > (rep.at || "");
     const when = rep.at ? new Date(rep.at).toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}) : "";
-    return el("details", {class: "reply" + (stale ? " stale" : ""), open: stale ? null : true},
+    return el("details", {class: "reply" + (stale ? " stale" : ""), open: null},
       el("summary", {}, el("b", {text: stale ? "Claude's earlier reply" : rep.status === "done" ? "✓ Claude applied this" : "Claude replied"}),
         when ? ` · ${when}` : "", stale ? " · your newer changes aren't applied yet" : ""),
       el("div", {class: "replytext", text: rep.reply}));
