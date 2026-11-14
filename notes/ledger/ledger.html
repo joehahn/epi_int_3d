@@ -576,7 +576,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
         el("b", {text: `${f.items_ok}/${f.items}`}), " chain items current") : null,
       f.equations ? el("span", {title: "The derived equations behind this section (notes/equations.md): all are checked by sympy"},
         el("b", {text: `${f.equations_hand}/${f.equations}`}), " equations hand-checked") : null);
-    const text = textOf(c), slots = [...text.querySelectorAll(".subnote")];
+    const text = textOf(c), slots = [...text.querySelectorAll(".subnote:not(.secnote)")];
     for (const s of slots) {
       const id = c.id + "~" + s.dataset.part;
       if (s.classList.contains("pnote") && !hasNote(id) && !state.replies[id]?.reply && document.activeElement?.id !== `note-${id}`) {
@@ -597,9 +597,13 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       el("div", {class: "cardhead"},
         (() => { const h = el("h2"); h.innerHTML = c.title; h.prepend(el("span", {class: "num", text: c.number})); return h; })(),
         el("span", {class: "pill " + c.state, text: c.state === "attention" ? plural(c.issues.length, "issue") : "No open issues"})),
-      facts, text, issues,
-      el("div", {class: "note"}, ...noteBox(c.id, c.id, null, slots.length ? "Your note on this whole section" : "Your note to Claude",
-        "Edits or questions for this section, e.g. change \"…\" to \"…\"")));
+      facts, text, issues);
+    // the whole-section note goes first in the text, so on wide screens it floats in the margin beside the
+    // section's opening (the text node is cached across renders: replace the previous one)
+    text.querySelector(":scope > .secnote")?.remove();
+    text.prepend(el("div", {class: "note subnote secnote"}, ...noteBox(c.id, c.id, null,
+      slots.length ? "Your note on this whole section" : "Your note to Claude",
+      "Edits or questions for this section, e.g. change \"…\" to \"…\"")));
     art._issues = issues;
     return art;
   }
