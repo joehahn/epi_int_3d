@@ -152,6 +152,18 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   .nav { top: auto; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); width: min(280px, calc(100vw - 32px)); box-shadow: 0 6px 24px rgb(0 0 0 / .18); }
   .nav:not(.open) { display: none; }
 }
+/* wide screens: the page at the left edge, and each card's text in two columns, each paragraph's or figure's note
+   (and Claude's reply under it) to the right of it; narrower screens keep one column, the note under its paragraph */
+@media (min-width: 1100px) {
+  .wrap { max-width: none; margin: 0; }
+  .text { max-width: none; display: grid; grid-template-columns: minmax(0, 70ch) minmax(280px, 400px); column-gap: 28px; align-items: start; }
+  .text > * { grid-column: 1; }
+  .text > .subnote { grid-column: 2; margin: 0 0 10px; }
+  .text .pnote.open { margin: 0 0 10px; padding: 0 0 0 12px; }
+  .text > .subnote:not(.pnote) { border-top: 0; padding: 0 0 0 12px; border-left: 3px solid var(--rule-2); }
+  .text .pnote > button.pbtn { padding-top: 3px; }
+}
+@media (min-width: 1380px) { .wrap { padding-right: 256px; } }    /* room for the fixed contents panel */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
   mjx-container[data-tex] { cursor: copy; border-radius: 3px; }
   mjx-container[data-tex]:hover { background: var(--accent-soft); }
