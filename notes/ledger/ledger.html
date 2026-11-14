@@ -161,9 +161,9 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
      notes below it down (clear: right), never the text */
   .text { max-width: calc(70ch + 428px); padding-right: 428px; }
   .pblock { display: block; }
-  .text .subnote, .text .pnote, .text .pnote.open { float: right; clear: right; width: 400px; margin: 0 -428px 8px 0;
+  .text .note.subnote, .text .note.pnote, .text .note.pnote.open { float: right; clear: right; width: 400px; margin: 0 -428px 8px 0;
     padding: 0 0 0 12px; border-top: 0; border-left: 3px solid var(--rule-2); }
-  .text .pnote:not(.open) { border-left-color: transparent; }
+  .text .note.pnote:not(.open) { border-left-color: transparent; }
   .text h4.sub, .text .nb { clear: none; }
   .text::after { content: ""; display: block; clear: both; }    /* the last notes stay inside the card */
 }
