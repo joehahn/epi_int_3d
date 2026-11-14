@@ -406,6 +406,9 @@ def cards(assets=None):
         converter.leftovers = set()
         converter.card_number, converter.subsub = number, 0
         text_html = converter.inline(tex, assets)
+        #a one-paragraph section comes back unwrapped: make it a paragraph, so the page gives it a paragraph note
+        if (text_html.strip() and ('<p>' not in text_html) and ('<figure' not in text_html) and ('<h4' not in text_html)):
+            text_html = '<p>' + text_html.strip() + '</p>'
         plain = re.sub(r'<[^>]+>', ' ', text_html)
         words = len(re.findall(r'[A-Za-z]{2,}', re.sub(r'\$[^$]*\$|\\begin\{.*?\\end\{[a-z*]+\}', ' ', plain, flags=re.S)))
         if (level == 1):

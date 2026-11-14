@@ -601,9 +601,17 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     // the whole-section note goes first in the text, so on wide screens it floats in the margin beside the
     // section's opening (the text node is cached across renders: replace the previous one)
     text.querySelector(":scope > .secnote")?.remove();
-    text.prepend(el("div", {class: "note subnote secnote"}, ...noteBox(c.id, c.id, null,
-      slots.length ? "Your note on this whole section" : "Your note to Claude",
-      "Edits or questions for this section, e.g. change \"…\" to \"…\"")));
+    // collapsed to a link, like a paragraph's, until it holds a note or a reply
+    const sec = el("div", {class: "note subnote pnote secnote"});
+    const openSec = () => {
+      sec.classList.add("open");
+      sec.replaceChildren(...noteBox(c.id, c.id, null, "Your note on this whole section",
+        "Edits or questions for the whole section, e.g. change \"…\" to \"…\" throughout"));
+    };
+    if (hasNote(c.id) || state.replies[c.id]?.reply || document.activeElement?.id === `note-${c.id}`) openSec();
+    else sec.append(el("button", {class: "pbtn", type: "button", text: "✎ Note on this whole section",
+      onclick: () => { openSec(); sec.querySelector("textarea")?.focus(); }}));
+    text.prepend(sec);
     art._issues = issues;
     return art;
   }
