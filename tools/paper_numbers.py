@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
 from vertical_analysis import (load3d, forced_vertical, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
-    resonance_frequencies, satellite_torque, ring_angular_momentum)
+    resonance_frequencies, satellite_torque, ring_angular_momentum, wavenumber_profile, pattern_speed, quadratic_phase)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -202,6 +202,30 @@ def bending_waves_numbers():
     L = ring_angular_momentum(p, o)
     numbers += [('bwDeltaL', latex_number(np.abs((L - L[0])/L[0]).max(), 2, up=True), 'largest |Delta L_z/L_z| over the run, rounded up')]
     print('amplitude =', np.round(comparisons['amplitude'], 4), '   crests =', np.round(crests, 2))
+    #the notebook's tests 6-8, behind the front at the run's end: the sign of k (trailing), the pattern speed, and the
+    #first wavelength (4 pi eps)^1/2 r_V from a fit of the wave's phase to -x^2/2 eps
+    x_in = (1.0 - sat.r_V)/sat.r_V
+    behind = (x < 0.125*x_in) & (x > 0.56*x_in)
+    h_wave = h - 1j*A_V/(sat.D_V*x)
+    x_mid, k_sim = wavenumber_profile(x, h_wave, sat.r_V)
+    k_behind = k_sim[(x_mid < 0.125*x_in) & (x_mid > 0.56*x_in)]
+    numbers += [('bwKbehind', str(k_behind.size), 'number of wavenumbers measured behind the front (notebook test 6)')]
+    numbers += [('bwKpositive', str(int(np.sum(k_behind > 0))), 'how many of them are positive, i.e., trailing (notebook test 6)')]
+    pattern = {'particles_per_streamline': 8, 'number_of_particles': 4320, 'timesteps_per_output': 3,
+        'total_number_of_outputs': 1047, 'output_folder': 'output_pattern'}
+    p_dense, o_dense = load3d(test_folder, modified_params=pattern)
+    x_dense = (o_dense['r'][0].mean(axis=1) - sat.r_V)/sat.r_V
+    eps = 2.0*np.pi*sigma/(sat.r_V*sat.D_V)
+    ks_dense = np.where(o_dense['times'] > 100*2.0*np.pi)[0]
+    guess = np.median([pattern_speed(p_dense, o_dense, j, ks_dense, sat.m)[0] for j in np.where(np.abs(x_dense) < np.sqrt(eps))[0]])
+    c_g = np.pi*sigma/nu_V
+    ks_main = np.where(o['times'] > 0.65*(sat.r_V - 1.0)/c_g)[0]
+    Omega_fit = np.array([pattern_speed(p, o, j, ks_main, sat.m, guess=guess)[0] for j in np.where(behind)[0]])
+    numbers += [('bwPatternSpeedRel', latex_number(np.abs(Omega_fit/sat.Omega_p - 1.0).max(), 2, up=True),
+        'largest |Omega_p fitted behind the front/forcing Omega_p - 1|, rounded up (notebook test 7)')]
+    eps_fit = quadratic_phase(x[behind], h_wave[behind])[0]
+    numbers += [('bwFirstWavePercent', latex_number(100.0*(1.0 - np.sqrt(eps_fit/eps)), 2),
+        'how much shorter the first wavelength (4 pi eps_fit)^1/2 r_V is than theory, percent (notebook test 8)')]
     #the resolution runs of a ring half as wide (the notebook's Section 7), if they have been made
     narrow = {'radial_width': 0.004, 'total_ring_mass': 1.0e-9, 'number_of_streamlines': 270, 'number_of_particles': 8640,
         'satellite': dict(p['satellite'], r=2.090314689118), 'output_folder': 'output_narrow'}

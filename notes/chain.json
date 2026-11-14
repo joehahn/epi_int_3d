@@ -1936,6 +1936,23 @@
    ]
   },
   {
+   "id": "claim:bw_trailing_rotation",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@wavenumbers measured behind the front are",
+   "needs": [
+    "numbers:bending_waves",
+    "sympy:B18",
+    "sympy:B19",
+    "notebook:bending_waves"
+   ],
+   "notebook": [
+    "bending_waves#test6",
+    "bending_waves#test7",
+    "bending_waves#test8"
+   ],
+   "note": "notebook tests 6-8: k > 0, Omega_p, first wavelength"
+  },
+  {
    "id": "claim:pattern_speed",
    "kind": "claim",
    "anchor": "paper/epi_int_3d.tex@-armed pattern that rotates",
