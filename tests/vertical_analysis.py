@@ -206,3 +206,63 @@ def ring_angular_momentum(p, o):
     and the integrator can change this."""
     mu = p['total_ring_mass']/p['number_of_particles']
     return (mu*o['r']*o['vt']).sum(axis=(1, 2))
+
+
+def wave_front(p, o, sat, sigma, level=0.5):
+    """The wave front's fractional distance from resonance x_f at each output: the innermost streamline inside r_V
+    whose inclination, averaged over its particles, is at least level*|Z_w|/r_V (B8's wave amplitude, paper Eqn. 37).
+    NaN before any streamline inside r_V reaches it. Linear theory puts the front at x_f = -|c_g|t/r_V, with
+    |c_g| = pi G sigma/nu_a (B10, paper Eqn. 26)."""
+    A_V = sat.mass_final*sat.A_V_per_mass
+    Z_w = A_V*np.sqrt(sat.r_V/(sigma*sat.D_V))
+    x_f = np.full(len(o['times']), np.nan)
+    for k in range(len(o['times'])):
+        x = (o['a'][k].mean(axis=1) - sat.r_V)/sat.r_V
+        inc = o['inc'][k].mean(axis=1)
+        hit = (x < 0) & (inc >= level*Z_w/sat.r_V)
+        if hit.any():
+            x_f[k] = x[hit].min()
+    return x_f
+
+
+def wavenumber_profile(x, w, r_V):
+    """The local radial wavenumber k = d(arg w)/dr of a complex wave w(x) sampled at x, at the midpoints xm, from
+    the phase change between neighbors (so its sign is kept: here k > 0 is a trailing wave, paper Section 4.1.1)."""
+    xm = 0.5*(x[1:] + x[:-1])
+    return xm, np.angle(w[1:]/w[:-1])/np.diff(x)/r_V
+
+
+def inertial_amplitude(p, o, k, m):
+    """Each streamline's complex amplitude g at output k in the inertial frame, from a least-squares fit of its
+    particles' z = Re[g e^{i m theta}] = Re(g) cos(m theta) - Im(g) sin(m theta). A wave Re[h e^{i(m theta - omega t)}]
+    has g = h e^{-i omega t}, so arg g decreases at the rate omega = m Omega_p (paper Section 4.1.1)."""
+    th = m*o['t'][k]
+    g = np.empty(th.shape[0], dtype=complex)
+    for j in range(th.shape[0]):
+        A = np.column_stack([np.cos(th[j]), -np.sin(th[j])])
+        (re, im), *_ = np.linalg.lstsq(A, o['z'][k, j], rcond=None)
+        g[j] = re + 1j*im
+    return g
+
+
+def pattern_speed(p, o, j, ks, m, guess=0.0):
+    """The pattern speed of streamline j's vertical displacement over outputs ks: a linear fit of the unwrapped
+    arg g + m guess t against time (T14), Omega_p = guess - slope/m. With guess = 0 the outputs must be dense enough
+    that arg g changes by less than pi between them. With sparse outputs, a guess good to better than pi/(m dt)
+    (from a dense run) picks the right one of the aliases Omega_p + 2 pi n/(m dt), and the fit refines it.
+    Returns Omega_p and the fit's rms phase residual."""
+    t = o['times'][ks]
+    phase = np.unwrap([np.angle(inertial_amplitude(p, o, k, m)[j]) + m*guess*tk for k, tk in zip(ks, t)])
+    coeff = np.polyfit(t, phase, 1)
+    rms = np.sqrt(np.mean((phase - np.polyval(coeff, t))**2))
+    return guess - coeff[0]/m, rms
+
+
+def quadratic_phase(x, w):
+    """Fit the unwrapped phase of a complex wave w(x) to phi0 + c x^2: Shu (1984)'s wave has phase -x^2/(2 eps)
+    (paper Eqn. 36c), so eps_fit = -1/(2c). Returns eps_fit and the rms phase residual."""
+    phase = np.unwrap(np.angle(w))
+    A = np.column_stack([np.ones_like(x), x**2])
+    (phi0, c), *_ = np.linalg.lstsq(A, phase, rcond=None)
+    rms = np.sqrt(np.mean((phase - A @ np.array([phi0, c]))**2))
+    return -1.0/(2.0*c), rms

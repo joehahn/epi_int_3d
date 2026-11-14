@@ -20,6 +20,10 @@ open issues and a box for the author's notes to Claude: https://claude.ai/artifa
   paper in a new tab at that page. A paper with no free copy (BL94) links to its DOI (`nopage`). When the paper cites a
   new place, `tools/ledger.py` says so; find its page in the public PDF (by eye for scans) and add it. The ledger's
   own file store can't serve these: a link that leaves the page can't reach it ("not found").
+- Notebook links: a chain node (`notes/chain.json`) with a `notebook` field, e.g. `["bending_waves#test2"]`, puts a
+  "notebook §2" link at the end of its claim's paragraph or its figure's caption on the card, to that section of the
+  notebook's HTML on the GitHub Pages site (`docs/notebooks/`, written by `tools/export_notebooks.py`; each section's
+  heading cell starts with `<a id="testN"></a>`). Export the notebooks again after re-executing them, and push.
 - `assets.json`: the ids of the figures uploaded to the page, with each PNG's hash; `tools/ledger.py`
   says when a figure has changed and needs uploading again.
 - `notes.json`: the record of the author's notes and Claude's replies, exported each time Claude acts on

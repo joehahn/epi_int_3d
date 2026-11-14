@@ -23,6 +23,9 @@ repo_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 paper_folder = os.path.join(repo_folder, 'paper')
 paper_file = os.path.join(paper_folder, 'epi_int_3d.tex')
 citations_file = os.path.join(repo_folder, 'notes', 'ledger', 'citations.json')
+chain_file = os.path.join(repo_folder, 'notes', 'chain.json')
+#the executed notebooks, exported to HTML on the project's GitHub Pages site by tools/export_notebooks.py
+notebook_site = 'https://joehahn.github.io/epi_int_3d/notebooks/'
 
 #a place in a cited paper: "Eqn.\ (A21) of \cite{S84}", "Fig.~5 of \cite{H07}", "Appendix A of \citealt{H25}",
 #"Eqns.\ (88) and (91)--(92) of \cite{S84}" (the first number), and \citep[Eqns.\ (97)--(98) of][]{S84}
@@ -270,6 +273,10 @@ class Converter:
         #commands with arguments
         text = replace_command(text, 'footnote', lambda arg, o: keep('<span class="fn">'
             + self.inline(arg, assets) + '</span>'))
+        text = re.sub(r'\\nblink\{([^}]*)\}\{([^}]*)\}', lambda m: keep(' <a class="nb" href="' + html.escape(m.group(1))
+            + '" target="_blank" rel="noopener">notebook ' + html.escape(m.group(2)) + '</a>'), text)
+        text = re.sub(r'\\href\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: keep('<a href="' + html.escape(m.group(1))
+            + '" target="_blank" rel="noopener">' + self.inline(m.group(2), assets) + '</a>'), text)
         text = replace_command(text, 'url', lambda arg, o: keep('<a href="' + html.escape(arg) + '" target="_blank" rel="noopener">'
             + html.escape(arg) + '</a>'))
         for style in ['citep', 'citet', 'citealt', 'cite']:
@@ -314,6 +321,38 @@ class Converter:
         return text
 
 
+#the notebook sections that back each claim or figure: chain.json nodes with a 'notebook' field, e.g.
+#["bending_waves#test2"], put as a link at the end of the claim's paragraph (anchor 'paper/...tex@phrase') or of the
+#figure's caption (anchor 'paper/...tex#fig:label'), so the author sees them in the text he reads
+def notebook_links(body):
+    nodes = json.load(open(chain_file))
+    nodes = nodes['nodes'] if isinstance(nodes, dict) else nodes
+    def marker(sections):
+        return ''.join('\\nblink{' + notebook_site + sec.split('#')[0] + '.html' + ('#' + sec.split('#')[1] if '#' in sec else '')
+            + '}{' + (('\u00a7' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else sec) + '}' for sec in sections)
+    for node in nodes:
+        sections = node.get('notebook')
+        anchor = node.get('anchor', '')
+        if (not sections) or (not anchor.startswith('paper/')):
+            continue
+        if ('@' in anchor):
+            phrase = ' '.join(anchor.split('@', 1)[1].split())
+            pieces = re.split(r'(\n\s*\n)', body)
+            for k, piece in enumerate(pieces):
+                if (phrase in ' '.join(piece.split())):
+                    pieces[k] = piece.rstrip() + marker(sections)
+                    break
+            body = ''.join(pieces)
+        elif ('#fig:' in anchor):
+            at = body.find('\\label{' + anchor.split('#', 1)[1] + '}')
+            cap = body.rfind('\\caption{', 0, at)
+            if ((at < 0) or (cap < 0)):
+                continue
+            _, end = braced(body, cap + len('\\caption'))
+            body = body[:end - 1] + marker(sections) + body[end - 1:]
+    return body
+
+
 #the paper's cards: [{id, order, number, title, level, html, words, labels, lines, tex}]
 def cards(assets=None):
     assets = assets or {}
@@ -325,6 +364,7 @@ def cards(assets=None):
     first_line = source[:begin].count('\n') + 1
     body = strip_comments(source[begin:end])
     body = re.sub(r'\\bibliographystyle\{[^}]*\}|\\bibliography\{[^}]*\}', '', body)
+    body = notebook_links(body)
     #headings
     heads = []
     for m in re.finditer(r'\\(section|subsection)\*?\{|\\appendix|\\begin\{abstract\}|\\end\{abstract\}', body):

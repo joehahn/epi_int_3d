@@ -657,7 +657,8 @@ everywhere in the ring, and its wavelength, Eqn.\ (\ref{eqn:vres_lambda}), spans
 The wave propagates inward at the speed $|c_g| = \pi G\sigma/\nu_a$, Eqn.\ (\ref{eqn:bw_cg}) near resonance,
 so it takes the time $\tau_c = (r_V - 1)/|c_g|$, about \bwCrossOrbits\ orbits, to cross from $r_V$ to the ring's inner edge. The
 simulation stops at $\bwOrbits$ orbits, or $\bwRunFraction\,\tau_c$, before the wave can reflect there.
-Figure \ref{fig:bwave} shows the wave being launched at $r_V$ and propagating inward. Switching the
+Figure \ref{fig:bwave} shows the wave being launched at $r_V$ and propagating inward.
+Switching the
 satellite on at full mass also starts a free vertical oscillation everywhere, so at first every streamline
 moves as a massless particle would. The ring's self-gravity then takes over: the response near $r_V$
 settles onto linear theory, and the wave front advances inward at about $|c_g|$. The front overshoots linear
@@ -681,10 +682,7 @@ differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum}
 spacing reduces self-gravity's restoring force from $2\pi G\sigma|k|$ to $X(k\Delta)$, and that the ring's
 edges reduce it further, by $2G\sigma(1/d_{\rm in} + 1/d_{\rm out})$. With the lattice allowed for, the
 simulated wavenumber is \bwKlatPercent\% larger than expected, and with the edges allowed for too,
-Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger. The remainder is the lattice's: in a ring
-half as wide, doubling the number of streamlines lowers the wavenumber's excess over
-Eqn.\ (\ref{eqn:vres_lambda}) from \bwNarrowKcontPercent\% to \bwDoubledKcontPercent\%, while its excess
-over Eqn.\ (\ref{eqn:wire_edges}) is then \bwDoubledKedgePercent\%. The test's
+Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger. The test's
 notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/bending_waves/bending_waves.ipynb}}
 also compares the wave's complex amplitude with linear theory.
 
@@ -710,7 +708,8 @@ Figure \ref{fig:angmom} shows that $|\Delta L_z/L_z| \le \bwDeltaL$ over the run
 averaged over each streamline's particles, plotted vs.\ their fractional distance from resonance $x$, at
 six times $t$ in units of the time $\tau_c$ that the wave takes to propagate from $r_V$ to the ring's inner
 edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$, with $h$ from
-Eqn.\ (\ref{eqn:vres_h}).}
+Eqn.\ (\ref{eqn:vres_h}). An animation of the wave is at
+\href{https://joehahn.github.io/epi_int_3d/bending_waves/bending_wave.html}{\texttt{joehahn.github.io/epi\_int\_3d}}.}
 \label{fig:bwave}
 \end{figure}
 
@@ -748,7 +747,7 @@ Section \ref{sec:waves_ring} vs.\ time $t$ in orbits.}
 Spiral density waves launched at a satellite's Lindblad resonance, in a self-gravitating ring and in a
 non-gravitating, pressure-supported gas disk, will be compared with linear theory later.
 
-
+\clearpage
 \appendix
 
 \section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}

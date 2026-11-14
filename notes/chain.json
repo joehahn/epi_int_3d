@@ -1760,6 +1760,10 @@
    "needs": [
     "sympy:B19",
     "sympy:B9"
+   ],
+   "notebook": [
+    "bending_waves#test6",
+    "bending_waves#test7"
    ]
   },
   {
@@ -1787,6 +1791,9 @@
    "anchor": "paper/epi_int_3d.tex@The wave's first wavelength",
    "needs": [
     "sympy:B18"
+   ],
+   "notebook": [
+    "bending_waves#test8"
    ]
   },
   {
@@ -1873,6 +1880,9 @@
     "figure:bending_wave",
     "sympy:B8",
     "sympy:B15"
+   ],
+   "notebook": [
+    "bending_waves#test1"
    ]
   },
   {
@@ -1900,7 +1910,12 @@
     "paper:fig:bwave",
     "paper:eqn:vres_sol"
    ],
-   "note": "amplitude within 3%, trailing, front at c_g; forced response 9% high"
+   "note": "amplitude within 3%, trailing, front at c_g; forced response 9% high",
+   "notebook": [
+    "bending_waves#test1",
+    "bending_waves#test2",
+    "bending_waves#test5"
+   ]
   },
   {
    "id": "claim:bw_wavenumber",
@@ -1915,7 +1930,10 @@
     "paper:eqn:wire_edges",
     "paper:fig:wavenumber"
    ],
-   "note": "k 5.5% above the continuum, 0.9% above lattice + edges"
+   "note": "k 5.5% above the continuum, 0.9% above lattice + edges",
+   "notebook": [
+    "bending_waves#test3"
+   ]
   },
   {
    "id": "claim:pattern_speed",
@@ -1938,7 +1956,10 @@
     "paper:eqn:vres_inc",
     "numbers:vertical_resonance"
    ],
-   "note": "the run's parameters; within 4% of i_f; z within 4e-11 of exact"
+   "note": "the run's parameters; within 4% of i_f; z within 4e-11 of exact",
+   "notebook": [
+    "vertical_resonance"
+   ]
   },
   {
    "id": "paper:eqn:wire_2d",
@@ -2214,6 +2235,9 @@
     "figure:wavenumber",
     "sympy:B7",
     "sympy:B13"
+   ],
+   "notebook": [
+    "bending_waves#test3"
    ]
   },
   {
@@ -2223,6 +2247,9 @@
    "needs": [
     "figure:torque",
     "sympy:B9"
+   ],
+   "notebook": [
+    "bending_waves#test4"
    ]
   },
   {
@@ -2231,6 +2258,9 @@
    "anchor": "paper/epi_int_3d.tex#fig:angmom",
    "needs": [
     "figure:angular_momentum"
+   ],
+   "notebook": [
+    "bending_waves#test4"
    ]
   },
   {
@@ -2250,7 +2280,10 @@
     "sympy:B6",
     "paper:fig:resloc"
    ],
-   "note": "nu^2 - omega_m^2 from the forced amplitude matches the exact value; zero at r_V"
+   "note": "nu^2 - omega_m^2 from the forced amplitude matches the exact value; zero at r_V",
+   "notebook": [
+    "vertical_resonance"
+   ]
   },
   {
    "id": "claim:bw_torque",
@@ -2263,7 +2296,10 @@
     "paper:fig:angmom",
     "code:satellite"
    ],
-   "note": "T settles onto T_V; L_z conserved to 1e-13"
+   "note": "T settles onto T_V; L_z conserved to 1e-13",
+   "notebook": [
+    "bending_waves#test4"
+   ]
   }
  ]
 }

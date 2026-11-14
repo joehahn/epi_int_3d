@@ -518,7 +518,7 @@ comparison with Cassini data is out of scope for this version of the project.
 
 ## Open questions to settle
 
-- **To do, next: rerun everything after the vertical-phase change** (decided 2026-11-12). The vertical phase is now
+- **Done 2026-11-13: rerun everything after the vertical-phase change** (decided 2026-11-12). pytest passes (no vertical golden files: the vertical tests compare with exact solutions); inclined, vertical_resonance and bending_waves rerun, their notebooks executed, figures, animations and `paper_numbers` remade. Only `\bwTorqueScatter` moved (12 -> 11%), and inclined's e^2 coefficient of the nodal-rate error (-4.31 -> -2.88), which nothing quotes. Chain 250/250 ok. The vertical phase is now
   measured from the particle's longitude θ, z = a i sin(θ − Ω), rather than from the mean longitude λ
   (`fast/bookkeeping.vertical_drift`, `fast/epi_int_3d.py` `incline` and `vertical_elements`; notes/equations.md V2, V3, V8;
   paper Sections 2.2, 2.3, 3.4). On `tests/inclined` it measured no loss of accuracy against the exact 3D motion: the z
@@ -528,7 +528,7 @@ comparison with Cassini data is out of scope for this version of the project.
   `tests/bending_waves`, and any other that sets an inclination or satellite) with `tools/run_simulations.py`,
   re-execute their notebooks, remake the paper's figures and `tools/paper_numbers.py` macros, and check the paper's quoted
   numbers. The in-plane results and the 2D regression suite are unchanged (the vertical drift doesn't touch r, θ).
-- **To do, with that rerun: the bending-wave tests** (decided 2026-11-13). `tests/bending_waves/bending_waves.ipynb`
+- **Done 2026-11-13: the bending-wave tests** (decided 2026-11-13). Test 7 needed two steps: `output_pattern`, a 250-orbit run with dense outputs, picks the alias, and the main run behind the front refines Omega_p to 2e-6 of the forcing's. `tests/bending_waves/bending_waves.ipynb`
   gets one numbered section per test, each heading naming the paper equations or figure it backs, numbers fixed so
   links to them stay valid:
   1. the wave is launched at r_V and its front moves inward at |c_g| (Eqn. 26, Fig. 4);
@@ -543,7 +543,9 @@ comparison with Cassini data is out of scope for this version of the project.
   run. The notebook and `tools/paper_numbers.py` take their numbers from the same functions in `tests/vertical_analysis.py`;
   each section is a `notebook:` chain node that its paper claim needs. A short narrow-ring pytest (a few hundred orbits:
   front position, amplitude near r_V) guards against regressions. The existing narrow-ring and resolution sections stay
-  in this notebook while 9 is on hold.
+  in this notebook while 9 is on hold, but their three runs were not remade after the vertical-phase change (the
+  author, 2026-11-13), and Section 4.1.4's sentence quoting them (doubling the streamlines of the half-width ring) was
+  dropped; the old runs are kept in `tests/bending_waves/output_prephase_narrow*`. Restore both when 9 resumes.
   Ledger access: each executed notebook is exported to HTML in `docs/notebooks/` on the GitHub Pages site, with an anchor
   per section, and each card links the claim or figure inline ("notebook §2") to its section, from a `notebook` field on
   the claim's chain node, written by `tools/ledger_cards.py`. (Pages over GitHub's own notebook view, whose anchors are

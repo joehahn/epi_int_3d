@@ -8,8 +8,8 @@
   "hash": "c874c3000664"
  },
  "bending_wave.png": {
-  "id": "910a2812037b2d91bb3394735f542715",
-  "hash": "40759731b0ab"
+  "id": "522bc660d56ea0d8c50d58401153b69c",
+  "hash": "e7670a40813a"
  },
  "wire_velocity.png": {
   "id": "df94ab5ce4279fb619bc3cbc552f6de3",
@@ -24,15 +24,15 @@
   "hash": "6b775feca9fc"
  },
  "wavenumber.png": {
-  "id": "eac47e62560dc8fdff126d9830204052",
-  "hash": "0e77ae8abe8b"
+  "id": "04052438fd3a9f7b220223992b26db5d",
+  "hash": "e86bdb2cf8a4"
  },
  "torque.png": {
-  "id": "c2fcc7915bd1ca1fdf560a5758eab71f",
-  "hash": "21dd83260064"
+  "id": "c1a84269e93d6c25f9275edc49c53800",
+  "hash": "91bfed5d664f"
  },
  "angular_momentum.png": {
-  "id": "ae7adf9ae02323b33aece64fb918df40",
-  "hash": "f5bac321b618"
+  "id": "a6ff9ae6ab0c63f166a5a14208a71e61",
+  "hash": "42cef2f3d151"
  }
 }
