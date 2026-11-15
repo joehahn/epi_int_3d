@@ -379,7 +379,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     const nodes = [...waiting].filter(n => n.isConnected);
     if (!nodes.length) return;
     for (const n of nodes) waiting.delete(n);
-    mathChain = mathChain.then(() => window.MathJax.typesetPromise(nodes)).then(() => stamp(nodes)).catch(() => {});
+    mathChain = mathChain.then(() => window.MathJax.typesetPromise(nodes)).then(() => stamp(nodes))
+      .then(() => requestAnimationFrame(relayoutNb)).catch(() => {});
   };
   const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
@@ -416,9 +417,14 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       }
     }
   }
+  // typesetting and web fonts rewrap the text without always changing its size: place the links again after each
+  const relayoutNb = () => { for (const t of document.querySelectorAll(".text")) layoutNb(t); };
+  document.fonts?.ready.then(() => requestAnimationFrame(relayoutNb));
+  wideNb.addEventListener?.("change", () => requestAnimationFrame(relayoutNb));
   function nbLinks(blk, p) {
     for (const a of [...p.querySelectorAll("a.nb")]) {
-      if (!a.isConnected || a.parentNode.classList.contains("nbm")) continue;
+      // (the card is built before it is in the document, so test membership in p, not isConnected)
+      if (!p.contains(a) || a.parentNode.classList.contains("nbm")) continue;
       const run = [a];
       let n = a.nextSibling;
       while (n && ((n.nodeType === 3 && !n.textContent.trim()) || (n.nodeType === 1 && n.matches("a.nb") && n.dataset.k === a.dataset.k))) {
@@ -429,7 +435,10 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       const prev = a.previousSibling;
       if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/\s+$/, "");
       const span = el("span", {class: "nbm", "data-k": a.dataset.k || ""});
-      a.before(el("span", {class: "nbe"}), span);
+      // the claim's end and start markers hold a zero-width space: an empty span has no height (it sits on the baseline)
+      a.before(el("span", {class: "nbe", text: "\u200b"}), span);
+      const start = p.querySelector(`.nbs[data-k="${a.dataset.k}"]`);
+      if (start && !start.textContent) start.textContent = "\u200b";
       span.append(...run);
       if (span.nextSibling && span.nextSibling.nodeType === 3) span.after(" ");
       const bar = el("span", {class: "nbbar"});
