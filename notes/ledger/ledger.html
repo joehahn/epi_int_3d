@@ -497,7 +497,9 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     textCache.set(c.id, {html: c.html, nb: String(c.notebooks || ""), node});
     typeset([node]);
     // the links' places depend on the text's layout: redo them whenever it changes size (shown, typeset, resized)
-    new ResizeObserver(() => layoutNb(node)).observe(node);
+    // (once per frame at most, so a layout change can never feed back into the observer)
+    let nbFrame = 0;
+    new ResizeObserver(() => { if (!nbFrame) nbFrame = requestAnimationFrame(() => { nbFrame = 0; layoutNb(node); }); }).observe(node);
     return node;
   }
 
