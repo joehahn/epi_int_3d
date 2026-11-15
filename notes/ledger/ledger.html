@@ -72,7 +72,7 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 .text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
 .text p { margin: 0; } .text p + p, .text .pblock + .pblock > p { text-indent: 1.5em; }
 .pblock { display: flex; flex-direction: column; } .pblock > .subnote { order: 2; }   /* a paragraph or figure, its note under it */
-.pblock > .nbm { order: 1; font: 13px var(--f-ui); margin-top: .3em; } .nbm a { display: inline-block; margin-right: .8em; color: var(--ink-2); }
+.nbm { font: 13px var(--f-ui); text-indent: 0; } .nbm a { margin-left: .5em; color: var(--ink-2); white-space: nowrap; }
 .text .pnote { margin: 0 0 4px; text-indent: 0; }
 .text .pnote.open { margin: 6px 0 12px; padding: 6px 0 0 12px; border-left: 3px solid var(--rule-2); }
 .text .pnote > button.pbtn { font: 12px var(--f-ui); color: var(--ink-3); background: none; border: 0; padding: 0; cursor: pointer; }
@@ -162,9 +162,10 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
      notes below it down (clear: right), never the text */
   .text { max-width: calc(70ch + 528px); padding-right: 528px; }
   .pblock { display: block; position: relative; }
-  /* a paragraph's or figure's notebook links, in a narrow column just right of its top line, left of its note */
-  .pblock > .nbm { position: absolute; top: 0; left: calc(100% + 12px); width: 88px; margin: 0; line-height: 1.5; }
-  .nbm a { display: block; margin: 0; }
+  /* a claim's notebook links, in a narrow column just right of the line that ends its sentence, left of its note:
+     absolute with top auto keeps the line where they stand in the text */
+  .text .nbm { position: absolute; left: calc(100% + 12px); width: 88px; line-height: 1.45; }
+  .text .nbm a { display: block; margin: 0; }
   .text .note.subnote, .text .note.pnote, .text .note.pnote.open { float: right; clear: right; width: 400px; margin: 0 -528px 8px 0;
     padding: 0 0 0 12px; border-top: 0; border-left: 3px solid var(--rule-2); }
   .text .note.pnote:not(.open) { border-left-color: transparent; }
@@ -377,17 +378,25 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   };
   const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
-  // a block's notebook links ("notebook §N", put at the end of a claim's paragraph or a figure's caption by
-  // tools/ledger_cards.py) move out of the text into their own column beside it (under it on narrow screens)
+  // notebook links ("notebook §N", put at the end of a claim's sentence or a figure's caption by
+  // tools/ledger_cards.py): each run of them is gathered into one span where it stands, which CSS moves beside the text
   function nbLinks(blk, p) {
-    const links = [...p.querySelectorAll("a.nb")];
-    if (!links.length) return;
-    for (const a of links) {
+    for (const a of [...p.querySelectorAll("a.nb")]) {
+      if (!a.isConnected || a.parentNode.classList.contains("nbm")) continue;
+      const run = [a];
+      let n = a.nextSibling;
+      while (n && ((n.nodeType === 3 && !n.textContent.trim()) || (n.nodeType === 1 && n.matches("a.nb")))) {
+        const next = n.nextSibling;
+        if (n.nodeType === 1) run.push(n); else n.remove();
+        n = next;
+      }
       const prev = a.previousSibling;
       if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/\s+$/, "");
-      a.remove();
+      const span = el("span", {class: "nbm"});
+      a.before(span);
+      span.append(...run);
+      if (span.nextSibling && span.nextSibling.nodeType === 3) span.after(" ");
     }
-    blk.append(el("div", {class: "nbm"}, ...links));
   }
   function textOf(c) {
     const cached = textCache.get(c.id);

@@ -336,13 +336,14 @@ def notebook_links(body):
         if (not sections) or (not anchor.startswith('paper/')):
             continue
         if ('@' in anchor):
-            phrase = ' '.join(anchor.split('@', 1)[1].split())
-            pieces = re.split(r'(\n\s*\n)', body)
-            for k, piece in enumerate(pieces):
-                if (phrase in ' '.join(piece.split())):
-                    pieces[k] = piece.rstrip() + marker(sections)
-                    break
-            body = ''.join(pieces)
+            #the link goes at the end of the sentence that holds the claim's anchor phrase (else its paragraph's end)
+            phrase = re.compile(r'\s+'.join(re.escape(w) for w in anchor.split('@', 1)[1].split()))
+            m = phrase.search(body)
+            if (m is None):
+                continue
+            stop = re.compile(r'\.(?=\s|$)|\n\s*\n').search(body, m.end())
+            at = stop.end() if (stop and (stop.group(0) == '.')) else (stop.start() if stop else len(body))
+            body = body[:at] + marker(sections) + body[at:]
         elif ('#fig:' in anchor):
             at = body.find('\\label{' + anchor.split('#', 1)[1] + '}')
             cap = body.rfind('\\caption{', 0, at)
