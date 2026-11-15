@@ -72,12 +72,13 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 .text { font-family: var(--f-text); font-size: 16px; line-height: 1.62; color: var(--ink); max-width: 70ch; overflow-wrap: break-word; min-width: 0; }
 .text p { margin: 0; } .text p + p, .text .pblock + .pblock > p { text-indent: 1.5em; }
 .pblock { display: flex; flex-direction: column; } .pblock > .subnote { order: 2; }   /* a paragraph or figure, its note under it */
+.pblock > .nbm { order: 1; font: 13px var(--f-ui); margin-top: .3em; } .nbm a { display: inline-block; margin-right: .8em; color: var(--ink-2); }
 .text .pnote { margin: 0 0 4px; text-indent: 0; }
 .text .pnote.open { margin: 6px 0 12px; padding: 6px 0 0 12px; border-left: 3px solid var(--rule-2); }
 .text .pnote > button.pbtn { font: 12px var(--f-ui); color: var(--ink-3); background: none; border: 0; padding: 0; cursor: pointer; }
 .text .pnote > button.pbtn:hover { color: var(--accent); text-decoration: underline; }
 .text a.ref { color: inherit; text-decoration: underline dotted; text-underline-offset: 2px; } .text a.ref:hover { text-decoration-style: solid; }
-.text .nb { margin-top: .8em; font: 13.5px var(--f-ui); color: var(--ink-2); } .text .nb a { overflow-wrap: anywhere; }
+.text div.nb { margin-top: .8em; font: 13.5px var(--f-ui); color: var(--ink-2); } .text div.nb a { overflow-wrap: anywhere; }
 .text h4.sub { font: italic 15px var(--f-text); color: var(--ink-2); margin: .9em 0 .3em; }
 .text code { font-family: var(--f-mono); font-size: .86em; }
 .text ol { margin: .3em 0 .7em; padding-left: 1.4em; }
@@ -159,9 +160,12 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   .wrap { max-width: none; margin: 0; }
   /* sidenotes: each note floats into the right margin from its paragraph's top line; a tall note pushes only the
      notes below it down (clear: right), never the text */
-  .text { max-width: calc(70ch + 428px); padding-right: 428px; }
-  .pblock { display: block; }
-  .text .note.subnote, .text .note.pnote, .text .note.pnote.open { float: right; clear: right; width: 400px; margin: 0 -428px 8px 0;
+  .text { max-width: calc(70ch + 528px); padding-right: 528px; }
+  .pblock { display: block; position: relative; }
+  /* a paragraph's or figure's notebook links, in a narrow column just right of its top line, left of its note */
+  .pblock > .nbm { position: absolute; top: 0; left: calc(100% + 12px); width: 88px; margin: 0; line-height: 1.5; }
+  .nbm a { display: block; margin: 0; }
+  .text .note.subnote, .text .note.pnote, .text .note.pnote.open { float: right; clear: right; width: 400px; margin: 0 -528px 8px 0;
     padding: 0 0 0 12px; border-top: 0; border-left: 3px solid var(--rule-2); }
   .text .note.pnote:not(.open) { border-left-color: transparent; }
   .text h4.sub, .text .nb { clear: none; }
@@ -373,6 +377,18 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   };
   const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
+  // a block's notebook links ("notebook §N", put at the end of a claim's paragraph or a figure's caption by
+  // tools/ledger_cards.py) move out of the text into their own column beside it (under it on narrow screens)
+  function nbLinks(blk, p) {
+    const links = [...p.querySelectorAll("a.nb")];
+    if (!links.length) return;
+    for (const a of links) {
+      const prev = a.previousSibling;
+      if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/\s+$/, "");
+      a.remove();
+    }
+    blk.append(el("div", {class: "nbm"}, ...links));
+  }
   function textOf(c) {
     const cached = textCache.get(c.id);
     if (cached && cached.html === c.html && cached.nb === String(c.notebooks || "")) return cached.node;
@@ -404,12 +420,14 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       const blk = el("div", {class: "pblock"});
       p.replaceWith(blk);
       blk.append(el("div", {class: "note subnote pnote", "data-part": "p" + k, "data-label": `${where}, paragraph “${words}…”`}), p);
+      nbLinks(blk, p);
     }
     for (const f of node.querySelectorAll("figure.fig")) {
       const blk = el("div", {class: "pblock"});
       f.replaceWith(blk);
       blk.append(el("div", {class: "note subnote", "data-part": "fig-" + (f.dataset.png || "x").replace(/\.png$/, ""),
         "data-label": (f.querySelector("figcaption b")?.textContent || "this figure").replace(/\.\s*$/, "")}), f);
+      nbLinks(blk, f);
     }
     const subs = [...node.querySelectorAll("h4.sub")];
     subs.forEach((h, k) => {
