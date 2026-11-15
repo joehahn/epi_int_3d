@@ -273,8 +273,9 @@ class Converter:
         #commands with arguments
         text = replace_command(text, 'footnote', lambda arg, o: keep('<span class="fn">'
             + self.inline(arg, assets) + '</span>'))
-        text = re.sub(r'\\nblink\{([^}]*)\}\{([^}]*)\}', lambda m: keep(' <a class="nb" href="' + html.escape(m.group(1))
-            + '" target="_blank" rel="noopener">notebook ' + html.escape(m.group(2)) + '</a>'), text)
+        text = re.sub(r'\\nbstart\{(\d+)\}', lambda m: keep('<span class="nbs" data-k="' + m.group(1) + '"></span>'), text)
+        text = re.sub(r'\\nblink\{(\d+)\}\{([^}]*)\}\{([^}]*)\}', lambda m: keep(' <a class="nb" data-k="' + m.group(1)
+            + '" href="' + html.escape(m.group(2)) + '" target="_blank" rel="noopener">' + ('notebook ' + html.escape(m.group(3))).strip() + '</a>'), text)
         text = re.sub(r'\\href\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: keep('<a href="' + html.escape(m.group(1))
             + '" target="_blank" rel="noopener">' + self.inline(m.group(2), assets) + '</a>'), text)
         text = replace_command(text, 'url', lambda arg, o: keep('<a href="' + html.escape(arg) + '" target="_blank" rel="noopener">'
@@ -327,9 +328,12 @@ class Converter:
 def notebook_links(body):
     nodes = json.load(open(chain_file))
     nodes = nodes['nodes'] if isinstance(nodes, dict) else nodes
+    count = [0]
     def marker(sections):
-        return ''.join('\\nblink{' + notebook_site + sec.split('#')[0] + '.html' + ('#' + sec.split('#')[1] if '#' in sec else '')
-            + '}{' + (('\u00a7' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else sec) + '}' for sec in sections)
+        #a claim's links carry its number k, which pairs them with the \\nbstart{k} that opens its sentence
+        k = str(count[0])
+        return ''.join('\\nblink{' + k + '}{' + notebook_site + sec.split('#')[0] + '.html' + ('#' + sec.split('#')[1] if '#' in sec else '')
+            + '}{' + (('\u00a7' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else '') + '}' for sec in sections)
     for node in nodes:
         sections = node.get('notebook')
         anchor = node.get('anchor', '')
@@ -343,14 +347,21 @@ def notebook_links(body):
                 continue
             stop = re.compile(r'\.(?=\s|$)|\n\s*\n').search(body, m.end())
             at = stop.end() if (stop and (stop.group(0) == '.')) else (stop.start() if stop else len(body))
-            body = body[:at] + marker(sections) + body[at:]
+            #and the sentence's start, after the previous sentence's period or the paragraph break
+            starts = [q.end() for q in re.finditer(r'\.(?=\s)|\n\s*\n', body[:m.start()])]
+            begin = starts[-1] if starts else 0
+            begin += len(body[begin:]) - len(body[begin:].lstrip())
+            body = body[:begin] + '\\nbstart{' + str(count[0]) + '}' + body[begin:at] + marker(sections) + body[at:]
+            count[0] += 1
         elif ('#fig:' in anchor):
             at = body.find('\\label{' + anchor.split('#', 1)[1] + '}')
             cap = body.rfind('\\caption{', 0, at)
             if ((at < 0) or (cap < 0)):
                 continue
             _, end = braced(body, cap + len('\\caption'))
-            body = body[:end - 1] + marker(sections) + body[end - 1:]
+            start = cap + len('\\caption{')
+            body = body[:start] + '\\nbstart{' + str(count[0]) + '}' + body[start:end - 1] + marker(sections) + body[end - 1:]
+            count[0] += 1
     return body
 
 

@@ -73,6 +73,8 @@ main .wrap { padding-block: 18px 90px; display: grid; gap: 14px; }
 .text p { margin: 0; } .text p + p, .text .pblock + .pblock > p { text-indent: 1.5em; }
 .pblock { display: flex; flex-direction: column; } .pblock > .subnote { order: 2; }   /* a paragraph or figure, its note under it */
 .nbm { font: 13px var(--f-ui); text-indent: 0; } .nbm a { margin-left: .5em; color: var(--ink-2); white-space: nowrap; }
+.nbbar { display: none; }
+::highlight(nbclaim) { background-color: var(--accent-soft); }
 .text .pnote { margin: 0 0 4px; text-indent: 0; }
 .text .pnote.open { margin: 6px 0 12px; padding: 6px 0 0 12px; border-left: 3px solid var(--rule-2); }
 .text .pnote > button.pbtn { font: 12px var(--f-ui); color: var(--ink-3); background: none; border: 0; padding: 0; cursor: pointer; }
@@ -162,10 +164,13 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
      notes below it down (clear: right), never the text */
   .text { max-width: calc(70ch + 528px); padding-right: 528px; }
   .pblock { display: block; position: relative; }
-  /* a claim's notebook links, in a narrow column just right of the line that ends its sentence, left of its note:
-     absolute with top auto keeps the line where they stand in the text */
-  .text .nbm { position: absolute; left: calc(100% + 12px); width: 88px; line-height: 1.45; }
+  /* a claim's notebook links, in a narrow column just right of the claim's first line, left of its note, and a bar
+     beside the claim's lines that ties them to it (layoutNb sets their tops and the bar's height) */
+  .text .nbm { position: absolute; top: 0; left: calc(100% + 20px); width: 86px; line-height: 1.45; }
   .text .nbm a { display: block; margin: 0; }
+  .text .nbbar { display: block; position: absolute; left: calc(100% + 6px); width: 8px; border-left: 2px solid var(--rule-2); cursor: default; }
+  .text .nbbar.on { border-left-color: var(--accent); }
+  .text .nbm.on a { color: var(--accent); }
   .text .note.subnote, .text .note.pnote, .text .note.pnote.open { float: right; clear: right; width: 400px; margin: 0 -528px 8px 0;
     padding: 0 0 0 12px; border-top: 0; border-left: 3px solid var(--rule-2); }
   .text .note.pnote:not(.open) { border-left-color: transparent; }
@@ -379,23 +384,66 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
   // notebook links ("notebook §N", put at the end of a claim's sentence or a figure's caption by
-  // tools/ledger_cards.py): each run of them is gathered into one span where it stands, which CSS moves beside the text
+  // tools/ledger_cards.py, its start marked by an empty span.nbs with the same data-k): each claim's links are gathered
+  // into one span where they stand (inline after the sentence on narrow screens), and get a bar; on wide screens
+  // layoutNb puts them beside the claim's first line and the bar beside its lines, and hovering either highlights the claim
+  const wideNb = window.matchMedia("(min-width: 1100px)");
+  const nbHighlight = (window.CSS && CSS.highlights && window.Highlight) ? new Highlight() : null;
+  if (nbHighlight) CSS.highlights.set("nbclaim", nbHighlight);
+  function claimRange(g) {
+    const start = g.closest(".pblock")?.querySelector(`.nbs[data-k="${g.dataset.k}"]`);
+    if (!start) return null;
+    const r = document.createRange();
+    r.setStartAfter(start);
+    r.setEndBefore(g);
+    return r;
+  }
+  function layoutNb(text) {
+    for (const blk of text.querySelectorAll(".pblock")) {
+      const box = blk.getBoundingClientRect();
+      let floor = -Infinity;    // a claim's links never overlap the previous claim's
+      for (const g of blk.querySelectorAll(".nbm")) {
+        // the claim runs from its start marker to the end marker just before its links (a range's own rectangles
+        // would include MathJax's hidden helpers, which sit elsewhere)
+        const start = blk.querySelector(`.nbs[data-k="${g.dataset.k}"]`), end = g.previousElementSibling;
+        if (!wideNb.matches || !start || !end?.matches(".nbe")) { g.style.top = ""; continue; }
+        const top = start.getBoundingClientRect().top - box.top, bottom = end.getBoundingClientRect().bottom - box.top;
+        const y = Math.max(top, floor);
+        g.style.top = y + "px";
+        floor = y + g.offsetHeight + 6;
+        g._bar.style.top = top + "px";
+        g._bar.style.height = (bottom - top) + "px";
+      }
+    }
+  }
   function nbLinks(blk, p) {
     for (const a of [...p.querySelectorAll("a.nb")]) {
       if (!a.isConnected || a.parentNode.classList.contains("nbm")) continue;
       const run = [a];
       let n = a.nextSibling;
-      while (n && ((n.nodeType === 3 && !n.textContent.trim()) || (n.nodeType === 1 && n.matches("a.nb")))) {
+      while (n && ((n.nodeType === 3 && !n.textContent.trim()) || (n.nodeType === 1 && n.matches("a.nb") && n.dataset.k === a.dataset.k))) {
         const next = n.nextSibling;
         if (n.nodeType === 1) run.push(n); else n.remove();
         n = next;
       }
       const prev = a.previousSibling;
       if (prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/\s+$/, "");
-      const span = el("span", {class: "nbm"});
-      a.before(span);
+      const span = el("span", {class: "nbm", "data-k": a.dataset.k || ""});
+      a.before(el("span", {class: "nbe"}), span);
       span.append(...run);
       if (span.nextSibling && span.nextSibling.nodeType === 3) span.after(" ");
+      const bar = el("span", {class: "nbbar"});
+      span._bar = bar;
+      blk.append(bar);
+      const on = yes => {
+        bar.classList.toggle("on", yes);
+        span.classList.toggle("on", yes);
+        if (!nbHighlight) return;
+        nbHighlight.clear();
+        const r = yes && wideNb.matches ? claimRange(span) : null;
+        if (r) nbHighlight.add(r);
+      };
+      for (const t of [span, bar]) { t.addEventListener("mouseenter", () => on(true)); t.addEventListener("mouseleave", () => on(false)); }
     }
   }
   function textOf(c) {
@@ -448,6 +496,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
         ...c.notebooks.flatMap((u, k) => [k ? " · " : "", el("a", {href: u, target: "_blank", rel: "noopener", text: u.split("/").slice(-2).join("/")})])));
     textCache.set(c.id, {html: c.html, nb: String(c.notebooks || ""), node});
     typeset([node]);
+    // the links' places depend on the text's layout: redo them whenever it changes size (shown, typeset, resized)
+    new ResizeObserver(() => layoutNb(node)).observe(node);
     return node;
   }
 
