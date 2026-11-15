@@ -91,6 +91,8 @@ decisions, ground rules) and `README.md`.
   citations change and commit it with the paper and its PDF.
 - A number the paper quotes from a simulation or its inputs is a macro written by `tools/paper_numbers.py`
   into `paper/numbers/<test>.tex`, never typed into the text; add new ones there, with their source.
+- Every plot and quoted number, in the paper and the notebooks, is computed by code that reads the simulation's
+  output directly (`load3d`), never from saved derived values, another notebook's output, or a plot (`style/testing.md` T23).
 - Paper revisions. After each edit the author asks for: run `uv run python tools/lint_paper.py --compile`
   and fix what it finds; check the edit against `joes_papers/writing_style.md`; render the changed pages
   and look at them. Then report what changed and why, and any question where the request was ambiguous.

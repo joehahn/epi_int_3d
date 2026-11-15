@@ -150,3 +150,10 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
 ## From the author's edits
 
 *(Each correction the author makes to a test notebook becomes a rule here, so it isn't needed twice.)*
+
+- **T23. Straight from the simulation's output** (the author, 2026-11-15). Every plot and every quoted number, in
+  the paper and in the notebooks, is computed by Python code that reads the simulation's output itself
+  (`restore_output`, through `load3d` in `tests/vertical_analysis.py`) and the run's `inputs.py`. Never from an
+  intermediate file of derived values (a saved `.npz`, `.json` or `.csv` of results), never from another
+  notebook's printed output, and never read off a plot. Shared helpers in `vertical_analysis.py` are fine: they are
+  that code, and keep a notebook and the paper's figure script computing the same thing the same way.
