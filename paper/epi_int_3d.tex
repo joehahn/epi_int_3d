@@ -448,7 +448,7 @@ Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:rin
 simulate the spiral density waves that a satellite launches at its Lindblad resonances, to further validate
 the code's ability to simulate horizontal disturbances in a self-gravitating ring, and in a
 non-gravitating, pressure-supported gas disk those waves will also test the ring pressure of
-Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here and others, is
+Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here, is
 in the code's repository; the simulations themselves are not.
 
 \subsection{Spiral bending waves}
@@ -602,10 +602,7 @@ mid-ring. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\
 motion remains averages away over time. Figure \ref{fig:vres} shows that the particles' inclinations,
 averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
 Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
-Eqn.\ (\ref{eqn:vres_inc}) neglects. The test's
-notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/vertical_resonance/vertical_resonance.ipynb}}
-also compares each particle's vertical motion over time to the exact solution, which the simulation
-follows to within $\vresZerror$ in $z$.
+Eqn.\ (\ref{eqn:vres_inc}) neglects.
 
 The forced response also locates the resonance. A particle forced by Eqn.\ (\ref{eqn:vres_force}) oscillates as
 $z = {\rm Re}[he^{im(\theta - \Omega_pt)}]$ where ${\rm Im}(h) = A_V/D$, so each streamline's amplitude $h$,
@@ -667,9 +664,7 @@ in place by the end of the run. There the wave's amplitude is within \bwAmpPerce
 phase winds inward as the trailing wave of Eqn.\ (\ref{eqn:vres_sol}) does. On the nonwave side of the
 resonance, the forced response is up to \bwForcedPercent\% larger than linear theory's. That theory is for
 an infinite sheet, which has ring matter beyond this ring's outer edge, and that is the likely cause,
-though it has not been quantified. The satellite pulls only vertically, and the wave leaves no mark in
-the ring plane: no particle moves radially by more than $\bwRadial$, well under 1\% of the streamline
-spacing $\Delta = \bwSpacing$.
+though it has not been quantified.
 
 Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$, measured from the radial gradient of
 the phase of its wave part $h - L_V/x$, as in Fig.~5 of \cite{H07}. Behind the front it is \bwKcontPercent\%
@@ -680,13 +675,7 @@ differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum}
 spacing reduces self-gravity's restoring force from $2\pi G\sigma|k|$ to $X(k\Delta)$, and that the ring's
 edges reduce it further, by $2G\sigma(1/d_{\rm in} + 1/d_{\rm out})$. With the lattice allowed for, the
 simulated wavenumber is \bwKlatPercent\% larger than expected, and with the edges allowed for too,
-Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger. All \bwKpositive\ of the \bwKbehind\ wavenumbers measured behind the front are
-positive, so the wave is trailing, as Section \ref{sec:waves_free} requires. Its phase there, fit against time,
-advances at the forcing's pattern speed $\Omega_p$ to within a fraction $\bwPatternSpeedRel$, so it rotates prograde
-with the forcing. And the first wavelength that its phase implies is \bwFirstWavePercent\% shorter than
-$(4\pi\epsilon)^{1/2}r_V$, for the same reasons as its wavenumber is larger. The test's
-notebook\footnote{\url{https://github.com/joehahn/epi_int_3d/blob/main/tests/bending_waves/bending_waves.ipynb}}
-also compares the wave's complex amplitude with linear theory.
+Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger.
 
 The torque that the satellite exerts on the wave tests the wave's amplitude and phase together. The satellite's
 resonant potential $A_Vz\sin m(\theta - \Omega_pt)$, whose vertical pull is

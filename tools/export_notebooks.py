@@ -3,9 +3,10 @@
 #by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 13 November 2026.
 #
 #export the executed test notebooks to HTML on the project's GitHub Pages site, docs/notebooks/<name>.html, so the
-#paper ledger can link each claim or figure to the notebook section that tests it (a section's anchor is the
-#<a id="testN"></a> at the top of its heading cell; the links come from the 'notebook' fields of notes/chain.json,
-#written by tools/ledger_cards.py). The notebooks are exported as they are, outputs included, and not re-executed:
+#paper ledger can link each claim or figure to the notebook test that backs it. The notebooks have no markdown
+#(style/testing.md T3): a test is the code cell whose first line is '#test N: ...', and the export puts an anchor
+#<a id="testN"></a> just before that cell, which the 'notebook' fields of notes/chain.json link to
+#(bending_waves#test2), through tools/ledger_cards.py. The notebooks are exported as they are, outputs included, and not re-executed:
 #execute them first (uv run jupyter nbconvert --to notebook --execute --inplace <notebook>).
 #
 #from the repo's top folder,
@@ -13,6 +14,7 @@
 #   uv run python tools/export_notebooks.py bending_waves   #only those named
 
 import os
+import re
 import subprocess
 import sys
 
@@ -33,4 +35,11 @@ for name in names:
     source = os.path.join(repo_folder, notebooks[name])
     cmd = ['jupyter', 'nbconvert', '--to', 'html', '--output-dir', docs_folder, '--output', name, source]
     subprocess.run(cmd, check=True, capture_output=True)
+    #an anchor before each test's cell, found by its first line's comment '#test N:'
+    path = os.path.join(docs_folder, name + '.html')
+    page = open(path).read()
+    for m in reversed(list(re.finditer(r'<pre><span></span><span class="c1">#test (\d+):', page))):
+        cell = page.rfind('<div class="jp-Cell ', 0, m.start())
+        page = page[:cell] + '<a id="test' + m.group(1) + '"></a>' + page[cell:]
+    open(path, 'w').write(page)
     print('wrote', os.path.relpath(os.path.join(docs_folder, name + '.html'), repo_folder))

@@ -528,6 +528,16 @@ comparison with Cassini data is out of scope for this version of the project.
   `tests/bending_waves`, and any other that sets an inclination or satellite) with `tools/run_simulations.py`,
   re-execute their notebooks, remake the paper's figures and `tools/paper_numbers.py` macros, and check the paper's quoted
   numbers. The in-plane results and the 2D regression suite are unchanged (the vertical drift doesn't touch r, θ).
+- **Done 2026-11-15: the test notebooks restyled** (the author, 2026-11-15), replacing the 2026-11-13 layout below.
+  Each notebook says at a glance what it proves: header comment, restore, timescale and plot-prep cells, then one
+  cell per test, `#test N: ...` on its first line, one plot of simulation against theory and one printed ratio; no
+  markdown (`style/testing.md` T3, T22). Every plot and number is computed straight from the run's output (T23).
+  `tests/vertical_resonance`: 1 D(x), 2 i(x) against Eqn. (38). `tests/bending_waves`: 1 i(x) against Eqn. (34),
+  with the forced response; 2 k(x) from the phase gradient against the dispersion relation, continuum and lattice +
+  edges (k > 0 shows the wave is trailing); 3 torque against T_V; 4 Delta L_z/L_z. Dropped, with the paper's
+  sentences that quoted them: the front speed, the radial excursion, the sign of k, the pattern speed (and its
+  `output_pattern` run, now unused), the first wavelength, and the massless particles' z against the exact solution.
+  The resolution study (test 9) left the notebook too; it stays on hold.
 - **Done 2026-11-13: the bending-wave tests** (decided 2026-11-13). Test 7 needed two steps: `output_pattern`, a 250-orbit run with dense outputs, picks the alias, and the main run behind the front refines Omega_p to 2e-6 of the forcing's. `tests/bending_waves/bending_waves.ipynb`
   gets one numbered section per test, each heading naming the paper equations or figure it backs, numbers fixed so
   links to them stay valid:
@@ -560,8 +570,8 @@ comparison with Cassini data is out of scope for this version of the project.
   (`fast/epi_int_3d.py`, `fast/satellite.py`) so they can be spot-checked at a glance; the Numba
   kernels and bookkeeping probably stay as they are, since the regression suite proves them bit for
   bit. The regression suite makes any restyling safe.
-- **Undecided, later: restyle the notebooks Claude wrote** (e.g. `tests/bending_waves/bending_waves.ipynb`)
-  against `style/testing.md`, or leave them as they are (2026-11-08).
+- **Undecided, later: restyle the other notebooks Claude wrote** against `style/testing.md`, or leave them as
+  they are (2026-11-08); `vertical_resonance` and `bending_waves` were restyled 2026-11-15.
 - **To do, later: restyle the paper's data figures** `paper/figures/vertical_resonance.py` and
   `zigzag.py` against `style/dataviz.md` (2026-11-08).
 
