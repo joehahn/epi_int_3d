@@ -138,7 +138,7 @@
   "hash": "95ebc19679ea",
   "needs": {
    "figure:vertical_resonance": "e6dd6a2e794b",
-   "notebook:vertical_resonance": "d1cd27a09e3f",
+   "notebook:vertical_resonance": "b447a7620e8e",
    "numbers:vertical_resonance": "85b493297959",
    "paper:eqn:vres_inc": "22616813c853",
    "test:vertical_resonance": "434678c04f9d"
@@ -971,7 +971,7 @@
  },
  "notebook:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "d1cd27a09e3f",
+  "hash": "b447a7620e8e",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:forced_vertical": "b9d164aa1ece",
