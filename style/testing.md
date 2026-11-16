@@ -157,3 +157,8 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
   intermediate file of derived values (a saved `.npz`, `.json` or `.csv` of results), never from another
   notebook's printed output, and never read off a plot. Shared helpers in `vertical_analysis.py` are fine: they are
   that code, and keep a notebook and the paper's figure script computing the same thing the same way.
+- **T24. Compare with the paper's theory only** (the author, 2026-11-16). A notebook or paper figure compares the
+  simulation with the theory the paper itself presents: its numbered equations, and quantities it defines (like
+  Eqn. (25)'s D, evaluated exactly). Never with a closer theory derived only in `notes/` (an `equations.md` entry
+  the paper doesn't state), even when it fits better. If the paper's theory and the simulation differ, the notebook
+  shows the difference and the paper explains it; if a better theory is needed, it goes into the paper first.

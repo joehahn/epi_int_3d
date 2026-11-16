@@ -285,7 +285,7 @@
  },
  "code:forced_vertical": {
   "date": "2026-11-15",
-  "hash": "83db7b247899",
+  "hash": "b9d164aa1ece",
   "needs": {
    "eq:B11": "cdea3587d8d1",
    "eq:B6": "5c24f8ef2261"
@@ -431,7 +431,7 @@
   "date": "2026-11-15",
   "hash": "89231f012da2",
   "needs": {
-   "code:forced_vertical": "83db7b247899",
+   "code:forced_vertical": "b9d164aa1ece",
    "code:satellite": "2f1dbb1340e9",
    "eq:B12": "d87f6aac45c3"
   }
@@ -986,11 +986,9 @@
  },
  "notebook:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "31e4efc6023f",
+  "hash": "1181d35016a4",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:forced_inclination": "8a7e918e2a24",
-   "code:forced_vertical": "83db7b247899",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
    "eq:B12": "d87f6aac45c3"

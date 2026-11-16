@@ -104,18 +104,13 @@ def forced_vertical(p, o):
         small = np.abs(u) < 1.0e-3
         us = np.where(small, 1.0, u)
         return np.where(small, 1 + u/2 + u**2/6 + u**3/24, np.expm1(us)/us)
-    #and its time derivative vz = int_0^t cos(nu(t - t')) f(t') dt'
     t = time
-    z, vz = 0.0, 0.0
+    z = 0.0
     for c, q in ((F/2, 1j*w), (np.conj(F)/2, -1j*w), (-F/2, s), (-np.conj(F)/2, np.conj(s))):
-        ep = np.exp(1j*nu*t)*t*phi1((q - 1j*nu)*t)
-        em = np.exp(-1j*nu*t)*t*phi1((q + 1j*nu)*t)
-        z = z + c/(2j*nu)*(ep - em)
-        vz = vz + c/2*(ep + em)
-    z, vz = z.real, vz.real
+        z = z + c/(2j*nu)*(np.exp(1j*nu*t)*t*phi1((q - 1j*nu)*t) - np.exp(-1j*nu*t)*t*phi1((q + 1j*nu)*t))
+    z = z.real
     forced = (F*np.exp(1j*w*time)/(nu**2 - w**2)).real
-    return sat, dict(z=z, vz=vz, inc=np.sqrt((z/a)**2 + (vz/(a*nu))**2), forced=forced,
-                     x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
+    return sat, dict(z=z, forced=forced, x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
                      free_over_forced=(np.abs(C) + np.abs(D))*np.abs(nu**2 - w**2)/np.abs(F))
 
 
@@ -202,18 +197,6 @@ def resonance_frequencies(p, o, x=None, late_orbits=1.0e4):
     a = o['a'][late].mean(axis=(0, 2))
     A_V = sat.mass_final*sat.A_V_per_mass
     return sat, (a - sat.r_V)/sat.r_V, A_V/h.imag, exact(a)
-
-
-def forced_inclination(p, x):
-    """The phase-averaged inclination <i> of a test particle in its steady forced oscillation under the vertical Fourier
-    satellite at its final mass, at r = r_V(1 + x), as vertical_elements computes i (B20):
-    <i> = A_V/(a|D|) (2/pi) E(1 - omega_m^2/nu^2), D = nu^2 - omega_m^2. Returns sat and <i>."""
-    from scipy.special import ellipe
-    import satellite as satellite_module
-    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
-    a = sat.r_V*(1 + np.asarray(x, dtype=float))
-    nu, w = nu_a(p['J2'], p['Rp'], a), sat.m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p)
-    return sat, sat.mass_final*sat.A_V_per_mass/(a*np.abs(nu**2 - w**2))*(2/np.pi)*ellipe(1 - (w/nu)**2)
 
 
 def ring_angular_momentum(p, o):

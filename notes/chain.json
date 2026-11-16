@@ -1364,15 +1364,6 @@
    "note": "test helper"
   },
   {
-   "id": "code:forced_inclination",
-   "kind": "code",
-   "anchor": "tests/vertical_analysis.py::forced_inclination",
-   "needs": [
-    "eq:B20"
-   ],
-   "note": "test helper"
-  },
-  {
    "id": "code:ring_sigma",
    "kind": "code",
    "anchor": "tests/vertical_analysis.py::ring_sigma",
@@ -1448,11 +1439,9 @@
    "anchor": "tests/vertical_resonance/vertical_resonance.ipynb",
    "needs": [
     "code:satellite",
-    "code:forced_vertical",
     "code:vertical_drift",
     "code:drift",
-    "eq:B12",
-    "code:forced_inclination"
+    "eq:B12"
    ]
   },
   {
