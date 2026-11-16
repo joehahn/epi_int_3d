@@ -104,13 +104,18 @@ def forced_vertical(p, o):
         small = np.abs(u) < 1.0e-3
         us = np.where(small, 1.0, u)
         return np.where(small, 1 + u/2 + u**2/6 + u**3/24, np.expm1(us)/us)
+    #and its time derivative vz = int_0^t cos(nu(t - t')) f(t') dt'
     t = time
-    z = 0.0
+    z, vz = 0.0, 0.0
     for c, q in ((F/2, 1j*w), (np.conj(F)/2, -1j*w), (-F/2, s), (-np.conj(F)/2, np.conj(s))):
-        z = z + c/(2j*nu)*(np.exp(1j*nu*t)*t*phi1((q - 1j*nu)*t) - np.exp(-1j*nu*t)*t*phi1((q + 1j*nu)*t))
-    z = z.real
+        ep = np.exp(1j*nu*t)*t*phi1((q - 1j*nu)*t)
+        em = np.exp(-1j*nu*t)*t*phi1((q + 1j*nu)*t)
+        z = z + c/(2j*nu)*(ep - em)
+        vz = vz + c/2*(ep + em)
+    z, vz = z.real, vz.real
     forced = (F*np.exp(1j*w*time)/(nu**2 - w**2)).real
-    return sat, dict(z=z, forced=forced, x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
+    return sat, dict(z=z, vz=vz, inc=np.sqrt((z/a)**2 + (vz/(a*nu))**2), forced=forced,
+                     x=(a[0].mean(axis=1) - sat.r_V)/sat.r_V,
                      free_over_forced=(np.abs(C) + np.abs(D))*np.abs(nu**2 - w**2)/np.abs(F))
 
 

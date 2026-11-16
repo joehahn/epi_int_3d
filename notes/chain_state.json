@@ -138,7 +138,7 @@
   "hash": "95ebc19679ea",
   "needs": {
    "figure:vertical_resonance": "e6dd6a2e794b",
-   "notebook:vertical_resonance": "b447a7620e8e",
+   "notebook:vertical_resonance": "fc1e5e243645",
    "numbers:vertical_resonance": "85b493297959",
    "paper:eqn:vres_inc": "22616813c853",
    "test:vertical_resonance": "434678c04f9d"
@@ -277,8 +277,8 @@
   "needs": {}
  },
  "code:forced_vertical": {
-  "date": "2026-11-12",
-  "hash": "b9d164aa1ece",
+  "date": "2026-11-15",
+  "hash": "83db7b247899",
   "needs": {
    "eq:B11": "cdea3587d8d1",
    "eq:B6": "5c24f8ef2261"
@@ -424,7 +424,7 @@
   "date": "2026-11-15",
   "hash": "26feeb9d6601",
   "needs": {
-   "code:forced_vertical": "b9d164aa1ece",
+   "code:forced_vertical": "83db7b247899",
    "code:satellite": "2f1dbb1340e9",
    "eq:B12": "d87f6aac45c3"
   }
@@ -971,10 +971,10 @@
  },
  "notebook:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "b447a7620e8e",
+  "hash": "fc1e5e243645",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:forced_vertical": "b9d164aa1ece",
+   "code:forced_vertical": "83db7b247899",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
    "eq:B12": "d87f6aac45c3"
@@ -1913,11 +1913,11 @@
   }
  },
  "test:vertical_resonance": {
-  "date": "2026-11-12",
+  "date": "2026-11-15",
   "hash": "434678c04f9d",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:forced_vertical": "b9d164aa1ece",
+   "code:forced_vertical": "83db7b247899",
    "code:run_3d": "e883637c1181",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4"
