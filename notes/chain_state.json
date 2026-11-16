@@ -138,7 +138,7 @@
   "hash": "da9187c7597d",
   "needs": {
    "figure:vertical_resonance": "44503cb1943d",
-   "notebook:vertical_resonance": "83fa6d02ba47",
+   "notebook:vertical_resonance": "31e4efc6023f",
    "numbers:vertical_resonance": "773425a4eae5",
    "paper:eqn:vres_inc": "22616813c853",
    "test:vertical_resonance": "5fb684875bd4"
@@ -217,10 +217,10 @@
   }
  },
  "claim:trailing": {
-  "date": "2026-11-14",
+  "date": "2026-11-15",
   "hash": "693688b855b0",
   "needs": {
-   "sympy:B19": "f48cded34bc8",
+   "sympy:B19": "26a6ca88091c",
    "sympy:B9": "ad423e395545"
   }
  },
@@ -275,6 +275,13 @@
   "date": "2026-11-10",
   "hash": "dbec2df05f67",
   "needs": {}
+ },
+ "code:forced_inclination": {
+  "date": "2026-11-15",
+  "hash": "8a7e918e2a24",
+  "needs": {
+   "eq:B20": "abc89dc691bd"
+  }
  },
  "code:forced_vertical": {
   "date": "2026-11-15",
@@ -520,6 +527,14 @@
   "hash": "ef33fc85a126",
   "needs": {
    "eq:B1": "a24edb39df02"
+  }
+ },
+ "eq:B20": {
+  "date": "2026-11-15",
+  "hash": "abc89dc691bd",
+  "needs": {
+   "eq:B12": "d87f6aac45c3",
+   "eq:B6": "5c24f8ef2261"
   }
  },
  "eq:B3": {
@@ -971,9 +986,10 @@
  },
  "notebook:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "83fa6d02ba47",
+  "hash": "31e4efc6023f",
   "needs": {
    "code:drift": "a16d87bc9e34",
+   "code:forced_inclination": "8a7e918e2a24",
    "code:forced_vertical": "83db7b247899",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
@@ -1021,18 +1037,18 @@
   }
  },
  "paper:eqn:bw_cg": {
-  "date": "2026-11-13",
+  "date": "2026-11-15",
   "hash": "f361f7421cfc",
   "needs": {
    "sympy:B10": "75d787686330",
-   "sympy:B19": "f48cded34bc8"
+   "sympy:B19": "26a6ca88091c"
   }
  },
  "paper:eqn:bw_disp": {
-  "date": "2026-11-14",
+  "date": "2026-11-15",
   "hash": "3120b808e257",
   "needs": {
-   "sympy:B19": "f48cded34bc8",
+   "sympy:B19": "26a6ca88091c",
    "sympy:B5": "3f8938ff32e7"
   }
  },
@@ -1168,11 +1184,11 @@
   }
  },
  "paper:eqn:vres_ode": {
-  "date": "2026-11-13",
+  "date": "2026-11-15",
   "hash": "3d547a394ab6",
   "needs": {
    "sympy:B18": "36ffd840a5f9",
-   "sympy:B19": "f48cded34bc8"
+   "sympy:B19": "26a6ca88091c"
   }
  },
  "paper:eqn:vres_params": {
@@ -1518,8 +1534,8 @@
   }
  },
  "sympy:B19": {
-  "date": "2026-11-13",
-  "hash": "f48cded34bc8",
+  "date": "2026-11-15",
+  "hash": "26a6ca88091c",
   "needs": {
    "eq:B19": "bc2cf1e6b784"
   }
@@ -1529,6 +1545,13 @@
   "hash": "b422da98805c",
   "needs": {
    "eq:B2": "ef33fc85a126"
+  }
+ },
+ "sympy:B20": {
+  "date": "2026-11-15",
+  "hash": "1a253b584b0b",
+  "needs": {
+   "eq:B20": "abc89dc691bd"
   }
  },
  "sympy:B3": {

@@ -1271,11 +1271,29 @@
    ]
   },
   {
+   "id": "eq:B20",
+   "kind": "equation",
+   "anchor": "notes/equations.md#B20",
+   "needs": [
+    "eq:B12",
+    "eq:B6"
+   ]
+  },
+  {
    "id": "sympy:B19",
    "kind": "sympy",
    "anchor": "notes/sympy/bending_wave.py#B19",
    "needs": [
     "eq:B19"
+   ],
+   "check": "uv run python notes/sympy/bending_wave.py"
+  },
+  {
+   "id": "sympy:B20",
+   "kind": "sympy",
+   "anchor": "notes/sympy/bending_wave.py#B20",
+   "needs": [
+    "eq:B20"
    ],
    "check": "uv run python notes/sympy/bending_wave.py"
   },
@@ -1342,6 +1360,15 @@
    "needs": [
     "eq:B6",
     "eq:B11"
+   ],
+   "note": "test helper"
+  },
+  {
+   "id": "code:forced_inclination",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::forced_inclination",
+   "needs": [
+    "eq:B20"
    ],
    "note": "test helper"
   },
@@ -1424,7 +1451,8 @@
     "code:forced_vertical",
     "code:vertical_drift",
     "code:drift",
-    "eq:B12"
+    "eq:B12",
+    "code:forced_inclination"
    ]
   },
   {

@@ -204,6 +204,18 @@ def resonance_frequencies(p, o, x=None, late_orbits=1.0e4):
     return sat, (a - sat.r_V)/sat.r_V, A_V/h.imag, exact(a)
 
 
+def forced_inclination(p, x):
+    """The phase-averaged inclination <i> of a test particle in its steady forced oscillation under the vertical Fourier
+    satellite at its final mass, at r = r_V(1 + x), as vertical_elements computes i (B20):
+    <i> = A_V/(a|D|) (2/pi) E(1 - omega_m^2/nu^2), D = nu^2 - omega_m^2. Returns sat and <i>."""
+    from scipy.special import ellipe
+    import satellite as satellite_module
+    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
+    a = sat.r_V*(1 + np.asarray(x, dtype=float))
+    nu, w = nu_a(p['J2'], p['Rp'], a), sat.m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p)
+    return sat, sat.mass_final*sat.A_V_per_mass/(a*np.abs(nu**2 - w**2))*(2/np.pi)*ellipe(1 - (w/nu)**2)
+
+
 def ring_angular_momentum(p, o):
     """The ring's total angular momentum about the z axis at each output, sum of mu r v_theta over its particles, in
     the code's coordinates (planetocentric positions, barycentric velocities, whose sum is conserved: Chambers 1999).

@@ -354,4 +354,25 @@ hf = sp.Function('h')(x19)
 lhs = cD19*x19*hf + 2*sp.pi*G19*sg19*(-sp.I/rV19)*hf.diff(x19)
 check('B19: (D h + 2 pi G sigma k h)/calD = -i eps dh/dx + x h, the left side of Eqn. (vres_ode)',
       (lhs/cD19 - (-sp.I*e19*hf.diff(x19) + x19*hf)).subs(e19, 2*sp.pi*G19*sg19/(rV19*cD19)))
+# --- B20: a test particle's phase-averaged inclination in its forced oscillation. z = Z sin(phi), phi = omega_m t + const,
+# so v_z = omega_m Z cos(phi), and the code's inclination (fast/epi_int_3d.py vertical_elements) is
+# i = [(z/a)^2 + (v_z/(a nu))^2]^{1/2} = (Z/a)[1 - (1 - q^2) cos^2 phi]^{1/2}, q = omega_m/nu, Z = A_V/|nu^2 - omega_m^2|;
+# averaged over phi (the streamline's particles and the outputs) it is (Z/a)(2/pi)E(1 - q^2), E the complete elliptic
+# integral of the second kind with parameter 1 - q^2, so <i> = A_V/(a|D|) (2/pi)E(1 - omega_m^2/nu^2) = i_f[1 + O(D/nu^2)] ---
+Z20, a20, nu20, wm20, ph20 = sp.symbols('Z a nu omega_m phi', positive=True)
+z20 = Z20*sp.sin(ph20)
+vz20 = sp.diff(z20.subs(ph20, wm20*sp.Symbol('t')), sp.Symbol('t')).subs(wm20*sp.Symbol('t'), ph20)
+i20sq = (z20/a20)**2 + (vz20/(a20*nu20))**2
+q20 = wm20/nu20
+check('B20: i^2 = (Z/a)^2 [1 - (1 - q^2) cos^2 phi]', sp.simplify(i20sq - (Z20/a20)**2*(1 - (1 - q20**2)*sp.cos(ph20)**2)))
+import numpy as _np
+from scipy.special import ellipe as _ellipe
+from scipy.integrate import quad as _quad
+for qv in (0.9, 0.97, 1.03, 1.2):
+    avg = _quad(lambda p_: _np.sqrt(1 - (1 - qv**2)*_np.cos(p_)**2), 0, 2*_np.pi, epsabs=1e-14)[0]/(2*_np.pi)
+    assert abs(avg - (2/_np.pi)*_ellipe(1 - qv**2)) < 1e-12, qv
+print('PASS  B20: <[1 - (1 - q^2) cos^2 phi]^{1/2}> over phi = (2/pi) E(1 - q^2), q = 0.9, 0.97, 1.03, 1.2')
+# to first order in D/nu^2 = 1 - q^2 the average is 1 - D/(4 nu^2)
+mq = sp.symbols('mq')
+check('B20: (2/pi)E(m) = 1 - m/4 + O(m^2)', sp.series(2/sp.pi*sp.elliptic_e(mq), mq, 0, 2).removeO() - (1 - mq/4))
 print('all bending-wave checks passed')
