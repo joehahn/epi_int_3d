@@ -1441,7 +1441,8 @@
     "code:satellite",
     "code:vertical_drift",
     "code:drift",
-    "eq:B12"
+    "eq:B12",
+    "code:resonance_D"
    ]
   },
   {
@@ -1504,7 +1505,8 @@
    "needs": [
     "code:satellite",
     "code:forced_vertical",
-    "eq:B12"
+    "eq:B12",
+    "code:resonance_D"
    ]
   },
   {
@@ -2153,14 +2155,13 @@
    "note": "Section 3.3: epi_int_lite's viscosity (helper_fns.accelerations) is in-plane only; bending-wave runs have none"
   },
   {
-   "id": "code:resonance_frequencies",
+   "id": "code:resonance_D",
    "kind": "code",
-   "anchor": "tests/vertical_analysis.py::resonance_frequencies",
+   "anchor": "tests/vertical_analysis.py::resonance_D",
    "needs": [
-    "eq:B6",
-    "code:simulated_h"
+    "paper:eqn:bw_disp"
    ],
-   "note": "nu^2 - omega_m^2 from each streamline's forced amplitude, and exact"
+   "note": "D = nu_a^2 - omega_m^2 (Eqn. 25) at given semimajor axes"
   },
   {
    "id": "code:ring_angular_momentum",
@@ -2177,7 +2178,7 @@
     "code:satellite",
     "code:vertical_drift",
     "code:drift",
-    "code:resonance_frequencies"
+    "code:resonance_D"
    ]
   },
   {
@@ -2280,13 +2281,13 @@
   {
    "id": "claim:resonance_location",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@The forced response also locates the resonance",
+   "anchor": "paper/epi_int_3d.tex@The inclinations also peak at the resonance",
    "needs": [
     "numbers:vertical_resonance",
-    "sympy:B6",
+    "paper:eqn:bw_disp",
     "paper:fig:resloc"
    ],
-   "note": "nu^2 - omega_m^2 from the forced amplitude matches the exact value; zero at r_V",
+   "note": "D = nu_a^2 - omega_m^2 at the streamlines vanishes between the two nearest r_V, which have the largest <i> (T25)",
    "notebook": [
     "vertical_resonance#test1"
    ]

@@ -180,23 +180,13 @@ def wave_wavenumber(p, sat, x, G=1.0):
     return k_cont, k_lat.reshape(np.shape(x)), k_edge.reshape(np.shape(x))
 
 
-def resonance_frequencies(p, o, x=None, late_orbits=1.0e4):
-    """nu_a^2 - omega_m^2 for each streamline of a zero-mass ring under the vertical Fourier satellite: simulated, from
-    its forced amplitude, A_V/Im(h) (B6: z = Re[h e^{i chi}], Im h = A_V/(nu_a^2 - omega_m^2)), with h the least-squares
-    amplitude of simulated_h averaged over the outputs after late_orbits, which averages away the free oscillation;
-    and exact, at the streamline's mean semimajor axis, omega_m = m(Omega_a - Omega_p). Returns sat, x, simulated, exact.
-    With x given, only the exact values at r = r_V(1 + x), and simulated = None."""
+def resonance_D(p, a):
+    """D = nu_a^2 - omega_m^2, omega_m = m(Omega_a - Omega_p) (paper Eqn. 25), at semimajor axes a, under the test's
+    vertical Fourier satellite. Returns sat and D."""
     import satellite as satellite_module
     sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
-    exact = lambda a: nu_a(p['J2'], p['Rp'], a)**2 - (sat.m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p))**2
-    if x is not None:
-        x = np.asarray(x, dtype=float)
-        return sat, x, None, exact(sat.r_V*(1 + x))
-    late = np.where(o['times']/(2*np.pi) > late_orbits)[0]
-    h = np.mean([simulated_h(p, o, k)[2] for k in late], axis=0)
-    a = o['a'][late].mean(axis=(0, 2))
-    A_V = sat.mass_final*sat.A_V_per_mass
-    return sat, (a - sat.r_V)/sat.r_V, A_V/h.imag, exact(a)
+    a = np.asarray(a, dtype=float)
+    return sat, nu_a(p['J2'], p['Rp'], a)**2 - (sat.m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p))**2
 
 
 def ring_angular_momentum(p, o):

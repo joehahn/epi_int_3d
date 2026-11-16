@@ -604,13 +604,9 @@ averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits
 Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
 Eqn.\ (\ref{eqn:vres_inc}) neglects.
 
-The forced response also locates the resonance. A particle forced by Eqn.\ (\ref{eqn:vres_force}) oscillates as
-$z = {\rm Re}[he^{im(\theta - \Omega_pt)}]$ where ${\rm Im}(h) = A_V/D$, so each streamline's amplitude $h$,
-fit to its particles' $z$ and averaged over the last $\vresAvgOrbits$ orbits, gives the simulated
-$D = A_V/{\rm Im}(h)$. Figure \ref{fig:resloc} shows that it agrees with the exact
-$D$ at the streamline's semimajor axis to within \vresDpercent\%, so it vanishes where theory
-puts the resonance, at $r_V$, and it departs from the linear approximation ${\cal D}x$ by terms of order $x^2$,
-as theory does.
+The inclinations also peak at the resonance. Figure \ref{fig:resloc} shows $D$ of Eqn.\ (\ref{eqn:bw_disp})
+at each streamline's semimajor axis, which vanishes between the two streamlines nearest $r_V$, at
+$|x| \le \vresXnear$, and these two streamlines have the largest inclinations.
 
 \begin{figure}[ht]
 \centering
@@ -625,10 +621,11 @@ from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/resonance_location.pdf}
-\caption{The quantity $D = \nu_a^2 - \omega_m^2$, which vanishes at the resonance, in units of ${\cal D}$, for each
-streamline of the massless ring of Section \ref{sec:waves_massless} (dots), inferred from its forced vertical
-amplitude averaged over the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$.
-The dashed curve is the exact $D$, and the dotted line its linear approximation ${\cal D}x$.}
+\caption{The quantity $D = \nu_a^2 - \omega_m^2$ of Eqn.\ (\ref{eqn:bw_disp}), in units of $\Omega_a^2$ at $r_V$,
+at each streamline's semimajor axis (dots), averaged over its particles and the last $\vresAvgOrbits$ orbits of the
+simulation of Section \ref{sec:waves_massless}, plotted vs.\ its fractional distance from resonance $x$. The curve is
+$D$ at all $x$, and the circles mark the two streamlines with the largest inclinations in Fig.\ \ref{fig:vres}.
+The inset shows the streamlines nearest the resonance.}
 \label{fig:resloc}
 \end{figure}
 

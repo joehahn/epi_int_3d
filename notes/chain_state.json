@@ -138,8 +138,8 @@
   "hash": "da9187c7597d",
   "needs": {
    "figure:vertical_resonance": "44503cb1943d",
-   "notebook:vertical_resonance": "c80a65170165",
-   "numbers:vertical_resonance": "773425a4eae5",
+   "notebook:vertical_resonance": "c383c4e4fdec",
+   "numbers:vertical_resonance": "861b061f49ae",
    "paper:eqn:vres_inc": "22616813c853",
    "test:vertical_resonance": "5fb684875bd4"
   }
@@ -202,11 +202,11 @@
  },
  "claim:resonance_location": {
   "date": "2026-11-15",
-  "hash": "3e8c53023844",
+  "hash": "9f7c55b53feb",
   "needs": {
-   "numbers:vertical_resonance": "773425a4eae5",
-   "paper:fig:resloc": "59487c98115e",
-   "sympy:B6": "43cc6a8df56c"
+   "numbers:vertical_resonance": "861b061f49ae",
+   "paper:eqn:bw_disp": "3120b808e257",
+   "paper:fig:resloc": "a8a95c7f9e40"
   }
  },
  "claim:three_corrections": {
@@ -335,6 +335,13 @@
   "hash": "f87a66a984e1",
   "needs": {}
  },
+ "code:resonance_D": {
+  "date": "2026-11-15",
+  "hash": "d3219f173050",
+  "needs": {
+   "paper:eqn:bw_disp": "3120b808e257"
+  }
+ },
  "code:resonance_frequencies": {
   "date": "2026-11-12",
   "hash": "3bd1f865e6ca",
@@ -429,9 +436,10 @@
  },
  "code:vertical_resonance_numbers": {
   "date": "2026-11-15",
-  "hash": "89231f012da2",
+  "hash": "bba07c1cb01c",
   "needs": {
    "code:forced_vertical": "b9d164aa1ece",
+   "code:resonance_D": "d3219f173050",
    "code:satellite": "2f1dbb1340e9",
    "eq:B12": "d87f6aac45c3"
   }
@@ -897,10 +905,10 @@
  },
  "figure:resonance_location": {
   "date": "2026-11-15",
-  "hash": "ecaeedf150cf",
+  "hash": "e27779b88a95",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:resonance_frequencies": "3bd1f865e6ca",
+   "code:resonance_D": "d3219f173050",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4"
   }
@@ -986,9 +994,10 @@
  },
  "notebook:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "c80a65170165",
+  "hash": "c383c4e4fdec",
   "needs": {
    "code:drift": "a16d87bc9e34",
+   "code:resonance_D": "d3219f173050",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
    "eq:B12": "d87f6aac45c3"
@@ -1008,13 +1017,13 @@
  },
  "numbers:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "773425a4eae5",
+  "hash": "861b061f49ae",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:latex_number": "001b69207eef",
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
-   "code:vertical_resonance_numbers": "89231f012da2"
+   "code:vertical_resonance_numbers": "bba07c1cb01c"
   }
  },
  "paper:appendix_inplane": {
@@ -1398,9 +1407,9 @@
  },
  "paper:fig:resloc": {
   "date": "2026-11-15",
-  "hash": "59487c98115e",
+  "hash": "a8a95c7f9e40",
   "needs": {
-   "figure:resonance_location": "ecaeedf150cf",
+   "figure:resonance_location": "e27779b88a95",
    "sympy:B5": "3f8938ff32e7",
    "sympy:B6": "43cc6a8df56c"
   }
@@ -1418,7 +1427,7 @@
   "hash": "33e32c017e24",
   "needs": {
    "figure:vertical_resonance": "44503cb1943d",
-   "numbers:vertical_resonance": "773425a4eae5"
+   "numbers:vertical_resonance": "861b061f49ae"
   }
  },
  "paper:fig:wavenumber": {

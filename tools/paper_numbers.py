@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
 from vertical_analysis import (load3d, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
-    resonance_frequencies, satellite_torque, ring_angular_momentum)
+    resonance_D, satellite_torque, ring_angular_momentum)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -96,12 +96,14 @@ def vertical_resonance_numbers():
     print('simulation/B12 =', np.round(ratio.min(), 4), 'to', np.round(ratio.max(), 4))
     numbers += [('vresAgreePercent', latex_number(100.0*largest_departure, 1, up=True),
         'largest |<i>/B12 - 1| in percent, rounded up')]
-    #nu_a^2 - omega_m^2 from each streamline's forced amplitude, against the exact value (paper/figures/resonance_location.py)
-    sat_unused, x, simulated, exact_value = resonance_frequencies(p, o)
-    departure = np.abs(simulated/exact_value - 1.0).max()
-    print('largest |simulated/exact nu^2 - omega_m^2 - 1| =', departure)
-    numbers += [('vresDpercent', latex_number(100.0*departure, 1, up=True),
-        'largest |(nu^2 - omega_m^2) from forced amplitude/exact - 1| in percent, rounded up')]
+    #D = nu_a^2 - omega_m^2 (Eqn. 25) at each streamline's semimajor axis: it vanishes between the two streamlines
+    #nearest r_V, which have the largest inclinations (paper/figures/resonance_location.py)
+    sat_unused, D = resonance_D(p, sat.r_V*(1 + x_avg))
+    j = np.where(np.diff(np.sign(D)) != 0)[0][0]
+    peak = set(np.argsort(i_avg)[-2:])
+    assert peak == {j, j + 1}, 'the largest inclinations are not at the streamlines either side of D = 0'
+    numbers += [('vresXnear', latex_number(np.abs(x_avg[[j, j + 1]]).max(), 2),
+        'largest |x| of the two streamlines either side of D = 0, which have the largest <i>')]
     return numbers
 
 
