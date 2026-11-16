@@ -441,11 +441,11 @@ particles' coordinates account for the planet's motion about the system's center
 \section{Using spiral wave theory to test \code{epi\_int\_3d}}
 \label{sec:waves}
 
-Here we use \code{epi\_int\_3d} to simulate the spiral bending waves that a satellite launches at its
-vertical resonances in a planetary ring, which exercises the code's new vertical capability, and we compare
+The following will use \code{epi\_int\_3d} to simulate the spiral bending waves that a satellite launches at its
+vertical resonances in a planetary ring, which exercises the code's new vertical capability, and compare
 them with linear wave theory to confirm the code. These waves test the vertical motion of
-Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:ring_gravity}. We will also
-simulate the spiral density waves that a satellite launches at its Lindblad resonances, to further validate
+Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:ring_gravity}. The spiral density waves
+that a satellite launches at its Lindblad resonances will also be simulated, to further validate
 the code's ability to simulate horizontal disturbances in a self-gravitating ring, and in a
 non-gravitating, pressure-supported gas disk those waves will also test the ring pressure of
 Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here, is
@@ -578,7 +578,7 @@ shrinks with distance from resonance. The wave's first wavelength, from $r_V$ to
 $x^2/2\epsilon$ reaches $2\pi$, is $(4\pi\epsilon)^{1/2}r_V$. Appendix \ref{sec:massless_limit} shows that
 $h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$.
 
-Equations (\ref{eqn:vres_ode})--(\ref{eqn:vres_lambda}) give us a few opportunities to test
+Equations (\ref{eqn:vres_ode})--(\ref{eqn:vres_lambda}) offer a few opportunities to test
 \code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless
 particles (Section \ref{sec:waves_massless}), which checks the forcing $A_V$, the resonance's location
 $r_V$ and ${\cal D}$, which together also set the wave's amplitude. The wave is tested by a

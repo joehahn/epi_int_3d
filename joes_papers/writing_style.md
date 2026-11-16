@@ -269,3 +269,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P84.** Say how a simulated quantity is measured, with the steps that get it from the paper's equations (the
   wavenumber from the phase of h − L_V/x: h_wave ∝ e^{i∫k dr}, so k = d arg(h_wave)/dr, between neighboring
   streamlines), rather than pointing to where another paper did it. (2026-11-15)
+- **P85.** Avoid "we" wherever an impersonal phrasing works (P1): "The following will use epi_int_3d to simulate…",
+  not "Here we use…"; "The spiral density waves… will also be simulated", not "We will also simulate…"; "offer a
+  few opportunities", not "give us…". (2026-11-16)
