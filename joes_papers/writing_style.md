@@ -266,3 +266,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
   speed, whose sign says which way it rotates. State a convention difference by which equations correspond ("his
   equations are the complex conjugates of those here, with k of opposite sign"), never as a change in the sign of i,
   which is always √−1. (2026-11-13)
+- **P84.** Say how a simulated quantity is measured, with the steps that get it from the paper's equations (the
+  wavenumber from the phase of h − L_V/x: h_wave ∝ e^{i∫k dr}, so k = d arg(h_wave)/dr, between neighboring
+  streamlines), rather than pointing to where another paper did it. (2026-11-15)

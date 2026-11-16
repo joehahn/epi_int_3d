@@ -375,4 +375,22 @@ print('PASS  B20: <[1 - (1 - q^2) cos^2 phi]^{1/2}> over phi = (2/pi) E(1 - q^2)
 # to first order in D/nu^2 = 1 - q^2 the average is 1 - D/(4 nu^2)
 mq = sp.symbols('mq')
 check('B20: (2/pi)E(m) = 1 - m/4 + O(m^2)', sp.series(2/sp.pi*sp.elliptic_e(mq), mq, 0, 2).removeO() - (1 - mq/4))
+# --- B21: the simulated wavenumber (Section 4.1.4). With h_wave = A(r) e^{i psi(r)}, psi = int k dr, A real and positive,
+# d ln(h_wave)/dr = A'/A + i k, so dh_wave/dr = i k h_wave where A varies slowly, and k = Im[d ln(h_wave)/dr] = d arg(h_wave)/dr
+# exactly; the finite difference arg(h_{j+1}/h_j)/(r_{j+1} - r_j) is that derivative to second order at the midpoint ---
+r21 = sp.symbols('r', real=True)
+A21, psi21 = sp.Function('A', positive=True)(r21), sp.Function('psi', real=True)(r21)
+hw21 = A21*sp.exp(sp.I*psi21)
+dln21 = sp.simplify(sp.diff(hw21, r21)/hw21)
+check('B21: d ln(h_wave)/dr = A\'/A + i psi\'', sp.simplify(dln21 - (sp.diff(A21, r21)/A21 + sp.I*sp.diff(psi21, r21))))
+_Av, _dA, _dpsi = sp.symbols('A_v dA dpsi', real=True)
+_dln = (dln21.subs({sp.diff(A21, r21): _dA, sp.diff(psi21, r21): _dpsi}).subs(A21, _Av))
+check('B21: k = Im[d ln(h_wave)/dr] = psi\'', sp.simplify(sp.im(sp.expand(_dln)) - _dpsi))
+_r = _np.linspace(1.0, 1.008, 541)
+_psi = -((_r - 1.0064)/1.0064)**2/(2*2.0e-7)                     #a trailing wave's phase, as in Eqn. (35c)
+_h = (1.0 + 30*(_r - 1))*_np.exp(1j*_psi)
+_k = _np.angle(_h[1:]/_h[:-1])/_np.diff(_r)
+_rm = 0.5*(_r[1:] + _r[:-1])
+assert _np.max(_np.abs(_k + (_rm - 1.0064)/1.0064**2/2.0e-7)) < 1e-6*_np.max(_np.abs(_k)), 'B21 finite difference'
+print('PASS  B21: arg(h_{j+1}/h_j)/(r_{j+1} - r_j) = d psi/dr at the midpoint, for a slowly varying amplitude')
 print('all bending-wave checks passed')

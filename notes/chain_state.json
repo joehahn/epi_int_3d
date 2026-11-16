@@ -45,13 +45,14 @@
  },
  "claim:bw_wavenumber": {
   "date": "2026-11-15",
-  "hash": "7936be3f57e8",
+  "hash": "595290612376",
   "needs": {
    "numbers:bending_waves": "67e854944346",
    "paper:eqn:vres_lambda": "afc20a079dc2",
    "paper:eqn:wire_edges": "82d2cac3fc2e",
    "paper:fig:wavenumber": "d3643c85d6a7",
    "sympy:B13": "8b55d9e013f5",
+   "sympy:B21": "faabd8b58b9e",
    "sympy:B7": "f2f19bbd3cb6",
    "test:kernels": "6d4a993dadf2"
   }
@@ -550,6 +551,13 @@
    "eq:B6": "5c24f8ef2261"
   }
  },
+ "eq:B21": {
+  "date": "2026-11-15",
+  "hash": "dbec2eff62bd",
+  "needs": {
+   "eq:B15": "0f020c6c3b22"
+  }
+ },
  "eq:B3": {
   "date": "2026-11-10",
   "hash": "d92173e01246",
@@ -947,7 +955,7 @@
  },
  "figure:wavenumber": {
   "date": "2026-11-15",
-  "hash": "a994f0ac9d65",
+  "hash": "8b04635e567c",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
@@ -956,7 +964,8 @@
    "code:satellite": "2f1dbb1340e9",
    "code:simulated_h": "67e3f6ad9ce8",
    "code:vertical_drift": "7031c051e0f4",
-   "code:wave_wavenumber": "909a79436215"
+   "code:wave_wavenumber": "909a79436215",
+   "sympy:B21": "faabd8b58b9e"
   }
  },
  "figure:wire_planar": {
@@ -991,7 +1000,7 @@
    "figure:angular_momentum": "4d54f946ccbe",
    "figure:bending_wave": "8815867d40a3",
    "figure:torque": "d43679e1c7da",
-   "figure:wavenumber": "a994f0ac9d65"
+   "figure:wavenumber": "8b04635e567c"
   }
  },
  "notebook:inclined": {
@@ -1450,7 +1459,7 @@
   "date": "2026-11-15",
   "hash": "d3643c85d6a7",
   "needs": {
-   "figure:wavenumber": "a994f0ac9d65",
+   "figure:wavenumber": "8b04635e567c",
    "sympy:B13": "8b55d9e013f5",
    "sympy:B7": "f2f19bbd3cb6"
   }
@@ -1572,9 +1581,16 @@
  },
  "sympy:B20": {
   "date": "2026-11-15",
-  "hash": "1a253b584b0b",
+  "hash": "339543871ab4",
   "needs": {
    "eq:B20": "abc89dc691bd"
+  }
+ },
+ "sympy:B21": {
+  "date": "2026-11-15",
+  "hash": "faabd8b58b9e",
+  "needs": {
+   "eq:B21": "dbec2eff62bd"
   }
  },
  "sympy:B3": {

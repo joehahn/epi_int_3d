@@ -652,8 +652,12 @@ resonance, the forced response is up to \bwForcedPercent\% larger than linear th
 an infinite sheet, which has ring matter beyond this ring's outer edge, and that is the likely cause,
 though it has not been quantified.
 
-Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$, measured from the radial gradient of
-the phase of its wave part $h - L_V/x$, as in Fig.~5 of \cite{H07}. Behind the front it is \bwKcontPercent\%
+Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$. Each streamline's complex amplitude $h$ is
+measured by a least-squares fit of its particles' vertical displacements to $Z = {\rm Re}[h e^{im(\theta - \Omega_pt)}]$.
+The wave part of $h$, $h_{\rm wave} = h - L_V/x$ of Eqn.\ (\ref{eqn:vres_sol}), varies as $e^{i\int k\,dr}$, so
+$dh_{\rm wave}/dr = ikh_{\rm wave}$ where the wave's amplitude varies slowly, and $k = d\arg(h_{\rm wave})/dr$,
+which is computed as the change in the phase of $h_{\rm wave}$ between neighboring streamlines divided by their
+separation. Behind the front it is \bwKcontPercent\%
 larger than the $|k| = 2\pi/\lambda_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
 that much shorter. This is because the simulated ring is a finite lattice of streamlines
 rather than the infinite, continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes, and both

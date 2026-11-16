@@ -105,3 +105,6 @@ From figures Claude made for this project before this guide (`paper/figures/vert
 ## From the author's edits
 
 *(Each correction the author makes to a figure becomes a rule here, so it isn't needed twice.)*
+
+- **V19. Don't rescale the x axis of a plot versus x** (no "x (10⁻³)"): plot x itself and let the tick labels show
+  its values, as Fig. 3 does. (2026-11-15)
