@@ -21,6 +21,16 @@ from epi_int_3d import nu_a, restore_output, vertical_elements
 from analysis import read_inputs
 
 
+def paper_figure(name):
+    """The paper's figure script paper/figures/<name>.py as a module, so a notebook draws its figure with the same
+    code, figure(p, o), that writes the paper's PDF: the two are identical (style/testing.md T28)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('paper_figure_' + name, REPO/'paper'/'figures'/(name + '.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def load3d(test_folder, output_folder=None, modified_params=None):
     """A test's parameters, and its output with the elements a, e, wt, M, inclination and node.
     Output 0 is skipped: like the reference driver's, it holds barycentric velocities."""

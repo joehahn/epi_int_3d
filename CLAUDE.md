@@ -94,7 +94,8 @@ decisions, ground rules) and `README.md`.
 - Every plot and quoted number, in the paper and the notebooks, is computed by code that reads the simulation's
   output directly (`load3d`), never from saved derived values, another notebook's output, or a plot (`style/testing.md` T23),
   and is compared only with theory the paper itself presents, never with one derived only in `notes/` (T24); a quantity
-  is computed from its definition (D = ν_a² − ω_m²), never inferred through a theoretical relation (T25).
+  is computed from its definition (D = ν_a² − ω_m²), never inferred through a theoretical relation (T25). A paper figure
+  is drawn by its script's `figure(p, o)`, which its notebook calls too, so the two are identical (T28).
 - Paper revisions. After each edit the author asks for: run `uv run python tools/lint_paper.py --compile`
   and fix what it finds; check the edit against `joes_papers/writing_style.md`; render the changed pages
   and look at them. Then report what changed and why, and any question where the request was ambiguous.

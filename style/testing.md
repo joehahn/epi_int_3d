@@ -174,3 +174,9 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
 - **T27. Titles say what is shown, not what it means** (the author, 2026-11-16). A plot's title names what is plotted
   (`'(b) forced inclinations versus x'`), never a conclusion or commentary (not `'the inclinations peak where D = 0'`).
   What the plot shows goes in the cell's comment and the printed numbers.
+- **T28. A paper figure and its notebook's are one figure** (the author, 2026-11-16). Each paper figure made from a
+  simulation is drawn by a `figure(p, o)` function in its `paper/figures/` script, in the style of
+  `paper/figures/figstyle.py` (matplotlib's defaults, then seaborn's, so the caller's settings don't leak in). The
+  notebook calls that same function (`paper_figure(name).figure(p, o)` from `tests/vertical_analysis.py`) to show it,
+  and the script's `__main__` saves the PDF, so the two are identical by construction. A notebook may show more
+  figures than the paper; every paper figure appears in its notebook.

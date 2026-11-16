@@ -1442,7 +1442,8 @@
     "code:vertical_drift",
     "code:drift",
     "eq:B12",
-    "code:resonance_D"
+    "code:resonance_D",
+    "figure:vertical_resonance"
    ]
   },
   {
@@ -1457,7 +1458,11 @@
     "code:bending_wave",
     "code:simulated_h",
     "code:satellite_torque",
-    "code:wave_wavenumber"
+    "code:wave_wavenumber",
+    "figure:bending_wave",
+    "figure:wavenumber",
+    "figure:torque",
+    "figure:angular_momentum"
    ]
   },
   {
@@ -1472,6 +1477,13 @@
    "note": "makes wire_planar and wire_velocity"
   },
   {
+   "id": "code:figstyle",
+   "kind": "code",
+   "anchor": "paper/figures/figstyle.py",
+   "needs": [],
+   "note": "the paper figures' style, as a context independent of the caller's settings (T28)"
+  },
+  {
    "id": "figure:vertical_resonance",
    "kind": "figure",
    "anchor": "paper/figures/vertical_resonance.py",
@@ -1479,7 +1491,9 @@
     "code:satellite",
     "code:vertical_drift",
     "code:drift",
-    "sympy:B12"
+    "sympy:B12",
+    "code:resonance_D",
+    "code:figstyle"
    ]
   },
   {
@@ -1575,7 +1589,8 @@
     "code:bending_wave",
     "code:ring_sigma",
     "sympy:B8",
-    "sympy:B10"
+    "sympy:B10",
+    "code:figstyle"
    ]
   },
   {
@@ -2171,17 +2186,6 @@
    "note": "the ring's L_z, sum of mu r v_theta"
   },
   {
-   "id": "figure:resonance_location",
-   "kind": "figure",
-   "anchor": "paper/figures/resonance_location.py",
-   "needs": [
-    "code:satellite",
-    "code:vertical_drift",
-    "code:drift",
-    "code:resonance_D"
-   ]
-  },
-  {
    "id": "figure:wavenumber",
    "kind": "figure",
    "anchor": "paper/figures/wavenumber.py",
@@ -2192,7 +2196,8 @@
     "code:drift",
     "code:simulated_h",
     "code:wave_wavenumber",
-    "code:ring_sigma"
+    "code:ring_sigma",
+    "code:figstyle"
    ]
   },
   {
@@ -2205,7 +2210,8 @@
     "code:vertical_drift",
     "code:drift",
     "code:satellite_torque",
-    "code:ring_sigma"
+    "code:ring_sigma",
+    "code:figstyle"
    ]
   },
   {
@@ -2218,20 +2224,8 @@
     "code:vertical_drift",
     "code:drift",
     "code:ring_angular_momentum",
-    "code:kick_drift_kick"
-   ]
-  },
-  {
-   "id": "paper:fig:resloc",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#fig:resloc",
-   "needs": [
-    "figure:resonance_location",
-    "sympy:B5",
-    "sympy:B6"
-   ],
-   "notebook": [
-    "vertical_resonance#test1"
+    "code:kick_drift_kick",
+    "code:figstyle"
    ]
   },
   {
@@ -2285,7 +2279,7 @@
    "needs": [
     "numbers:vertical_resonance",
     "paper:eqn:bw_disp",
-    "paper:fig:resloc"
+    "paper:fig:vres"
    ],
    "note": "D = nu_a^2 - omega_m^2 at the streamlines vanishes between the two nearest r_V, which have the largest <i> (T25)",
    "notebook": [

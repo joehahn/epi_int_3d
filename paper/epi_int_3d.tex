@@ -599,34 +599,26 @@ natural units where $G = M_p = 1$. Its ring is \vresNstreamlines\ streamlines of
 $1 \le r \le \vresRmax$, and an $m = \vresM$ satellite with $i_s = \vresIs$ at $a_s = \vresAs$ puts $r_V = \vresRV$
 mid-ring, midway between two streamlines. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
 \vresTauOrbits\ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
-motion remains averages away over time. Figure \ref{fig:vres} shows that the particles' inclinations,
+motion remains averages away over time. Figure \ref{fig:vres}b shows that the particles' inclinations,
 averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
 Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
 Eqn.\ (\ref{eqn:vres_inc}) neglects.
 
-The inclinations also peak at the resonance. Figure \ref{fig:resloc} shows $D$ of Eqn.\ (\ref{eqn:bw_disp})
+The inclinations also peak at the resonance. Figure \ref{fig:vres}a shows $D$ of Eqn.\ (\ref{eqn:bw_disp})
 at each streamline's semimajor axis, which vanishes between the two streamlines nearest $r_V$, at
 $|x| \le \vresXnear$, and these two streamlines have the largest inclinations.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/vertical_resonance.pdf}
-\caption{Inclinations $\langle i\rangle$ of massless particles near a satellite's $m = \vresM$ inner
-vertical resonance, averaged over each streamline's particles and over the last $\vresAvgOrbits$ orbits of the
-simulation of Section \ref{sec:waves_massless} (dots), plotted vs.\ their average fractional distance
-from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\ref{eqn:vres_inc}).}
+\caption{Massless particles near a satellite's $m = \vresM$ inner vertical resonance, in the simulation of
+Section \ref{sec:waves_massless}, with each streamline's semimajor axis and inclination averaged over its particles and
+the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$. (a) The quantity
+$D = \nu_a^2 - \omega_m^2$ of Eqn.\ (\ref{eqn:bw_disp}) at each streamline's semimajor axis (dots), in units of
+$\Omega_a^2$ at $r_V$; the curve is $D$ at all $x$, the circles mark the two streamlines with the largest inclinations,
+and the inset shows the streamlines nearest the resonance. (b) The inclinations $\langle i\rangle$ (dots), and the
+forced inclination $i_f$ of Eqn.\ (\ref{eqn:vres_inc}) (curve).}
 \label{fig:vres}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\columnwidth]{figures/resonance_location.pdf}
-\caption{The quantity $D = \nu_a^2 - \omega_m^2$ of Eqn.\ (\ref{eqn:bw_disp}), in units of $\Omega_a^2$ at $r_V$,
-at each streamline's semimajor axis (dots), averaged over its particles and the last $\vresAvgOrbits$ orbits of the
-simulation of Section \ref{sec:waves_massless}, plotted vs.\ its fractional distance from resonance $x$. The curve is
-$D$ at all $x$, and the circles mark the two streamlines with the largest inclinations in Fig.\ \ref{fig:vres}.
-The inset shows the streamlines nearest the resonance.}
-\label{fig:resloc}
 \end{figure}
 
 \subsubsection{A self-gravitating ring}
