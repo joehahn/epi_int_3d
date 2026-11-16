@@ -162,3 +162,8 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
   Eqn. (25)'s D, evaluated exactly). Never with a closer theory derived only in `notes/` (an `equations.md` entry
   the paper doesn't state), even when it fits better. If the paper's theory and the simulation differ, the notebook
   shows the difference and the paper explains it; if a better theory is needed, it goes into the paper first.
+- **T25. A quantity is computed from its definition** (the author, 2026-11-16). A simulated quantity is calculated
+  from the paper's definition of it, using the simulation's own output: D is ν_a² − ω_m² (Eqn. (25)) at the
+  streamlines' semimajor axes, never inferred from another quantity through a theoretical relation (like D = A_V/Im(h)
+  from the forced amplitude). An inference through the theory under test assumes that theory, so the comparison
+  becomes partly circular.
