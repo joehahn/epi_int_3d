@@ -6,7 +6,7 @@
 #with this same function: for the zero-mass ring of tests/vertical_resonance, with each streamline's semimajor axis a
 #and inclination i averaged over its particles and the orbits after 10^4,
 #  (a) D = nu_a^2 - omega_m^2 (Eqn. 25) at each streamline's a, in units of Omega_a^2 at r_V, versus x = (a - r_V)/r_V,
-#      the curve D at all x, the two streamlines with the largest <i> circled, and an inset near r_V;
+#      the curve D at all x, and the two streamlines with the largest <i> circled;
 #  (b) <i> versus x, and the forced inclination i_f of Eqn. (38).
 #Needs that test's output: uv run python tools/run_simulations.py tests/vertical_resonance
 #
@@ -47,28 +47,16 @@ def figure(p, o):
     peak = np.argsort(i_avg)[-2:]                               #the two streamlines with the largest <i>
     with style(font_scale=1.0):
         f, (ax, ax2) = plt.subplots(2, 1, figsize=(6, 7.5))
-        def panel_a(ax, ms):
-            ax.axhline(0.0, color='gray', linewidth=1)
-            ax.axvline(0.0, color='gray', linewidth=1)
-            ax.plot(xs, D_curve/Omega_V2, linewidth=1, color='black', label=r'$\nu_a^2 - \omega_m^2$')
-            ax.plot(x, D/Omega_V2, marker='o', markersize=ms, linestyle='none', color='gray', label='streamlines',
-                zorder=3)
-            ax.plot(x[peak], D[peak]/Omega_V2, marker='o', markersize=ms + 4, linestyle='none', markerfacecolor='none',
-                markeredgecolor='black', label=r'largest $\langle i\rangle$', zorder=4)
-        panel_a(ax, 2.6)
+        ax.axhline(0.0, color='gray', linewidth=1)
+        ax.axvline(0.0, color='gray', linewidth=1)
+        ax.plot(xs, D_curve/Omega_V2, linewidth=1, color='black', label=r'$\nu_a^2 - \omega_m^2$')
+        ax.plot(x, D/Omega_V2, marker='o', markersize=2.6, linestyle='none', color='gray', label='streamlines',
+            zorder=3)
+        ax.plot(x[peak], D[peak]/Omega_V2, marker='o', markersize=6.6, linestyle='none', markerfacecolor='none',
+            markeredgecolor='black', label=r'largest $\langle i\rangle$', zorder=4)
         ax.set_xlabel(r'fractional distance from resonance $x$')
-        ax.set_ylabel(r'$D = \nu_a^2 - \omega_m^2$    ($\Omega_a^2$ at $r_V$)')
-        ax.set_title(r'(a) $D = \nu_a^2 - \omega_m^2$ versus $x$', fontsize=11)
+        ax.set_ylabel(r'frequency distance from resonance $D$' + '\n' + r'($\Omega_a^2$ at $r_V$)')
         ax.legend(loc='upper left', fontsize=9)
-        w = 1.6e-3
-        ins = ax.inset_axes([0.6, 0.1, 0.37, 0.38])
-        panel_a(ins, 3)
-        ins.set_xlim(-w, w)
-        near = np.abs(xs) <= w
-        ins.set_ylim(1.1*D_curve[near].min()/Omega_V2, 1.1*D_curve[near].max()/Omega_V2)
-        ins.set_xticks([-1.0e-3, 0.0, 1.0e-3], ['-0.001', '0', '0.001'])
-        ins.set_yticks([-0.004, 0.0, 0.004], ['-0.004', '0', '0.004'])
-        ins.tick_params(labelsize=7)
         ax2.axvline(0.0, color='gray', linewidth=1)
         ax2.plot(x, i_avg, marker='o', markersize=2.6, linestyle='none', color='gray', label='simulation', zorder=3)
         ax2.plot(xs, i_f, linewidth=1, color='black', label=r'$i_f$, Eqn. (38)')
@@ -76,10 +64,10 @@ def figure(p, o):
         ax2.set_ylim(1.0e-8, 1.0e-5)
         ax2.set_xlabel(r'fractional distance from resonance $x$')
         ax2.set_ylabel(r'inclination $\langle i\rangle$')
-        ax2.set_title(r'(b) forced inclinations versus $x$', fontsize=11)
         ax2.legend(loc='upper left', fontsize=9)
-        for a_ in (ax, ax2):
+        for a_, label in ((ax, '(a)'), (ax2, '(b)')):
             a_.set_xticks([-0.02, -0.01, 0.0, 0.01, 0.02])
+            a_.text(0.97, 0.93, label, transform=a_.transAxes, ha='right', va='top', fontsize=11)
         f.tight_layout(h_pad=1.5)
     return f
 

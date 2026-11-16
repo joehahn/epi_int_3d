@@ -137,7 +137,7 @@
   "date": "2026-11-15",
   "hash": "a9d8d99988af",
   "needs": {
-   "figure:vertical_resonance": "d034689a303d",
+   "figure:vertical_resonance": "545f6aa2a72e",
    "notebook:vertical_resonance": "584ee2f907ef",
    "numbers:vertical_resonance": "861b061f49ae",
    "paper:eqn:vres_inc": "22616813c853",
@@ -206,7 +206,7 @@
   "needs": {
    "numbers:vertical_resonance": "861b061f49ae",
    "paper:eqn:bw_disp": "3120b808e257",
-   "paper:fig:vres": "14d145982a46"
+   "paper:fig:vres": "6ac8d9708cdb"
   }
  },
  "claim:three_corrections": {
@@ -935,7 +935,7 @@
  },
  "figure:vertical_resonance": {
   "date": "2026-11-15",
-  "hash": "d034689a303d",
+  "hash": "545f6aa2a72e",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
@@ -1016,7 +1016,7 @@
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
    "eq:B12": "d87f6aac45c3",
-   "figure:vertical_resonance": "d034689a303d"
+   "figure:vertical_resonance": "545f6aa2a72e"
   }
  },
  "numbers:bending_waves": {
@@ -1440,9 +1440,9 @@
  },
  "paper:fig:vres": {
   "date": "2026-11-15",
-  "hash": "14d145982a46",
+  "hash": "6ac8d9708cdb",
   "needs": {
-   "figure:vertical_resonance": "d034689a303d",
+   "figure:vertical_resonance": "545f6aa2a72e",
    "numbers:vertical_resonance": "861b061f49ae"
   }
  },
