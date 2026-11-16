@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
 from vertical_analysis import (load3d, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
-    resonance_D, satellite_torque, ring_angular_momentum, late_outputs)
+    resonance_D, satellite_torque, ring_angular_momentum, late_outputs, resolution_runs)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -124,12 +124,10 @@ def bending_wave_comparisons(p, o):
     x_mid = 0.5*(x[1:] + x[:-1])
     k_sim = np.angle(h_wave[1:]/h_wave[:-1])/np.diff(x)/sat.r_V
     idx = (x_mid < x_hi) & (x_mid > x_lo)
-    k_cont, k_lat, k_edge = wave_wavenumber(p, sat, x_mid[idx])
+    k_cont = wave_wavenumber(p, sat, x_mid[idx])
     behind = (x < x_hi) & (x > x_lo)
     comparisons = {}
     comparisons['k_cont'] = np.median(k_sim[idx]/k_cont - 1.0)
-    comparisons['k_lat'] = np.median(k_sim[idx]/k_lat - 1.0)
-    comparisons['k_edge'] = np.median(k_sim[idx]/k_edge - 1.0)
     comparisons['amplitude'] = np.median(np.abs(h_wave[behind]))/Z_w
     return sat, x, h, comparisons
 
@@ -177,8 +175,12 @@ def bending_waves_numbers():
     #agreement with linear theory
     numbers += [('bwAmpPercent', latex_number(100.0*abs(comparisons['amplitude'] - 1.0), 1), 'median |h_wave|/|Z_w| - 1, percent')]
     numbers += [('bwKcontPercent', latex_number(100.0*comparisons['k_cont'], 2), 'median k/k_continuum - 1, percent (B7)')]
-    numbers += [('bwKlatPercent', latex_number(100.0*comparisons['k_lat'], 2), 'median k/k_lattice - 1, percent (B13)')]
-    numbers += [('bwKedgePercent', latex_number(100.0*comparisons['k_edge'], 1), 'median k/k_lattice+edges - 1, percent (B13)')]
+    #the same ring at 300 and 1200 streamlines (resolution_runs, Fig. 4): k converges toward the continuum's
+    for (p_res, o_res), name in zip(resolution_runs(test_folder)[::2], ('Coarse', 'Fine')):
+        k_res = bending_wave_comparisons(p_res, o_res)[3]['k_cont']
+        numbers += [('bwKcontPercent' + name, latex_number(100.0*k_res, 2),
+            f"{p_res['number_of_streamlines']} streamlines: median k/k_continuum - 1, percent (B7)")]
+        numbers += [('bwNstreamlines' + name, str(p_res['number_of_streamlines']), 'resolution_runs')]
     epsilon_half = np.sqrt(2.0*np.pi*sigma/(sat.r_V*sat.D_V))
     outside = (x > 2.0*epsilon_half)
     h_theory = bending_wave(sat, sigma, x)
@@ -194,20 +196,6 @@ def bending_waves_numbers():
     L = ring_angular_momentum(p, o)
     numbers += [('bwDeltaL', latex_number(np.abs((L - L[0])/L[0]).max(), 2, up=True), 'largest |Delta L_z/L_z| over the run, rounded up')]
     print('amplitude =', np.round(comparisons['amplitude'], 4), '   crests =', np.round(crests, 2))
-    #the resolution runs of a ring half as wide (the notebook's Section 7), if they have been made
-    narrow = {'radial_width': 0.004, 'total_ring_mass': 1.0e-9, 'number_of_streamlines': 270, 'number_of_particles': 8640,
-        'satellite': dict(p['satellite'], r=2.090314689118), 'output_folder': 'output_narrow'}
-    doubled = dict(narrow, number_of_streamlines=540, number_of_particles=17280, output_folder='output_narrow_ns540')
-    if (os.path.exists(os.path.join(test_folder, 'output_narrow')) and os.path.exists(os.path.join(test_folder, 'output_narrow_ns540'))):
-        p_narrow, o_narrow = load3d(test_folder, modified_params=narrow)
-        comparisons_narrow = bending_wave_comparisons(p_narrow, o_narrow)[3]
-        p_doubled, o_doubled = load3d(test_folder, modified_params=doubled)
-        comparisons_doubled = bending_wave_comparisons(p_doubled, o_doubled)[3]
-        numbers += [('bwNarrowKcontPercent', latex_number(100.0*comparisons_narrow['k_cont'], 2), 'half-width ring, 270 streamlines: k/k_continuum - 1, percent')]
-        numbers += [('bwDoubledKcontPercent', latex_number(100.0*comparisons_doubled['k_cont'], 2), 'half-width ring, 540 streamlines: k/k_continuum - 1, percent')]
-        numbers += [('bwDoubledKedgePercent', latex_number(100.0*comparisons_doubled['k_edge'], 1), 'half-width ring, 540 streamlines: k/k_lattice+edges - 1, percent')]
-    else:
-        print('the half-width runs output_narrow and output_narrow_ns540 were not found: their numbers are left out')
     return numbers
 
 

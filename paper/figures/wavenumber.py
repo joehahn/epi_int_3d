@@ -2,15 +2,15 @@
 #
 #by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 12 November 2026.
 #
-#the paper's wavenumber figure (Section 4.1.4): the simulated bending wave's
-#dimensionless wavenumber |k| r_V versus fractional distance from resonance x at the end of tests/bending_waves,
-#against the continuum dispersion relation of Shu (1984), D|x| = 2 pi G sigma |k| (notes/equations.md B7), and that of
-#the finite lattice of streamlines with the ring's edges, B13. The simulated k is the radial gradient of the phase of
-#the wave part of each streamline's complex amplitude h, h - L_V/x: k = d arg(h - L_V/x)/dr, the change in that phase
-#between neighboring streamlines divided by their separation.
-#Needs that test's output: uv run python tools/run_simulations.py tests/bending_waves
+#the paper's wavenumber figure (Section 4.1.4): the simulated bending wave's dimensionless wavenumber |k| r_V versus
+#fractional distance from resonance x at the end of tests/bending_waves, in the same ring simulated with 300, 600 and
+#1200 streamlines (resolution_runs), against the continuum dispersion relation of Shu (1984), D|x| = 2 pi G sigma |k|
+#(Eqn. 37; notes/equations.md B7). The simulated k is the radial gradient of the phase of the wave part of each
+#streamline's complex amplitude h, h - L_V/x: k = d arg(h - L_V/x)/dr, the change in that phase between neighboring
+#streamlines divided by their separation (B21).
+#Needs that test's outputs: uv run python tools/run_simulations.py tests/bending_waves
 #
-#Drawn by figure(p, o), which tests/bending_waves/bending_waves.ipynb also calls, so the two are identical.
+#Drawn by figure(runs), which tests/bending_waves/bending_waves.ipynb also calls, so the two are identical.
 #
 #usage, from the repo's top folder:
 #   uv run python paper/figures/wavenumber.py     (writes wavenumber.pdf and wavenumber.png)
@@ -28,48 +28,37 @@ for folder in ('source', 'fast', 'tests'):
         sys.path.insert(0, str(REPO/folder))
 sys.path.insert(0, str(HERE))
 from figstyle import style
-from vertical_analysis import simulated_h, ring_sigma, wave_wavenumber, nu_a
+from vertical_analysis import simulated_h, wave_wavenumber, wavenumber_profile, behind_front
 
 
-def figure(p, o):
-    """The figure, from the run's parameters p and output o (load3d)."""
-    #the wave's local wavenumber from the phase of its wave part, at the end
-    sat, x, h = simulated_h(p, o, -1)
-    sigma = ring_sigma(p)
-    A_V = sat.mass_final*sat.A_V_per_mass
-    forced = 1j*A_V/(sat.D_V*x)                                         #L_V/x
-    x_mid = 0.5*(x[1:] + x[:-1])
-    k_sim = np.angle((h - forced)[1:]/(h - forced)[:-1])/np.diff(x)/sat.r_V
-    #where the wave is in place at the end: behind its front, which travels inward at c_g = pi G sigma/nu
-    nu_V = nu_a(p['J2'], p['Rp'], sat.r_V)
-    x_front = -np.pi*sigma*o['times'][-1]/(nu_V*sat.r_V)
-    behind = (x_mid < -2.0*np.sqrt(2*np.pi*sigma/(sat.r_V*sat.D_V))) & (x_mid > x_front)
-    #theory
-    x_theory = np.linspace(x.min(), -1.0e-5, 400)
-    k_continuum, k_lattice, k_edges = wave_wavenumber(p, sat, x_theory)
+def figure(runs):
+    """The figure, from the runs at each number of streamlines, [(p, o), ...] (resolution_runs), coarsest first."""
     with style(font_scale=1.5) as color_seq:
         f, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(x_mid[behind], np.abs(k_sim[behind])*sat.r_V/1.0e4, marker='o', markersize=6, linestyle='none',
-            alpha=0.7, color=color_seq[0], label='simulation')
-        ax.plot(x_theory, k_continuum*sat.r_V/1.0e4, linestyle='dashed', linewidth=2, color=color_seq[0],
-            label='continuum')
-        ax.plot(x_theory, k_edges*sat.r_V/1.0e4, linestyle='dashed', linewidth=2, color=color_seq[1],
-            label='lattice + edges')
+        for (p, o), color in zip(runs, color_seq):
+            sat, x, h = simulated_h(p, o, -1)
+            A_V = sat.mass_final*sat.A_V_per_mass
+            x_mid, k_sim = wavenumber_profile(x, h - 1j*A_V/(sat.D_V*x), sat.r_V)    #the wave part, h - L_V/x
+            behind, x_front = behind_front(p, o, sat, x_mid)
+            ax.plot(x_mid[behind], np.abs(k_sim[behind])*sat.r_V/1.0e4, marker='o', markersize=4, linestyle='none',
+                alpha=0.7, color=color, label=f"{p['number_of_streamlines']} streamlines")
+        x_theory = np.linspace(x.min(), 0.0, 400)
+        ax.plot(x_theory, wave_wavenumber(p, sat, x_theory)*sat.r_V/1.0e4, linestyle='dashed', linewidth=2,
+            color='black', label='Eqn. (37)')
         ax.axvline(x_front, color='gray', linewidth=1, linestyle='dotted')
         ax.set_xlim(x.min(), 0.0)
         ax.set_ylim(0.0, 6.0)
         ax.set_xlabel(r'fractional distance from resonance $x$')
         ax.set_ylabel(r'wavenumber $|k|r_V$    ($10^4$)')
-        ax.legend(loc='upper left')
+        ax.legend(loc='upper right')
     return f
 
 
 if __name__ == '__main__':
     import matplotlib
     matplotlib.use('Agg')
-    from vertical_analysis import load3d
-    p, o = load3d(REPO/'tests'/'bending_waves')
-    f = figure(p, o)
+    from vertical_analysis import resolution_runs
+    f = figure(resolution_runs(REPO/'tests'/'bending_waves'))
     for ext in ('pdf', 'png'):
         f.savefig(HERE/f'wavenumber.{ext}', bbox_inches='tight', dpi=130)
         print('wrote', HERE/f'wavenumber.{ext}')

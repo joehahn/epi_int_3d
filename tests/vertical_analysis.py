@@ -171,23 +171,34 @@ def satellite_torque(p, o, k):
 
 
 def wave_wavenumber(p, sat, x, G=1.0):
-    """The local wavenumber k(x) of the free bending wave at x < 0, from three dispersion relations, near r_V
-    where nu^2 - omega_m^2 = D_V x (B5): the continuum's D_V|x| = 2 pi G sigma k (B7); a lattice of streamlines
-    spaced Delta, D_V|x| = X(k Delta) = (4 G sigma/Delta)(pi k Delta/2 - (k Delta)^2/4) (the paper's zigzag_X); and
-    that lattice cut off at the ring's edges, which lacks the pull of the streamlines beyond them,
-    D_V|x| = X(k Delta) - 2 G sigma (1/d_in + 1/d_out), with d the distance to each edge plus Delta/2 (B13)."""
-    from scipy.optimize import brentq
-    sig = ring_sigma(p)
-    W, N = p['radial_width'], p['number_of_streamlines']
-    Delta = W/(N - 1)
-    r = sat.r_V*(1 + np.asarray(x, dtype=float))
-    d_in, d_out = r - 1 + Delta/2, 1 + W - r + Delta/2
-    lattice = lambda k: (4*G*sig/Delta)*(np.pi*k*Delta/2 - (k*Delta)**2/4)
-    k_cont = sat.D_V*np.abs(x)/(2*np.pi*G*sig)
-    k_lat = np.array([brentq(lambda k: lattice(k) - sat.D_V*abs(xx), 0.0, np.pi/Delta) for xx in np.ravel(x)])
-    k_edge = np.array([brentq(lambda k: lattice(k) - 2*G*sig*(1/di + 1/do) - sat.D_V*abs(xx), 0.0, np.pi/Delta)
-                       for xx, di, do in zip(np.ravel(x), np.ravel(d_in), np.ravel(d_out))])
-    return k_cont, k_lat.reshape(np.shape(x)), k_edge.reshape(np.shape(x))
+    """The local wavenumber k(x) of the free bending wave at x < 0 in the continuum, near r_V where
+    nu^2 - omega_m^2 = D_V x (B5): D_V|x| = 2 pi G sigma k (B7, the paper's Eqns. 25 and 37)."""
+    return sat.D_V*np.abs(np.asarray(x, dtype=float))/(2*np.pi*G*ring_sigma(p))
+
+
+#tests/bending_waves at three numbers of streamlines, the same ring otherwise (tools/run_simulations.py makes them):
+#output folder -> modified inputs; number_of_particles is set from inputs.py's number_of_streamlines before -m applies
+RESOLUTION_RUNS = {
+    'output_N300': {'number_of_streamlines': 300, 'number_of_particles': 300*32},
+    'output': {},
+    'output_N1200': {'number_of_streamlines': 1200, 'number_of_particles': 1200*32},
+}
+
+
+def resolution_runs(test_folder):
+    """tests/bending_waves' runs at 300, 600 and 1200 streamlines, as a list of (p, o) from load3d, coarsest first."""
+    runs = []
+    for folder, modified in RESOLUTION_RUNS.items():
+        runs.append(load3d(test_folder, Path(test_folder)/folder, dict(modified, output_folder=folder)))
+    return runs
+
+
+def behind_front(p, o, sat, x):
+    """Where the wave is in place at the end of the run: behind its front, which travels inward from r_V at
+    c_g = pi G sigma/nu_a (Eqn. 26), and outside the resonance zone, |x| > 2 (2 pi sigma/(r_V D_V))^{1/2}."""
+    sigma = ring_sigma(p)
+    x_front = -np.pi*sigma*o['times'][-1]/(nu_a(p['J2'], p['Rp'], sat.r_V)*sat.r_V)
+    return (x < -2.0*np.sqrt(2*np.pi*sigma/(sat.r_V*sat.D_V))) & (x > x_front), x_front
 
 
 def resonance_D(p, a):

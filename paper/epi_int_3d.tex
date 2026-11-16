@@ -659,13 +659,11 @@ $dh_{\rm wave}/dr = ikh_{\rm wave}$ where the wave's amplitude varies slowly, an
 which is computed as the change in the phase of $h_{\rm wave}$ between neighboring streamlines divided by their
 separation. Behind the front it is \bwKcontPercent\%
 larger than the $|k| = 2\pi/\lambda_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
-that much shorter. This is because the simulated ring is a finite lattice of streamlines
-rather than the infinite, continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes, and both
-differences weaken the wave's restoring force. Appendix \ref{sec:wire_continuum} shows that the lattice's
-spacing reduces self-gravity's restoring force from $2\pi G\sigma|k|$ to $X(k\Delta)$, and that the ring's
-edges reduce it further, by $2G\sigma(1/d_{\rm in} + 1/d_{\rm out})$. With the lattice allowed for, the
-simulated wavenumber is \bwKlatPercent\% larger than expected, and with the edges allowed for too,
-Eqn.\ (\ref{eqn:wire_edges}), it is \bwKedgePercent\% larger.
+that much shorter. This is because the simulated ring is a finite lattice of streamlines rather than the
+continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes. Figure \ref{fig:wavenumber} also shows the same ring
+simulated with \bwNstreamlinesCoarse\ and \bwNstreamlinesFine\ streamlines, whose wavenumbers are
+\bwKcontPercentCoarse\% and \bwKcontPercentFine\% larger than Eqn.\ (\ref{eqn:vres_lambda}), so the simulated
+wavenumber converges toward Eqn.\ (\ref{eqn:vres_lambda}) as the spacing between streamlines shrinks.
 
 The torque that the satellite exerts on the wave tests the wave's amplitude and phase together. The satellite's
 resonant potential $A_Vz\sin m(\theta - \Omega_pt)$, whose vertical pull is
@@ -698,10 +696,9 @@ Eqn.\ (\ref{eqn:vres_h}). An animation of the wave is at
 \centering
 \includegraphics[width=\columnwidth]{figures/wavenumber.pdf}
 \caption{The wavenumber $|k|r_V$ of the bending wave in the self-gravitating ring of Section \ref{sec:waves_ring}
-at the end of the run (dots), plotted vs.\ fractional distance from resonance $x$, from the front (dotted
-line) to the resonance zone. The blue dashed line is the continuum's dispersion relation, Eqn.\
-(\ref{eqn:vres_lambda}), and the orange dashed curve that of the finite lattice of streamlines with the ring's
-edges, Eqn.\ (\ref{eqn:wire_edges}).}
+at the end of the run, in that ring simulated with \bwNstreamlinesCoarse, \bwNstreamlines\ and
+\bwNstreamlinesFine\ streamlines (dots), plotted vs.\ fractional distance from resonance $x$, from the front
+(dotted line) to the resonance zone. The dashed line is the dispersion relation of Eqn.\ (\ref{eqn:vres_lambda}).}
 \label{fig:wavenumber}
 \end{figure}
 
@@ -972,36 +969,6 @@ pulls over the streamlines gives the vertical restoring force of a self-gravitat
 as the same sum gives the $-2\pi G\sigma|k|$ term of a density wave in the plane. For bending waves,
 though, self-gravity is restoring, and adds to $\nu_a^2$.
 
-On the code's lattice of streamlines spaced $\Delta$ apart (here $\Delta$ is the spacing, as in
-Appendix \ref{sec:appendix_zigzag}), with $Z_j = Z_0\cos(j\phi)$ and
-$\phi = k\Delta$,
-\begin{equation}
-    \label{eqn:wire_lattice}
-    A_z = \frac{4G\sigma Z_0}{\Delta}\sum_{n=1}^\infty\frac{\cos n\phi - 1}{n^2} = -X(\phi)Z_0,
-\end{equation}
-where $X(\phi)$ is the lattice self-gravity of Eqn.\ (\ref{eqn:zigzag_X}). The vertical lattice
-modes therefore oscillate at $\omega^2 = \nu_a^2 + X(\phi)$, which tends to the continuum value as
-$\phi \rightarrow 0$. At the zigzag $\phi = \pi$, the extra restoring force is half the continuum
-value, as it is in the plane. Vertically, however, the lattice's self-gravity is stabilizing, so
-the resolution limit of Eqn.\ (\ref{eqn:zigzag_R}), which concerns in-plane modes, has no vertical
-counterpart.
-
-A ring of finite width also lacks the streamlines beyond its edges. Consider a streamline whose $N$th
-neighbor on one side would be the first one beyond the ring's edge. The sum of Eqn.\ (\ref{eqn:wire_lattice})
-then stops at $n = N - 1$ on that side, and the missing terms are
-$(2G\sigma Z_0/\Delta)\sum_{n \ge N}(\cos n\phi - 1)/n^2$. Their cosines nearly cancel when the wave is
-shorter than the distance to the edge, while $\sum_{n \ge N}1/n^2 \simeq 1/(N - \frac{1}{2})$, so the
-missing pull is about $2G\sigma Z_0/d$ where $d = (N - \frac{1}{2})\Delta$ is the streamline's distance
-to the ring's edge plus half a spacing. Near $r_V$, where $-D \simeq {\cal D}|x|$ on the
-wave side, the lattice's restoring force so replaces the continuum's ${\cal D}|x| = 2\pi G\sigma|k|$ with
-\begin{equation}
-    \label{eqn:wire_edges}
-    {\cal D}|x| = X(k\Delta) - 2G\sigma\left(\frac{1}{d_{\rm in}} + \frac{1}{d_{\rm out}}\right),
-\end{equation}
-where $d_{\rm in}$ and $d_{\rm out}$ are the distances to the ring's inner and outer edges, so
-measured. Both terms lower the restoring force at a given $k$, so the wave's wavenumber is larger than in
-the continuum, by the amounts that Section \ref{sec:waves_ring} finds.
-
 \section{The massless limit of the bending wave}
 \label{sec:massless_limit}
 \setcounter{equation}{0}
@@ -1042,7 +1009,7 @@ has reached only $x \simeq -|c_g|t/r_V$, which tends to zero with $\sigma$, so t
 the forced oscillation $h_{\rm forced}$ as $\sigma \rightarrow 0$. The massless ring of
 Section \ref{sec:waves_massless} is this limit.
 
-
+\clearpage
 \bibliography{epi_int_3d}{}
 \bibliographystyle{aasjournalv7}  % v7.1 (June 2026) mislabels lone citations as "2006a"
 

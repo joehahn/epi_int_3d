@@ -324,16 +324,17 @@ class Converter:
 
 #the notebook sections that back each claim or figure: chain.json nodes with a 'notebook' field, e.g.
 #["bending_waves#test6"], put as a link at the end of the claim's paragraph (anchor 'paper/...tex@phrase') or of the
-#figure's caption (anchor 'paper/...tex#fig:label'), so the author sees them in the text he reads
+#figure's caption (anchor 'paper/...tex#fig:label'), so the author sees them in the text he reads. Each notebook section
+#is linked once, at its first place in the paper's text: later claims or captions that rest on it get no repeat link
 def notebook_links(body):
     nodes = json.load(open(chain_file))
     nodes = nodes['nodes'] if isinstance(nodes, dict) else nodes
-    count = [0]
-    def marker(sections):
+    def marker(k, sections):
         #a claim's links carry its number k, which pairs them with the \\nbstart{k} that opens its sentence
-        k = str(count[0])
         return ''.join('\\nblink{' + k + '}{' + notebook_site + sec.split('#')[0] + '.html' + ('#' + sec.split('#')[1] if '#' in sec else '')
             + '}{' + (('\u00a7' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else '') + '}' for sec in sections)
+    #each claim's or caption's span (begin, at) in the text, where its link goes at 'at'
+    places = []
     for node in nodes:
         sections = node.get('notebook')
         anchor = node.get('anchor', '')
@@ -351,17 +352,26 @@ def notebook_links(body):
             starts = [q.end() for q in re.finditer(r'\.(?=\s)|\n\s*\n', body[:m.start()])]
             begin = starts[-1] if starts else 0
             begin += len(body[begin:]) - len(body[begin:].lstrip())
-            body = body[:begin] + '\\nbstart{' + str(count[0]) + '}' + body[begin:at] + marker(sections) + body[at:]
-            count[0] += 1
+            places.append((begin, at, sections))
         elif ('#fig:' in anchor):
             at = body.find('\\label{' + anchor.split('#', 1)[1] + '}')
             cap = body.rfind('\\caption{', 0, at)
             if ((at < 0) or (cap < 0)):
                 continue
             _, end = braced(body, cap + len('\\caption'))
-            start = cap + len('\\caption{')
-            body = body[:start] + '\\nbstart{' + str(count[0]) + '}' + body[start:end - 1] + marker(sections) + body[end - 1:]
-            count[0] += 1
+            places.append((cap + len('\\caption{'), end - 1, sections))
+    #in text order, drop the sections already linked
+    places.sort(key=lambda q: q[1])
+    seen, kept = set(), []
+    for begin, at, sections in places:
+        fresh = [sec for sec in sections if sec not in seen]
+        seen.update(fresh)
+        if fresh:
+            kept.append((begin, at, fresh))
+    #insert from the end, so the earlier places' positions stay valid
+    for k in range(len(kept) - 1, -1, -1):
+        begin, at, sections = kept[k]
+        body = body[:begin] + '\\nbstart{' + str(k) + '}' + body[begin:at] + marker(str(k), sections) + body[at:]
     return body
 
 

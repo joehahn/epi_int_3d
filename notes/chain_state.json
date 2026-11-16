@@ -3,8 +3,8 @@
   "date": "2026-11-15",
   "hash": "6f5d521ccc8a",
   "needs": {
-   "notebook:bending_waves": "e830c6e26224",
-   "numbers:bending_waves": "67e854944346",
+   "notebook:bending_waves": "02c72c3394e1",
+   "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_sol": "4740b01ec44c",
    "paper:fig:bwave": "e61db81d0b8d",
    "sympy:B10": "75d787686330",
@@ -15,7 +15,7 @@
   "date": "2026-11-15",
   "hash": "237e830f90fb",
   "needs": {
-   "numbers:bending_waves": "67e854944346",
+   "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_amp": "3f9822a753ce",
    "paper:eqn:vres_lambda": "afc20a079dc2",
    "sympy:B7": "f2f19bbd3cb6",
@@ -27,7 +27,7 @@
   "hash": "87a58a4a797d",
   "needs": {
    "code:satellite": "2f1dbb1340e9",
-   "numbers:bending_waves": "67e854944346",
+   "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_torque": "75f039e1ec55",
    "paper:fig:angmom": "3cb9d1f6c7f7",
    "paper:fig:torque": "95995fc9849f"
@@ -45,16 +45,13 @@
  },
  "claim:bw_wavenumber": {
   "date": "2026-11-15",
-  "hash": "595290612376",
+  "hash": "4779c5f728e9",
   "needs": {
-   "numbers:bending_waves": "67e854944346",
+   "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_lambda": "afc20a079dc2",
-   "paper:eqn:wire_edges": "82d2cac3fc2e",
-   "paper:fig:wavenumber": "d3643c85d6a7",
-   "sympy:B13": "8b55d9e013f5",
+   "paper:fig:wavenumber": "48c9a021d69a",
    "sympy:B21": "faabd8b58b9e",
-   "sympy:B7": "f2f19bbd3cb6",
-   "test:kernels": "6d4a993dadf2"
+   "sympy:B7": "f2f19bbd3cb6"
   }
  },
  "claim:direction": {
@@ -232,6 +229,13 @@
    "code:kick_drift_kick": "85b59f4c0c3d"
   }
  },
+ "code:behind_front": {
+  "date": "2026-11-15",
+  "hash": "b9cebd7a0a7c",
+  "needs": {
+   "eq:B19": "bc2cf1e6b784"
+  }
+ },
  "code:bending_wave": {
   "date": "2026-11-10",
   "hash": "cc860c117825",
@@ -240,22 +244,22 @@
   }
  },
  "code:bending_wave_comparisons": {
-  "date": "2026-11-12",
-  "hash": "e627d727c2e1",
+  "date": "2026-11-15",
+  "hash": "750e1c82d9ef",
   "needs": {
    "code:ring_sigma": "c65053c901a9",
    "code:simulated_h": "67e3f6ad9ce8",
-   "code:wave_wavenumber": "909a79436215",
-   "eq:B13": "49e2a12fbc96",
+   "code:wave_wavenumber": "1569fc652275",
    "eq:B8": "0079067546cd"
   }
  },
  "code:bending_waves_numbers": {
   "date": "2026-11-15",
-  "hash": "19f8f6a7677f",
+  "hash": "3dfc77d0c5bb",
   "needs": {
    "code:bending_wave": "cc860c117825",
-   "code:bending_wave_comparisons": "e627d727c2e1",
+   "code:bending_wave_comparisons": "750e1c82d9ef",
+   "code:resolution_runs": "317650c5746d",
    "code:ring_sigma": "c65053c901a9",
    "code:simulated_h": "67e3f6ad9ce8",
    "eq:B10": "486b39ae2fe5",
@@ -339,6 +343,11 @@
  "code:omega_kappa": {
   "date": "2026-11-10",
   "hash": "f87a66a984e1",
+  "needs": {}
+ },
+ "code:resolution_runs": {
+  "date": "2026-11-15",
+  "hash": "317650c5746d",
   "needs": {}
  },
  "code:resonance_D": {
@@ -451,10 +460,9 @@
   }
  },
  "code:wave_wavenumber": {
-  "date": "2026-11-12",
-  "hash": "909a79436215",
+  "date": "2026-11-15",
+  "hash": "1569fc652275",
   "needs": {
-   "eq:B13": "49e2a12fbc96",
    "eq:B5": "142118db9612",
    "eq:B7": "821cc0da9339"
   }
@@ -955,16 +963,18 @@
  },
  "figure:wavenumber": {
   "date": "2026-11-15",
-  "hash": "8b04635e567c",
+  "hash": "b44efe35c705",
   "needs": {
+   "code:behind_front": "b9cebd7a0a7c",
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
+   "code:resolution_runs": "317650c5746d",
    "code:ring_gravity_3d": "dd696367e669",
    "code:ring_sigma": "c65053c901a9",
    "code:satellite": "2f1dbb1340e9",
    "code:simulated_h": "67e3f6ad9ce8",
    "code:vertical_drift": "7031c051e0f4",
-   "code:wave_wavenumber": "909a79436215",
+   "code:wave_wavenumber": "1569fc652275",
    "sympy:B21": "faabd8b58b9e"
   }
  },
@@ -987,20 +997,21 @@
  },
  "notebook:bending_waves": {
   "date": "2026-11-15",
-  "hash": "e830c6e26224",
+  "hash": "02c72c3394e1",
   "needs": {
    "code:bending_wave": "cc860c117825",
+   "code:resolution_runs": "317650c5746d",
    "code:ring_gravity_3d": "dd696367e669",
    "code:ring_sigma": "c65053c901a9",
    "code:satellite": "2f1dbb1340e9",
    "code:satellite_torque": "1db262d48692",
    "code:simulated_h": "67e3f6ad9ce8",
    "code:vertical_drift": "7031c051e0f4",
-   "code:wave_wavenumber": "909a79436215",
+   "code:wave_wavenumber": "1569fc652275",
    "figure:angular_momentum": "4d54f946ccbe",
    "figure:bending_wave": "8815867d40a3",
    "figure:torque": "d43679e1c7da",
-   "figure:wavenumber": "8b04635e567c"
+   "figure:wavenumber": "b44efe35c705"
   }
  },
  "notebook:inclined": {
@@ -1030,9 +1041,9 @@
  },
  "numbers:bending_waves": {
   "date": "2026-11-15",
-  "hash": "67e854944346",
+  "hash": "a4c91b90d3fc",
   "needs": {
-   "code:bending_waves_numbers": "19f8f6a7677f",
+   "code:bending_waves_numbers": "3dfc77d0c5bb",
    "code:drift": "a16d87bc9e34",
    "code:latex_number": "001b69207eef",
    "code:ring_gravity_3d": "dd696367e669",
@@ -1457,10 +1468,9 @@
  },
  "paper:fig:wavenumber": {
   "date": "2026-11-15",
-  "hash": "d3643c85d6a7",
+  "hash": "48c9a021d69a",
   "needs": {
-   "figure:wavenumber": "8b04635e567c",
-   "sympy:B13": "8b55d9e013f5",
+   "figure:wavenumber": "b44efe35c705",
    "sympy:B7": "f2f19bbd3cb6"
   }
  },

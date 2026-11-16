@@ -12,6 +12,8 @@ skipped unless --force is given.
   satellite's vertical resonance), tests/bending_waves (a self-gravitating ring's bending wave), and any test with an
   `inclination` in inputs.py) always run with fast/epi_int_3d.py and its default ring gravity, as
   described in the paper.
+- VARIANTS: extra runs of a test with some inputs changed, each in its own output_<name>/ (and output_<name>.log):
+  tests/bending_waves at 300 and 1200 streamlines, beside its 600, for the paper's wavenumber convergence (Fig. 4).
 
 Run:  uv run python tools/run_simulations.py                     #all 27 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
@@ -33,6 +35,12 @@ DRIVER = REPO/'source'/'epi_int_lite.py'
 FAST_DRIVER = REPO/'fast'/'epi_int_3d.py'
 
 
+#extra runs: test folder -> {output folder: modified inputs}
+sys.path.insert(0, str(REPO/'tests'))
+from vertical_analysis import RESOLUTION_RUNS
+VARIANTS = {'bending_waves': {k: v for k, v in RESOLUTION_RUNS.items() if k != 'output'}}
+
+
 EPI_INT_3D_TESTS = ('nominal', 'inclined', 'self_confining', 'vertical_resonance', 'bending_waves')    #epi_int_3d's own tests, under tests/
 
 
@@ -45,15 +53,20 @@ def own_test(folder):
     return re.search(r'^inclination\s*=', (folder/'inputs.py').read_text(), re.M) is not None
 
 
-def run(folder, driver=DRIVER):
+def run(folder, driver=DRIVER, output='output', modified=None):
     t0 = time.time()
     cmd = [sys.executable, str(driver)]
+    modified = dict(modified or {})
     if driver == FAST_DRIVER and not own_test(folder):
-        cmd += ['-m', json.dumps({'epi_int_lite_gravity': True})]     #so --fast gives the reference's results
-    with open(folder/'output.log', 'w') as log:
+        modified['epi_int_lite_gravity'] = True                        #so --fast gives the reference's results
+    if output != 'output':
+        modified['output_folder'] = output
+    if modified:
+        cmd += ['-m', json.dumps(modified)]
+    with open(folder/f'{output}.log', 'w') as log:
         rc = subprocess.run(cmd, cwd=folder, stdout=log,
                             stderr=subprocess.STDOUT).returncode
-    return folder, rc, time.time() - t0
+    return folder/output if output != 'output' else folder, rc, time.time() - t0
 
 
 def main():
@@ -64,11 +77,15 @@ def main():
     parser.add_argument('--fast', action='store_true', help='use the faster driver, fast/epi_int_3d.py')
     args = parser.parse_args()
     folders = sorted({f.parent for p in args.paths for f in (REPO/p).resolve().rglob('inputs.py')})
-    todo = [f for f in folders if args.force or not (f/'output').is_dir()]
-    for f in sorted(set(folders) - set(todo)):
-        print(f'skip (has output/): {f.relative_to(REPO)}')
+    runs = [(f, 'output', None) for f in folders]
+    runs += [(f, out, mod) for f in folders for out, mod in VARIANTS.get(f.name, {}).items()]
+    todo = [r for r in runs if args.force or not (r[0]/r[1]).is_dir()]
+    for f, out, mod in runs:
+        if (f, out, mod) not in todo:
+            print(f'skip (has {out}/): {f.relative_to(REPO)}')
+    driver = lambda f: FAST_DRIVER if args.fast or own_test(f) else DRIVER
     with ThreadPoolExecutor(args.jobs) as pool:
-        for folder, rc, dt in pool.map(lambda f: run(f, FAST_DRIVER if args.fast or own_test(f) else DRIVER), todo):
+        for folder, rc, dt in pool.map(lambda r: run(r[0], driver(r[0]), r[1], r[2]), todo):
             status = 'done' if rc == 0 else f'FAILED (exit {rc}, see output.log)'
             print(f'{status}: {folder.relative_to(REPO)}  ({dt/60:.1f} min)', flush=True)
 
