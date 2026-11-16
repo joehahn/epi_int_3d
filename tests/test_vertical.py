@@ -61,8 +61,8 @@ def test_inclined(tmp_path):
 def test_vertical_resonance(tmp_path):
     """A zero-mass ring under a growing m = 2 vertical Fourier satellite (fast/satellite.py): each particle's z(t)
     is the exact solution B11, settling into the forced oscillation B6 (tests/vertical_resonance)."""
-    #the first 36 of the full test's 400 outputs, t = 1.8e4, 1.8 growth times
-    params = run_3d(TESTS/'vertical_resonance', tmp_path/'vr', total_number_of_outputs=36)
+    #36 outputs of 500 steps, t = 1.8e4, 0.18 of the full test's growth time (B11 holds at any t)
+    params = run_3d(TESTS/'vertical_resonance', tmp_path/'vr', total_number_of_outputs=36, timesteps_per_output=500)
     p, o = load3d(TESTS/'vertical_resonance', tmp_path/'vr', params)
     sat, f = forced_vertical(p, o)
     assert sat.r_V == pytest.approx(1.02, rel=1e-12)

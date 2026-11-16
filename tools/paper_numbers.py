@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
 from vertical_analysis import (load3d, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
-    resonance_D, satellite_torque, ring_angular_momentum)
+    resonance_D, satellite_torque, ring_angular_momentum, late_outputs)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -85,9 +85,9 @@ def vertical_resonance_numbers():
     numbers += [('vresTauOrbits', latex_number(sat.time_grow/(2.0*np.pi), 2), 'time_grow/2 pi')]
     numbers += [('vresOrbits', latex_number(orbits[-1], 2), 'the run\'s length in orbits')]
     #the average over the late run, as in paper/figures/vertical_resonance.py
-    late_orbits = 1.0e4
-    late = (orbits > late_orbits)
-    numbers += [('vresAvgOrbits', latex_number(orbits[-1] - late_orbits, 1), 'orbits averaged over, from 1e4 to the end')]
+    late = late_outputs(p, o)
+    numbers += [('vresAvgOrbits', latex_number(orbits[-1] - orbits[late][0], 1),
+        'orbits averaged over, after 6 growth times (late_outputs) to the end')]
     i_avg = o['inc'][late].mean(axis=(0, 2))
     x_avg = ((o['a'][late] - sat.r_V)/sat.r_V).mean(axis=(0, 2))
     i_forced = sat.mass_final*sat.inclination*sat.beta_V*sat.beta_V*sat.b/(   6.0*(sat.m - 1)*np.abs(x_avg)   )
@@ -97,7 +97,7 @@ def vertical_resonance_numbers():
     numbers += [('vresAgreePercent', latex_number(100.0*largest_departure, 1, up=True),
         'largest |<i>/B12 - 1| in percent, rounded up')]
     #D = nu_a^2 - omega_m^2 (Eqn. 25) at each streamline's semimajor axis: it vanishes between the two streamlines
-    #nearest r_V, which have the largest inclinations (paper/figures/resonance_location.py)
+    #nearest r_V, which have the largest inclinations (Fig. 2a)
     sat_unused, D = resonance_D(p, sat.r_V*(1 + x_avg))
     j = np.where(np.diff(np.sign(D)) != 0)[0][0]
     peak = set(np.argsort(i_avg)[-2:])

@@ -7806,11 +7806,11 @@ a.anchor-link {
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#bending_waves.ipynb</span>
 <span class="c1">#by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 15 November 2026.</span>
 <span class="c1">#an m = 2 satellite launches a spiral bending wave in a self-gravitating ring (paper Section 4.1.4); show that</span>
-<span class="c1">#test 1: the ring's inclination follows linear theory, Eqn. (34) of the paper: the wave inside r_V, the forced response outside</span>
-<span class="c1">#test 2: the wave's wavenumber k(x), from the radial gradient of its phase, follows the dispersion relation, Eqn. (25),</span>
+<span class="c1">#test 5: the ring's inclination follows linear theory, Eqn. (34) of the paper: the wave inside r_V, the forced response outside</span>
+<span class="c1">#test 6: the wave's wavenumber k(x), from the radial gradient of its phase, follows the dispersion relation, Eqn. (25),</span>
 <span class="c1">#        once the finite lattice of streamlines and the ring's edges are allowed for (Appendix C); k &gt; 0, trailing</span>
-<span class="c1">#test 3: the satellite's torque on the ring settles onto linear theory's T_V, Eqn. (39)</span>
-<span class="c1">#test 4: the ring's angular momentum is conserved</span>
+<span class="c1">#test 7: the satellite's torque on the ring settles onto linear theory's T_V, Eqn. (39)</span>
+<span class="c1">#test 8: the ring's angular momentum is conserved</span>
 </pre></div>
 </div>
 </div>
@@ -7966,7 +7966,7 @@ x_inner_edge =  -0.00636   x_front =  -0.00546   behind the front:  -0.00356  &l
 </div>
 </div>
 </div>
-</div><a id="test1"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=85926d3d">
+</div><a id="test5"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=85926d3d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7974,7 +7974,7 @@ x_inner_edge =  -0.00636   x_front =  -0.00546   behind the front:  -0.00356  &l
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 1: each streamline's inclination at six times versus linear theory, |h|/r of Eqn. (34) (the paper's figure, drawn by</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 5: each streamline's inclination at six times versus linear theory, |h|/r of Eqn. (34) (the paper's figure, drawn by</span>
 <span class="c1">#its own script, paper/figures/bending_wave.py); the printed checks compare the end state with Eqns. (34) and (35b)</span>
 <span class="n">A_V</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">mass_final</span><span class="o">*</span><span class="n">sat</span><span class="o">.</span><span class="n">A_V_per_mass</span>
 <span class="n">Z_w</span> <span class="o">=</span> <span class="n">A_V</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sat</span><span class="o">.</span><span class="n">r_V</span><span class="o">/</span><span class="p">(</span><span class="n">sigma</span><span class="o">*</span><span class="n">sat</span><span class="o">.</span><span class="n">D_V</span><span class="p">))</span>
@@ -8011,7 +8011,7 @@ nonwave side (x &gt; 2 eps^1/2): largest |h - theory|/|theory| =  0.0914
 </div>
 </div>
 </div>
-</div><a id="test2"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a31cb337">
+</div><a id="test6"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a31cb337">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8019,7 +8019,7 @@ nonwave side (x &gt; 2 eps^1/2): largest |h - theory|/|theory| =  0.0914
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 2: the wave's wavenumber k = d(phase of h - L_V/x)/dr between neighboring streamlines, versus the</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 6: the wave's wavenumber k = d(phase of h - L_V/x)/dr between neighboring streamlines, versus the</span>
 <span class="c1">#dispersion relation k = |x|/(epsilon r_V) (continuum) and the lattice with the ring's edges (the paper's figure, drawn by</span>
 <span class="c1">#its own script, paper/figures/wavenumber.py)</span>
 <span class="n">x_mid</span><span class="p">,</span> <span class="n">k_sim</span> <span class="o">=</span> <span class="n">wavenumber_profile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">h_wave</span><span class="p">,</span> <span class="n">sat</span><span class="o">.</span><span class="n">r_V</span><span class="p">)</span>
@@ -8056,7 +8056,7 @@ k &gt; 0 (trailing) at  187  of  187  streamline pairs behind the front
 </div>
 </div>
 </div>
-</div><a id="test3"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dab0f183">
+</div><a id="test7"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dab0f183">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8064,7 +8064,7 @@ k &gt; 0 (trailing) at  187  of  187  streamline pairs behind the front
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 3: the satellite's torque on the ring, T = -m A_V sum mu z cos m(theta - Omega_p t), versus linear</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 7: the satellite's torque on the ring, T = -m A_V sum mu z cos m(theta - Omega_p t), versus linear</span>
 <span class="c1">#theory's T_V of Eqn. (39) (the paper's figure, drawn by its own script, paper/figures/torque.py)</span>
 <span class="n">torque_theory</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sat</span><span class="o">.</span><span class="n">m</span><span class="o">*</span><span class="n">sigma</span><span class="o">*</span><span class="n">sat</span><span class="o">.</span><span class="n">r_V</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">A_V</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">sat</span><span class="o">.</span><span class="n">D_V</span>
 <span class="n">torque</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">satellite_torque</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s1">'times'</span><span class="p">]))])</span>
@@ -8097,7 +8097,7 @@ k &gt; 0 (trailing) at  187  of  187  streamline pairs behind the front
 </div>
 </div>
 </div>
-</div><a id="test4"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=78e26d34">
+</div><a id="test8"></a><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=78e26d34">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8105,7 +8105,7 @@ k &gt; 0 (trailing) at  187  of  187  streamline pairs behind the front
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 4: the fractional change in the ring's total angular momentum L_z over the run (the paper's figure, drawn by its</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#test 8: the fractional change in the ring's total angular momentum L_z over the run (the paper's figure, drawn by its</span>
 <span class="c1">#own script, paper/figures/angular_momentum.py)</span>
 <span class="n">L</span> <span class="o">=</span> <span class="n">ring_angular_momentum</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
 <span class="n">delta_L</span> <span class="o">=</span> <span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>

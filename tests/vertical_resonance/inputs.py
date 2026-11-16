@@ -6,7 +6,8 @@
 #
 #tests/vertical_resonance: a zero-mass ring of test particles straddling a satellite's m = 2 inner vertical
 #resonance at r_V = 1.02, midway between the two middle streamlines, while the satellite's mass grows slowly
-#(epi_int_3d, 31 October 2026; 80 streamlines and 10 growth times, 16 November 2026). Each particle starts at
+#(epi_int_3d, 31 October 2026; 80 streamlines and 10 growth times, 16 November 2026; tau = 1e5, so that less free
+#oscillation is started and every streamline's i(t) settles, 16 November 2026). Each particle starts at
 #z = vz = 0 and settles into the forced vertical oscillation z = F_z/(nu^2 - omega_m^2), plus a small free
 #oscillation that never decays (notes/equations.md B6, B11). Run with fast/epi_int_3d.py.
 #
@@ -19,8 +20,8 @@ number_of_particles = number_of_streamlines*particles_per_streamline
 
 #set timestamp, timesteps per output, and total number of outputs
 dt = 0.5
-timesteps_per_output = 500
-total_number_of_outputs = 400                 #t = 1e5, 10 growth times
+timesteps_per_output = 5000
+total_number_of_outputs = 400                 #t = 1e6, 10 growth times
 
 #ring radial width assuming circular orbits
 radial_width = 0.04
@@ -59,7 +60,7 @@ satellite = {
     'resonance': 'vertical',          #'vertical' (inner vertical resonance) or 'horizontal' (inner Lindblad)
     'm': 2,                           #number of spiral arms, m >= 2 for 'vertical'
     'mass_final': 1.0e-6,             #satellite mass/planet mass once grown
-    'time_grow': 1.0e4,               #mass = mass_final*(1 - exp(-time/time_grow))
+    'time_grow': 1.0e5,               #mass = mass_final*(1 - exp(-time/time_grow))
     'r': 2.125201719667671,           #satellite's orbit radius a_s (circular)
     't': 0.0,                         #its initial mean longitude lambda_s
     'inclination': 0.01,              #i_s

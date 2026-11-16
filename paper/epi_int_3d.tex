@@ -598,7 +598,7 @@ when the planet's oblateness is negligible. The simulation uses $J_2 = \vresJtwo
 natural units where $G = M_p = 1$. Its ring is \vresNstreamlines\ streamlines of \vresNparticles\ particles each, spanning
 $1 \le r \le \vresRmax$, and an $m = \vresM$ satellite with $i_s = \vresIs$ at $a_s = \vresAs$ puts $r_V = \vresRV$
 mid-ring, midway between two streamlines. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
-\vresTauOrbits\ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
+$\vresTauOrbits$ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
 motion remains averages away over time. Figure \ref{fig:vres}b shows that the particles' inclinations,
 averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
 Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
@@ -606,7 +606,7 @@ Eqn.\ (\ref{eqn:vres_inc}) neglects.
 
 The inclinations also peak at the resonance. Figure \ref{fig:vres}a shows $D$ of Eqn.\ (\ref{eqn:bw_disp})
 at each streamline's semimajor axis, which vanishes between the two streamlines nearest $r_V$, at
-$|x| \le \vresXnear$, and these two streamlines have the largest inclinations.
+$|x| \le \vresXnear$, and Fig.\ \ref{fig:vres}b shows that these two streamlines have the largest inclinations.
 
 \begin{figure}[ht]
 \centering
@@ -615,7 +615,7 @@ $|x| \le \vresXnear$, and these two streamlines have the largest inclinations.
 Section \ref{sec:waves_massless}, with each streamline's semimajor axis and inclination averaged over its particles and
 the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$. (a) The quantity
 $D = \nu_a^2 - \omega_m^2$ of Eqn.\ (\ref{eqn:bw_disp}) at each streamline's semimajor axis (dots), in units of
-$\Omega_a^2$ at $r_V$; the curve is $D$ at all $x$, and the circles mark the two streamlines with the largest inclinations. (b) The inclinations $\langle i\rangle$ (dots), and the
+$\Omega_a^2$ at $r_V$, and the curve is $D$ at all $x$. (b) The inclinations $\langle i\rangle$ (dots), and the
 forced inclination $i_f$ of Eqn.\ (\ref{eqn:vres_inc}) (curve).}
 \label{fig:vres}
 \end{figure}

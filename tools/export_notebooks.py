@@ -6,7 +6,7 @@
 #paper ledger can link each claim or figure to the notebook test that backs it. The notebooks have no markdown
 #(style/testing.md T3): a test is the code cell whose first line is '#test N: ...', and the export puts an anchor
 #<a id="testN"></a> just before that cell, which the 'notebook' fields of notes/chain.json link to
-#(bending_waves#test2), through tools/ledger_cards.py. The notebooks are exported as they are, outputs included, and not re-executed:
+#(bending_waves#test6), through tools/ledger_cards.py. The notebooks are exported as they are, outputs included, and not re-executed:
 #execute them first (uv run jupyter nbconvert --to notebook --execute --inplace <notebook>).
 #
 #from the repo's top folder,

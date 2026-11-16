@@ -323,7 +323,7 @@ class Converter:
 
 
 #the notebook sections that back each claim or figure: chain.json nodes with a 'notebook' field, e.g.
-#["bending_waves#test2"], put as a link at the end of the claim's paragraph (anchor 'paper/...tex@phrase') or of the
+#["bending_waves#test6"], put as a link at the end of the claim's paragraph (anchor 'paper/...tex@phrase') or of the
 #figure's caption (anchor 'paper/...tex#fig:label'), so the author sees them in the text he reads
 def notebook_links(body):
     nodes = json.load(open(chain_file))

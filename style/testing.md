@@ -180,3 +180,6 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
   notebook calls that same function (`paper_figure(name).figure(p, o)` from `tests/vertical_analysis.py`) to show it,
   and the script's `__main__` saves the PDF, so the two are identical by construction. A notebook may show more
   figures than the paper; every paper figure appears in its notebook.
+- **T29. Test numbers are unique across the notebooks** (the author, 2026-11-16). They run on from one notebook to
+  the next in the paper's order (`inclined` 1–3, `vertical_resonance` 4, `bending_waves` 5–8), so "test 6" names
+  one test and its anchor (`bending_waves#test6`); a new notebook's tests continue from the last number.

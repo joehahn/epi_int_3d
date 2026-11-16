@@ -199,6 +199,15 @@ def resonance_D(p, a):
     return sat, nu_a(p['J2'], p['Rp'], a)**2 - (sat.m*(Omega(p['J2'], p['Rp'], a) - sat.Omega_p))**2
 
 
+LATE_TAU = 6.0                          #tests/vertical_resonance's averages are over t > LATE_TAU growth times
+
+
+def late_outputs(p, o):
+    """The outputs that tests/vertical_resonance averages over, t > LATE_TAU growth times tau, once the satellite is
+    grown (its mass within e^-6 = 0.25% of its final mass); the paper's figure, numbers and the notebook all use it."""
+    return o['times'] > LATE_TAU*p['satellite']['time_grow']
+
+
 def ring_angular_momentum(p, o):
     """The ring's total angular momentum about the z axis at each output, sum of mu r v_theta over its particles, in
     the code's coordinates (planetocentric positions, barycentric velocities, whose sum is conserved: Chambers 1999).

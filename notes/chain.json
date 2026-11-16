@@ -1908,7 +1908,7 @@
     "numbers:vertical_resonance"
    ],
    "notebook": [
-    "vertical_resonance#test1"
+    "vertical_resonance#test4"
    ]
   },
   {
@@ -1921,7 +1921,7 @@
     "sympy:B15"
    ],
    "notebook": [
-    "bending_waves#test1"
+    "bending_waves#test5"
    ]
   },
   {
@@ -1951,7 +1951,7 @@
    ],
    "note": "amplitude within 3%, trailing, front at c_g; forced response 9% high",
    "notebook": [
-    "bending_waves#test1"
+    "bending_waves#test5"
    ]
   },
   {
@@ -1970,7 +1970,7 @@
    ],
    "note": "k 5.5% above the continuum, 0.9% above lattice + edges",
    "notebook": [
-    "bending_waves#test2"
+    "bending_waves#test6"
    ]
   },
   {
@@ -1996,7 +1996,7 @@
    ],
    "note": "the run's parameters; within 4% of i_f; z within 4e-11 of exact",
    "notebook": [
-    "vertical_resonance#test1"
+    "vertical_resonance#test4"
    ]
   },
   {
@@ -2257,7 +2257,7 @@
     "sympy:B13"
    ],
    "notebook": [
-    "bending_waves#test2"
+    "bending_waves#test6"
    ]
   },
   {
@@ -2269,7 +2269,7 @@
     "sympy:B9"
    ],
    "notebook": [
-    "bending_waves#test3"
+    "bending_waves#test7"
    ]
   },
   {
@@ -2280,7 +2280,7 @@
     "figure:angular_momentum"
    ],
    "notebook": [
-    "bending_waves#test4"
+    "bending_waves#test8"
    ]
   },
   {
@@ -2302,7 +2302,7 @@
    ],
    "note": "D = nu_a^2 - omega_m^2 at the streamlines vanishes between the two nearest r_V, which have the largest <i> (T25)",
    "notebook": [
-    "vertical_resonance#test1"
+    "vertical_resonance#test4"
    ]
   },
   {
@@ -2318,8 +2318,8 @@
    ],
    "note": "T settles onto T_V; L_z conserved to 1e-13",
    "notebook": [
-    "bending_waves#test3",
-    "bending_waves#test4"
+    "bending_waves#test7",
+    "bending_waves#test8"
    ]
   }
  ]
