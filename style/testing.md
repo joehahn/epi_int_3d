@@ -167,3 +167,7 @@ notebooks Claude wrote is deferred, on the to-do list in `PLAN.md`.)*
   streamlines' semimajor axes, never inferred from another quantity through a theoretical relation (like D = A_V/Im(h)
   from the forced amplitude). An inference through the theory under test assumes that theory, so the comparison
   becomes partly circular.
+- **T26. Say how each quantity is computed** (the author, 2026-11-16). A notebook's header cell lists each quantity it
+  plots or prints, and how it is computed from the simulation's output, citing the paper's equation numbers (a from
+  h_z, i by Eqn. (13a), D by Eqn. (25), the averages taken), so a reader sees at a glance what each plot is made of.
+  Axis labels give the formula where there's room (`D = nu_a^2 - omega_m^2`).
