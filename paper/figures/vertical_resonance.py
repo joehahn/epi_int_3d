@@ -44,6 +44,5 @@ fig.tight_layout()
 for ext in ('pdf', 'png'):
     fig.savefig(HERE/f'vertical_resonance.{ext}', dpi=130)
     print('wrote', HERE/f'vertical_resonance.{ext}')
-ok = np.abs(x_avg) > 1e-6
-ratio = i_avg[ok]/(sat.mass_final*sat.inclination*sat.beta_V**2*sat.b/(6*(sat.m - 1)*np.abs(x_avg[ok])))
+ratio = i_avg/(sat.mass_final*sat.inclination*sat.beta_V**2*sat.b/(6*(sat.m - 1)*np.abs(x_avg)))
 print(f'simulation/B12: {ratio.min():.3f} to {ratio.max():.3f}')

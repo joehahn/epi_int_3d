@@ -83,24 +83,22 @@ def vertical_resonance_numbers():
     numbers += [('vresMs', latex_number(sat.mass_final, 1), 'inputs.py satellite mass_final')]
     numbers += [('vresTau', latex_number(sat.time_grow, 1), 'inputs.py satellite time_grow')]
     numbers += [('vresTauOrbits', latex_number(sat.time_grow/(2.0*np.pi), 2), 'time_grow/2 pi')]
-    numbers += [('vresOrbits', latex_number(orbits[-1], 1), 'the run\'s length in orbits')]
+    numbers += [('vresOrbits', latex_number(orbits[-1], 2), 'the run\'s length in orbits')]
     #the average over the late run, as in paper/figures/vertical_resonance.py
     late_orbits = 1.0e4
     late = (orbits > late_orbits)
     numbers += [('vresAvgOrbits', latex_number(orbits[-1] - late_orbits, 1), 'orbits averaged over, from 1e4 to the end')]
     i_avg = o['inc'][late].mean(axis=(0, 2))
     x_avg = ((o['a'][late] - sat.r_V)/sat.r_V).mean(axis=(0, 2))
-    off_resonance = (np.abs(x_avg) > 1.0e-6)
-    i_forced = sat.mass_final*sat.inclination*sat.beta_V*sat.beta_V*sat.b/(   6.0*(sat.m - 1)*np.abs(x_avg[off_resonance])   )
-    ratio = i_avg[off_resonance]/i_forced
+    i_forced = sat.mass_final*sat.inclination*sat.beta_V*sat.beta_V*sat.b/(   6.0*(sat.m - 1)*np.abs(x_avg)   )
+    ratio = i_avg/i_forced
     largest_departure = np.abs(ratio - 1.0).max()
     print('simulation/B12 =', np.round(ratio.min(), 4), 'to', np.round(ratio.max(), 4))
     numbers += [('vresAgreePercent', latex_number(100.0*largest_departure, 1, up=True),
         'largest |<i>/B12 - 1| in percent, rounded up')]
     #nu_a^2 - omega_m^2 from each streamline's forced amplitude, against the exact value (paper/figures/resonance_location.py)
     sat_unused, x, simulated, exact_value = resonance_frequencies(p, o)
-    off = (np.abs(x) > 1.0e-6)
-    departure = np.abs(simulated[off]/exact_value[off] - 1.0).max()
+    departure = np.abs(simulated/exact_value - 1.0).max()
     print('largest |simulated/exact nu^2 - omega_m^2 - 1| =', departure)
     numbers += [('vresDpercent', latex_number(100.0*departure, 1, up=True),
         'largest |(nu^2 - omega_m^2) from forced amplitude/exact - 1| in percent, rounded up')]

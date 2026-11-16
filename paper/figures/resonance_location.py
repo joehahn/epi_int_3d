@@ -32,8 +32,7 @@ from vertical_analysis import load3d, resonance_frequencies
 #read the run, and each streamline's nu_a^2 - omega_m^2, simulated and exact, in units of D_V
 p, o = load3d(os.path.join(repo_folder, 'tests', 'vertical_resonance'))
 sat, x, simulated, exact = resonance_frequencies(p, o)
-off = np.abs(x) > 1.0e-6                     #the streamline at r_V has no steady forced amplitude
-print('largest |simulated/exact - 1| =', np.round(np.abs(simulated[off]/exact[off] - 1.0).max(), 4))
+print('largest |simulated/exact - 1| =', np.round(np.abs(simulated/exact - 1.0).max(), 4))
 
 #plot prep
 sns.set(font_scale=1.5, font='DejaVu Sans')
@@ -41,7 +40,7 @@ color_seq = plt.rcParams['axes.prop_cycle'].by_key()['color']
 f, ax = plt.subplots(figsize=(10, 6))
 
 #simulation, exact, and the linear approximation D_V x
-ax.plot(x[off]/1.0e-2, simulated[off]/sat.D_V/1.0e-2, marker='o', markersize=6, linestyle='none', alpha=0.7,
+ax.plot(x/1.0e-2, simulated/sat.D_V/1.0e-2, marker='o', markersize=6, linestyle='none', alpha=0.7,
     color=color_seq[0], label='simulation')
 a_s = np.linspace(x.min(), x.max(), 400)
 _, _, _, exact_curve = resonance_frequencies(p, o, x=a_s)

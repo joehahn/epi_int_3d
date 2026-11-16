@@ -61,17 +61,18 @@ def test_inclined(tmp_path):
 def test_vertical_resonance(tmp_path):
     """A zero-mass ring under a growing m = 2 vertical Fourier satellite (fast/satellite.py): each particle's z(t)
     is the exact solution B11, settling into the forced oscillation B6 (tests/vertical_resonance)."""
-    #the first 60 of the full test's 200 outputs, t = 1.8e4, 1.8 growth times
-    params = run_3d(TESTS/'vertical_resonance', tmp_path/'vr', total_number_of_outputs=60)
+    #the first 36 of the full test's 400 outputs, t = 1.8e4, 1.8 growth times
+    params = run_3d(TESTS/'vertical_resonance', tmp_path/'vr', total_number_of_outputs=36)
     p, o = load3d(TESTS/'vertical_resonance', tmp_path/'vr', params)
     sat, f = forced_vertical(p, o)
     assert sat.r_V == pytest.approx(1.02, rel=1e-12)
     err = np.abs(o['z'] - f['z']).max(axis=(0, 2))/np.abs(f['z']).max(axis=(0, 2))
-    near = np.abs(f["x"]) < 1.0e-6                     #the streamline at r_V
-    #away from resonance the leapfrog's O(dt^2) error, ~3e-11 absolutely: up to 1.3e-3 of max|z| at |x| = 0.02
-    assert err[~near].max() < 2.0e-3
-    #the streamline at x = 0 (nu - omega_m ~ 1e-14), growing secularly: 8e-7 in the full run
-    assert err[near].max() < 1.0e-5
+    #the leapfrog's O(dt^2) error, ~3e-11 absolutely: up to 1.3e-3 of max|z| at |x| = 0.02
+    assert err.max() < 2.0e-3
+    #the two streamlines either side of r_V, at x = +-2.5e-4, where z is largest: 1.2e-5
+    near = np.abs(f["x"]) < 3.0e-4
+    assert near.sum() == 2
+    assert err[near].max() < 2.0e-5
     #no satellite, no vertical motion
     run_3d(TESTS/'vertical_resonance', tmp_path/'off', total_number_of_outputs=2,
            satellite=dict(p['satellite'], mass_final=-1.0))

@@ -5,21 +5,22 @@
 #by Joe Hahn, joe.hahn@jmh-datasciences.com, 18 October 2017.
 #
 #tests/vertical_resonance: a zero-mass ring of test particles straddling a satellite's m = 2 inner vertical
-#resonance at r_V = 1.02, while the satellite's mass grows slowly (epi_int_3d, 31 October 2026). Each particle
-#starts at z = vz = 0 and settles into the forced vertical oscillation z = F_z/(nu^2 - omega_m^2), plus a small
-#free oscillation that never decays (notes/equations.md B6, B11). Run with fast/epi_int_3d.py.
+#resonance at r_V = 1.02, midway between the two middle streamlines, while the satellite's mass grows slowly
+#(epi_int_3d, 31 October 2026; 80 streamlines and 10 growth times, 16 November 2026). Each particle starts at
+#z = vz = 0 and settles into the forced vertical oscillation z = F_z/(nu^2 - omega_m^2), plus a small free
+#oscillation that never decays (notes/equations.md B6, B11). Run with fast/epi_int_3d.py.
 #
 #define input input parameters
 
 #set number of streamlins and particles per streamline (minumum is 3)
-number_of_streamlines = 81
+number_of_streamlines = 80                     #even, so that r_V = 1.02 lies midway between two streamlines
 particles_per_streamline = 6
 number_of_particles = number_of_streamlines*particles_per_streamline
 
 #set timestamp, timesteps per output, and total number of outputs
 dt = 0.5
-timesteps_per_output = 600
-total_number_of_outputs = 420
+timesteps_per_output = 500
+total_number_of_outputs = 400                 #t = 1e5, 10 growth times
 
 #ring radial width assuming circular orbits
 radial_width = 0.04

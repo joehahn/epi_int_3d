@@ -597,7 +597,7 @@ which, expressed as an inclination $|h_{\rm forced}|/r_V$, is
 when the planet's oblateness is negligible. The simulation uses $J_2 = \vresJtwo$ and $R_p = \vresRp$, in
 natural units where $G = M_p = 1$. Its ring is \vresNstreamlines\ streamlines of \vresNparticles\ particles each, spanning
 $1 \le r \le \vresRmax$, and an $m = \vresM$ satellite with $i_s = \vresIs$ at $a_s = \vresAs$ puts $r_V = \vresRV$
-mid-ring. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
+mid-ring, midway between two streamlines. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
 \vresTauOrbits\ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
 motion remains averages away over time. Figure \ref{fig:vres} shows that the particles' inclinations,
 averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
@@ -618,8 +618,7 @@ as theory does.
 \caption{Inclinations $\langle i\rangle$ of massless particles near a satellite's $m = \vresM$ inner
 vertical resonance, averaged over each streamline's particles and over the last $\vresAvgOrbits$ orbits of the
 simulation of Section \ref{sec:waves_massless} (dots), plotted vs.\ their average fractional distance
-from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\ref{eqn:vres_inc}).
-The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
+from resonance $\langle x\rangle$. The curve is the forced inclination, Eqn.\ (\ref{eqn:vres_inc}).}
 \label{fig:vres}
 \end{figure}
 
@@ -629,8 +628,7 @@ The streamline at $x = 0$, whose inclination grows without bound, is off scale.}
 \caption{The quantity $D = \nu_a^2 - \omega_m^2$, which vanishes at the resonance, in units of ${\cal D}$, for each
 streamline of the massless ring of Section \ref{sec:waves_massless} (dots), inferred from its forced vertical
 amplitude averaged over the last $\vresAvgOrbits$ orbits, plotted vs.\ its fractional distance from resonance $x$.
-The dashed curve is the exact $D$, and the dotted line its linear approximation ${\cal D}x$.
-The streamline at $x = 0$, whose amplitude grows without bound, is left out.}
+The dashed curve is the exact $D$, and the dotted line its linear approximation ${\cal D}x$.}
 \label{fig:resloc}
 \end{figure}
 
