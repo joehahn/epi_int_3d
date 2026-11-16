@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-14T20:32:08Z",
+ "exported": "2026-11-16T05:50:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -224,6 +224,14 @@
    "reply": "Yes, with Shu's sign: Eqn. (25) is now D = nu_a^2 - omega_m^2 = -2 pi G sigma |k| (Shu Eqn. 83 with h ~ e^{ikr}); flipping D's sign would flip h_forced = iA_V/D and calD. The separate equation for D in 4.1.2 is dropped; there D = -2 pi G sigma k for the trailing (k > 0) wave. Equations after it renumbered.",
    "reply_at": "2026-11-14T20:32:08Z",
    "status": "done"
+  },
+  {
+   "card": "s4-1~sub1",
+   "note_at": "2026-11-15T22:48:02.878Z",
+   "note": "plot 3 should be used to convince reader of At an inner vertical resonance, where m > 0, that region lies inside the resonance, so c_g < 0",
+   "reply_at": "2026-11-16T05:50:00Z",
+   "reply": "Dropped at the author's request (in Claude Code); the note was deleted from the ledger and the paper is unchanged.",
+   "status": "dropped"
   }
  ]
 }
