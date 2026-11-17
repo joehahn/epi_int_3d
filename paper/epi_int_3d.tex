@@ -637,31 +637,37 @@ everywhere in the ring, and its wavelength, Eqn.\ (\ref{eqn:vres_lambda}), spans
 \bwPerWavelength\ streamlines even at the ring's inner edge, where it is shortest.
 
 The wave propagates inward at the speed $|c_g| = \pi G\sigma/\nu_a$, Eqn.\ (\ref{eqn:bw_cg}) near resonance,
-so it takes the time $\tau_c = (r_V - 1)/|c_g|$, about \bwCrossOrbits\ orbits, to cross from $r_V$ to the ring's inner edge. The
-simulation stops at $\bwOrbits$ orbits, or $\bwRunFraction\,\tau_c$, before the wave can reflect there.
+so it reaches $x = -0.01$ after the time $\tau_{0.01} = 0.01r_V/|c_g|$, about \bwTauOrbits\ orbits. The
+simulation stops at $\bwOrbits$ orbits, or $\bwRunFraction\,\tau_{0.01}$, when the wave front, where the
+wave's amplitude falls to half of $|Z_w|$, is at $x = \bwXfront$, well past $x = -0.01$ but short of the ring's inner edge at $x = \bwXin$, so the wave
+is steady over $-0.01 < x < 0$ and has not reflected off that edge.
 Figure \ref{fig:bwave} shows the wave being launched at $r_V$ and propagating inward.
 Switching the
 satellite on at full mass also starts a free vertical oscillation everywhere, so at first every streamline
 moves as a massless particle would. The ring's self-gravity then takes over: the response near $r_V$
-settles onto linear theory, and the wave front advances inward at about $|c_g|$. The front overshoots linear
+settles onto linear theory, and the wave front advances inward. Over $0.25 < t/\tau_{0.01} < 1.25$ its
+mean speed is $\bwFrontSpeed\,|c_g|$, and it slows as the wavelength shortens. This too is an effect of the
+streamlines' finite spacing, like the wavenumber's below: in the same ring simulated with
+\bwNstreamlinesCoarse\ and \bwNstreamlinesFine\ streamlines the front's mean speed is
+$\bwFrontSpeedCoarse\,|c_g|$ and $\bwFrontSpeedFine\,|c_g|$. The front overshoots linear
 theory a little, since it carries along the free oscillation that was started at resonance, and a small
 residue of that oscillation remains ahead of the front. Behind the front, though, the simulated
 inclinations are in excellent agreement with linear theory, with about \bwCrests\ wavelengths of the wave
-in place by the end of the run. There the wave's amplitude is within \bwAmpPercent\% of $|Z_w|$, and its
+in place by the end of the run. Over $-0.01 < x$, outside the resonance zone, the wave's amplitude is within \bwAmpPercent\% of $|Z_w|$, and its
 phase winds inward as the trailing wave of Eqn.\ (\ref{eqn:vres_sol}) does. On the nonwave side of the
-resonance, the forced response is up to \bwForcedPercent\% larger than linear theory's. That theory is for
-an infinite sheet, which has ring matter beyond this ring's outer edge, and that is the likely cause,
-though it has not been quantified.
+resonance, the forced response departs from linear theory's by \bwForcedMedianPercent\% typically (the median)
+and by up to \bwForcedPercent\%. That theory is for an infinite sheet, which has ring matter beyond this
+ring's outer edge, and that is a likely cause, though it has not been quantified.
 
 Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$. Each streamline's complex amplitude $h$ is
 measured by a least-squares fit of its particles' vertical displacements to $Z = {\rm Re}[h e^{im(\theta - \Omega_pt)}]$.
 The wave part of $h$, $h_{\rm wave} = h - L_V/x$ of Eqn.\ (\ref{eqn:vres_sol}), varies as $e^{i\int^r k\,dr'}$, so
 $dh_{\rm wave}/dr = ikh_{\rm wave}$ where the wave's amplitude varies slowly, and $k = d\arg(h_{\rm wave})/dr$,
 which is computed as the change in the phase of $h_{\rm wave}$ between neighboring streamlines divided by their
-separation. Behind the front it is \bwKcontPercent\%
+separation. Over $-0.01 < x$, outside the resonance zone, it is \bwKcontPercent\%
 larger than the $|k| = 2\pi/\lambda_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
 that much shorter. This is because the simulated ring is a finite lattice of streamlines rather than the
-continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes. Figure \ref{fig:wavenumber} also shows the same ring
+continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes. Figure \ref{fig:wavenumber} also shows the ring
 simulated with \bwNstreamlinesCoarse\ and \bwNstreamlinesFine\ streamlines, whose wavenumbers are
 \bwKcontPercentCoarse\% and \bwKcontPercentFine\% larger than Eqn.\ (\ref{eqn:vres_lambda}), so the simulated
 wavenumber converges toward Eqn.\ (\ref{eqn:vres_lambda}) as the spacing between streamlines shrinks.
@@ -686,8 +692,8 @@ Figure \ref{fig:angmom} shows that $|\Delta L_z/L_z| \le \bwDeltaL$ over the run
 \includegraphics[width=\columnwidth]{figures/bending_wave.pdf}
 \caption{Inclinations $i$ of the \bwNstreamlines\ streamlines in the self-gravitating ring of Section \ref{sec:waves_ring},
 averaged over each streamline's particles, plotted vs.\ their fractional distance from resonance $x$, at
-six times $t$ in units of the time $\tau_c$ that the wave takes to propagate from $r_V$ to the ring's inner
-edge, which is at the left. The dashed curve is linear theory's inclination $|h|/r$, with $h$ from
+six times $t$ in units of the time $\tau_{0.01}$ that the wave takes to propagate from $r_V$ to $x = -0.01$ at
+the speed $|c_g|$. The dashed curve is linear theory's inclination $|h|/r$, with $h$ from
 Eqn.\ (\ref{eqn:vres_h}). An animation of the wave is at
 \href{https://joehahn.github.io/epi_int_3d/bending_waves/bending_wave.html}{\texttt{joehahn.github.io/epi\_int\_3d}}.}
 \label{fig:bwave}
@@ -698,8 +704,8 @@ Eqn.\ (\ref{eqn:vres_h}). An animation of the wave is at
 \includegraphics[width=\columnwidth]{figures/wavenumber.pdf}
 \caption{The wavenumber $|k|r_V$ of the bending wave in the self-gravitating ring of Section \ref{sec:waves_ring}
 at the end of the run, in that ring simulated with \bwNstreamlinesCoarse, \bwNstreamlines\ and
-\bwNstreamlinesFine\ streamlines (dots), plotted vs.\ fractional distance from resonance $x$, from the front
-(dotted line) to the resonance zone. The dashed line is the dispersion relation of Eqn.\ (\ref{eqn:vres_lambda}).}
+\bwNstreamlinesFine\ streamlines (dots), plotted vs.\ fractional distance from resonance $x$, from each run's
+front (dotted lines) to the resonance zone. The dashed line is the dispersion relation of Eqn.\ (\ref{eqn:vres_lambda}).}
 \label{fig:wavenumber}
 \end{figure}
 
@@ -707,8 +713,8 @@ at the end of the run, in that ring simulated with \bwNstreamlinesCoarse, \bwNst
 \centering
 \includegraphics[width=\columnwidth]{figures/torque.pdf}
 \caption{The torque $T$ that the satellite exerts on the bending wave of Section \ref{sec:waves_ring}, in units
-of linear theory's $T_V$, Eqn.\ (\ref{eqn:vres_torque}) (dashed), plotted vs.\ time $t$ in units of the wave's
-crossing time $\tau_c$.}
+of linear theory's $T_V$, Eqn.\ (\ref{eqn:vres_torque}) (dashed), plotted vs.\ time $t$ in units of $\tau_{0.01}$, the time the
+wave takes to propagate from $r_V$ to $x = -0.01$.}
 \label{fig:torque}
 \end{figure}
 

@@ -28,7 +28,7 @@ for folder in ('source', 'fast', 'tests'):
         sys.path.insert(0, str(REPO/folder))
 sys.path.insert(0, str(HERE))
 from figstyle import style
-from vertical_analysis import ring_sigma, satellite_torque, nu_a
+from vertical_analysis import ring_sigma, satellite_torque, tau_001
 from satellite import Satellite
 
 
@@ -40,17 +40,17 @@ def figure(p, o):
     A_V = sat.mass_final*sat.A_V_per_mass
     torque_theory = -np.pi**2*sat.m*sigma*sat.r_V**2*A_V**2/sat.D_V
     torque = np.array([satellite_torque(p, o, k).sum() for k in range(len(o['times']))])
-    #time in units of the wave's crossing time from r_V to the inner edge, at c_g = pi G sigma/nu
-    crossing_time = (sat.r_V - 1.0)/(np.pi*sigma/nu_a(p['J2'], p['Rp'], sat.r_V))
+    #time in units of tau_0.01, the wave's travel time from r_V to x = -0.01 at c_g = pi G sigma/nu
+    tau = tau_001(p, sat)
     with style(font_scale=1.5) as color_seq:
         f, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(o['times']/crossing_time, torque/torque_theory, marker='o', markersize=7, linestyle='-', linewidth=2,
+        ax.plot(o['times']/tau, torque/torque_theory, marker='o', markersize=7, linestyle='-', linewidth=2,
             color=color_seq[0], label='simulation')
-        ax.plot(o['times']/crossing_time, o['times']*0 + 1.0, linestyle='dashed', linewidth=2, color=color_seq[0],
+        ax.plot(o['times']/tau, o['times']*0 + 1.0, linestyle='dashed', linewidth=2, color=color_seq[0],
             label='linear theory')
-        ax.set_xlim(0.0, o['times'][-1]/crossing_time*1.02)
+        ax.set_xlim(0.0, o["times"][-1]/tau*1.02)
         ax.set_ylim(0.0, 1.3)
-        ax.set_xlabel(r'time $t/\tau_c$')
+        ax.set_xlabel(r'time $t/\tau_{0.01}$')
         ax.set_ylabel(r'torque $T/T_V$')
         ax.legend(loc='lower right')
     return f

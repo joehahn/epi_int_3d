@@ -13,7 +13,7 @@ skipped unless --force is given.
   `inclination` in inputs.py) always run with fast/epi_int_3d.py and its default ring gravity, as
   described in the paper.
 - VARIANTS: extra runs of a test with some inputs changed, each in its own output_<name>/ (and output_<name>.log):
-  tests/bending_waves at 300 and 1200 streamlines, beside its 600, for the paper's wavenumber convergence (Fig. 4).
+  tests/bending_waves at 400 and 1600 streamlines, beside its 800, for the paper's wavenumber convergence (Fig. 4).
 
 Run:  uv run python tools/run_simulations.py                     #all 27 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test

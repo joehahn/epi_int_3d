@@ -179,26 +179,69 @@ def wave_wavenumber(p, sat, x, G=1.0):
 #tests/bending_waves at three numbers of streamlines, the same ring otherwise (tools/run_simulations.py makes them):
 #output folder -> modified inputs; number_of_particles is set from inputs.py's number_of_streamlines before -m applies
 RESOLUTION_RUNS = {
-    'output_N300': {'number_of_streamlines': 300, 'number_of_particles': 300*32},
+    'output_N400': {'number_of_streamlines': 400, 'number_of_particles': 400*32},
     'output': {},
-    'output_N1200': {'number_of_streamlines': 1200, 'number_of_particles': 1200*32},
+    'output_N1600': {'number_of_streamlines': 1600, 'number_of_particles': 1600*32},
 }
 
 
 def resolution_runs(test_folder):
-    """tests/bending_waves' runs at 300, 600 and 1200 streamlines, as a list of (p, o) from load3d, coarsest first."""
+    """tests/bending_waves' runs at 400, 800 and 1600 streamlines, as a list of (p, o) from load3d, coarsest first."""
     runs = []
     for folder, modified in RESOLUTION_RUNS.items():
         runs.append(load3d(test_folder, Path(test_folder)/folder, dict(modified, output_folder=folder)))
     return runs
 
 
+X_STEADY = -0.01                    #tests/bending_waves: the wave is steady over X_STEADY < x < the resonance zone by the run's end
+
+
+def tau_001(p, sat):
+    """tau_0.01, the time the bending wave takes to travel from r_V to x = -0.01 at its group speed
+    |c_g| = pi G sigma/nu_a (paper Eqn. 26), with nu_a at r_V."""
+    return 0.01*sat.r_V/(np.pi*ring_sigma(p)/nu_a(p['J2'], p['Rp'], sat.r_V))
+
+
+def resonance_zone(p, sat):
+    """The resonance zone's half width in x, 2 (2 pi G sigma/(r_V D_V))^{1/2}, twice the wave's first wavelength scale."""
+    return 2.0*np.sqrt(2*np.pi*ring_sigma(p)/(sat.r_V*sat.D_V))
+
+
+def wave_front(p, o, k):
+    """The wave front's x at output k, measured: going inward from the resonance zone, the first streamline where the
+    wave part of h, |h - L_V/x| (L_V/x = i A_V/(D_V x), the forced response, paper Eqn. 34), falls below half of
+    linear theory's |Z_w| (Eqn. 35)."""
+    sat, x, h = simulated_h(p, o, k)
+    A_V = sat.mass_final*sat.A_V_per_mass
+    Z_w = A_V*np.sqrt(sat.r_V/(ring_sigma(p)*sat.D_V))
+    h_wave = np.abs(h - 1j*A_V/(sat.D_V*x))
+    inward = np.where(x < -resonance_zone(p, sat))[0][::-1]           #streamline indices, from r_V inward
+    below = inward[h_wave[inward] < 0.5*Z_w]
+    return x[below[0]] if len(below) else x[inward[-1]]
+
+
+def front_speed(p, o, t_min=0.25, t_max=1.25):
+    """The wave front's speed d|x_front|/dt times r_V, in units of |c_g| = pi G sigma/nu_a (Eqn. 26): a straight-line fit
+    of wave_front's r_V|x| against t over the outputs with t_min < t/tau_0.01 < t_max."""
+    import satellite as satellite_module
+    sat = satellite_module.Satellite(p['satellite'], p['J2'], p['Rp'])
+    tau = tau_001(p, sat)
+    ks = np.where((o['times'] > t_min*tau) & (o['times'] < t_max*tau))[0]
+    x_front = np.array([wave_front(p, o, k) for k in ks])
+    slope = np.polyfit(o['times'][ks], -x_front*sat.r_V, 1)[0]
+    return slope/(np.pi*ring_sigma(p)/nu_a(p['J2'], p['Rp'], sat.r_V))
+
+
 def behind_front(p, o, sat, x):
-    """Where the wave is in place at the end of the run: behind its front, which travels inward from r_V at
-    c_g = pi G sigma/nu_a (Eqn. 26), and outside the resonance zone, |x| > 2 (2 pi sigma/(r_V D_V))^{1/2}."""
-    sigma = ring_sigma(p)
-    x_front = -np.pi*sigma*o['times'][-1]/(nu_a(p['J2'], p['Rp'], sat.r_V)*sat.r_V)
-    return (x < -2.0*np.sqrt(2*np.pi*sigma/(sat.r_V*sat.D_V))) & (x > x_front), x_front
+    """Where the wave is in place at the end of the run: behind its measured front (wave_front) and outside the
+    resonance zone (resonance_zone)."""
+    x_front = wave_front(p, o, -1)
+    return (x < -resonance_zone(p, sat)) & (x > x_front), x_front
+
+
+def steady(p, sat, x):
+    """Where the paper compares the wave with linear theory at the run's end: X_STEADY < x, outside the resonance zone."""
+    return (x < -resonance_zone(p, sat)) & (x > X_STEADY)
 
 
 def resonance_D(p, a):

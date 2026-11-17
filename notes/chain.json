@@ -1434,9 +1434,62 @@
    "kind": "code",
    "anchor": "tests/vertical_analysis.py::behind_front",
    "needs": [
-    "eq:B19"
+    "code:wave_front",
+    "code:resonance_zone"
    ],
    "note": "where the wave is in place at the run's end"
+  },
+  {
+   "id": "code:tau_001",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::tau_001",
+   "needs": [
+    "eq:B10",
+    "code:ring_sigma"
+   ],
+   "note": "tau_0.01, the travel time from r_V to x = -0.01 at |c_g|"
+  },
+  {
+   "id": "code:resonance_zone",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::resonance_zone",
+   "needs": [
+    "eq:B19",
+    "code:ring_sigma"
+   ],
+   "note": "the resonance zone half width 2 eps^1/2"
+  },
+  {
+   "id": "code:wave_front",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::wave_front",
+   "needs": [
+    "code:simulated_h",
+    "code:resonance_zone",
+    "code:ring_sigma",
+    "eq:B8"
+   ],
+   "note": "measured front: |h - L_V/x| below |Z_w|/2 going inward"
+  },
+  {
+   "id": "code:front_speed",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::front_speed",
+   "needs": [
+    "code:wave_front",
+    "code:tau_001",
+    "eq:B10"
+   ],
+   "note": "line fit of the front r_V|x| vs t over 0.25-1.25 tau_0.01, in units of |c_g|"
+  },
+  {
+   "id": "code:steady",
+   "kind": "code",
+   "anchor": "tests/vertical_analysis.py::steady",
+   "needs": [
+    "code:resonance_zone"
+   ],
+   "note": "-0.01 < x outside the resonance zone"
   },
   {
    "id": "test:kernels",
@@ -1495,7 +1548,11 @@
     "figure:wavenumber",
     "figure:torque",
     "figure:angular_momentum",
-    "code:resolution_runs"
+    "code:resolution_runs",
+    "code:tau_001",
+    "code:wave_front",
+    "code:front_speed",
+    "code:resonance_zone"
    ]
   },
   {
@@ -1580,7 +1637,11 @@
     "code:ring_sigma",
     "eq:B7",
     "eq:B10",
-    "code:resolution_runs"
+    "code:resolution_runs",
+    "code:tau_001",
+    "code:wave_front",
+    "code:front_speed",
+    "code:resonance_zone"
    ]
   },
   {
@@ -1591,7 +1652,8 @@
     "code:simulated_h",
     "code:wave_wavenumber",
     "code:ring_sigma",
-    "eq:B8"
+    "eq:B8",
+    "code:resonance_zone"
    ],
    "note": "the notebook's comparisons, behind the front at the end"
   },
@@ -1623,7 +1685,8 @@
     "code:ring_sigma",
     "sympy:B8",
     "sympy:B10",
-    "code:figstyle"
+    "code:figstyle",
+    "code:tau_001"
    ]
   },
   {
@@ -1963,9 +2026,10 @@
     "sympy:B10",
     "notebook:bending_waves",
     "paper:fig:bwave",
-    "paper:eqn:vres_sol"
+    "paper:eqn:vres_sol",
+    "code:front_speed"
    ],
-   "note": "amplitude within 3%, trailing, front at c_g; forced response 9% high",
+   "note": "steady over -0.01 < x by 1.5 tau_0.01; amplitude within 4%, trailing; front at 0.88 |c_g|, converging with resolution (0.77, 0.93); forced response 6% typical, 20% at most",
    "notebook": [
     "bending_waves#test5"
    ]
@@ -2218,7 +2282,8 @@
     "code:drift",
     "code:satellite_torque",
     "code:ring_sigma",
-    "code:figstyle"
+    "code:figstyle",
+    "code:tau_001"
    ]
   },
   {

@@ -30,7 +30,8 @@ sys.path.insert(0, os.path.join(repo_folder, 'fast'))
 sys.path.insert(0, os.path.join(repo_folder, 'tests'))
 import numpy as np
 from vertical_analysis import (load3d, simulated_h, bending_wave, ring_sigma, wave_wavenumber, nu_a,
-    resonance_D, satellite_torque, ring_angular_momentum, late_outputs, resolution_runs)
+    resonance_D, satellite_torque, ring_angular_momentum, late_outputs, resolution_runs, X_STEADY, tau_001,
+    resonance_zone, wave_front, front_speed)
 from satellite import Satellite
 
 today = datetime.date.today().isoformat()
@@ -52,7 +53,7 @@ def latex_number(x, digits=2, up=False):
     exponent = int(math.floor(math.log10(abs(value))))
     if ((exponent >= -3) and (exponent < 4)):
         decimals = max(0, digits - 1 - exponent)
-        text = str(round(value, decimals))
+        text = f'{value:.{decimals}f}'                #keeps trailing zeros: 1.00, not 1.0
         if (decimals == 0):
             text = str(int(round(value)))
         return text
@@ -115,10 +116,9 @@ def bending_wave_comparisons(p, o):
     sigma = ring_sigma(p)
     A_V = sat.mass_final*sat.A_V_per_mass
     Z_w = A_V*np.sqrt(sat.r_V/(sigma*sat.D_V))
-    x_in = (1.0 - sat.r_V)/sat.r_V
-    #behind the front at the run's end, as in the notebook
-    x_lo = 0.56*x_in
-    x_hi = 0.125*x_in
+    #where the wave is steady at the run's end, X_STEADY < x outside the resonance zone, as in the notebook
+    x_lo = X_STEADY
+    x_hi = -resonance_zone(p, sat)
     h_forced = 1j*A_V/(sat.D_V*x)
     h_wave = h - h_forced
     x_mid = 0.5*(x[1:] + x[:-1])
@@ -140,52 +140,57 @@ def bending_waves_numbers():
     sigma = ring_sigma(p)
     A_V = sat.mass_final*sat.A_V_per_mass
     Z_w = A_V*np.sqrt(sat.r_V/(sigma*sat.D_V))
-    nu_V = nu_a(p['J2'], p['Rp'], sat.r_V)
     orbits = o['times']/(2.0*np.pi)
     numbers = []
     #the run's inputs
     numbers += [('bwNstreamlines', str(p['number_of_streamlines']), 'inputs.py number_of_streamlines')]
     numbers += [('bwNparticles', str(p['particles_per_streamline']), 'inputs.py particles_per_streamline')]
-    numbers += [('bwRmax', latex_number(1.0 + p['radial_width'], 4), 'inputs.py 1 + radial_width')]
+    numbers += [('bwRmax', latex_number(1.0 + p['radial_width'], 3), 'inputs.py 1 + radial_width')]
     numbers += [('bwRingMass', latex_number(p['total_ring_mass'], 1), 'inputs.py total_ring_mass')]
     numbers += [('bwSigma', latex_number(sigma, 2), 'ring_sigma, the uniform surface density')]
     numbers += [('bwM', str(sat.m), 'inputs.py satellite m')]
     numbers += [('bwIs', latex_number(sat.inclination, 1), 'inputs.py satellite inclination')]
     numbers += [('bwMs', latex_number(sat.mass_final, 2), 'inputs.py satellite mass_final')]
     numbers += [('bwAs', latex_number(p['satellite']['r'], 4), 'inputs.py satellite r')]
-    numbers += [('bwRV', latex_number(sat.r_V, 5), 'fast/satellite.py r_V (B4)')]
+    numbers += [('bwRV', latex_number(sat.r_V, 4), 'fast/satellite.py r_V (B4)')]
     across = 100.0*(sat.r_V - 1.0)/p['radial_width']
     numbers += [('bwAcrossPercent', latex_number(across, 2), 'r_V\'s place across the ring, percent from the inner edge')]
     numbers += [('bwOrbits', latex_number(orbits[-1], 2), 'the run\'s length in orbits')]
-    #the wave's crossing time from r_V to the inner edge at the group velocity (B10)
-    c_g = np.pi*sigma/nu_V
-    crossing_time = (sat.r_V - 1.0)/c_g
-    numbers += [('bwCrossOrbits', latex_number(crossing_time/(2.0*np.pi), 2), 'crossing time to the inner edge in orbits (B10)')]
-    numbers += [('bwRunFraction', latex_number(o['times'][-1]/crossing_time, 2), 'run length over the crossing time')]
-    #resolution and linearity at the inner edge, from the continuum wavenumber (B7)
+    #tau_0.01, the wave's travel time from r_V to x = -0.01 at the group velocity (B10)
+    tau = tau_001(p, sat)
+    numbers += [('bwTauOrbits', latex_number(tau/(2.0*np.pi), 2), 'tau_0.01 in orbits (B10)')]
+    numbers += [('bwRunFraction', latex_number(o['times'][-1]/tau, 2), 'run length over tau_0.01')]
     x_in = (1.0 - sat.r_V)/sat.r_V
+    numbers += [('bwXin', latex_number(x_in, 2), 'the ring inner edge\'s x')]
+    x_front = wave_front(p, o, -1)
+    numbers += [('bwXfront', latex_number(x_front, 2), 'the measured wave front\'s x at the run\'s end')]
+    numbers += [('bwFrontSpeed', latex_number(front_speed(p, o), 2), 'front_speed: the front\'s mean speed over 0.25 < t/tau_0.01 < 1.25, in units of |c_g|')]
+    #resolution and linearity at the inner edge, from the continuum wavenumber (B7)
     k_in = sat.D_V*abs(x_in)/(2.0*np.pi*sigma)
     spacing = p['radial_width']/(p['number_of_streamlines'] - 1)
     numbers += [('bwPerWavelength', latex_number(2.0*np.pi/k_in/spacing, 2), 'streamlines per wavelength at the inner edge (B7)')]
     numbers += [('bwkZ', latex_number(k_in*Z_w, 1), 'largest |k Z_w|, at the inner edge')]
-    #crests between the front at the run's end and r_V: the continuum phase D_V r_V x^2/(4 pi G sigma), over 2 pi
-    x_front = -c_g*o['times'][-1]/sat.r_V
+    #crests between the measured front at the run's end and r_V: the continuum phase D_V r_V x^2/(4 pi G sigma), over 2 pi
     crests = sat.D_V*sat.r_V*x_front*x_front/(4.0*np.pi*sigma)/(2.0*np.pi)
     numbers += [('bwCrests', latex_number(crests, 2), 'wavelengths between the front at the end and r_V')]
     #agreement with linear theory
     numbers += [('bwAmpPercent', latex_number(100.0*abs(comparisons['amplitude'] - 1.0), 1), 'median |h_wave|/|Z_w| - 1, percent')]
     numbers += [('bwKcontPercent', latex_number(100.0*comparisons['k_cont'], 2), 'median k/k_continuum - 1, percent (B7)')]
-    #the same ring at 300 and 1200 streamlines (resolution_runs, Fig. 4): k converges toward the continuum's
+    #the same ring at 400 and 1600 streamlines (resolution_runs, Fig. 4): k converges toward the continuum's
     for (p_res, o_res), name in zip(resolution_runs(test_folder)[::2], ('Coarse', 'Fine')):
         k_res = bending_wave_comparisons(p_res, o_res)[3]['k_cont']
         numbers += [('bwKcontPercent' + name, latex_number(100.0*k_res, 2),
             f"{p_res['number_of_streamlines']} streamlines: median k/k_continuum - 1, percent (B7)")]
         numbers += [('bwNstreamlines' + name, str(p_res['number_of_streamlines']), 'resolution_runs')]
+        numbers += [('bwFrontSpeed' + name, latex_number(front_speed(p_res, o_res), 2),
+            f"{p_res['number_of_streamlines']} streamlines: front_speed, in units of |c_g|")]
     epsilon_half = np.sqrt(2.0*np.pi*sigma/(sat.r_V*sat.D_V))
     outside = (x > 2.0*epsilon_half)
     h_theory = bending_wave(sat, sigma, x)
     forced_excess = (np.abs(h - h_theory)/np.abs(h_theory))[outside].max()
     numbers += [('bwForcedPercent', latex_number(100.0*forced_excess, 1), 'largest |h - B8|/|B8| outside the resonance zone, percent')]
+    forced_median = np.median((np.abs(h - h_theory)/np.abs(h_theory))[outside])
+    numbers += [('bwForcedMedianPercent', latex_number(100.0*forced_median, 1), 'median |h - B8|/|B8| outside the resonance zone, percent')]
     #the satellite's torque against linear theory, B9, over the run's last half (paper/figures/torque.py)
     torque_theory = -np.pi**2*sat.m*sigma*sat.r_V**2*A_V**2/sat.D_V
     torque = np.array([satellite_torque(p, o, k).sum() for k in range(len(o['times']))])/torque_theory

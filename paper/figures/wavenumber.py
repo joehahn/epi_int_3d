@@ -3,8 +3,8 @@
 #by Joe Hahn and Claude Code, joe.hahn@jmh-datasciences.com, 12 November 2026.
 #
 #the paper's wavenumber figure (Section 4.1.4): the simulated bending wave's dimensionless wavenumber |k| r_V versus
-#fractional distance from resonance x at the end of tests/bending_waves, in the same ring simulated with 300, 600 and
-#1200 streamlines (resolution_runs), against the continuum dispersion relation of Shu (1984), D|x| = 2 pi G sigma |k|
+#fractional distance from resonance x at the end of tests/bending_waves, in the same ring simulated with 400, 800 and
+#1600 streamlines (resolution_runs), against the continuum dispersion relation of Shu (1984), D|x| = 2 pi G sigma |k|
 #(Eqn. 37; notes/equations.md B7). The simulated k is the radial gradient of the phase of the wave part of each
 #streamline's complex amplitude h, h - L_V/x: k = d arg(h - L_V/x)/dr, the change in that phase between neighboring
 #streamlines divided by their separation (B21).
@@ -42,12 +42,12 @@ def figure(runs):
             behind, x_front = behind_front(p, o, sat, x_mid)
             ax.plot(x_mid[behind], np.abs(k_sim[behind])*sat.r_V/1.0e4, marker='o', markersize=4, linestyle='none',
                 alpha=0.7, color=color, label=f"{p['number_of_streamlines']} streamlines")
+            ax.axvline(x_front, color=color, linewidth=1.5, linestyle='dotted')
         x_theory = np.linspace(x.min(), 0.0, 400)
         ax.plot(x_theory, wave_wavenumber(p, sat, x_theory)*sat.r_V/1.0e4, linestyle='dashed', linewidth=2,
             color='black', label='Eqn. (37)')
-        ax.axvline(x_front, color='gray', linewidth=1, linestyle='dotted')
         ax.set_xlim(x.min(), 0.0)
-        ax.set_ylim(0.0, 6.0)
+        ax.set_ylim(0.0, 4.5)
         ax.set_xlabel(r'fractional distance from resonance $x$')
         ax.set_ylabel(r'wavenumber $|k|r_V$    ($10^4$)')
         ax.legend(loc='upper right')
