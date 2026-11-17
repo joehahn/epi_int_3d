@@ -1,12 +1,12 @@
 {
  "claim:bw_agreement": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "hash": "6f5d521ccc8a",
   "needs": {
    "notebook:bending_waves": "02c72c3394e1",
    "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_sol": "4740b01ec44c",
-   "paper:fig:bwave": "e61db81d0b8d",
+   "paper:fig:bwave": "2fe98ab67110",
    "sympy:B10": "75d787686330",
    "sympy:B8": "1a6166aa8c03"
   }
@@ -132,10 +132,10 @@
   }
  },
  "claim:massless_results": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "hash": "6d96e65458e7",
   "needs": {
-   "figure:vertical_resonance": "b2033954f464",
+   "figure:vertical_resonance": "c3152966b56e",
    "notebook:vertical_resonance": "d439a388e5e7",
    "numbers:vertical_resonance": "d0dff84376d5",
    "paper:eqn:vres_inc": "22616813c853",
@@ -199,12 +199,12 @@
   }
  },
  "claim:resonance_location": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "hash": "412c23231237",
   "needs": {
    "numbers:vertical_resonance": "d0dff84376d5",
    "paper:eqn:bw_disp": "3120b808e257",
-   "paper:fig:vres": "ae00df358023"
+   "paper:fig:vres": "ef3e73f3f300"
   }
  },
  "claim:three_corrections": {
@@ -950,8 +950,8 @@
   }
  },
  "figure:vertical_resonance": {
-  "date": "2026-11-15",
-  "hash": "b2033954f464",
+  "date": "2026-11-16",
+  "hash": "c3152966b56e",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
@@ -1028,7 +1028,7 @@
   }
  },
  "notebook:vertical_resonance": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "hash": "d439a388e5e7",
   "needs": {
    "code:drift": "a16d87bc9e34",
@@ -1036,7 +1036,7 @@
    "code:satellite": "2f1dbb1340e9",
    "code:vertical_drift": "7031c051e0f4",
    "eq:B12": "d87f6aac45c3",
-   "figure:vertical_resonance": "b2033954f464"
+   "figure:vertical_resonance": "c3152966b56e"
   }
  },
  "numbers:bending_waves": {
@@ -1433,8 +1433,8 @@
   }
  },
  "paper:fig:bwave": {
-  "date": "2026-11-15",
-  "hash": "e61db81d0b8d",
+  "date": "2026-11-16",
+  "hash": "2fe98ab67110",
   "needs": {
    "figure:bending_wave": "8815867d40a3",
    "sympy:B15": "809dccd15863",
@@ -1459,10 +1459,10 @@
   }
  },
  "paper:fig:vres": {
-  "date": "2026-11-15",
-  "hash": "ae00df358023",
+  "date": "2026-11-16",
+  "hash": "ef3e73f3f300",
   "needs": {
-   "figure:vertical_resonance": "b2033954f464",
+   "figure:vertical_resonance": "c3152966b56e",
    "numbers:vertical_resonance": "d0dff84376d5"
   }
  },

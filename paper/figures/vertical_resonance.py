@@ -7,7 +7,7 @@
 #and inclination i averaged over its particles and the outputs after 6 growth times (late_outputs),
 #  (a) D = nu_a^2 - omega_m^2 (Eqn. 25) at each streamline's a, in units of Omega_a^2 at r_V, versus x = (a - r_V)/r_V,
 #      and the curve D at all x;
-#  (b) <i> versus x, and the forced inclination i_f of Eqn. (38).
+#  (b) i versus x, and the forced inclination i_f of Eqn. (38).
 #Needs that test's output: uv run python tools/run_simulations.py tests/vertical_resonance
 #
 #usage, from the repo's top folder:
@@ -44,19 +44,20 @@ def figure(p, o):
         f, (ax, ax2) = plt.subplots(2, 1, figsize=(6, 7.5))
         ax.axhline(0.0, color='gray', linewidth=1)
         ax.axvline(0.0, color='gray', linewidth=1)
-        ax.plot(xs, D_curve/Omega_V2, linewidth=1, color='black', label=r'$\nu_a^2 - \omega_m^2$')
-        ax.plot(x, D/Omega_V2, marker='o', markersize=2.6, linestyle='none', color='gray', label='streamlines',
+        ax.plot(xs, D_curve/Omega_V2, linewidth=1, color='black', label='theory')
+        ax.plot(x, D/Omega_V2, marker='o', markersize=2.6, linestyle='none', color='gray', label='simulation',
             zorder=3)
         ax.set_xlabel(r'fractional distance from resonance $x$')
-        ax.set_ylabel(r'frequency distance from resonance $D$' + '\n' + r'($\Omega_a^2$ at $r_V$)')
-        ax.legend(loc='upper left', fontsize=9)
+        ax.set_ylabel(r'$D$  ($\Omega_a^2$)')
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(handles[::-1], labels[::-1], loc='upper left', fontsize=9)       #simulation first, as in (b)
         ax2.axvline(0.0, color='gray', linewidth=1)
         ax2.plot(x, i_avg, marker='o', markersize=2.6, linestyle='none', color='gray', label='simulation', zorder=3)
-        ax2.plot(xs, i_f, linewidth=1, color='black', label=r'$i_f$, Eqn. (38)')
+        ax2.plot(xs, i_f, linewidth=1, color='black', label='theory')
         ax2.set_yscale('log')
         ax2.set_ylim(1.0e-8, 1.0e-5)
         ax2.set_xlabel(r'fractional distance from resonance $x$')
-        ax2.set_ylabel(r'inclination $\langle i\rangle$')
+        ax2.set_ylabel(r'inclination $i$  (radians)')
         ax2.legend(loc='upper left', fontsize=9)
         for a_, label, y in ((ax, '(a)', 0.05), (ax2, '(b)', 0.93)):                #each label where the panel is empty
             a_.set_xticks([-0.02, -0.01, 0.0, 0.01, 0.02])
