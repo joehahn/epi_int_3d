@@ -96,6 +96,8 @@ mjx-container { color: var(--ink); }
 mjx-container[display="true"] { margin: .4em 0 !important; }
 
 .issues { display: grid; gap: 8px; border-top: 1px dashed var(--rule); padding-top: 10px; }
+.pblock > .pissues { order: 3; margin: 6px 0 12px; padding: 6px 0 6px 12px; border-top: 0; border-left: 3px solid var(--warn);
+  font: 13.5px/1.45 var(--f-ui); text-indent: 0; }
 .issuebar { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font: 600 12.5px var(--f-ui); color: var(--ink-2); }
 .recbtn { font: 600 12px var(--f-ui); background: var(--paper); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 2px 10px; cursor: pointer; }
 .issue { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 10px; align-items: baseline; }
@@ -626,15 +628,15 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       el("div", {class: "replytext", text: rep.reply}));
   }
 
-  function issuesBlock(c) {
-    const issues = c.issues || [];
+  // a box of issues: those of one paragraph or figure (under it, class pissues), or the card's unplaced ones (at its end)
+  function issuesBlock(c, issues, extra) {
     if (!issues.length) return null;
-    const box = el("div", {class: "issues"});
+    const box = el("div", {class: "issues" + (extra ? " " + extra : "")});
     const fill = () => {
       const g = state.notes[c.id]?.fixes || {};
       box.replaceChildren(
         el("div", {class: "issuebar"}, plural(issues.length, "issue"),
-          el("button", {class: "recbtn", onclick: () => chooseRecommended(c)}, "Use recommended"),
+          el("button", {class: "recbtn", onclick: () => chooseRecommended(c, issues)}, "Use recommended"),
           el("span", {class: "sub", text: "★ Claude recommends acting on it"})),
         ...issues.map(i => el("div", {class: "issue" + (g[i.id] === "skip" ? " skipped" : "")},
           el("span", {class: "ik " + i.kind, text: i.kind}),
@@ -650,9 +652,9 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     if (v) fixes[i.id] = v; else delete fixes[i.id];
     saveNote(c.id, {fixes});
   }
-  function chooseRecommended(c) {
+  function chooseRecommended(c, issues) {
     const fixes = {...(state.notes[c.id]?.fixes || {})};
-    for (const i of c.issues || []) fixes[i.id] = i.rec ? "use" : "skip";
+    for (const i of issues) fixes[i.id] = i.rec ? "use" : "skip";
     saveNote(c.id, {fixes});
   }
 
@@ -680,7 +682,22 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
       s.replaceChildren(...noteBox(c.id + "~" + s.dataset.part, c.id, s.dataset.label, "Your note on " + s.dataset.label,
         "Edits or questions for " + s.dataset.label));
     }
-    const issues = issuesBlock(c);
+    // each issue under the paragraph or figure it is about (tools/ledger.py names it, as p3 or fig-torque);
+    // the rest, and any whose place isn't found, at the card's end. The text node is cached across renders:
+    // drop the boxes of the previous render first
+    text.querySelectorAll(":scope .pissues").forEach(b => b.remove());
+    const boxes = [], loose = [], byPart = {};
+    for (const i of c.issues || []) {
+      const slot = i.part ? text.querySelector(`.subnote[data-part="${i.part}"]`) : null;
+      if (slot?.parentElement?.classList.contains("pblock")) (byPart[i.part] ||= {slot, list: []}).list.push(i);
+      else loose.push(i);
+    }
+    for (const {slot, list} of Object.values(byPart)) {
+      const b = issuesBlock(c, list, "pissues");
+      slot.parentElement.append(b); boxes.push(b);
+    }
+    const issues = issuesBlock(c, loose);
+    if (issues) boxes.push(issues);
     const art = el("article", {class: "card", "data-state": c.state, id: `card-${c.id}`},
       el("div", {class: "cardhead"},
         (() => { const h = el("h2"); h.innerHTML = c.title; h.prepend(el("span", {class: "num", text: c.number})); return h; })(),
@@ -700,7 +717,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
     else sec.append(el("button", {class: "pbtn", type: "button", text: "✎ Note on this whole section",
       onclick: () => { openSec(); sec.querySelector("textarea")?.focus(); }}));
     text.prepend(sec);
-    art._issues = issues;
+    art._issues = {_fill: () => boxes.forEach(b => b._fill())};
     return art;
   }
 

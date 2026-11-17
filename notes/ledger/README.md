@@ -8,7 +8,11 @@ open issues and a box for the author's notes to Claude: https://claude.ai/artifa
     section's text as HTML, with the math left as LaTeX for MathJax, the equations numbered as in the PDF,
     and the number macros filled in; its issues; and its facts (chain items current, equations hand-checked).
     Each issue has an id that stays the same while its text does, `kind` (chain, lint or review), `rec`
-    (Claude recommends acting on it) and a `detail`.
+    (Claude recommends acting on it), a `detail` and a `part`: the paragraph or figure it is about, named as the page
+    names its note slots (`p3`, the card's third paragraph; `fig-torque`), so the page shows it right under that
+    paragraph or figure. `tools/ledger.py` finds it from the issue's source line (a chain node's anchor phrase or label,
+    a lint problem's line), matched to the line marks that `ledger_cards.py` puts at each paragraph's start. A review
+    finding names only its section, so it has no `part` and goes at the end of its card.
   - `meta/summary` and `meta/costs`: the top bar's totals and the Costs view.
   - `notes/<id>`: the author's note on a card (`text`) and his Use/Skip choice on each issue (`fixes`). A note on one of a
     card's paragraphs, subsubsections or figures has the id `<card>~p<k>`, `<card>~sub<k>` or `<card>~fig-<png name>`, with `card` and `part`

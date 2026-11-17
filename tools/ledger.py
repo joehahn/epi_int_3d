@@ -33,7 +33,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from ledger_cards import cards
+from ledger_cards import cards, strip_comments, paper_file
 
 #paths
 repo_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -112,6 +112,27 @@ def card_of(anchor, paper_cards):
     return None
 
 
+#the source line of a chain node's anchor in the paper: its phrase ('...tex@phrase') or its label ('...tex#label')
+def anchor_line(anchor, source):
+    if ('@' in anchor):
+        found = re.search(r'\s+'.join(re.escape(w) for w in anchor.split('@', 1)[1].split()), source)
+    elif ('#' in anchor):
+        found = re.search(r'\\label\{' + re.escape(anchor.split('#', 1)[1]) + r'\}', source)
+    else:
+        found = None
+    return source[:found.start()].count('\n') + 1 if found else None
+
+
+#the paragraph or figure of a card that holds a source line, named as the page names its note slots (p3,
+#fig-torque), or None: the issue then goes at the end of the card
+def part_of(line, card):
+    part = None
+    for first, name in card['blocks']:
+        if (line is not None) and (first <= line):
+            part = name
+    return part
+
+
 #the cards, with their issues and facts
 def write_cards():
     assets = {}
@@ -119,6 +140,7 @@ def write_cards():
         with open(assets_file) as fp:
             assets = json.load(fp)
     paper_cards = cards(assets)
+    source = strip_comments(open(paper_file).read())          #comments blanked, so its lines are the paper's
     nodes = chain_nodes()
     checks = hand_checks()
     problems = lint_problems()
@@ -141,13 +163,14 @@ def write_cards():
         if (node['status'] != 'ok'):
             text = node['id'] + ' is ' + node['status'] + ': ' + node['reason'] + '.'
             card['issues'] += [{'id': issue_id(text), 'kind': 'chain', 'text': text, 'rec': True,
-                'detail': 'Recheck it against what changed, then confirm it (tools/chain.py).'}]
+                'detail': 'Recheck it against what changed, then confirm it (tools/chain.py).',
+                'part': part_of(anchor_line(node['anchor'], source), card)}]
     #lint problems, by line
     for line, text in problems:
         for card in paper_cards:
             if (card['lines'][0] <= line < card['lines'][1]):
                 card['issues'] += [{'id': issue_id(text), 'kind': 'lint', 'text': text + ' (line ' + str(line) + ')',
-                    'rec': True, 'detail': ''}]
+                    'rec': True, 'detail': '', 'part': part_of(line, card)}]
     #the latest paper review's findings, by the section or appendix they name
     for finding in findings:
         where = finding.get('where', '')

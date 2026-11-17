@@ -273,6 +273,7 @@ class Converter:
         #commands with arguments
         text = replace_command(text, 'footnote', lambda arg, o: keep('<span class="fn">'
             + self.inline(arg, assets) + '</span>'))
+        text = re.sub(r'\\lnmark\{(\d+)\}', lambda m: keep('\x01' + m.group(1) + '\x01'), text)     #paragraph_lines() reads them
         text = re.sub(r'\\nbstart\{(\d+)\}', lambda m: keep('<span class="nbs" data-k="' + m.group(1) + '"></span>'), text)
         text = re.sub(r'\\nblink\{(\d+)\}\{([^}]*)\}\{([^}]*)\}', lambda m: keep(' <a class="nb" data-k="' + m.group(1)
             + '" href="' + html.escape(m.group(2)) + '" target="_blank" rel="noopener">' + ('notebook ' + html.escape(m.group(3))).strip() + '</a>'), text)
@@ -316,9 +317,9 @@ class Converter:
         self.depth -= 1
         while top and ('\x00' in text):
             text = re.sub(r'\x00(\d+)\x00', lambda m: pieces[int(m.group(1))], text)
-        text = re.sub(r'<p>(<h4 class="sub">.*?</h4>)</p>', r'\1', text)
+        text = re.sub(r'<p>((?:\x01\d+\x01)*)(<h4 class="sub">.*?</h4>)</p>', r'\1\2', text)
         #a figure is a block of its own: inside <p> the browser splits it into two empty paragraphs
-        text = re.sub(r'<p>(<figure\b.*?</figure>)</p>', r'\1', text, flags=re.S)
+        text = re.sub(r'<p>((?:\x01\d+\x01)*)(<figure\b.*?</figure>)</p>', r'\1\2', text, flags=re.S)
         return text
 
 
@@ -375,6 +376,47 @@ def notebook_links(body):
     return body
 
 
+#a mark \lnmark{N} at the start of each paragraph of the body, N its line in the paper's source, so each paragraph
+#and figure of a card can be matched to the source lines that an issue names (line_marks keeps every newline)
+def line_marks(body, first_line):
+    #(a subequations block also starts a paragraph of the HTML, and so does the text after it)
+    starts = [0] + [m.end() for m in re.finditer(r'\n[ \t]*\n\s*', body)]
+    starts += [m.start() for m in re.finditer(r'\\begin\{subequations\}', body)]
+    starts += [m.end() for m in re.finditer(r'\\end\{subequations\}\s*', body)]
+    for pos in sorted(set(starts), reverse=True):
+        body = body[:pos] + '\\lnmark{' + str(first_line + body[:pos].count('\n')) + '}' + body[pos:]
+    return body
+
+
+#a card's blocks [(first source line, part)], part named as the ledger page names its note slots: 'p' + k for its
+#k-th paragraph that has text (the page's count), 'fig-' + the figure's PNG name; and its HTML without the marks
+def paragraph_lines(text_html):
+    blocks, line, k = [], None, 0
+    unmarked = []
+    for m in re.finditer(r'\x01(\d+)\x01|<p>(.*?)</p>|<figure class="fig" data-png="([^"]*)"', text_html, flags=re.S):
+        if m.group(1):
+            line = int(m.group(1))
+        elif m.group(3) is not None:
+            blocks += [(line, 'fig-' + m.group(3).replace('.png', ''))]
+        else:
+            inner = m.group(2)
+            marks = re.findall(r'\x01(\d+)\x01', inner)
+            start = re.match(r'(?:\s|<span class="nbs"[^>]*></span>)*\x01(\d+)\x01', inner)
+            here = int(start.group(1)) if start else line
+            if (start is None) and re.sub(r'<[^>]+>|\x01\d+\x01', '', inner).strip():
+                unmarked.append(re.sub(r'<[^>]+>', '', inner)[:60])
+            if marks:
+                line = int(marks[-1])
+            if re.sub(r'<[^>]+>|\x01\d+\x01', '', inner).strip():
+                k += 1
+                blocks += [(here, 'p' + str(k))]
+    if unmarked:
+        print('ledger_cards: paragraphs with no line mark (placed by the line before them):', unmarked)
+    text_html = re.sub(r'\x01\d+\x01', '', text_html)
+    text_html = re.sub(r'<p>\s*</p>', '', text_html)
+    return [b for b in blocks if b[0] is not None], text_html
+
+
 #the paper's cards: [{id, order, number, title, level, html, words, labels, lines, tex}]
 def cards(assets=None):
     assets = assets or {}
@@ -386,6 +428,7 @@ def cards(assets=None):
     first_line = source[:begin].count('\n') + 1
     body = strip_comments(source[begin:end])
     body = re.sub(r'\\bibliographystyle\{[^}]*\}|\\bibliography\{[^}]*\}', '', body)
+    body = line_marks(body, first_line)
     body = notebook_links(body)
     #headings
     heads = []
@@ -431,6 +474,7 @@ def cards(assets=None):
         #a one-paragraph section comes back unwrapped: make it a paragraph, so the page gives it a paragraph note
         if (text_html.strip() and ('<p>' not in text_html) and ('<figure' not in text_html) and ('<h4' not in text_html)):
             text_html = '<p>' + text_html.strip() + '</p>'
+        blocks, text_html = paragraph_lines(text_html)
         plain = re.sub(r'<[^>]+>', ' ', text_html)
         words = len(re.findall(r'[A-Za-z]{2,}', re.sub(r'\$[^$]*\$|\\begin\{.*?\\end\{[a-z*]+\}', ' ', plain, flags=re.S)))
         if (level == 1):
@@ -442,7 +486,7 @@ def cards(assets=None):
             'words': words, 'labels': re.findall(r'\\label\{([^}]*)\}', tex),
             'lines': [first_line + body[:start].count('\n'), first_line + body[:stop].count('\n')],
             'notebooks': sorted(set(re.findall(r'\\url\{(https://github\.com/[^}]*\.ipynb)\}', tex))),
-            'tex': ' '.join(tex.split()), 'leftovers': sorted(converter.leftovers)}]
+            'tex': ' '.join(tex.split()), 'blocks': blocks, 'leftovers': sorted(converter.leftovers)}]
     for missing in sorted(converter.missing_locators):
         print('citations.json has no page for', missing, '(the ledger shows it unlinked)')
     if converter.mismatches:
