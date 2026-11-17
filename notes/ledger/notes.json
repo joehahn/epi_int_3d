@@ -1,5 +1,5 @@
 {
- "exported": "2026-11-16T05:50:00Z",
+ "exported": "2026-11-17T00:10:00Z",
  "entries": [
   {
    "card": "s2-1",
@@ -232,6 +232,14 @@
    "reply_at": "2026-11-16T05:50:00Z",
    "reply": "Dropped at the author's request (in Claude Code); the note was deleted from the ledger and the paper is unchanged.",
    "status": "dropped"
+  },
+  {
+   "card": "s4-1~p1",
+   "note_at": "2026-11-16T23:21:52.875Z",
+   "note": "should h ∝ e^(i∫ k dr) be written h(r) ∝ e^(i∫^r k dr') ? and change \"rotate with the pattern speed Ωₚ = ω/m\" to something about where the spiral bending wave rotates with constant pattern speed Ωₚ = ω/m that is prograde with Ωₚ > 0; make \"and a ring particle orbiting at Ωₐ sees the wave at the Doppler-shifted frequency ωₘ = m(Ωₐ − Ωₚ).\" a new sentence; is ωₘ also referred to as the Doppler-shifted forcing frequency? and should D be written D(a)?",
+   "reply": "h(r) ∝ e^{i∫^r k dr'} here and in 4.1.2 and 4.1.4; the crests form a spiral rotating with the constant pattern speed Ω_p = ω/m, prograde when Ω_p > 0; new sentence 'Thus a ring particle orbiting at Ω_a sees the wave sweep by at the Doppler-shifted frequency ω_m'. ω_m is the Doppler-shifted forcing frequency where a satellite forces the wave (4.1.2 says so); kept 'Doppler-shifted frequency' for the free wave. D left without (a): its a-dependence is through ν_a and ω_m.",
+   "reply_at": "2026-11-17T00:10:00Z",
+   "status": "done"
   }
  ]
 }

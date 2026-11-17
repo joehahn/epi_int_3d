@@ -44,8 +44,8 @@
   }
  },
  "claim:bw_wavenumber": {
-  "date": "2026-11-15",
-  "hash": "4779c5f728e9",
+  "date": "2026-11-16",
+  "hash": "b5b61893c7ff",
   "needs": {
    "numbers:bending_waves": "a4c91b90d3fc",
    "paper:eqn:vres_lambda": "afc20a079dc2",
@@ -93,8 +93,8 @@
   }
  },
  "claim:first_wavelength": {
-  "date": "2026-11-14",
-  "hash": "13e6690ee4a3",
+  "date": "2026-11-16",
+  "hash": "96fb2ef35a30",
   "needs": {
    "sympy:B18": "36ffd840a5f9"
   }
@@ -215,8 +215,8 @@
   }
  },
  "claim:trailing": {
-  "date": "2026-11-15",
-  "hash": "693688b855b0",
+  "date": "2026-11-16",
+  "hash": "a2819534a60a",
   "needs": {
    "sympy:B19": "26a6ca88091c",
    "sympy:B9": "ad423e395545"

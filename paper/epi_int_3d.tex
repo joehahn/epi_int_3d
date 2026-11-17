@@ -459,10 +459,11 @@ in the code's repository; the simulations themselves are not.
 \label{sec:waves_free}
 
 A spiral bending wave displaces the ring vertically by $Z = {\rm Re}[h(r)e^{i(m\theta - \omega t)}]$, where the
-integer $m$ and the frequency $\omega$ are constant and the complex amplitude $h \propto e^{i\int k\,dr}$ winds
-with radial wavenumber $k$. The wave's crests, where $m\theta + \int k\,dr - \omega t$ is constant, rotate with
-the pattern speed $\Omega_p = \omega/m$, prograde when $\Omega_p > 0$, and a ring particle orbiting at $\Omega_a$ sees
-the wave at the Doppler-shifted frequency $\omega_m = m(\Omega_a - \Omega_p)$. The wave obeys the dispersion
+integer $m$ and the frequency $\omega$ are constant and the complex amplitude $h(r) \propto e^{i\int^r k\,dr'}$ winds
+with radial wavenumber $k$. The wave's crests, where $m\theta + \int^r k\,dr' - \omega t$ is constant, form a
+spiral that rotates with the constant pattern speed $\Omega_p = \omega/m$, which is prograde when $\Omega_p > 0$.
+Thus a ring particle orbiting at $\Omega_a$ sees the wave sweep by at the Doppler-shifted frequency
+$\omega_m = m(\Omega_a - \Omega_p)$. The wave obeys the dispersion
 relation (Eqn.\ (84) of \citealt{S84})\footnote{\cite{S84} writes perturbations as $e^{i(\omega t - m\theta)}$,
 the complex conjugate of the form used here. His equations are therefore the complex conjugates of those here, with
 $k$ of opposite sign: his trailing waves at an inner vertical resonance have $k < 0$, where those here have $k > 0$.}
@@ -536,7 +537,7 @@ Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{im(\theta
 $x = (r - r_V)/r_V$ is the fractional distance from resonance, and $D \simeq {\cal D}x$ where
 ${\cal D} = r\,dD/dr$ at $r_V$ (Eqn.\ (87a) of \citealt{S84}), which is $3(m - 1)\Omega_a^2$ when oblateness is
 negligible. The wave here is trailing, with $k > 0$, so the dispersion relation, Eqn.\ (\ref{eqn:bw_disp}), is
-$D = -2\pi G\sigma k$. Acting on $h \propto e^{i\int k\,dr}$, $k$ is $-i\,d/dr$, which turns the
+$D = -2\pi G\sigma k$. Acting on $h \propto e^{i\int^r k\,dr'}$, $k$ is $-i\,d/dr$, which turns the
 dispersion relation into the left side of Eqn.\ (88) of \cite{S84},
 \begin{equation}
     \label{eqn:vres_ode}
@@ -654,7 +655,7 @@ though it has not been quantified.
 
 Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$. Each streamline's complex amplitude $h$ is
 measured by a least-squares fit of its particles' vertical displacements to $Z = {\rm Re}[h e^{im(\theta - \Omega_pt)}]$.
-The wave part of $h$, $h_{\rm wave} = h - L_V/x$ of Eqn.\ (\ref{eqn:vres_sol}), varies as $e^{i\int k\,dr}$, so
+The wave part of $h$, $h_{\rm wave} = h - L_V/x$ of Eqn.\ (\ref{eqn:vres_sol}), varies as $e^{i\int^r k\,dr'}$, so
 $dh_{\rm wave}/dr = ikh_{\rm wave}$ where the wave's amplitude varies slowly, and $k = d\arg(h_{\rm wave})/dr$,
 which is computed as the change in the phase of $h_{\rm wave}$ between neighboring streamlines divided by their
 separation. Behind the front it is \bwKcontPercent\%
