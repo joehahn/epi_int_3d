@@ -168,8 +168,8 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   .pblock { display: block; position: relative; }
   /* a claim's notebook links, in a narrow column just right of the claim's first line, left of its note, and a bar
      beside the claim's lines that ties them to it (layoutNb sets their tops and the bar's height) */
-  .text .nbm { position: absolute; top: 0; left: calc(100% + 20px); width: 86px; line-height: 1.45; }
-  .text .nbm a { display: block; margin: 0; }
+  .text .nbm { position: absolute; top: 0; left: calc(100% + 16px); width: 100px; line-height: 1.35; }
+  .text .nbm a { display: block; margin: 0 0 4px; white-space: normal; }
   .text .nbbar { display: block; position: absolute; left: calc(100% + 6px); width: 8px; border-left: 2px solid var(--rule-2); cursor: default; }
   .text .nbbar.on { border-left-color: var(--accent); }
   .text .nbm.on a { color: var(--accent); }
@@ -386,7 +386,7 @@ td.r { font-family: var(--f-mono); color: var(--ink); }
   };
   const typeset = nodes => { for (const n of nodes) waiting.add(n); requestAnimationFrame(flushMath); };
   window.addEventListener("mathjax-ready", () => { mathReady = true; flushMath(); });
-  // notebook links ("notebook §N", put at the end of a claim's sentence or a figure's caption by
+  // notebook links ("bending_waves test 6", put at the end of a claim's sentence or a figure's caption by
   // tools/ledger_cards.py, its start marked by an empty span.nbs with the same data-k): each claim's links are gathered
   // into one span where they stand (inline after the sentence on narrow screens), and get a bar; on wide screens
   // layoutNb puts them beside the claim's first line and the bar beside its lines, and hovering either highlights the claim

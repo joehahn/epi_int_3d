@@ -276,7 +276,7 @@ class Converter:
         text = re.sub(r'\\lnmark\{(\d+)\}', lambda m: keep('\x01' + m.group(1) + '\x01'), text)     #paragraph_lines() reads them
         text = re.sub(r'\\nbstart\{(\d+)\}', lambda m: keep('<span class="nbs" data-k="' + m.group(1) + '"></span>'), text)
         text = re.sub(r'\\nblink\{(\d+)\}\{([^}]*)\}\{([^}]*)\}', lambda m: keep(' <a class="nb" data-k="' + m.group(1)
-            + '" href="' + html.escape(m.group(2)) + '" target="_blank" rel="noopener">' + ('notebook ' + html.escape(m.group(3))).strip() + '</a>'), text)
+            + '" href="' + html.escape(m.group(2)) + '" target="_blank" rel="noopener">' + html.escape(m.group(3)).replace('\u00a0test', ' test', 1).replace('_', '_<wbr>') + '</a>'), text)
         text = re.sub(r'\\href\{([^}]*)\}\{((?:[^{}]|\{[^{}]*\})*)\}', lambda m: keep('<a href="' + html.escape(m.group(1))
             + '" target="_blank" rel="noopener">' + self.inline(m.group(2), assets) + '</a>'), text)
         text = replace_command(text, 'url', lambda arg, o: keep('<a href="' + html.escape(arg) + '" target="_blank" rel="noopener">'
@@ -333,7 +333,8 @@ def notebook_links(body):
     def marker(k, sections):
         #a claim's links carry its number k, which pairs them with the \\nbstart{k} that opens its sentence
         return ''.join('\\nblink{' + k + '}{' + notebook_site + sec.split('#')[0] + '.html' + ('#' + sec.split('#')[1] if '#' in sec else '')
-            + '}{' + (('\u00a7' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else '') + '}' for sec in sections)
+            + '}{' + sec.split('#')[0] + (('\u00a0test\u00a0' + re.sub(r'\D', '', sec.split('#')[1])) if '#' in sec else '') + '}'
+            for sec in sections)
     #each claim's or caption's span (begin, at) in the text, where its link goes at 'at'
     places = []
     for node in nodes:
