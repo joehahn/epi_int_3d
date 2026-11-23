@@ -17,6 +17,8 @@
 \newcommand{\code}[1]{\texttt{#1}}   %code names; make it {#1} for roman
 \input{numbers/vertical_resonance}   %numbers from the simulations, by tools/paper_numbers.py
 \input{numbers/bending_waves}
+\input{numbers/lindblad_resonance}
+\input{numbers/density_waves}
 
 %journal
 \received{not yet}
@@ -445,7 +447,7 @@ The following will use \code{epi\_int\_3d} to simulate the spiral bending waves 
 vertical resonances in a planetary ring, which exercises the code's new vertical capability, and compare
 them with linear wave theory to confirm the code. These waves test the vertical motion of
 Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:ring_gravity}. The spiral density waves
-that a satellite launches at its Lindblad resonances will also be simulated, to further validate
+that a satellite launches at its Lindblad resonances are also simulated, to further validate
 the code's ability to simulate horizontal disturbances in a self-gravitating ring, and in a
 non-gravitating, pressure-supported gas disk those waves will also test the ring pressure of
 Section \ref{sec:pressure}. Each test's notebook, which makes the comparisons shown here, is
@@ -729,8 +731,132 @@ Section \ref{sec:waves_ring} vs.\ time $t$ in orbits.}
 \subsection{Spiral density waves}
 \label{sec:density}
 
-Spiral density waves launched at a satellite's Lindblad resonance, in a self-gravitating ring and in a
-non-gravitating, pressure-supported gas disk, will be compared with linear theory later.
+%equations L1-L9 of notes/sympy/density_wave.py; notes/equations.md
+A satellite whose circular orbit lies in the ring plane launches spiral density waves at its inner Lindblad
+resonances \citep{GT79b, S84}. These waves test the in-plane motion and ring gravity as the bending waves of
+Section \ref{sec:bending} test the vertical, and their theory runs parallel to that of Section \ref{sec:bending}, so
+only what differs is given here.
+
+\subsubsection{Free spiral density waves}
+\label{sec:density_free}
+
+A spiral density wave displaces the ring radially by $\xi_r = {\rm Re}[\xi(r)e^{i(m\theta - \omega t)}]$, where
+$\xi \propto e^{i\int^r k\,dr'}$. In a ring without pressure it obeys the dispersion relation (Eqn.\ (35) of \citealt{S84})
+\begin{equation}
+    \label{eqn:dw_disp}
+    D \equiv \kappa_a^2 - \omega_m^2 = 2\pi G\sigma|k|,
+\end{equation}
+which differs from Eqn.\ (\ref{eqn:bw_disp}) in sign, since self-gravity weakens the in-plane restoring force
+where it strengthens the vertical. The group velocity is
+\begin{equation}
+    \label{eqn:dw_cg}
+    c_g = {\rm sgn}(k)\frac{\pi G\sigma}{\omega_m}
+\end{equation}
+(Eqn.\ (41) of \citealt{S84}). A wave launched at an inner Lindblad resonance, where $\omega_m = \kappa_a$, carries its
+angular momentum into the region where $D > 0$, which lies outside the resonance, so $c_g > 0$ and $k > 0$: the
+wave is trailing, as the bending wave is, but it travels outward, away from the planet.
+
+\subsubsection{Forced spiral density waves}
+\label{sec:density_theory}
+
+The $m$th Fourier term of the satellite's potential is
+\begin{equation}
+    \label{eqn:lres_phi}
+    \Phi_m = -\frac{GM_s}{a_s}b_{1/2}^{(m)}(\beta)\cos m(\theta - \Omega_pt),
+\end{equation}
+where $\beta = r/a_s$, Eqn.\ (\ref{eqn:laplace_b}) gives $b_{1/2}^{(m)}$, and $\Omega_p = \Omega_{a_s}$. Its inner
+Lindblad resonance lies where $\omega_m = \kappa_a$, at $r_L \simeq a_s[(m - 1)/m]^{2/3}$ when $J_2$ is small.
+As in Section \ref{sec:waves_theory}, \code{epi\_int\_3d} keeps only this term, with $b_{1/2}^{(m)}$ replaced by its
+tangent line at $\beta = r_L/a_s$, and pulls each particle with $-\nabla\Phi_m$. Near $r_L$, $D \simeq {\cal D}x$
+where now $x = (r - r_L)/r_L$ and ${\cal D} = r\,dD/dr$ at $r_L$, which is again $3(m - 1)\Omega_a^2$ when oblateness
+is negligible. With $k$ again $-i\,d/dr$, Eqn.\ (\ref{eqn:dw_disp}) becomes the left side of Eqn.\ (44) of \cite{S84},
+\begin{equation}
+    \label{eqn:lres_ode}
+    i\epsilon\frac{d\xi}{dx} + x\xi = L_L,
+\end{equation}
+written for $\xi$ rather than Shu's disk potential, which is $2\pi iG\sigma\xi$, with $\epsilon$ of
+Eqn.\ (\ref{eqn:vres_params}) and $L_L = -\Psi/(r_L{\cal D})$, where
+\begin{equation}
+    \label{eqn:lres_psi}
+    \Psi = -\frac{GM_s}{a_s}\left(\beta\frac{db_{1/2}^{(m)}}{d\beta} + \frac{2\Omega_a}{\Omega_a - \Omega_p}b_{1/2}^{(m)}\right)
+\end{equation}
+is evaluated at $r_L$, where $2\Omega_a/(\Omega_a - \Omega_p) = 2m\Omega_a/\kappa_a \simeq 2m$ (Eqn.\ (45a) of
+\citealt{S84}, whose $\Psi_L$ is $-\Psi$). The solution of Eqn.\ (\ref{eqn:lres_ode}) with no wave at $x < 0$ is
+(Eqns.\ (46)--(47) of \citealt{S84})
+\begin{equation}
+    \label{eqn:lres_xi}
+    \xi(x) = -\frac{iL_L}{\epsilon}e^{ix^2/2\epsilon}\int_{-\infty}^xe^{-is^2/2\epsilon}\,ds,
+\end{equation}
+which far from resonance is the forced response $\xi_{\rm forced} = L_L/x$ plus, at $x \gg \epsilon^{1/2}$ only, the
+wave $Z_we^{ix^2/2\epsilon}$, whose amplitude $|Z_w| = (2\pi/\epsilon)^{1/2}|L_L|$ is Eqn.\ (\ref{eqn:vres_amp}) with
+$A_V$ replaced by $|\Psi|/r_L$, and whose wavelength is Eqn.\ (\ref{eqn:vres_lambda}) (Eqns.\ (49)--(51) of
+\citealt{S84}). The satellite exerts the torque \citep{GT79b}
+\begin{equation}
+    \label{eqn:lres_torque}
+    T_L = -\frac{\pi^2m\sigma\Psi^2}{\cal D}
+\end{equation}
+on the ring, which is the counterpart of Eqn.\ (\ref{eqn:vres_torque}). These again offer tests with massless
+particles and with a self-gravitating ring.
+
+\subsubsection{Massless particles at a Lindblad resonance}
+\label{sec:density_massless}
+
+%numbers from tests/lindblad_resonance by tools/paper_numbers.py; no figure (lindblad_resonance.ipynb test 9)
+A massless ring has only the forced response $\xi_{\rm forced} = L_L/x$, an eccentricity
+\begin{equation}
+    \label{eqn:lres_ecc}
+    e_f = \frac{M_s}{M_p}\frac{\beta\left|\beta\,db_{1/2}^{(m)}/d\beta + 2mb_{1/2}^{(m)}\right|}{3(m - 1)|x|}
+\end{equation}
+when the planet's oblateness is negligible, with $\beta = r_L/a_s$. The simulation is that of
+Section \ref{sec:waves_massless} with the inclined satellite replaced by an $m = \lresM$ satellite in the ring plane, of
+mass $M_s = \lresMs(1 - e^{-t/\tau})$ at $a_s = \lresAs$, which puts $r_L = \lresRL$ mid-ring. The streamlines'
+eccentricities, averaged over the last $\lresAvgOrbits$ of the run's $\lresOrbits$ orbits, agree with
+Eqn.\ (\ref{eqn:lres_ecc}) to within \lresAgreePercent\%, and they peak at the two streamlines nearest $r_L$,
+at $|x| \le \lresXnear$, between which $D$ of Eqn.\ (\ref{eqn:dw_disp}) changes sign.
+
+\subsubsection{A self-gravitating ring at a Lindblad resonance}
+\label{sec:density_ring}
+
+%numbers from tests/density_waves by tools/paper_numbers.py; figures by figures/density_wave.py, density_torque.py
+The density wave is simulated in the ring of Section \ref{sec:waves_ring}. An $m = \dwM$ satellite of mass
+$M_s = \dwMs$ at $a_s = \dwAs$ puts $r_L = \dwRL$, \dwAcrossPercent\% of the way across the ring, so that the wave
+travels outward across most of it, and the satellite is at full mass from $t = 0$. The wave's amplitude keeps
+$|kZ_w| \le \dwkZ$ everywhere in the ring. The wave reaches $x = 0.01$ after the time $\tau_{0.01} = 0.01r_L/c_g$,
+about \dwTauOrbits\ orbits, and the run stops at $\dwRunFraction\,\tau_{0.01}$, when its front is at $x = \dwXfront$,
+short of the ring's outer edge at $x = \dwXout$.
+
+Each streamline's complex amplitude $\xi$ is measured by a least-squares fit of its particles' radii to
+$r = r_0 + {\rm Re}[\xi e^{im(\theta - \Omega_pt)}]$, which keeps only the $m$-armed part of its shape; the streamlines
+near the ring's edges also have a free eccentricity, since their initial circular orbits are out of balance with the
+ring's own gravity there. Figure \ref{fig:dwave} shows the wave being launched at $r_L$ and propagating outward. Over
+$x < 0.01$, outside the resonance zone, the wave's amplitude is within \dwAmpPercent\% of $|Z_w|$, and on the nonwave
+side the forced response departs from Eqn.\ (\ref{eqn:lres_xi}) by \dwForcedMedianPercent\% typically (the median).
+The wavenumber of $\xi - L_L/x$, computed as in Section \ref{sec:waves_ring}, is positive, so the wave trails, and it
+is \dwKcontPercent\% larger than Eqn.\ (\ref{eqn:dw_disp}) gives over $x < 0.01$ (the median; Fig.\ \ref{fig:dwtorque}a),
+likely because of the streamlines' finite spacing, as for the bending wave in the same ring. The satellite's torque on
+the ring, $T = \sum\mu rA_\theta$ over its particles, settles onto $T_L$ as soon as the wave is launched
+(Fig.\ \ref{fig:dwtorque}b). Over the run's last half its mean is $\dwTorqueRatio\,T_L$, and it scatters by at most
+\dwTorqueScatter\% about $T_L$ because of the free oscillation started when the satellite was switched on.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/density_wave.pdf}
+\caption{The radial amplitude $|\xi|/r$ of the \bwNstreamlines\ streamlines in the self-gravitating ring of
+Section \ref{sec:density_ring}, plotted vs.\ their fractional distance from resonance $x$, at six times $t$ in units of
+the time $\tau_{0.01}$ that the wave takes to propagate from $r_L$ to $x = 0.01$. The dashed curve is linear theory's,
+with $\xi$ from Eqn.\ (\ref{eqn:lres_xi}).}
+\label{fig:dwave}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/density_torque.pdf}
+\caption{The density wave of Section \ref{sec:density_ring}. (a) Its wavenumber $|k|r_L$ at the end of the run (dots),
+from the resonance zone to the wave front (dotted line), and the dispersion relation Eqn.\ (\ref{eqn:dw_disp}) (dashed).
+(b) The torque $T$ that the satellite exerts on the ring, in units of $T_L$ of Eqn.\ (\ref{eqn:lres_torque})
+(dashed), vs.\ time $t$ in units of $\tau_{0.01}$.}
+\label{fig:dwtorque}
+\end{figure}
 
 \clearpage
 \appendix

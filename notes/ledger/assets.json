@@ -30,5 +30,13 @@
  "angular_momentum.png": {
   "id": "f213a55e4aa7d9c5cfce3e982644c513",
   "hash": "5a8679ba35e9"
+ },
+ "density_wave.png": {
+  "id": "a8a3a4954682c60545a8430e749d82ab",
+  "hash": "1dc0ca12b51d"
+ },
+ "density_torque.png": {
+  "id": "3e573581c09872e286ac59c544ffd612",
+  "hash": "1f3b9e003d63"
  }
 }

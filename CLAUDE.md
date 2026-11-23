@@ -48,7 +48,9 @@ decisions, ground rules) and `README.md`.
   the numbers that notebook printed. `tests/vertical_resonance/`: test particles at a satellite's vertical
   resonance (`fast/satellite.py`, the Fourier satellite set by inputs.py's `satellite` dict; theory in
   `notes/phase2c/`). `tests/bending_waves/`: the spiral bending wave that satellite launches in a self-gravitating
-  ring, compared with Shu (1984) and with B13, the finite lattice's restoring force. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  ring, compared with Shu (1984) and with B13, the finite lattice's restoring force. `tests/lindblad_resonance/` and
+  `tests/density_waves/` are their in-plane counterparts at an inner Lindblad resonance (the satellite's `'horizontal'`
+  resonance; theory L1–L9 in `notes/equations.md`, diagnostics `tests/density_analysis.py`, unit test `tests/test_satellite.py`). `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
 
 ## Running

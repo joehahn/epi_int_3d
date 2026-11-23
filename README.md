@@ -132,11 +132,18 @@ output to theory:
   finite width and streamline spacing are allowed for, [bending_waves.ipynb](tests/bending_waves/bending_waves.ipynb)
   (epi_int_3d only; about 11 min); its animations, with play and pause, are at
   [joehahn.github.io/epi_int_3d](https://joehahn.github.io/epi_int_3d/)
+- lindblad_resonance: the in-plane counterpart of vertical_resonance, a zero-mass ring straddling a satellite's m = 2
+  inner Lindblad resonance; each streamline's eccentricity should settle to the forced eccentricity,
+  [lindblad_resonance.ipynb](tests/lindblad_resonance/lindblad_resonance.ipynb) (epi_int_3d only; about 6 min)
+- density_waves: bending_waves' ring with its inner part straddling a satellite's m = 2 inner Lindblad resonance; the
+  spiral density wave launched there should match Shu (1984)'s amplitude and wavelength and Goldreich & Tremaine
+  (1979)'s torque, [density_waves.ipynb](tests/density_waves/density_waves.ipynb) (epi_int_3d only; about 20 min)
 
-To run all 27 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
+To run all 29 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
 one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,
 libration) run with the reference driver, or with `--fast` with `fast/epi_int_3d.py` set to give the
-same results bit for bit. epi_int_3d's own tests (nominal, inclined, self_confining, vertical_resonance, bending_waves) always run with
+same results bit for bit. epi_int_3d's own tests (nominal, inclined, self_confining, vertical_resonance, bending_waves, lindblad_resonance,
+density_waves) always run with
 `fast/epi_int_3d.py` and its default ring gravity, as described in the paper:
 
     uv run python tools/run_simulations.py

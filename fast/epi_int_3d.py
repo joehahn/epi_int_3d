@@ -33,9 +33,10 @@ two ghost columns per side, so that the particles beside theta = +-pi get the ri
 (tools/patches.py, epi_int_lite issue 10).
 Optional input epi_int_lite_gravity (default False): True turns all five off, unless set
 explicitly, giving epi_int_lite's forces, as the regression tests against the reference use.
-Optional input satellite (a dict, default none): a "Fourier satellite", only the resonant m-th term of an
-inclined satellite's potential, which kicks vz (fast/satellite.py, notes/phase2c/bending_wave_theory.md);
-its constants are printed and saved in output/satellite.json.
+Optional input satellite (a dict, default none): a "Fourier satellite", only the resonant m-th term of a
+satellite's potential (fast/satellite.py): an inclined satellite's at a vertical resonance, which kicks vz
+(notes/phase2c/bending_wave_theory.md), or an uninclined one's at a Lindblad resonance, which kicks vr and vt
+(notes/equations.md L1-L9); its constants are printed and saved in output/satellite.json.
 Outputs z.npy and vz.npy (planetocentric, like the others) join the reference's output files.
 Pressure and viscosity, when on, are still the reference's NumPy code (helper_fns.accelerations),
 and so is anything that inputs.py patches through tools/patches.py: initialization (the edge
@@ -185,7 +186,7 @@ class Ring:
         self.bk.shift1(F['vz'], f*self.vz.sum())
 
     def velocity_kick(self, dt, time=0.0):
-        """helper_fns.velocity_kick, plus the satellite's vertical pull at time."""
+        """helper_fns.velocity_kick, plus the satellite's pull at time (vertical, or in the plane)."""
         p, F = self.p, self.f
         self.mixed2planeto()
         self.bk.sort_streamlines(self.r, self.t, self.vr, self.vt, self.z, self.vz)
@@ -202,7 +203,12 @@ class Ring:
         if vertical['Az'] is not None:
             self.vz += vertical['Az'][:, 1:-1]*dt
         if self.satellite is not None:
-            self.vz += self.satellite.vertical_acceleration(self.t, time)*dt
+            if self.satellite.resonance == 'vertical':
+                self.vz += self.satellite.vertical_acceleration(self.t, time)*dt
+            else:
+                A_r, A_t = self.satellite.horizontal_acceleration(self.r, self.t, time)
+                self.vr += A_r*dt
+                self.vt += A_t*dt
         self.planeto2mixed()
 
     def incline(self, inclination, node):

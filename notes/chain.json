@@ -1355,13 +1355,18 @@
    "kind": "code",
    "anchor": "fast/satellite.py::Satellite",
    "needs": [
+    "code:satellite_dlaplace",
+    "code:satellite_kappa",
+    "code:satellite_laplace",
+    "code:satellite_nu",
     "eq:B2",
     "eq:B4",
     "eq:B5",
-    "code:satellite_laplace",
-    "code:satellite_nu"
+    "eq:L1",
+    "eq:L2",
+    "eq:L4"
    ],
-   "note": "the vertical Fourier satellite"
+   "note": "the Fourier satellite: vertical (inclined) and horizontal (in the ring plane)"
   },
   {
    "id": "code:run_3d",
@@ -2372,6 +2377,545 @@
    "notebook": [
     "bending_waves#test7",
     "bending_waves#test8"
+   ]
+  },
+  {
+   "id": "eq:L1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L1",
+   "needs": []
+  },
+  {
+   "id": "sympy:L1",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L1",
+   "needs": [
+    "eq:L1"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L2",
+   "needs": []
+  },
+  {
+   "id": "sympy:L2",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L2",
+   "needs": [
+    "eq:L2"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L3",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L3",
+   "needs": [
+    "eq:L2"
+   ]
+  },
+  {
+   "id": "sympy:L3",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L3",
+   "needs": [
+    "eq:L3"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L4",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L4",
+   "needs": [
+    "eq:L2"
+   ]
+  },
+  {
+   "id": "sympy:L4",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L4",
+   "needs": [
+    "eq:L4"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L5",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L5",
+   "needs": [
+    "eq:L4"
+   ]
+  },
+  {
+   "id": "sympy:L5",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L5",
+   "needs": [
+    "eq:L5"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L6",
+   "needs": [
+    "eq:L5"
+   ]
+  },
+  {
+   "id": "sympy:L6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L6",
+   "needs": [
+    "eq:L6"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L7",
+   "needs": [
+    "eq:L3",
+    "eq:L4",
+    "eq:L5"
+   ]
+  },
+  {
+   "id": "sympy:L7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L7",
+   "needs": [
+    "eq:L7"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L8",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L8",
+   "needs": [
+    "eq:L3",
+    "eq:L7"
+   ]
+  },
+  {
+   "id": "sympy:L8",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L8",
+   "needs": [
+    "eq:L8"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "eq:L9",
+   "kind": "equation",
+   "anchor": "notes/equations.md#L9",
+   "needs": [
+    "eq:L1",
+    "eq:L3",
+    "eq:L4"
+   ]
+  },
+  {
+   "id": "sympy:L9",
+   "kind": "sympy",
+   "anchor": "notes/sympy/density_wave.py#L9",
+   "needs": [
+    "eq:L9"
+   ],
+   "check": "uv run python notes/sympy/density_wave.py"
+  },
+  {
+   "id": "code:satellite_kappa",
+   "kind": "code",
+   "anchor": "fast/satellite.py::kappa",
+   "needs": []
+  },
+  {
+   "id": "code:satellite_dlaplace",
+   "kind": "code",
+   "anchor": "fast/satellite.py::dlaplace",
+   "needs": [
+    "eq:L1"
+   ]
+  },
+  {
+   "id": "code:velocity_kick",
+   "kind": "code",
+   "anchor": "fast/epi_int_3d.py::Ring.velocity_kick",
+   "needs": [
+    "code:satellite"
+   ],
+   "note": "the kick: ring forces plus the satellite's pull, vertical or in the plane"
+  },
+  {
+   "id": "test:satellite",
+   "kind": "test",
+   "anchor": "tests/test_satellite.py",
+   "needs": [
+    "code:satellite",
+    "sympy:L1",
+    "sympy:L2",
+    "sympy:L4"
+   ],
+   "check": "uv run pytest -q tests/test_satellite.py"
+  },
+  {
+   "id": "code:density_wave",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::density_wave",
+   "needs": [
+    "eq:L7"
+   ],
+   "note": "test helper: Shu's forced density wave"
+  },
+  {
+   "id": "code:simulated_xi",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::simulated_xi",
+   "needs": [],
+   "note": "test helper: least-squares xi per streamline"
+  },
+  {
+   "id": "code:dw_satellite_torque",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::satellite_torque",
+   "needs": [
+    "code:satellite"
+   ],
+   "note": "test helper: sum of mu r A_theta"
+  },
+  {
+   "id": "code:dw_torque_theory",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::torque_theory",
+   "needs": [
+    "eq:L8"
+   ]
+  },
+  {
+   "id": "code:dw_wave_front",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::wave_front",
+   "needs": [
+    "code:simulated_xi",
+    "eq:L7"
+   ]
+  },
+  {
+   "id": "code:dw_tau_001",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::tau_001",
+   "needs": [
+    "eq:L6"
+   ]
+  },
+  {
+   "id": "code:dw_resonance_D",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::resonance_D",
+   "needs": [
+    "eq:L4"
+   ]
+  },
+  {
+   "id": "code:dw_wave_wavenumber",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::wave_wavenumber",
+   "needs": [
+    "eq:L5"
+   ]
+  },
+  {
+   "id": "figure:density_wave",
+   "kind": "figure",
+   "anchor": "paper/figures/density_wave.py",
+   "needs": [
+    "code:satellite",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:density_wave",
+    "code:ring_sigma",
+    "code:dw_tau_001",
+    "sympy:L7",
+    "code:figstyle"
+   ]
+  },
+  {
+   "id": "figure:density_torque",
+   "kind": "figure",
+   "anchor": "paper/figures/density_torque.py",
+   "needs": [
+    "code:satellite",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:simulated_xi",
+    "code:dw_wave_wavenumber",
+    "code:dw_wave_front",
+    "code:dw_satellite_torque",
+    "code:dw_torque_theory",
+    "code:dw_tau_001",
+    "sympy:L5",
+    "sympy:L8",
+    "code:figstyle"
+   ]
+  },
+  {
+   "id": "notebook:lindblad_resonance",
+   "kind": "notebook",
+   "anchor": "tests/lindblad_resonance/lindblad_resonance.ipynb",
+   "needs": [
+    "code:satellite",
+    "code:velocity_kick",
+    "code:drift",
+    "eq:L9",
+    "code:dw_resonance_D"
+   ]
+  },
+  {
+   "id": "notebook:density_waves",
+   "kind": "notebook",
+   "anchor": "tests/density_waves/density_waves.ipynb",
+   "needs": [
+    "code:satellite",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:density_wave",
+    "code:simulated_xi",
+    "code:dw_satellite_torque",
+    "code:dw_torque_theory",
+    "code:dw_wave_front",
+    "code:dw_tau_001",
+    "code:dw_wave_wavenumber",
+    "code:ring_angular_momentum",
+    "figure:density_wave",
+    "figure:density_torque"
+   ]
+  },
+  {
+   "id": "code:lindblad_resonance_numbers",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::lindblad_resonance_numbers",
+   "needs": [
+    "code:satellite",
+    "eq:L9",
+    "code:dw_resonance_D"
+   ]
+  },
+  {
+   "id": "code:density_waves_numbers",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::density_waves_numbers",
+   "needs": [
+    "code:simulated_xi",
+    "code:density_wave",
+    "code:dw_wave_front",
+    "code:dw_tau_001",
+    "code:dw_wave_wavenumber",
+    "code:dw_satellite_torque",
+    "code:dw_torque_theory",
+    "code:ring_sigma",
+    "eq:L5",
+    "eq:L7",
+    "eq:L8"
+   ]
+  },
+  {
+   "id": "numbers:lindblad_resonance",
+   "kind": "numbers",
+   "anchor": "paper/numbers/lindblad_resonance.tex",
+   "needs": [
+    "code:latex_number",
+    "code:lindblad_resonance_numbers",
+    "code:satellite",
+    "code:velocity_kick",
+    "code:drift"
+   ],
+   "note": "Section 4.2.3; from tests/lindblad_resonance's output"
+  },
+  {
+   "id": "numbers:density_waves",
+   "kind": "numbers",
+   "anchor": "paper/numbers/density_waves.tex",
+   "needs": [
+    "code:latex_number",
+    "code:density_waves_numbers",
+    "code:satellite",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift"
+   ],
+   "note": "Section 4.2.4; from tests/density_waves' output"
+  },
+  {
+   "id": "paper:eqn:dw_disp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:dw_disp",
+   "needs": [
+    "sympy:L5"
+   ]
+  },
+  {
+   "id": "paper:eqn:dw_cg",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:dw_cg",
+   "needs": [
+    "sympy:L6"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_phi",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_phi",
+   "needs": [
+    "sympy:L1",
+    "sympy:L2"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_ode",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_ode",
+   "needs": [
+    "sympy:L4",
+    "sympy:L5",
+    "sympy:L7"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_psi",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_psi",
+   "needs": [
+    "sympy:L3"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_xi",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_xi",
+   "needs": [
+    "sympy:L7"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_torque",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_torque",
+   "needs": [
+    "sympy:L8"
+   ]
+  },
+  {
+   "id": "paper:eqn:lres_ecc",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:lres_ecc",
+   "needs": [
+    "sympy:L9"
+   ]
+  },
+  {
+   "id": "paper:fig:dwave",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:dwave",
+   "needs": [
+    "figure:density_wave",
+    "sympy:L7"
+   ],
+   "notebook": [
+    "density_waves#test10"
+   ]
+  },
+  {
+   "id": "paper:fig:dwtorque",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:dwtorque",
+   "needs": [
+    "figure:density_torque",
+    "sympy:L5",
+    "sympy:L8"
+   ],
+   "notebook": [
+    "density_waves#test11"
+   ]
+  },
+  {
+   "id": "claim:dw_trailing",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@A wave launched at an inner Lindblad resonance",
+   "needs": [
+    "sympy:L5",
+    "sympy:L6"
+   ],
+   "note": "outward, trailing"
+  },
+  {
+   "id": "claim:dw_forcing",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@keeps only this term",
+   "needs": [
+    "code:satellite",
+    "test:satellite",
+    "sympy:L1",
+    "sympy:L4"
+   ],
+   "note": "the horizontal Fourier satellite: the tangent line of b at r_L, pull -grad Phi_m"
+  },
+  {
+   "id": "claim:lres_results",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The simulation is that of",
+   "needs": [
+    "notebook:lindblad_resonance",
+    "numbers:lindblad_resonance",
+    "paper:eqn:lres_ecc",
+    "paper:eqn:dw_disp"
+   ],
+   "note": "no figure; <e> within 7% of e_f, peaks either side of D = 0",
+   "notebook": [
+    "lindblad_resonance#test9"
+   ]
+  },
+  {
+   "id": "claim:dw_setup",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The density wave is simulated in the ring of",
+   "needs": [
+    "numbers:density_waves",
+    "sympy:L5",
+    "sympy:L6",
+    "sympy:L7"
+   ],
+   "note": "bending_waves' ring, r_L 25% across, linear, run 1.5 tau_0.01"
+  },
+  {
+   "id": "claim:dw_agreement",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@settles onto $T_L$ as soon as the wave is launched",
+   "needs": [
+    "numbers:density_waves",
+    "notebook:density_waves",
+    "paper:fig:dwave",
+    "paper:fig:dwtorque",
+    "paper:eqn:lres_xi",
+    "paper:eqn:lres_torque",
+    "paper:fig:wavenumber"
+   ],
+   "note": "amplitude, forced response, wavenumber (lattice), torque",
+   "notebook": [
+    "density_waves#test10",
+    "density_waves#test11"
    ]
   }
  ]

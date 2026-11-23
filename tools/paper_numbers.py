@@ -33,6 +33,7 @@ from vertical_analysis import (load3d, simulated_h, bending_wave, ring_sigma, wa
     resonance_D, satellite_torque, ring_angular_momentum, late_outputs, resolution_runs, X_STEADY, tau_001,
     resonance_zone, wave_front, front_speed)
 from satellite import Satellite
+import density_analysis as dw
 
 today = datetime.date.today().isoformat()
 
@@ -204,6 +205,91 @@ def bending_waves_numbers():
     return numbers
 
 
+#the massless ring at a Lindblad resonance, Section 4.2.3 (no figure: tests/lindblad_resonance/lindblad_resonance.ipynb test 9)
+def lindblad_resonance_numbers():
+    test_folder = os.path.join(repo_folder, 'tests', 'lindblad_resonance')
+    p, o = dw.load3d(test_folder)
+    sat = dw.satellite(p)
+    orbits = o['times']/(2.0*np.pi)
+    numbers = []
+    numbers += [('lresM', str(sat.m), 'inputs.py satellite m')]
+    numbers += [('lresMs', latex_number(sat.mass_final, 1), 'inputs.py satellite mass_final')]
+    numbers += [('lresAs', latex_number(p['satellite']['r'], 4), 'inputs.py satellite r')]
+    numbers += [('lresRL', latex_number(sat.r_L, 3), 'fast/satellite.py r_L (L2)')]
+    numbers += [('lresOrbits', latex_number(orbits[-1], 2), 'the run\'s length in orbits')]
+    #each streamline's eccentricity, averaged over its particles and the late run (late_outputs), against L9's e_f
+    late = dw.late_outputs(p, o)
+    numbers += [('lresAvgOrbits', latex_number(orbits[-1] - orbits[late][0], 1),
+        'orbits averaged over, after 6 growth times (late_outputs) to the end')]
+    e_avg = o['e'][late].mean(axis=(0, 2))
+    x_avg = ((o['a'][late] - sat.r_L)/sat.r_L).mean(axis=(0, 2))
+    e_f = (sat.mass_final/1.0)*sat.beta_L*abs(sat.beta_L*sat.db + 2*sat.m*sat.b)/(3.0*(sat.m - 1)*np.abs(x_avg))
+    ratio = e_avg/e_f
+    print('simulation/L9 =', np.round(ratio.min(), 4), 'to', np.round(ratio.max(), 4))
+    numbers += [('lresAgreePercent', latex_number(100.0*np.abs(ratio - 1.0).max(), 1, up=True),
+        'largest |<e>/e_f - 1| in percent (L9), rounded up')]
+    #D = kappa_a^2 - omega_m^2 at each streamline's semimajor axis changes sign between the two streamlines that have
+    #the largest eccentricities
+    D = dw.resonance_D(p, sat.r_L*(1 + x_avg))[1]
+    j = np.where(np.diff(np.sign(D)) != 0)[0][0]
+    assert set(np.argsort(e_avg)[-2:]) == {j, j + 1}, 'the largest eccentricities are not either side of D = 0'
+    numbers += [('lresXnear', latex_number(np.abs(x_avg[[j, j + 1]]).max(), 2),
+        'largest |x| of the two streamlines either side of D = 0, which have the largest <e>')]
+    return numbers
+
+
+#the self-gravitating ring's density wave, Section 4.2.4 and Figs. dwave, dwtorque
+def density_waves_numbers():
+    test_folder = os.path.join(repo_folder, 'tests', 'density_waves')
+    p, o = dw.load3d(test_folder)
+    sat, x, xi = dw.simulated_xi(p, o, -1)
+    sigma = dw.ring_sigma(p)
+    Z_w = dw.wave_amplitude(p, sat)
+    orbits = o['times']/(2.0*np.pi)
+    numbers = []
+    numbers += [('dwM', str(sat.m), 'inputs.py satellite m')]
+    numbers += [('dwMs', latex_number(sat.mass_final, 1), 'inputs.py satellite mass_final')]
+    numbers += [('dwAs', latex_number(p['satellite']['r'], 4), 'inputs.py satellite r')]
+    numbers += [('dwRL', latex_number(sat.r_L, 4), 'fast/satellite.py r_L (L2)')]
+    across = 100.0*(sat.r_L - 1.0)/p['radial_width']
+    numbers += [('dwAcrossPercent', latex_number(across, 2), 'r_L\'s place across the ring, percent from the inner edge')]
+    tau = dw.tau_001(p, sat)
+    numbers += [('dwTauOrbits', latex_number(tau/(2.0*np.pi), 2), 'tau_0.01 in orbits (L6)')]
+    numbers += [('dwOrbits', latex_number(orbits[-1], 2), 'the run\'s length in orbits')]
+    numbers += [('dwRunFraction', latex_number(o['times'][-1]/tau, 2), 'run length over tau_0.01')]
+    x_out = (1.0 + p['radial_width'] - sat.r_L)/sat.r_L
+    numbers += [('dwXout', latex_number(x_out, 2), 'the ring outer edge\'s x')]
+    x_front = dw.wave_front(p, o, -1)
+    numbers += [('dwXfront', latex_number(x_front, 2), 'the measured wave front\'s x at the run\'s end')]
+    k_out = dw.wave_wavenumber(p, sat, x_out)
+    numbers += [('dwkZ', latex_number(k_out*Z_w, 1), 'largest |k Z_w|, at the outer edge (L5, L7)')]
+    #where the wave is steady at the end: outside the resonance zone, x < X_STEADY
+    st = dw.steady(p, sat, x)
+    xi_wave = xi - dw.L_L(sat)/x
+    numbers += [('dwAmpPercent', latex_number(100.0*abs(np.median(np.abs(xi_wave[st]))/Z_w - 1.0), 1),
+        'median |xi - L_L/x|/|Z_w| - 1 over the steady stretch, percent')]
+    x_mid, k_sim = dw.wavenumber_profile(x, xi_wave, sat.r_L)
+    st_mid = dw.steady(p, sat, x_mid)
+    numbers += [('dwKcontPercent', latex_number(100.0*np.median(k_sim[st_mid]/dw.wave_wavenumber(p, sat, x_mid[st_mid]) - 1.0), 2),
+        'median k/k_continuum - 1 over the steady stretch, percent (L5)')]
+    assert (k_sim[st_mid] > 0).all(), 'the wave is not trailing (k > 0) everywhere in the steady stretch'
+    inside = x < -2.0*np.sqrt(2.0*np.pi*sigma/(sat.r_L*sat.D_L))
+    xi_theory = dw.density_wave(sat, sigma, x)
+    dev = np.abs(xi - xi_theory)/np.abs(xi_theory)
+    numbers += [('dwForcedMedianPercent', latex_number(100.0*np.median(dev[inside]), 1),
+        'median |xi - L7|/|L7| inside the resonance zone (x < -2 eps^1/2), percent')]
+    numbers += [('dwForcedPercent', latex_number(100.0*dev[inside].max(), 1),
+        'largest |xi - L7|/|L7| inside the resonance zone, percent')]
+    #the satellite's torque against linear theory, L8, over the run's last half
+    torque = np.array([dw.satellite_torque(p, o, k).sum() for k in range(len(o['times']))])
+    ratio = torque/dw.torque_theory(p, sat)
+    late = ratio[len(ratio)//2:]
+    numbers += [('dwTorqueRatio', latex_number(late.mean(), 3), 'mean T/T_L over the last half of the run (L8)')]
+    numbers += [('dwTorqueScatter', latex_number(100.0*np.abs(late - 1.0).max(), 2, up=True),
+        'largest |T/T_L - 1| over the last half, percent, rounded up')]
+    return numbers
+
+
 #write one test's macros
 def write_numbers(test, numbers):
     path = os.path.join(numbers_folder, test + '.tex')
@@ -217,7 +303,8 @@ def write_numbers(test, numbers):
 
 
 #the tests that supply numbers, and their functions
-producers = {'vertical_resonance': vertical_resonance_numbers, 'bending_waves': bending_waves_numbers}
+producers = {'vertical_resonance': vertical_resonance_numbers, 'bending_waves': bending_waves_numbers,
+             'lindblad_resonance': lindblad_resonance_numbers, 'density_waves': density_waves_numbers}
 
 #parse the command line
 parser = argparse.ArgumentParser()

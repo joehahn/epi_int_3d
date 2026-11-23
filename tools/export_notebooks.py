@@ -27,6 +27,8 @@ notebooks = {
     'bending_waves': 'tests/bending_waves/bending_waves.ipynb',
     'vertical_resonance': 'tests/vertical_resonance/vertical_resonance.ipynb',
     'inclined': 'tests/inclined/inclined.ipynb',
+    'lindblad_resonance': 'tests/lindblad_resonance/lindblad_resonance.ipynb',
+    'density_waves': 'tests/density_waves/density_waves.ipynb',
 }
 
 names = sys.argv[1:] or list(notebooks)
