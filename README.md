@@ -137,7 +137,8 @@ output to theory:
   [lindblad_resonance.ipynb](tests/lindblad_resonance/lindblad_resonance.ipynb) (epi_int_3d only; about 6 min)
 - density_waves: bending_waves' ring with its inner part straddling a satellite's m = 2 inner Lindblad resonance; the
   spiral density wave launched there should match Shu (1984)'s amplitude and wavelength and Goldreich & Tremaine
-  (1979)'s torque, [density_waves.ipynb](tests/density_waves/density_waves.ipynb) (epi_int_3d only; about 20 min)
+  (1979)'s torque, [density_waves.ipynb](tests/density_waves/density_waves.ipynb) (epi_int_3d only; about 20 min);
+  its animation is at [joehahn.github.io/epi_int_3d](https://joehahn.github.io/epi_int_3d/)
 
 To run all 29 epi_int_3d test simulations in parallel (about 3 h, set by the nominal ringlet), or just
 one, or one with the faster driver. The tests ported from epi_int_lite (unperturbed, spreading,
