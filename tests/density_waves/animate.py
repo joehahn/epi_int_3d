@@ -8,17 +8,20 @@
 #of balance with the ring's own radial gravity, about 10 times the wave's amplitude |Z_w|. What is left, delta, holds
 #the satellite's m = 2 wave. Seen in the frame that rotates with the satellite's pattern speed Omega_p, where the wave
 #is stationary. Writes
-#   density_wave.gif: the ring unrolled, longitude in the pattern's frame across and x = (r - r_L)/r_L up, grayscale,
-#       the surface density's departure from its mean along each streamline, sigma/sigma_0 - 1 = -d delta/dr
-#       (streamline spacing; white dense, black sparse), in percent. Each streamline's delta is interpolated along it
-#       with a periodic cubic spline in longitude onto a fixed longitude grid, and d delta/dr is the centered
-#       difference between neighboring streamlines. Not face-on, as tests/bending_waves' is: the wave winds about 60
-#       times across the ring, which a face-on frame can't resolve. Nor is there a lines version: with about 4 of
-#       every 3rd streamline per wavelength, the curves either cross or barely move.
-#It shows every output and is committed. It is also written as docs/density_waves/density_wave.html, with play, pause
-#and a frame slider, served by GitHub Pages at https://joehahn.github.io/epi_int_3d/density_waves/.
+#   density_wave.gif: the ring face-on (left, its width stretched radially) and unrolled (right, longitude in the
+#       pattern's frame across and x = (r - r_L)/r_L up), grayscale, the surface density's departure from its mean
+#       along each streamline, sigma/sigma_0 - 1 = -d delta/dr (streamline spacing; white dense, black sparse), in
+#       percent. Each streamline's delta is interpolated along it with a periodic cubic spline in longitude onto a
+#       fixed longitude grid, and d delta/dr is the centered difference between neighboring streamlines. The wave
+#       winds about 60 times across the ring, so the face-on panel needs a large frame (dpi 100, a small hole) to
+#       avoid moire, and the unrolled panel shows the spiral's slope, which face-on is too tightly wound to show.
+#       There is no lines version, as tests/bending_waves has: with about 4 of every 3rd streamline per wavelength,
+#       the curves either cross or barely move.
+#It shows every 2nd output and is committed. It is also written as docs/density_waves/density_wave.html, with play,
+#pause and a frame slider, served by GitHub Pages at https://joehahn.github.io/epi_int_3d/density_waves/.
 #
 #Run from tests/density_waves:  uv run python animate.py [output_folder]
+#   LAST_FRAME=<file.png> draws only the last frame, to that file
 
 import os
 import sys
@@ -74,35 +77,56 @@ def density(k):
 
 
 sk, rk = density(0)
-x_edges = (np.concatenate([[rk[0] - (rk[1] - rk[0])/2], (rk[1:] + rk[:-1])/2, [rk[-1] + (rk[-1] - rk[-2])/2]]) - sat.r_L)/sat.r_L
+r_edges = np.concatenate([[rk[0] - (rk[1] - rk[0])/2], (rk[1:] + rk[:-1])/2, [rk[-1] + (rk[-1] - rk[-2])/2]])
+x_edges = (r_edges - sat.r_L)/sat.r_L
 phi_edges = np.concatenate([[phi[0] - (phi[1] - phi[0])/2], (phi[1:] + phi[:-1])/2, [phi[-1] + (phi[1] - phi[0])/2]])
 s_max = 1.2                                                             #the gray scale's limit, percent
-fig, ax = plt.subplots(figsize=(8, 11))
+inner = 0.1                                                             #face-on, the stretched ring spans inner <= rho <= 1
+stretch = lambda r: inner + (1 - inner)*(r - r_edges[0])/(r_edges[-1] - r_edges[0])
+fig, (ax1, ax) = plt.subplots(1, 2, figsize=(17, 9), gridspec_kw=dict(width_ratios=[1.15, 1]))
+#left: face-on, the ring's width stretched
+P, R = np.meshgrid(phi_edges, stretch(r_edges))
+mesh1 = ax1.pcolormesh(R*np.cos(P), R*np.sin(P), 100*sk, cmap='gray', vmin=-s_max, vmax=s_max, shading='flat',
+    rasterized=True)
+circle = np.linspace(0, 2*np.pi, 400)
+ax1.plot(stretch(sat.r_L)*np.cos(circle), stretch(sat.r_L)*np.sin(circle), 'r--', lw=0.8)
+ax1.set_aspect('equal')
+ax1.set_xlim(-1.01, 1.01)
+ax1.set_ylim(-1.01, 1.01)
+ax1.axis('off')
+fig.text(0.905, 0.07, f"{p['number_of_streamlines']} streamlines\n{p['particles_per_streamline']} particles/streamline\n"
+         f"dt = {p['dt']:g}\n\nm = {sat.m} satellite, red: $r_L$\nring width stretched\nm = 1 part removed\n"
+         f"frame rotates at $\\Omega_p$", fontsize=9, va='bottom')
+#right: unrolled
 mesh = ax.pcolormesh(phi_edges/np.pi, x_edges, 100*sk, cmap='gray', vmin=-s_max, vmax=s_max, shading='flat')
 ax.axhline(0, color='r', lw=0.8, ls='--')
 ax.set_xlabel(r'longitude in the frame rotating at $\Omega_p$, $/\pi$')
 ax.set_ylabel(r'$x = (r - r_L)/r_L$')
-fig.colorbar(mesh, ax=ax, shrink=0.5, pad=0.02, label=r'surface density $\sigma/\sigma_0 - 1$  (%)')
-title = ax.set_title('')
-ax.text(1.03, 0.0, f"{p['number_of_streamlines']} streamlines\n{p['particles_per_streamline']} particles/streamline\n"
-        f"dt = {p['dt']:g}\n\nm = {sat.m} satellite\nred: $r_L$\nm = 1 part removed", transform=ax.transAxes,
-        fontsize=9, va='bottom')
+fig.colorbar(mesh, ax=ax, shrink=0.6, pad=0.02, label=r'surface density $\sigma/\sigma_0 - 1$  (%)')
+title = fig.suptitle('', fontsize=14)
+fig.subplots_adjust(left=0.01, right=0.97, top=0.93, bottom=0.07, wspace=0.12)
 
 
 def frame(k):
     sk, _ = density(k)
     mesh.set_array((100*sk).ravel())
+    mesh1.set_array((100*sk).ravel())
     title.set_text(f'$t = {o["times"][k]/tau:.2f}\\,\\tau_{{0.01}}$  ({o["times"][k]/(2*np.pi):.0f} orbits)')
-    return mesh, title
+    return mesh, mesh1, title
 
 
-anim = animation.FuncAnimation(fig, frame, frames=range(len(o['times'])), blit=False)
+DPI = 100
+if os.environ.get('LAST_FRAME'):                                         #a quick look at the last frame
+    frame(len(o['times']) - 1)
+    fig.savefig(os.environ['LAST_FRAME'], dpi=DPI)
+    sys.exit()
+anim = animation.FuncAnimation(fig, frame, frames=range(0, len(o['times']), 2), blit=False)
 out = os.path.join(HERE, 'density_wave.gif')
-anim.save(out, writer=animation.PillowWriter(fps=5), dpi=80)
+anim.save(out, writer=animation.PillowWriter(fps=5), dpi=DPI)
 print('wrote', out, f'({os.path.getsize(out)/1e6:.1f} MB)')
 SITE = os.path.join(REPO, 'docs', 'density_waves')
 os.makedirs(SITE, exist_ok=True)
 html = os.path.join(SITE, 'density_wave.html')
-anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=80)
+anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=DPI)
 print('wrote', html)
 
