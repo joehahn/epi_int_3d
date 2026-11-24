@@ -173,8 +173,8 @@ def write_cards():
                     'rec': True, 'detail': '', 'part': part_of(line, card)}]
     #the latest paper review's findings, by the section or appendix they name
     for finding in findings:
-        #a finding already acted on is not an open issue
-        if finding.get('fix', '').startswith('done'):
+        #a finding already acted on, or needing no change to the paper, is not an open issue
+        if finding.get('fix', '').startswith(('done', 'none')):
             continue
         where = finding.get('where', '')
         found = re.search(r'(?:Section|Sec\.|§)\s*(\d(?:\.\d)?)|Appendix\s+([A-D])', where)
@@ -187,7 +187,7 @@ def write_cards():
             card_id = 'abstract'
         rec = finding['verdict'] in ['agree', 'partly']
         ruling = finding.get('tiebreak', {}).get('ruling', '')
-        detail = 'Claude ' + finding['verdict'] + 's: ' + finding.get('comment', '')
+        detail = 'Claude ' + {'partly': 'partly agrees'}.get(finding['verdict'], finding['verdict'] + 's') + ': ' + finding.get('comment', '')
         if ruling:
             detail += ' Tiebreak (' + finding['tiebreak'].get('judge', '') + '): ' + ruling + '.'
         text = finding['reviewer'].upper() + ' (' + review_date + '): ' + finding['finding']
