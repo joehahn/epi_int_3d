@@ -1,11 +1,13 @@
 #animate.py
 #
 #Animate tests/bending_waves: the ring's height z above or below the plane (grayscale, white above, black below,
-#in units of the wave amplitude |Z_w| of B8), seen face-on in the frame that rotates with the
-#satellite's pattern speed Omega_p, where the m = 2 spiral bending wave is stationary. The ring's width is stretched
-#radially so that the wave is visible. Each streamline's particles are interpolated along the streamline with a
-#periodic cubic spline in longitude onto a fixed longitude grid (the streamlines stay circular to ~1e-8 of their
-#spacing, so each is plotted at its mean radius). Writes bending_wave.gif, and bending_wave_lines.gif:
+#in units of the wave amplitude |Z_w| of B8), in the frame that rotates with the satellite's pattern speed Omega_p,
+#where the m = 2 spiral bending wave is stationary, seen face-on (left, the ring's width stretched radially) and
+#unrolled (right, longitude across and x = (r - r_V)/r_V up), as tests/density_waves/animate.py. Each streamline's
+#particles are interpolated along the streamline with a periodic cubic spline in longitude onto a fixed longitude grid
+#(the streamlines stay circular to ~1e-8 of their spacing, so each is plotted at its mean radius). The face-on panel
+#is drawn 3 times finer than its pixels and averaged down to them, so the tightly wound wave doesn't alias into a
+#moire pattern. Writes bending_wave.gif, and bending_wave_lines.gif:
 #every 3rd streamline's particles joined by lines, z versus longitude in the pattern's frame, each streamline offset
 #by its distance from resonance x, so the height is shown directly, without interpolation. Its z scale draws |Z_w| as
 #two curve spacings, so curves overlap where neighbours are out of phase. Both show every 2nd output and are committed; bending_waves.ipynb
@@ -13,6 +15,7 @@
 #GitHub Pages at https://joehahn.github.io/epi_int_3d/bending_waves/ (GitHub's file view shows such a page's source).
 #
 #Run from tests/bending_waves:  uv run python animate.py [output_folder]
+#   LAST_FRAME=<file.png> draws only the face-on and unrolled view's last frame, to that file
 
 import os
 import sys
@@ -29,6 +32,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from scipy.interpolate import CubicSpline
+from scipy.ndimage import map_coordinates
 from vertical_analysis import load3d, ring_sigma, nu_a
 import satellite as satellite_module
 from helper_fns import wrap_ring
@@ -41,9 +45,7 @@ sigma = ring_sigma(p)
 A_V = sat.mass_final*sat.A_V_per_mass
 Z_w = A_V*np.sqrt(sat.r_V/(sigma*sat.D_V))                              #the wave's amplitude (B8)
 tau_c = (sat.r_V - 1.0)/(np.pi*sigma/nu_a(p['J2'], p['Rp'], sat.r_V))   #the wave's crossing time, resonance to inner edge
-W = p['radial_width']
-inner = 0.35                                                            #the stretched ring spans inner <= rho <= 1
-stretch = lambda r: inner + (1 - inner)*(r - 1.0)/W
+inner = 0.1                                                             #face-on, the stretched ring spans inner <= rho <= 1
 
 phi = np.linspace(-np.pi, np.pi, 361)                                   #longitude in the pattern's frame
 
@@ -61,37 +63,76 @@ def height(k):
 
 
 zk, rk = height(0)
-rho_edges = stretch(np.concatenate([[rk[0] - (rk[1] - rk[0])/2], (rk[1:] + rk[:-1])/2, [rk[-1] + (rk[-1] - rk[-2])/2]]))
+r_edges = np.concatenate([[rk[0] - (rk[1] - rk[0])/2], (rk[1:] + rk[:-1])/2, [rk[-1] + (rk[-1] - rk[-2])/2]])
+x_edges = (r_edges - sat.r_V)/sat.r_V
 phi_edges = np.concatenate([[phi[0] - (phi[1] - phi[0])/2], (phi[1:] + phi[:-1])/2, [phi[-1] + (phi[1] - phi[0])/2]])
-P, R = np.meshgrid(phi_edges, rho_edges)
-fig, ax = plt.subplots(figsize=(7.5, 6.5))
-mesh = ax.pcolormesh(R*np.cos(P), R*np.sin(P), zk/Z_w, cmap='gray', vmin=-1.5, vmax=1.5, shading='flat')
+z_max = 1.5                                                             #the gray scale's limit, in |Z_w|
+DPI = 80
+fig, (ax1, ax) = plt.subplots(1, 2, figsize=(17, 9), dpi=DPI, gridspec_kw=dict(width_ratios=[1.15, 1]))
+fig.subplots_adjust(left=0.01, right=0.97, top=0.93, bottom=0.07, wspace=0.12)
+#left: face-on, the ring's width stretched. Drawn as an image SUPER times finer than the panel's pixels, then averaged
+#down to them, so a wave finer than a pixel fades to gray instead of aliasing into a moire pattern
+SUPER = 3
+lim = 1.01
+n_pix = int(round(ax1.get_window_extent().height))                     #the panel's height in pixels, at DPI
+u = np.linspace(-lim, lim, SUPER*n_pix + 1)
+u = (u[1:] + u[:-1])/2                                                  #the subpixels' centers
+X, Y = np.meshgrid(u, u[::-1])
+rho = np.hypot(X, Y)
+r_sub = r_edges[0] + (rho - inner)/(1 - inner)*(r_edges[-1] - r_edges[0])
+outside = (rho < inner) | (rho > 1)
+coords = np.array([np.interp(r_sub, rk, np.arange(rk.size)),           #each subpixel's place on the (streamline, phi) grid
+                   (np.arctan2(Y, X) - phi[0])/(phi[1] - phi[0])])
+
+
+def face_on(zk):
+    """The face-on image of z/|Z_w|: zk sampled at each subpixel, averaged over SUPER x SUPER."""
+    img = map_coordinates(zk/Z_w, coords, order=1, mode='nearest')
+    img[outside] = np.nan
+    return img.reshape(n_pix, SUPER, n_pix, SUPER).mean(axis=(1, 3))      #a pixel the ring's edge crosses stays blank
+
+
+mesh1 = ax1.imshow(face_on(zk), cmap='gray', vmin=-z_max, vmax=z_max, extent=(-lim, lim, -lim, lim),
+    interpolation='none')
 circle = np.linspace(0, 2*np.pi, 400)
-ax.plot(stretch(sat.r_V)*np.cos(circle), stretch(sat.r_V)*np.sin(circle), 'r--', lw=0.8)
-ax.set_aspect('equal')
-ax.axis('off')
-fig.colorbar(mesh, ax=ax, shrink=0.7, label=r'height $z/|Z_w|$')
-title = ax.set_title('')
-ax.text(-1.25, -1.05, f"{p['number_of_streamlines']} streamlines\n{p['particles_per_streamline']} particles/streamline\n"
-        f"dt = {p['dt']:g}\n\nm = {sat.m} satellite, red: $r_V$\nring width stretched\n"
-        f"frame rotates at $\\Omega_p$", fontsize=9, va='bottom')
+stretch_rV = inner + (1 - inner)*(sat.r_V - r_edges[0])/(r_edges[-1] - r_edges[0])
+ax1.plot(stretch_rV*np.cos(circle), stretch_rV*np.sin(circle), 'r--', lw=0.8)
+ax1.set_aspect('equal')
+ax1.set_xlim(-lim, lim)
+ax1.set_ylim(-lim, lim)
+ax1.axis('off')
+fig.text(0.905, 0.07, f"{p['number_of_streamlines']} streamlines\n{p['particles_per_streamline']} particles/streamline\n"
+         f"dt = {p['dt']:g}\n\nm = {sat.m} satellite, red: $r_V$\nring width stretched\n"
+         f"frame rotates at $\\Omega_p$", fontsize=9, va='bottom')
+#right: unrolled
+mesh = ax.pcolormesh(phi_edges/np.pi, x_edges, zk/Z_w, cmap='gray', vmin=-z_max, vmax=z_max, shading='flat')
+ax.axhline(0, color='r', lw=0.8, ls='--')
+ax.set_xlabel(r'longitude in the frame rotating at $\Omega_p$, $/\pi$')
+ax.set_ylabel(r'$x = (r - r_V)/r_V$')
+fig.colorbar(mesh, ax=ax, shrink=0.6, pad=0.02, label=r'height $z/|Z_w|$')
+title = fig.suptitle('', fontsize=14)
 
 
 def frame(k):
     zk, _ = height(k)
     mesh.set_array((zk/Z_w).ravel())
+    mesh1.set_data(face_on(zk))
     title.set_text(f'$t = {o["times"][k]/tau_c:.2f}\\,\\tau_c$  ({o["times"][k]/(2*np.pi):.0f} orbits)')
-    return mesh, title
+    return mesh, mesh1, title
 
 
+if os.environ.get('LAST_FRAME'):                                         #a quick look at the last frame
+    frame(len(o['times']) - 1)
+    fig.savefig(os.environ['LAST_FRAME'], dpi=DPI)
+    sys.exit()
 anim = animation.FuncAnimation(fig, frame, frames=range(1, len(o['times']), 2), blit=False)
 out = os.path.join(HERE, 'bending_wave.gif')
-anim.save(out, writer=animation.PillowWriter(fps=5), dpi=80)
+anim.save(out, writer=animation.PillowWriter(fps=5), dpi=DPI)
 print('wrote', out, f'({os.path.getsize(out)/1e6:.1f} MB)')
 SITE = os.path.join(REPO, 'docs', 'bending_waves')
 os.makedirs(SITE, exist_ok=True)
 html = os.path.join(SITE, 'bending_wave.html')
-anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=80)
+anim.save(html, writer=animation.HTMLWriter(fps=5, embed_frames=True, default_mode='loop'), dpi=DPI)
 print('wrote', html)
 
 
