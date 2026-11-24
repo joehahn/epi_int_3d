@@ -82,7 +82,7 @@ sk, rk = density(0)
 r_edges = np.concatenate([[rk[0] - (rk[1] - rk[0])/2], (rk[1:] + rk[:-1])/2, [rk[-1] + (rk[-1] - rk[-2])/2]])
 x_edges = (r_edges - sat.r_L)/sat.r_L
 phi_edges = np.concatenate([[phi[0] - (phi[1] - phi[0])/2], (phi[1:] + phi[:-1])/2, [phi[-1] + (phi[1] - phi[0])/2]])
-s_max = 1.2                                                             #the gray scale's limit, percent
+s_max = 0.6                                                             #the gray scale's limit, percent
 inner = 0.1                                                             #face-on, the stretched ring spans inner <= rho <= 1
 DPI = 80
 fig, (ax1, ax) = plt.subplots(1, 2, figsize=(17, 9), dpi=DPI, gridspec_kw=dict(width_ratios=[1.15, 1]))
