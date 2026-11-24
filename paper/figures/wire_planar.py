@@ -4,10 +4,9 @@
 #wire_planar: the paper's Figure 1 (Section 3.1). The perturbing streamline a' crosses the particle's
 #    longitude at d0 = d_r r-hat (the crossing point, x), tilted from theta-hat by phi; the
 #    near point (black square) is d1 further along it, and Delta = d0 + d1 is perpendicular to the
-#    streamline, with length d_r cos(phi) and at the angle phi to r-hat; the wire pulls along it.
-#    r and r' come from the planet, far off to the left.
+#    streamline, with length |d_r| cos(phi) and at the angle phi to r-hat; the wire pulls along it.
 #    Vectors are drawn heavier than the streamline.
-#wire_velocity: the paper's Appendix A figure. At the crossing point the streamline's shape has the slope
+#wire_velocity: the paper's Appendix A figure (Relation to epi_int and epi_int_lite). At the crossing point the streamline's shape has the slope
 #    tan(phi) = s_r = dr'/(r dtheta), while its velocity v' (dashed) is tilted less when the shape
 #    rotates (here as for an m = 2 pattern, v_r'/v_theta' = s_r/2).
 #
@@ -37,14 +36,14 @@ def save(fig, name):
 
 
 #Figure 1: d0, d1 and Delta
-fig, ax = plt.subplots(figsize=(4.6, 4.0))
+fig, ax = plt.subplots(figsize=(4.3, 4.0))
 ax.set_aspect('equal')
 ax.axis('off')
 ax.annotate('', xy=(3.3, 0), xytext=(0, 0), arrowprops=AXIS)
 ax.text(3.38, 0, r'$\hat{\mathbf{r}}$', va='center', fontsize=13)
 ax.annotate('', xy=(0, 2.2), xytext=(0, -1.5), arrowprops=AXIS)
 ax.text(0, 2.3, r'$\hat{\boldsymbol{\theta}}$', ha='center', fontsize=13)
-ax.set_xlim(-1.35, 3.7)
+ax.set_xlim(-0.95, 3.7)
 ax.set_ylim(-1.7, 2.6)
 X = np.array([dx, 0.0])                               #the crossing point
 F = X - (X @ T)*T                                     #the near point
@@ -64,21 +63,12 @@ ax.add_patch(matplotlib.patches.Arc((0, 0), 2.3, 2.3, theta1=np.degrees(np.arcta
 am = np.arctan2(u[1], u[0])/2                         #midway along the arc
 ax.text(1.27*np.cos(am), 1.27*np.sin(am), r'$\varphi$', fontsize=11, ha='center', va='center')
 ax.plot(*X, 'kx', ms=9, mew=2, zorder=5)
-ax.text(dx + 0.32, 0.1, 'crossing\npoint\n' + r"$\theta' = \theta$", fontsize=9, va='bottom')
+ax.text(dx + 0.32, 0.1, 'crossing\npoint', fontsize=9, va='bottom')
 h = 0.3                                               #the right angle between Delta and d1 at the near point
 ax.plot(*np.array([F - h*u, F - h*u + h*T, F + h*T]).T, 'k-', lw=0.8)
 ax.plot(*F, 'ks', ms=9, zorder=5)
-ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint\n' + r"$\theta' = \theta + \delta\theta'$", fontsize=9, va='top')
+ax.text(F[0] + 0.12, F[1] - 0.05, 'near\npoint', fontsize=9, va='top')
 ax.plot(0, 0, 'ko', ms=9, zorder=5)
-#r and r', from the planet far off to the left, to the particle and the near point
-RV = dict(arrowstyle='-|>', lw=1.2, mutation_scale=12, color='k', shrinkA=0, shrinkB=6)
-ax.annotate('', xy=(0, 0), xytext=(-1.25, 0), arrowprops=RV)
-ax.text(-0.95, 0.07, r'$\mathbf{r}$', fontsize=10, va='bottom')
-ax.annotate('', xy=F, xytext=(-1.25, F[1]), arrowprops=RV)
-ax.text(-0.95, F[1] + 0.07, r"$\mathbf{r}'$", fontsize=10, va='bottom')
-#the near point's longitude offset, r' dtheta' along theta-hat (negative here)
-ax.annotate('', xy=(-0.45, F[1]), xytext=(-0.45, 0), arrowprops=dict(arrowstyle='<->', lw=0.8, shrinkA=0, shrinkB=0))
-ax.text(-0.5, F[1]/2, r"$r'\,\delta\theta'$", fontsize=10, ha='right', va='center')
 ax.text(-0.12, 0.3, 'particle', ha='right', fontsize=10)
 save(fig, 'wire_planar')
 

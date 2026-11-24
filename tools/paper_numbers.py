@@ -65,6 +65,39 @@ def latex_number(x, digits=2, up=False):
     return mantissa_text + '\\times10^{' + str(exponent) + '}'
 
 
+#the wavenumber of a free wave on a uniform lattice of streamlines spaced Delta apart, from |D| = X(k Delta), X of
+#the paper's resolution appendix (P7; B13 without its missing-edge term): (4 G sigma/Delta)(pi phi/2 - phi^2/4) = |D|,
+#phi = k Delta, whose root below pi is phi = pi - (pi^2 - |D| Delta/(G sigma))^(1/2)
+def lattice_wavenumber(D_abs, sigma, spacing, G=1.0):
+    return (np.pi - np.sqrt(np.pi**2 - D_abs*spacing/(G*sigma)))/spacing
+
+
+#R = 2 pi^2 G sigma/(kappa^2 Delta), the paper's resolution parameter (P7), with kappa at the ring's middle
+def resolution_R(p, G=1.0):
+    from helper_fns import Kappa
+    spacing = p['radial_width']/(p['number_of_streamlines'] - 1)
+    kappa = Kappa(p['J2'], p['Rp'], 1.0 + 0.5*p['radial_width'])
+    return 2.0*np.pi**2*G*ring_sigma(p)/(kappa**2*spacing)
+
+
+#the largest sawtooth along any streamline at output k, the alternating part (-1)^j of its particles' radii and
+#heights, sorted by longitude, after a fit of harmonics m <= 3 is removed (the m ~ N_t/2 disturbance of the
+#resolution appendix)
+def sawtooth(o, k=-1):
+    largest = 0.0
+    for key in ('r', 'z'):
+        if key not in o:
+            continue
+        for j in range(o['t'].shape[1]):
+            i = np.argsort(o['t'][k, j])
+            t, y = o['t'][k, j, i], o[key][k, j, i]
+            A = np.column_stack([np.ones_like(t)] + [f(m*t) for m in range(1, 4) for f in (np.cos, np.sin)])
+            c, *_ = np.linalg.lstsq(A, y, rcond=None)
+            res = y - A@c
+            largest = max(largest, abs(np.mean(res*(-1.0)**np.arange(len(res)))))
+    return largest
+
+
 #the massless ring at a vertical resonance, Section 4.2 and Fig. vres
 def vertical_resonance_numbers():
     test_folder = os.path.join(repo_folder, 'tests', 'vertical_resonance')
@@ -129,6 +162,9 @@ def bending_wave_comparisons(p, o):
     behind = (x < x_hi) & (x > x_lo)
     comparisons = {}
     comparisons['k_cont'] = np.median(k_sim[idx]/k_cont - 1.0)
+    spacing = p['radial_width']/(p['number_of_streamlines'] - 1)
+    k_lat = lattice_wavenumber(sat.D_V*np.abs(x_mid[idx]), sigma, spacing)
+    comparisons['k_lattice'] = np.median(k_lat/k_cont - 1.0)
     comparisons['amplitude'] = np.median(np.abs(h_wave[behind]))/Z_w
     return sat, x, h, comparisons
 
@@ -177,9 +213,16 @@ def bending_waves_numbers():
     #agreement with linear theory
     numbers += [('bwAmpPercent', latex_number(100.0*abs(comparisons['amplitude'] - 1.0), 1), 'median |h_wave|/|Z_w| - 1, percent')]
     numbers += [('bwKcontPercent', latex_number(100.0*comparisons['k_cont'], 2), 'median k/k_continuum - 1, percent (B7)')]
+    numbers += [('bwKlatticePercent', latex_number(100.0*comparisons['k_lattice'], 2),
+        'median k_lattice/k_continuum - 1 over the same stretch, percent (lattice_wavenumber)')]
+    numbers += [('bwR', latex_number(resolution_R(p), 2), 'resolution_R, 2 pi^2 G sigma/(kappa^2 Delta)')]
+    numbers += [('bwSawtooth', latex_number(sawtooth(o)/Z_w, 1, up=True), 'largest sawtooth at the run\'s end over |Z_w|, rounded up')]
     #the same ring at 400 and 1600 streamlines (resolution_runs, Fig. 4): k converges toward the continuum's
     for (p_res, o_res), name in zip(resolution_runs(test_folder)[::2], ('Coarse', 'Fine')):
-        k_res = bending_wave_comparisons(p_res, o_res)[3]['k_cont']
+        c_res = bending_wave_comparisons(p_res, o_res)[3]
+        k_res = c_res['k_cont']
+        numbers += [('bwKlatticePercent' + name, latex_number(100.0*c_res['k_lattice'], 2),
+            f"{p_res['number_of_streamlines']} streamlines: median k_lattice/k_continuum - 1, percent")]
         numbers += [('bwKcontPercent' + name, latex_number(100.0*k_res, 2),
             f"{p_res['number_of_streamlines']} streamlines: median k/k_continuum - 1, percent (B7)")]
         numbers += [('bwNstreamlines' + name, str(p_res['number_of_streamlines']), 'resolution_runs')]
@@ -272,6 +315,11 @@ def density_waves_numbers():
     st_mid = dw.steady(p, sat, x_mid)
     numbers += [('dwKcontPercent', latex_number(100.0*np.median(k_sim[st_mid]/dw.wave_wavenumber(p, sat, x_mid[st_mid]) - 1.0), 2),
         'median k/k_continuum - 1 over the steady stretch, percent (L5)')]
+    k_lat = lattice_wavenumber(sat.D_L*np.abs(x_mid[st_mid]), sigma, p['radial_width']/(p['number_of_streamlines'] - 1))
+    numbers += [('dwKlatticePercent', latex_number(100.0*np.median(k_lat/dw.wave_wavenumber(p, sat, x_mid[st_mid]) - 1.0), 2),
+        'median k_lattice/k_continuum - 1 over the steady stretch, percent (lattice_wavenumber)')]
+    numbers += [('dwSawtooth', latex_number(sawtooth(o)/Z_w, 1, up=True), 'largest sawtooth at the run\'s end over |Z_w|, rounded up')]
+    numbers += [('dwNparticles', str(p['particles_per_streamline']), 'inputs.py particles_per_streamline')]
     assert (k_sim[st_mid] > 0).all(), 'the wave is not trailing (k > 0) everywhere in the steady stretch'
     inside = x < -2.0*np.sqrt(2.0*np.pi*sigma/(sat.r_L*sat.D_L))
     xi_theory = dw.density_wave(sat, sigma, x)

@@ -304,14 +304,6 @@
    ]
   },
   {
-   "id": "paper:eqn:nu",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:nu",
-   "needs": [
-    "sympy:V1"
-   ]
-  },
-  {
    "id": "paper:eqn:laplace",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:laplace",
@@ -360,7 +352,7 @@
    "anchor": "paper/epi_int_3d.tex@where the neglected terms are of order",
    "needs": [
     "sympy:V6",
-    "paper:eqn:nu"
+    "paper:eqn:nu_r"
    ],
    "note": "the oscillator drops O(e i) and O(i^3) terms"
   },
@@ -377,7 +369,7 @@
   {
    "id": "claim:phase_from_lambda",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@neglect terms of order ${\\cal O}(ei)$, as Eqn.",
+   "anchor": "paper/epi_int_3d.tex@as $\\nu_a$ does. For instance",
    "needs": [
     "sympy:V2",
     "sympy:V4",
@@ -1646,7 +1638,9 @@
     "code:tau_001",
     "code:wave_front",
     "code:front_speed",
-    "code:resonance_zone"
+    "code:resonance_zone",
+    "code:resolution_R",
+    "code:sawtooth"
    ]
   },
   {
@@ -1658,7 +1652,8 @@
     "code:wave_wavenumber",
     "code:ring_sigma",
     "eq:B8",
-    "code:resonance_zone"
+    "code:resonance_zone",
+    "code:lattice_wavenumber"
    ],
    "note": "the notebook's comparisons, behind the front at the end"
   },
@@ -1699,15 +1694,8 @@
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:wire_Ag",
    "needs": [
-    "sympy:G1"
-   ]
-  },
-  {
-   "id": "paper:eqn:wire_d",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_d",
-   "needs": [
-    "sympy:G16"
+    "sympy:G1",
+    "sympy:G21"
    ]
   },
   {
@@ -1716,38 +1704,6 @@
    "anchor": "paper/epi_int_3d.tex#eqn:wire_d0",
    "needs": [
     "sympy:G16"
-   ]
-  },
-  {
-   "id": "paper:eqn:wire_d1",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_d1",
-   "needs": [
-    "sympy:G16"
-   ]
-  },
-  {
-   "id": "paper:eqn:wire_d1near",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_d1near",
-   "needs": [
-    "sympy:G16"
-   ]
-  },
-  {
-   "id": "paper:eqn:wire_Dcomp",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_Dcomp",
-   "needs": [
-    "sympy:G16"
-   ]
-  },
-  {
-   "id": "paper:eqn:wire_pythag",
-   "kind": "paper",
-   "anchor": "paper/epi_int_3d.tex#eqn:wire_pythag",
-   "needs": [
-    "sympy:G19"
    ]
   },
   {
@@ -1795,11 +1751,11 @@
   {
    "id": "claim:near_point_close",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@Lastly, note that because the streamline is tilted",
+   "anchor": "paper/epi_int_3d.tex@The near point lies $\\mathbf{d}_1 = -Nc",
    "needs": [
     "sympy:G18",
     "sympy:G20",
-    "paper:eqn:wire_pythag",
+    "paper:eqn:wire_D",
     "paper:eqn:wire_slopes"
    ],
    "note": "|d1| <= s Delta << Delta"
@@ -2131,15 +2087,6 @@
    ]
   },
   {
-   "id": "claim:three_corrections",
-   "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@In an eccentric ringlet the three corrections together",
-   "needs": [
-    "code:ring_gravity"
-   ],
-   "note": "sums separate runs of each fix (epi_int_lite_issues.md issues 7 and 9: e changes 6e-5, 2e-6, 1e-8); never run together"
-  },
-  {
    "id": "paper:fig:wire_velocity",
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#fig:wire_velocity",
@@ -2225,13 +2172,13 @@
   {
    "id": "claim:integrator",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@second-order symplectic kick-drift-kick scheme",
+   "anchor": "paper/epi_int_3d.tex@second-order kick-drift-kick scheme",
    "needs": [
     "code:kick_drift_kick",
     "code:drift",
     "code:vertical_drift"
    ],
-   "note": "Section 3.4: KDK of C99 via H25; drift exact; coordinate kicks for the planet's motion"
+   "note": "Section 3.4: KDK of C99 via H25; the drift follows the first-order motion exactly; coordinate kicks for the planet's motion"
   },
   {
    "id": "claim:viscosity_in_plane",
@@ -2365,7 +2312,7 @@
   {
    "id": "claim:bw_torque",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@The torque that the satellite exerts on the wave",
+   "anchor": "paper/epi_int_3d.tex@The torque that the satellite would exert on the wave",
    "needs": [
     "numbers:bending_waves",
     "paper:eqn:vres_torque",
@@ -2373,7 +2320,7 @@
     "paper:fig:angmom",
     "code:satellite"
    ],
-   "note": "T settles onto T_V; L_z conserved to 1e-13",
+   "note": "T is the torque the resonant potential would exert (A_theta not applied); T settles onto T_V; L_z conserved to 1e-13",
    "notebook": [
     "bending_waves#test7",
     "bending_waves#test8"
@@ -2728,7 +2675,9 @@
     "code:ring_sigma",
     "eq:L5",
     "eq:L7",
-    "eq:L8"
+    "eq:L8",
+    "code:lattice_wavenumber",
+    "code:sawtooth"
    ]
   },
   {
@@ -2916,6 +2865,99 @@
    "notebook": [
     "density_waves#test10",
     "density_waves#test11"
+   ]
+  },
+  {
+   "id": "eq:G21",
+   "kind": "equation",
+   "anchor": "notes/equations.md#G21",
+   "needs": [
+    "eq:G16"
+   ]
+  },
+  {
+   "id": "sympy:G21",
+   "kind": "sympy",
+   "anchor": "notes/sympy/streamline_gravity.py#G21",
+   "needs": [
+    "eq:G21"
+   ],
+   "check": "uv run python notes/sympy/streamline_gravity.py"
+  },
+  {
+   "id": "paper:eqn:wire_phi",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:wire_phi",
+   "needs": [
+    "sympy:G21"
+   ]
+  },
+  {
+   "id": "eq:P9",
+   "kind": "equation",
+   "anchor": "notes/equations.md#P9",
+   "needs": [
+    "eq:P7"
+   ]
+  },
+  {
+   "id": "sympy:P9",
+   "kind": "sympy",
+   "anchor": "notes/sympy/ring_pressure.py#P9",
+   "needs": [
+    "eq:P9"
+   ],
+   "check": "uv run python notes/sympy/ring_pressure.py"
+  },
+  {
+   "id": "code:lattice_wavenumber",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::lattice_wavenumber",
+   "needs": [
+    "sympy:P9"
+   ]
+  },
+  {
+   "id": "code:resolution_R",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::resolution_R",
+   "needs": [
+    "eq:P8",
+    "code:ring_sigma"
+   ]
+  },
+  {
+   "id": "code:sawtooth",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::sawtooth",
+   "needs": [],
+   "note": "the alternating part of each streamline's shape after harmonics m <= 3"
+  },
+  {
+   "id": "claim:resolution",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@A streamline model follows a disturbance only",
+   "needs": [
+    "paper:eqn:zigzag_R",
+    "paper:eqn:wire_slopes"
+   ],
+   "note": "Section 3.5: sampling, R < 2 (2/7 viscous), the open sawtooth"
+  },
+  {
+   "id": "claim:lambda_estimator",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@Each particle's linear density is that of a stationary",
+   "needs": [
+    "code:ring_gravity_3d"
+   ],
+   "note": "lambda = m_r Omega_a/(2 pi N_r v); underestimates m >= 2 variation by ~m, negligible for |k|r >> m"
+  },
+  {
+   "id": "claim:lite_differences",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@differs from \\code{epi\\_int\\_lite}'s in three ways",
+   "needs": [
+    "claim:direction"
    ]
   }
  ]

@@ -275,3 +275,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P86.** A long derivation goes to an appendix; the main text states the result it uses, with every symbol in it
   defined beside it, and points to the appendix ("Appendix A shows that streamline a′ then exerts the
   acceleration (16), where c = …, N² = …"). (2026-11-23)
+- **P87.** Take the shortest mathematical route to a result, e.g., vector calculus over a geometric construction: the
+  streamline's pull is the gradient of the wire's potential, A = −∇Σ2Gλ′ ln Δ, not a near point located first and then
+  inserted into the force law (the author's suggestion for Section 3.1.1). (2026-11-24)

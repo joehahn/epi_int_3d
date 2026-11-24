@@ -409,3 +409,24 @@ m2_, e2_, i2_, al2, be2 = sp.symbols('m_2 e_2 i_2 alpha_2 beta_2', positive=True
 psi2 = m2_*(th_ - Wp*t_)
 sr2, sz2 = mode_slopes(m_, e_, i_, al, be, -e2_*sp.cos(psi2 + al2), i2_*sp.sin(psi2 + be2))
 check('G20: the slopes of two modes add', [sr2 - sr20 - m2_*e2_*sp.sin(psi2 + al2), sz2 - sz20 - m2_*i2_*sp.cos(psi2 + be2)])
+
+# --- G21: the paper's Sec. 3.1.1, the wire's acceleration as a gradient. The wire's potential is 2 G lambda ln Delta,
+# with Delta^2 = |d0|^2 - (d0.t)^2 the particle's squared distance from the straight wire through the crossing point
+# along the unit tangent t = (s_r, 1, s_z)/N. Holding that point fixed, grad Delta^2 = -2 Delta_vec with
+# Delta_vec = d0 - (d0.t) t, so A = -grad(2 G lambda ln Delta) = 2 G lambda Delta_vec/Delta^2, which in components is
+# G16's A_r = 2 G lambda (d_r - c s_r)/Delta^2, A_theta = -2 G lambda c/Delta^2, A_z = 2 G lambda (d_z - c s_z)/Delta^2,
+# c = (d_r s_r + d_z s_z)/N^2, at the particle's own position (local Cartesian frame (r, theta, z) at the particle). ---
+xg, yg, zg, Xg, Zg, srg, szg, Gg, lamg = sp.symbols('x y z X Z s_r s_z G lambda', real=True)
+tg = sp.Matrix([srg, 1, szg])
+N2g = 1 + srg**2 + szg**2
+dg = sp.Matrix([Xg - xg, -yg, Zg - zg])                       #particle at (x, y, z) to the fixed crossing point (X, 0, Z)
+D2g = (dg.T*dg)[0] - (dg.dot(tg))**2/N2g
+Ag = -sp.Matrix([sp.diff(Gg*lamg*sp.log(D2g), v) for v in (xg, yg, zg)]).subs(yg, 0)
+drg, dzg = Xg - xg, Zg - zg
+cg = (drg*srg + dzg*szg)/N2g
+Del2g = drg**2 + dzg**2 - N2g*cg**2
+check('G21: -grad(2 G lambda ln Delta) = 2 G lambda (d_r - c s_r, -c, d_z - c s_z)/Delta^2',
+      sp.simplify(Ag - 2*Gg*lamg*sp.Matrix([drg - cg*srg, -cg, dzg - cg*szg])/Del2g))
+check('G21: grad Delta^2 = -2 Delta_vec, Delta_vec = d0 - (d0.t) t',
+      sp.simplify(sp.Matrix([sp.diff(D2g, v) for v in (xg, yg, zg)]).subs(yg, 0)
+                  + 2*(dg - dg.dot(tg)*tg/N2g).subs(yg, 0)))

@@ -110,4 +110,12 @@ check('P8: X(pi) < kappa^2  <=>  R < 2', (X.subs(phi, sp.pi)/kappa**2) - R/2)
 check('P8: R = pi G m_r N_r/(kappa^2 a Da^2)',
       R.subs({sigma: m_r/(2*sp.pi*a*Da), Delta: Da/N_r}) - sp.pi*G*m_r*N_r/(kappa**2*a*Da**2))
 
-print('\nAll checks of P1-P8 passed.')
+# --- P9: the wavenumber of a free wave on the lattice, |D| = X(k Delta), solved for phi = k Delta below pi
+# (tools/paper_numbers.py lattice_wavenumber): phi = pi - (pi^2 - |D| Delta/(G sigma))^(1/2) ---
+Dabs = sp.symbols('D_abs', positive=True)
+phi_root = sp.pi - sp.sqrt(sp.pi**2 - Dabs*Delta/(G*sigma))
+check('P9: X(phi_root) = |D|', sp.simplify(X.subs(phi, phi_root) - Dabs))
+check('P9: phi_root -> |D| Delta/(2 pi G sigma), the continuum k Delta, as |D| -> 0',
+      sp.limit(phi_root/(Dabs*Delta/(2*sp.pi*G*sigma)), Dabs, 0) - 1)
+
+print('\nAll checks of P1-P9 passed.')

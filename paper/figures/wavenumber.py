@@ -45,7 +45,7 @@ def figure(runs):
             ax.axvline(x_front, color=color, linewidth=1.5, linestyle='dotted')
         x_theory = np.linspace(x.min(), 0.0, 400)
         ax.plot(x_theory, wave_wavenumber(p, sat, x_theory)*sat.r_V/1.0e4, linestyle='dashed', linewidth=2,
-            color='black', label='Eqn. (37)')
+            color='black', label='theory')
         ax.set_xlim(x.min(), 0.0)
         ax.set_ylim(0.0, 4.5)
         ax.set_xlabel(r'fractional distance from resonance $x$')

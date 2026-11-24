@@ -45,15 +45,13 @@
 \begin{abstract}
 %placeholder
 Draft. This mock paper currently holds the derivation of the vertical
-epicyclic motion used by the \code{epi\_int\_3d} drift step (Section \ref{sec:vertical}), the vertical
-gravity that one streamline exerts on another (Section \ref{sec:gravity}), its relation to
-\code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), and a study of the
-streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and the vertical
-restoring force of a bending wave (Appendix \ref{sec:wire_continuum}), and the theory of spiral bending
-waves at a vertical resonance with its tests against spiral wave theory (Section \ref{sec:waves}): the
-forced response of massless particles, and the bending wave that the satellite launches in a self-gravitating ring,
-which tends to the massless particles' response as the ring's surface density goes to zero
-(Appendix \ref{sec:massless_limit}).
+epicyclic motion used by the \code{epi\_int\_3d} drift step (Section \ref{sec:vertical}), the
+gravity that one streamline exerts on another in three dimensions (Section \ref{sec:gravity}), its relation to
+\code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), a study of the
+streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and tests of the code against the
+theory of spiral bending waves at a satellite's vertical resonance and of spiral density waves at its Lindblad
+resonance (Section \ref{sec:waves}): the forced response of massless particles, and the wave that the
+satellite launches in a self-gravitating ring.
 \end{abstract}
 
 
@@ -169,13 +167,9 @@ with errors of order ${\cal O}(e^2)$. The particle's cylindrical radius, the len
 vector projected onto the ring plane, is $r = a[1 + {\cal O}(e)]$. Its mean anomaly advances with time $t$
 at the epicyclic frequency, $M = \kappa_a t + M_0$, while $a$, $e$ and $\tilde{\omega}$ are constant.
 
-Equation (\ref{eqn:eom_z}) is already first order in the small quantities, so $\nu(r) \simeq \nu(a)$
-and the vertical oscillation frequency becomes
-\begin{equation}
-    \label{eqn:nu}
-    \nu_a \equiv \nu(a) = \sqrt{\frac{GM_p}{a^3}}\left[1 + \frac{9}{2}J_2\left(\frac{R_p}{a}\right)^2\right]^{1/2},
-\end{equation}
-(Eqn.\ 17 of \citealt{BL94}), where the neglected terms are of order ${\cal O}(ei)$ and ${\cal O}(i^3)$. Outside the planet its potential
+Equation (\ref{eqn:eom_z}) is already first order in the small quantities, so the vertical oscillation
+frequency is $\nu_a \equiv \nu(a)$, which is Eqn.\ (\ref{eqn:nu_r}) with $r$ replaced by $a$ (Eqn.\ 17 of
+\citealt{BL94}), where the neglected terms are of order ${\cal O}(ei)$ and ${\cal O}(i^3)$. Outside the planet its potential
 obeys Laplace's equation, which for an axisymmetric
 potential is
 \begin{equation}
@@ -203,7 +197,9 @@ ascending node $\Omega$. The node regresses at the rate
     \frac{d\Omega}{dt} = \Omega_a - \nu_a \simeq -\frac{3}{2}J_2\left(\frac{R_p}{a}\right)^2\Omega_a.
 \end{equation}
 Also keep in mind that $\Omega$ is the longitude of ascending node, while $\Omega_a$ is the mean angular
-velocity. Equations (\ref{eqn:zvz}) neglect terms of order ${\cal O}(ei)$, as Eqn.\ (\ref{eqn:nu}) does.
+velocity. Equations (\ref{eqn:zvz}) neglect terms of order ${\cal O}(ei)$, as $\nu_a$ does. For instance, they use
+the longitude $\theta$, which advances at the rate $\Omega_a$ only on average, so the time derivative of
+Eqn.\ (\ref{eqn:zvz_a}) differs from Eqn.\ (\ref{eqn:zvz_b}) by a term of order $ei$.
 
 \subsection{Coordinates to elements}
 \label{sec:coords2elem}
@@ -217,7 +213,7 @@ first four from Appendix A of \cite{H25}:
 \item Compute $e\sin M = (v_r/a\kappa_a)(a/r)^3$ and $e\cos M = \frac{1}{2}[(a/r)^2 - 1]$,
     which give $e = \sqrt{(e\sin M)^2 + (e\cos M)^2}$ and $M = \text{atan2}(e\sin M, e\cos M)$.
 \item Compute $\tilde{\omega} = \theta - (\Omega_a/\kappa_a)(M + 2e\sin M)$.
-\item The new fifth step: compute $\nu_a$ from Eqn.\ (\ref{eqn:nu}), then $i$ and $\Omega$ from
+\item The new fifth step: compute $\nu_a$ from Eqn.\ (\ref{eqn:nu_r}) at $r = a$, then $i$ and $\Omega$ from
 \begin{subequations}
 \label{eqn:i_node}
 \begin{eqnarray}
@@ -247,19 +243,18 @@ and linear densities near the particle are inferred from the particles that trac
 \subsection{Gravity}
 \label{sec:ring_gravity}
 
-%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py (derived in Appendix A)
+%equations G1-G21 (G21: the gradient), sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
 All \code{epi\_int\_3d} simulations span only a narrow annulus within a broader planetary ring, so every particle is
 radially close to the nearby portions of all perturbing streamlines. Which is why \code{epi\_int\_3d} and its
-predecessors (\code{epi\_int} and \code{epi\_int\_lite}) assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
-streamline at semimajor axis $a'$ is that due to a straight and infinitely long wire:
+predecessors (\code{epi\_int} and \code{epi\_int\_lite}) assume that the particles inhabiting the perturbing
+streamline at semimajor axis $a'$ pull a particle as a straight and infinitely long wire of matter would, whose linear
+density is $\lambda'$ and whose gravitational potential is
 \begin{equation}
-    \label{eqn:wire_Ag}
-    \mathbf{A}_g = \frac{2G\lambda'}{\Delta}\hat{\boldsymbol{\Delta}},
+    \label{eqn:wire_phi}
+    \Phi' = 2G\lambda'\ln\Delta
 \end{equation}
-where $\lambda'$ is the perturbing streamline's linear density, $\Delta$ is the particle's distance
-from the streamline's nearest point, which is labeled the near point in Fig.~\ref{fig:wire_planar},
-and $\hat{\boldsymbol{\Delta}} = \boldsymbol{\Delta}/\Delta$ is the unit vector that points from the
-particle toward the near point.
+plus a constant, where $\Delta$ is the particle's distance from the wire. The ring's gravity then accelerates the
+particle by $-\nabla\sum\Phi'$, where the sum runs over all perturbing streamlines.
 
 \subsubsection{The perturbing streamline's acceleration}
 \label{sec:wire}
@@ -267,14 +262,45 @@ particle toward the near point.
 In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. Lagrange polynomials fit to the particles
 in perturbing streamline $a'$ (Section \ref{sec:wire_code}) give its radius $r'(\theta')$, height $z'(\theta')$ and
 linear density $\lambda'(\theta')$ as functions of longitude $\theta'$. The streamline crosses the particle's longitude
-$d_r = r'(\theta) - r$ radially and $d_z = z'(\theta) - z$ vertically from the particle, and there its radial and
-vertical slopes are
+at the crossing point (the cross in Fig.~\ref{fig:wire_planar}), which lies
+\begin{equation}
+    \label{eqn:wire_d0}
+    \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}}
+\end{equation}
+from the particle, where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$, and there its radial and vertical slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
     s_r = \left.\frac{1}{r'}\frac{dr'}{d\theta'}\right|_{\theta' = \theta} \quad \mbox{and} \quad
     s_z = \left.\frac{1}{r'}\frac{dz'}{d\theta'}\right|_{\theta' = \theta},
 \end{equation}
-where $r'$ is short for $r'(\theta)$. Appendix \ref{sec:appendix_geometry} shows that streamline $a'$ then exerts the acceleration
+where $r'$ is short for $r'(\theta)$. The particle is close to the streamline, $|d_r| \ll r$ and $|d_z| \ll r$, so
+near the particle its local frame $(\hat{\mathbf{r}}, \hat{\boldsymbol{\theta}}, \hat{\mathbf{z}})$ can be treated as
+Cartesian, and the streamline as a straight wire through the crossing point. A step $r'\,d\theta'$ along
+$\hat{\boldsymbol{\theta}}$ moves the streamline $s_rr'\,d\theta'$ outward and $s_zr'\,d\theta'$ upward, so the wire's
+unit tangent is
+\begin{equation}
+    \label{eqn:wire_t}
+    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N},
+\end{equation}
+where $N^2 = 1 + s_r^2 + s_z^2$. The perpendicular from the particle to the wire is $\mathbf{d}_0$ less its
+component along the wire,
+\begin{equation}
+    \label{eqn:wire_D}
+    \boldsymbol{\Delta} = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
+\end{equation}
+which ends at the wire's near point, the point on it nearest the particle (the black square in
+Fig.~\ref{fig:wire_planar}), and whose length $\Delta$ is the particle's distance from the wire,
+$\Delta^2 = |\mathbf{d}_0|^2 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})^2$. That distance is the same for
+$\mathbf{d}_0$ drawn to any point on the wire, so hold that point fixed: moving the particle by
+$\delta\mathbf{r}$ changes $\mathbf{d}_0$ by $-\delta\mathbf{r}$ and $\Delta^2$ by
+$-2\boldsymbol{\Delta}\cdot\delta\mathbf{r}$, i.e., $\nabla\Delta^2 = -2\boldsymbol{\Delta}$. The gradient of
+Eqn.\ (\ref{eqn:wire_phi}) then gives the wire's acceleration of the particle,
+\begin{equation}
+    \label{eqn:wire_Ag}
+    \mathbf{A}_g = -\nabla\Phi' = \frac{2G\lambda'}{\Delta^2}\boldsymbol{\Delta},
+\end{equation}
+which points toward the near point and has the magnitude $2G\lambda'/\Delta$. Writing
+$\mathbf{d}_0\cdot\hat{\mathbf{t}} = Nc$, its components are
 \begin{subequations}
 \label{eqn:wire_Acomp}
 \begin{eqnarray}
@@ -283,28 +309,64 @@ where $r'$ is short for $r'(\theta)$. Appendix \ref{sec:appendix_geometry} shows
     A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2}, \label{eqn:wire_Acomp_c}
 \end{eqnarray}
 \end{subequations}
-on the particle, where $c = (d_rs_r + d_zs_z)/N^2$, $N^2 = 1 + s_r^2 + s_z^2$, and
-$\Delta^2 = d_r^2 + d_z^2 - (Nc)^2$ is the square of the particle's distance from the streamline's near point.
+where $c = (d_rs_r + d_zs_z)/N^2$ and $\Delta^2 = d_r^2 + d_z^2 - (Nc)^2$.
+
+The near point lies $\mathbf{d}_1 = -Nc\,\hat{\mathbf{t}}$ along the wire from the crossing point, and since
+$\mathbf{d}_0$ is perpendicular to $\hat{\boldsymbol{\theta}}$, $|\mathbf{d}_1| \le s\Delta$, where
+$s = (s_r^2 + s_z^2)^{1/2}$ is the wire's slope relative to $\hat{\boldsymbol{\theta}}$. An $m$-armed disturbance
+displaces streamline $a'$ radially by about $ea'$ and vertically by about $ia'$, where $e$ and $i$ are its particles'
+eccentricity and inclination, so Eqns.\ (\ref{eqn:wire_slopes}) give $s_r \sim me$ and $s_z \sim mi$, and
+$s \lesssim m(e^2 + i^2)^{1/2}$. Rings are nearly circular and nearly planar, and $m$ is modest for the waves of
+interest, so $s \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point lies very close to the
+crossing point.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\columnwidth]{figures/wire_planar.pdf}
+\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
+\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude)
+is straight, tilted from $\hat{\boldsymbol{\theta}}$ by $\varphi$ where $\tan\varphi = s_r$, and it crosses that
+longitude at $\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies
+$\mathbf{d}_1$ further along it. The perpendicular $\boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1$,
+Eqn.\ (\ref{eqn:wire_D}), has length $\Delta = |d_r|\cos\varphi$ and makes the angle $\varphi$ with $\hat{\mathbf{r}}$,
+and the wire's acceleration of the particle, Eqn.\ (\ref{eqn:wire_Ag}), points along it.}
+\label{fig:wire_planar}
+\end{figure}
 
 \subsubsection{Computing the acceleration}
 \label{sec:wire_code}
 
 %Phase 3 step 2: coded as fast/kernels.py ring_gravity_3d (notes/phase3/vertical_gravity.md)
-%TODO: lambda = m_1 Omega_a/(2 pi v) assumes a stationary streamline; see notes/phase2/streamline_gravity.md
+%lambda = m_r Omega_a/(2 pi N_r v) is source/helper_fns.py get_lambda; its m >= 2 limit is in notes/phase2/streamline_gravity.md
 The particles' coordinates are stored in arrays whose rows
 are the streamlines, and every timestep, before the accelerations are computed, the particles in each
 row are sorted by longitude. Because the streamlines are nearly concentric, the particle in row $a'$
 that has the perturbed particle's column index lies at nearly the same longitude, so it and its
-neighbor on either side bracket $\theta$.
+neighbor on either side bracket $\theta$, or nearly so, provided that neighboring streamlines' particles do
+not drift apart in longitude by much more than the spacing between particles.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
 crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
 $\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
 Eqn.\ (\ref{eqn:wire_slopes}), and Eqns.\ (\ref{eqn:wire_Acomp}) then provide the
 acceleration. This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
 ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point,
-which is justified since Eqn.\ (\ref{eqn:wire_Ag}) assumes that $\lambda'$ varies insignificantly over
+which is justified since Eqn.\ (\ref{eqn:wire_phi}) assumes that $\lambda'$ varies insignificantly over
 distances of several $\Delta$ along the streamline, while the near point lies only
-$|\mathbf{d}_1| \ll \Delta$ from the crossing point (Appendix \ref{sec:appendix_geometry}).
+$|\mathbf{d}_1| \ll \Delta$ from the crossing point (Section \ref{sec:wire}).
+
+Each particle's linear density is that of a stationary streamline of mass $m_r/N_r$ whose particles move at the
+particle's speed $v$, $\lambda = m_r\Omega_a/2\pi N_rv$, as in \code{epi\_int\_lite} \citep{H25}, where $m_r$ is the
+ring's mass and $N_r$ its number of streamlines. A streamline whose shape is a pattern that rotates at $\Omega_p$ is not
+stationary, so near an $m$-armed resonance this underestimates the variation of $\lambda$ along the streamline by a
+factor of about $m$. But in a tightly wound wave, whose wavenumber has $|k|r \gg m$, that variation is smaller, by a
+factor of order $m/|k|r$, than the variation in surface density due to the radial compression of neighboring
+streamlines, so the error is negligible here.
+
+The acceleration of Eqns.\ (\ref{eqn:wire_Acomp}) differs from \code{epi\_int\_lite}'s in three ways
+(Appendix \ref{sec:appendix_wire2d}). The one that matters for spiral waves is the wire's direction:
+\code{epi\_int\_lite} takes it from the streamline's velocity rather than its shape, which near an $m$-armed resonance
+underestimates the streamline's tilt, and with it the tangential pull that transports angular momentum between
+streamlines, by a factor of about $m$.
 
 \subsection{Pressure}
 \label{sec:pressure}
@@ -313,30 +375,43 @@ $|\mathbf{d}_1| \ll \Delta$ from the crossing point (Appendix \ref{sec:appendix_
 pressure is $p = c^2\sigma$ where $c$ is the particles' velocity dispersion and $\sigma$ is the ring's
 surface density (Section 2.2 of \citealt{H25}). Its treatment in three dimensions, and a test against
 the theory of spiral density waves in a non-gravitating, pressure-supported gas disk, will be
-completed later.
+completed later. Its in-plane form enters the resolution limit of Section \ref{sec:resolution}.
 
 \subsection{Viscosity}
 \label{sec:viscosity}
 
 \code{Epi\_int\_3d} uses the shear and bulk viscosity of \code{epi\_int\_lite} (Section 2.2 of
 \citealt{H25}; Appendix A of \citealt{HS13}), which act only in the ring plane. A vertical viscosity,
-which would damp bending waves, will be completed later. The bending-wave simulations of
-Section \ref{sec:waves} have no viscosity or pressure.
+which would damp bending waves, will be completed later. The in-plane viscosity also enters the resolution limit of
+Section \ref{sec:resolution}, while the wave simulations of Section \ref{sec:waves} have no viscosity or pressure.
 
 \subsection{Advancing the particles}
 \label{sec:integrator}
 
-\code{Epi\_int\_3d} advances the particles with the second-order symplectic kick-drift-kick scheme of
+\code{Epi\_int\_3d} advances the particles with the second-order kick-drift-kick scheme of
 \code{epi\_int\_lite}, which is that of the MERCURY N-body integrator \citep{C99}; see Section 2.2 of
 \cite{H25}. Each timestep $\Delta t$ starts with a kick that changes each particle's velocity by the
 ring's accelerations, plus any satellite's (Section \ref{sec:waves}), applied over $\Delta t/2$. Then a
 drift advances the particle along its unperturbed orbit for $\Delta t$, and a second half kick ends the
 timestep. The drift converts coordinates to elements (Section \ref{sec:coords2elem}), advances
 $M \rightarrow M + \kappa_a\Delta t$ and $\Omega \rightarrow \Omega + (\Omega_a - \nu_a)\Delta t$, and
-converts back, so it is exact for the unperturbed motion of Eqns.\ (\ref{eqn:inplane}) and (\ref{eqn:zvz}).
+converts back, so it follows the first-order unperturbed motion of Eqns.\ (\ref{eqn:inplane}) and (\ref{eqn:zvz})
+exactly and adds no error of its own.
 Its vertical part is simply a rotation of $(z, v_z/\nu_a)$ through the angle $\Delta\theta - (\Omega_a - \nu_a)\Delta t$,
 where $\Delta\theta$ is the drift's change in the particle's longitude. Before and after each drift, small shifts of the
 particles' coordinates account for the planet's motion about the system's center of mass \citep{C99}.
+
+\subsection{Resolution}
+\label{sec:resolution}
+
+A streamline model follows a disturbance only if its streamlines and their particles sample it well. Radially, a wave
+must span many streamlines, and along each streamline the slopes of Eqn.\ (\ref{eqn:wire_slopes}) require many
+particles per azimuthal wavelength, so the number of particles per streamline is $N_t \gg m$. Self-gravity sets a
+further limit. Appendix \ref{sec:appendix_zigzag} shows that a lattice of streamlines spaced $\Delta$ apart is
+axisymmetrically stable only if ${\cal R} = 2\pi^2G\sigma/\kappa^2\Delta < 2$, a limit that more streamlines approach
+rather than avoid, and that a viscous lattice whose bulk and shear viscosities are equal needs ${\cal R} < 2/7$. That
+appendix also describes a numerical instability, a sawtooth along each streamline with azimuthal wavenumber
+$m \simeq N_t/2$, which grows in some simulated ringlets and remains an open problem.
 
 
 \section{Using spiral wave theory to test \code{epi\_int\_3d}}
@@ -344,7 +419,7 @@ particles' coordinates account for the planet's motion about the system's center
 
 The following will use \code{epi\_int\_3d} to simulate the spiral bending waves that a satellite launches at its
 vertical resonances in a planetary ring, which exercises the code's new vertical capability, and compare
-them with linear wave theory to confirm the code. These waves test the vertical motion of
+them with linear wave theory to test the code. These waves test the vertical motion of
 Section \ref{sec:vertical} and the vertical ring gravity of Section \ref{sec:ring_gravity}. The spiral density waves
 that a satellite launches at its Lindblad resonances are also simulated, to further validate
 the code's ability to simulate horizontal disturbances in a self-gravitating ring, and in a
@@ -386,7 +461,7 @@ luminosity, which equals the torque that launches it, Eqn.\ (\ref{eqn:vres_torqu
 resonance, into the region where $D < 0$. At an inner vertical resonance, where $m > 0$, that region
 lies inside the resonance, so $c_g < 0$ and $k > 0$; at an outer vertical resonance, where $m < 0$, it lies
 outside, so $c_g > 0$ and $k < 0$. Either way $k$ has the sign of $m$, so along a crest the longitude
-$\theta$ decreases with $r$, and the wave is trailing \citep{S84}.
+$\theta$ decreases with $r$, and the wave is called ``trailing'' \citep{S84}.
 
 \subsubsection{Forced spiral bending waves}
 \label{sec:waves_theory}
@@ -403,7 +478,9 @@ $\theta_s = \Omega_{a_s}t$ and longitude of ascending node $\Omega_s = (\Omega_{
 constant rates from zero at time $t = 0$, and $\Delta_s$ is the particle's distance from the satellite, where
 $\Delta_s^2 = r^2 + a_s^2 - 2ra_s\cos(\theta - \theta_s)$ omits $(z - z_s)^2$, which is of second order.
 The ring's vertical excursions are much smaller than the satellite's, $|z| \ll a_si_s$, so
-$A_z \simeq GM_sz_s/\Delta_s^3$, whose Fourier expansion in $\theta$ is
+$A_z \simeq GM_sz_s/\Delta_s^3$, where $z_s = a_si_s\sin\nu_{a_s}t$. Expanding $1/\Delta_s^3$ as a cosine series in
+$\theta - \theta_s$, whose $m$th coefficient is $b_{3/2}^{(m)}(\beta)/a_s^3$, and combining each term with
+$\sin\nu_{a_s}t$ gives
 \begin{equation}
     \label{eqn:vres_series}
     A_z = -\sum_{m=-\infty}^\infty A_m\sin[m\theta - (m\Omega_{a_s} + \nu_{a_s})t]
@@ -424,7 +501,8 @@ $\Omega_p = \Omega_{a_s} + \nu_{a_s}/m$ and launches a spiral bending wave at it
 lies interior to the satellite's orbit when $m > 0$ and exterior when $m < 0$, and these resonances are well
 separated across the ring \citep{S84}. The $m = -1$ term drives a secular resonance where the ring's nodes
 regress at the satellite's rate, which is not considered here, and the $m = 0$ and $m = 1$ terms have no resonance. The simulations here follow particles near a single $m$th resonance, so
-\code{Epi\_int\_3d} keeps only the resonant term of the satellite's forcing,
+\code{Epi\_int\_3d} keeps only the resonant term of the satellite's forcing, with its amplitude held at its value at
+the resonance,
 \begin{equation}
     \label{eqn:vres_force}
     A_z = -A_V\sin m(\theta - \Omega_pt),
@@ -438,7 +516,8 @@ Near $r_V$ the ring's vertical displacement is $Z = \mathrm{Re}[h(x)e^{im(\theta
 $x = (r - r_V)/r_V$ is the fractional distance from resonance, and $D \simeq {\cal D}x$ where
 ${\cal D} = r\,dD/dr$ at $r_V$ (Eqn.\ (87a) of \citealt{S84}), which is $3(m - 1)\Omega_a^2$ when oblateness is
 negligible. The wave here is trailing, with $k > 0$, so the dispersion relation, Eqn.\ (\ref{eqn:bw_disp}), is
-$D = -2\pi G\sigma k$. Acting on $h \propto e^{i\int^r k\,dr'}$, $k$ is $-i\,d/dr$, which turns the
+$D = -2\pi G\sigma k$. Acting on $h \propto e^{i\int^r k\,dr'}$, a wave whose $k$ has a single sign, $k$ is
+$-i\,d/dr$, which turns the
 dispersion relation into the left side of Eqn.\ (88) of \cite{S84},
 \begin{equation}
     \label{eqn:vres_ode}
@@ -477,8 +556,10 @@ is constant, while its wavelength
     \lambda_{\rm wave} = \frac{4\pi^2G\sigma}{{\cal D}|x|}
 \end{equation}
 shrinks with distance from resonance. The wave's first wavelength, from $r_V$ to where its phase
-$x^2/2\epsilon$ reaches $2\pi$, is $(4\pi\epsilon)^{1/2}r_V$. Appendix \ref{sec:massless_limit} shows that
-$h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$.
+$x^2/2\epsilon$ reaches $2\pi$, is $(4\pi\epsilon)^{1/2}r_V$, and neither form of $h_{\rm wave}$ holds in the
+resonance zone, $|x| < 2\epsilon^{1/2}$. Appendix \ref{sec:massless_limit} shows that, at any finite time,
+$h \rightarrow h_{\rm forced}$ as $\sigma \rightarrow 0$, although the steady wave's amplitude $|Z_w|$ grows as
+$\sigma^{-1/2}$.
 
 Equations (\ref{eqn:vres_ode})--(\ref{eqn:vres_lambda}) offer a few opportunities to test
 \code{epi\_int\_3d}'s vertical motion. The forced oscillation alone is tested by a ring of massless
@@ -496,15 +577,17 @@ which, expressed as an inclination $|h_{\rm forced}|/r_V$, is
     \label{eqn:vres_inc}
     i_f = \frac{M_s}{M_p}\frac{\beta^2b_{3/2}^{(m)}(\beta)}{6(m - 1)|x|}\,i_s
 \end{equation}
-when the planet's oblateness is negligible. The simulation uses $J_2 = \vresJtwo$ and $R_p = \vresRp$, in
+when the planet's oblateness is negligible, with $\beta = r_V/a_s$. The simulation uses $J_2 = \vresJtwo$ and $R_p = \vresRp$, in
 natural units where $G = M_p = 1$. Its ring is \vresNstreamlines\ streamlines of \vresNparticles\ particles each, spanning
 $1 \le r \le \vresRmax$, and an $m = \vresM$ satellite with $i_s = \vresIs$ at $a_s = \vresAs$ puts $r_V = \vresRV$
 mid-ring, midway between two streamlines. The satellite's mass grows as $M_s = \vresMs(1 - e^{-t/\tau})$ with $\tau = \vresTau$, or about
-$\vresTauOrbits$ orbits, slowly enough that the particles' motion is mostly forced rather than free, and what free
-motion remains averages away over time. Figure \ref{fig:vres}b shows that the particles' inclinations,
+$\vresTauOrbits$ orbits, slowly enough that the particles' motion is mostly forced rather than free, except right
+beside $r_V$, where the forcing is so nearly resonant that $\tau$ is not long compared with the beat period
+$2\pi/|\nu_a - \omega_m|$. Figure \ref{fig:vres}b shows that the particles' inclinations,
 averaged over the last $\vresAvgOrbits$ of the simulation's $\vresOrbits$ orbits, are in excellent agreement with
-Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%, and the differences are of order $x$, which
-Eqn.\ (\ref{eqn:vres_inc}) neglects.
+Eqn.\ (\ref{eqn:vres_inc}), to within \vresAgreePercent\%. The differences are of order $x$, both because
+Eqn.\ (\ref{eqn:vres_inc}) neglects terms of that order and because the inclination of Eqn.\ (\ref{eqn:i_node_a})
+divides $v_z$ by $\nu_a$, while the forced motion oscillates at $\omega_m$.
 
 The inclinations also peak at the resonance. Figure \ref{fig:vres}a shows $D$ of Eqn.\ (\ref{eqn:bw_disp})
 at each streamline's semimajor axis, which vanishes between the two streamlines nearest $r_V$, at
@@ -535,7 +618,10 @@ $M_s = \bwMs$ and inclination $i_s = \bwIs$ at $a_s = \bwAs$ puts the resonance 
 parameters do not correspond to any real ring and satellite. Rather, they were chosen so that the wave is
 linear and well resolved: its amplitude $|Z_w|$, Eqn.\ (\ref{eqn:vres_amp}), keeps $|kZ_w| \le \bwkZ$
 everywhere in the ring, and its wavelength, Eqn.\ (\ref{eqn:vres_lambda}), spans about
-\bwPerWavelength\ streamlines even at the ring's inner edge, where it is shortest.
+\bwPerWavelength\ streamlines even at the ring's inner edge, where it is shortest. The ring has ${\cal R} = \bwR$,
+well within the limit of Section \ref{sec:resolution} for a ring without viscosity, and it has $N_t = \bwNparticles$
+particles per streamline; by the run's end, the sawtooth of Appendix \ref{sec:appendix_zigzag} along any streamline is
+less than $\bwSawtooth\,|Z_w|$.
 
 The wave propagates inward at the speed $|c_g| = \pi G\sigma/\nu_a$, Eqn.\ (\ref{eqn:bw_cg}) near resonance,
 so it reaches $x = -0.01$ after the time $\tau_{0.01} = 0.01r_V/|c_g|$, about \bwTauOrbits\ orbits. The
@@ -547,45 +633,56 @@ Switching the
 satellite on at full mass also starts a free vertical oscillation everywhere, so at first every streamline
 moves as a massless particle would. The ring's self-gravity then takes over: the response near $r_V$
 settles onto linear theory, and the wave front advances inward. Over $0.25 < t/\tau_{0.01} < 1.25$ its
-mean speed is $\bwFrontSpeed\,|c_g|$, and it slows as the wavelength shortens. This too is an effect of the
-streamlines' finite spacing, like the wavenumber's below: in the same ring simulated with
+mean speed is $\bwFrontSpeed\,|c_g|$, and it slows as the wavelength shortens. Linear theory's group speed,
+Eqn.\ (\ref{eqn:bw_cg}), hardly changes over that stretch, since $\omega_m$ stays close to $\nu_a$, so this too is an
+effect of the streamlines' finite spacing, like the wavenumber's below: in the same ring simulated with
 \bwNstreamlinesCoarse\ and \bwNstreamlinesFine\ streamlines the front's mean speed is
 $\bwFrontSpeedCoarse\,|c_g|$ and $\bwFrontSpeedFine\,|c_g|$. The front overshoots linear
 theory a little, since it carries along the free oscillation that was started at resonance, and a small
 residue of that oscillation remains ahead of the front. Behind the front, though, the simulated
 inclinations are in excellent agreement with linear theory, with about \bwCrests\ wavelengths of the wave
-in place by the end of the run. Over $-0.01 < x$, outside the resonance zone, the wave's amplitude is within \bwAmpPercent\% of $|Z_w|$, and its
+in place by the end of the run. Over $-0.01 < x < -2\epsilon^{1/2}$, between $x = -0.01$ and the resonance zone,
+the wave's amplitude is within \bwAmpPercent\% of $|Z_w|$, and its
 phase winds inward as the trailing wave of Eqn.\ (\ref{eqn:vres_sol}) does. On the nonwave side of the
 resonance, the forced response departs from linear theory's by \bwForcedMedianPercent\% typically (the median)
 and by up to \bwForcedPercent\%. That theory is for an infinite sheet, which has ring matter beyond this
-ring's outer edge, and that is a likely cause, though it has not been quantified.
+ring's outer edge, and that is a likely cause, as is the approximation $D \simeq {\cal D}x$, though neither has been
+quantified.
 
 Figure \ref{fig:wavenumber} shows the simulated wave's wavenumber $|k|$. Each streamline's complex amplitude $h$ is
 measured by a least-squares fit of its particles' vertical displacements to $Z = {\rm Re}[h e^{im(\theta - \Omega_pt)}]$.
 The wave part of $h$, $h_{\rm wave} = h - L_V/x$ of Eqn.\ (\ref{eqn:vres_sol}), varies as $e^{i\int^r k\,dr'}$, so
 $dh_{\rm wave}/dr = ikh_{\rm wave}$ where the wave's amplitude varies slowly, and $k = d\arg(h_{\rm wave})/dr$,
 which is computed as the change in the phase of $h_{\rm wave}$ between neighboring streamlines divided by their
-separation. Over $-0.01 < x$, outside the resonance zone, it is \bwKcontPercent\%
+separation. Over the same stretch it is \bwKcontPercent\%
 larger than the $|k| = 2\pi/\lambda_{\rm wave}$ of Eqn.\ (\ref{eqn:vres_lambda}) (the median), i.e., its wavelength is
-that much shorter. This is because the simulated ring is a finite lattice of streamlines rather than the
-continuous sheet that Eqn.\ (\ref{eqn:vres_lambda}) assumes. Figure \ref{fig:wavenumber} also shows the ring
+about that much shorter. The simulated ring is a lattice of streamlines rather than the continuous sheet that
+Eqn.\ (\ref{eqn:vres_lambda}) assumes, and the lattice's own dispersion relation, $|D| = X(k\Delta)$ with $X$ of
+Eqn.\ (\ref{eqn:zigzag_X}) (Appendix \ref{sec:wire_continuum}), gives a wavenumber \bwKlatticePercent\% larger than
+Eqn.\ (\ref{eqn:vres_lambda}) there. Figure \ref{fig:wavenumber} also shows the ring
 simulated with \bwNstreamlinesCoarse\ and \bwNstreamlinesFine\ streamlines, whose wavenumbers are
-\bwKcontPercentCoarse\% and \bwKcontPercentFine\% larger than Eqn.\ (\ref{eqn:vres_lambda}), so the simulated
-wavenumber converges toward Eqn.\ (\ref{eqn:vres_lambda}) as the spacing between streamlines shrinks.
+\bwKcontPercentCoarse\% and \bwKcontPercentFine\% larger than Eqn.\ (\ref{eqn:vres_lambda}), where the lattice gives
+\bwKlatticePercentCoarse\% and \bwKlatticePercentFine\%. So the streamlines' finite spacing accounts for most of the
+excess and for its decline as the spacing shrinks. The remainder, which changes little with the spacing, is likely
+due to the ring's finite width, since the ring lacks the pull of the streamlines that would lie beyond its edges.
 
-The torque that the satellite exerts on the wave tests the wave's amplitude and phase together. The satellite's
-resonant potential $A_Vz\sin m(\theta - \Omega_pt)$, whose vertical pull is
-Eqn.\ (\ref{eqn:vres_force}), exerts the torque $T = -mA_V\sum\mu z\cos m(\theta - \Omega_pt)$
-on the simulated ring, summed over its particles of mass $\mu$, while linear theory gives \citep{S84}
+The torque that the satellite would exert on the wave tests the wave's amplitude and phase together. The satellite's
+resonant potential $A_Vz\sin m(\theta - \Omega_pt)$ pulls vertically by Eqn.\ (\ref{eqn:vres_force}), and also
+azimuthally by $A_\theta = -(m/r)A_Vz\cos m(\theta - \Omega_pt)$, which is of second order in the small quantities and
+which \code{epi\_int\_3d} does not apply. That azimuthal pull would exert the torque
+$T = \sum\mu rA_\theta = -mA_V\sum\mu z\cos m(\theta - \Omega_pt)$ on the ring, summed over its particles of mass
+$\mu$, which depends only on the particles' heights, while linear theory gives \citep{S84}
 \begin{equation}
     \label{eqn:vres_torque}
     T_V = -\frac{\pi^2m\sigma r_V^2A_V^2}{\cal D},
 \end{equation}
-which is also the angular momentum luminosity of the wave that the satellite launches. Figure \ref{fig:torque}
+which is also the angular momentum luminosity of the wave that the satellite launches. The torque is negative: at
+an inner vertical resonance the satellite takes angular momentum from the ring. Figure \ref{fig:torque}
 shows that $T$ settles onto $T_V$ as soon as the wave is launched. Over the run's last half its mean is
 $\bwTorqueRatio\,T_V$, and it scatters by at most \bwTorqueScatter\% about $T_V$ because of the residue of the free
-oscillation. The satellite pulls only vertically, so the ring does not feel this torque, and its total
-angular momentum $L_z$ can change only through the ring's gravity and the integrator's round-off error.
+oscillation. Because the simulated satellite pulls only vertically, the ring does not actually receive this torque,
+and its total angular momentum $L_z$ can change only through the ring's gravity, whose wire forces are not pairwise
+and so need not conserve $L_z$ exactly, and through the integrator's round-off error.
 Figure \ref{fig:angmom} shows that $|\Delta L_z/L_z| \le \bwDeltaL$ over the run.
 
 \begin{figure}[ht]
@@ -613,7 +710,8 @@ front (dotted lines) to the resonance zone. The dashed line is the dispersion re
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/torque.pdf}
-\caption{The torque $T$ that the satellite exerts on the bending wave of Section \ref{sec:waves_ring}, in units
+\caption{The torque $T$ that the satellite's resonant potential would exert on the bending wave of
+Section \ref{sec:waves_ring}, in units
 of linear theory's $T_V$, Eqn.\ (\ref{eqn:vres_torque}) (dashed), plotted vs.\ time $t$ in units of $\tau_{0.01}$, the time the
 wave takes to propagate from $r_V$ to $x = -0.01$.}
 \label{fig:torque}
@@ -663,18 +761,21 @@ The $m$th Fourier term of the satellite's potential is
     \label{eqn:lres_phi}
     \Phi_m = -\frac{GM_s}{a_s}b_{1/2}^{(m)}(\beta)\cos m(\theta - \Omega_pt),
 \end{equation}
-where $\beta = r/a_s$, Eqn.\ (\ref{eqn:laplace_b}) gives $b_{1/2}^{(m)}$, and $\Omega_p = \Omega_{a_s}$. Its inner
+where $\beta = r/a_s$, $b_{1/2}^{(m)}$ is the Laplace coefficient of Eqn.\ (\ref{eqn:laplace_b}) with its exponent
+$3/2$ replaced by $1/2$, and $\Omega_p = \Omega_{a_s}$. Its inner
 Lindblad resonance lies where $\omega_m = \kappa_a$, at $r_L \simeq a_s[(m - 1)/m]^{2/3}$ when $J_2$ is small.
-As in Section \ref{sec:waves_theory}, \code{epi\_int\_3d} keeps only this term, with $b_{1/2}^{(m)}$ replaced by its
-tangent line at $\beta = r_L/a_s$, and pulls each particle with $-\nabla\Phi_m$. Near $r_L$, $D \simeq {\cal D}x$
+As in Section \ref{sec:waves_theory}, \code{epi\_int\_3d} keeps only this term, and it pulls each particle with
+$-\nabla\Phi_m$. But where the bending-wave forcing holds $A_V$ at its value at resonance, here $b_{1/2}^{(m)}$ is
+replaced by its tangent line at $\beta = r_L/a_s$, since the forcing, Eqn.\ (\ref{eqn:lres_psi}) below, depends on
+both $b_{1/2}^{(m)}$ and its slope there. Near $r_L$, $D \simeq {\cal D}x$
 where now $x = (r - r_L)/r_L$ and ${\cal D} = r\,dD/dr$ at $r_L$, which is again $3(m - 1)\Omega_a^2$ when oblateness
 is negligible. With $k$ again $-i\,d/dr$, Eqn.\ (\ref{eqn:dw_disp}) becomes the left side of Eqn.\ (44) of \cite{S84},
 \begin{equation}
     \label{eqn:lres_ode}
     i\epsilon\frac{d\xi}{dx} + x\xi = L_L,
 \end{equation}
-written for $\xi$ rather than Shu's disk potential, which is $2\pi iG\sigma\xi$, with $\epsilon$ of
-Eqn.\ (\ref{eqn:vres_params}) and $L_L = -\Psi/(r_L{\cal D})$, where
+written for $\xi$ rather than Shu's disk potential, which is $2\pi iG\sigma\xi$, where now
+$\epsilon = 2\pi G\sigma/(r_L{\cal D})$ and $L_L = -\Psi/(r_L{\cal D})$, and
 \begin{equation}
     \label{eqn:lres_psi}
     \Psi = -\frac{GM_s}{a_s}\left(\beta\frac{db_{1/2}^{(m)}}{d\beta} + \frac{2\Omega_a}{\Omega_a - \Omega_p}b_{1/2}^{(m)}\right)
@@ -694,7 +795,7 @@ $A_V$ replaced by $|\Psi|/r_L$, and whose wavelength is Eqn.\ (\ref{eqn:vres_lam
     \label{eqn:lres_torque}
     T_L = -\frac{\pi^2m\sigma\Psi^2}{\cal D}
 \end{equation}
-on the ring, which is the counterpart of Eqn.\ (\ref{eqn:vres_torque}). These again offer tests with massless
+on the ring, which is the counterpart of Eqn.\ (\ref{eqn:vres_torque}) and is negative too. These again offer tests with massless
 particles and with a self-gravitating ring.
 
 \subsubsection{Massless particles at a Lindblad resonance}
@@ -722,17 +823,20 @@ $M_s = \dwMs$ at $a_s = \dwAs$ puts $r_L = \dwRL$, \dwAcrossPercent\% of the way
 travels outward across most of it, and the satellite is at full mass from $t = 0$. The wave's amplitude keeps
 $|kZ_w| \le \dwkZ$ everywhere in the ring. The wave reaches $x = 0.01$ after the time $\tau_{0.01} = 0.01r_L/c_g$,
 about \dwTauOrbits\ orbits, and the run stops at $\dwRunFraction\,\tau_{0.01}$, when its front is at $x = \dwXfront$,
-short of the ring's outer edge at $x = \dwXout$.
+short of the ring's outer edge at $x = \dwXout$. By then the sawtooth of Appendix \ref{sec:appendix_zigzag} along
+any streamline is less than $\dwSawtooth\,|Z_w|$.
 
 Each streamline's complex amplitude $\xi$ is measured by a least-squares fit of its particles' radii to
 $r = r_0 + {\rm Re}[\xi e^{im(\theta - \Omega_pt)}]$, which keeps only the $m$-armed part of its shape; the streamlines
 near the ring's edges also have a free eccentricity, since their initial circular orbits are out of balance with the
 ring's own gravity there. Figure \ref{fig:dwave} shows the wave being launched at $r_L$ and propagating outward. Over
-$x < 0.01$, outside the resonance zone, the wave's amplitude is within \dwAmpPercent\% of $|Z_w|$, and on the nonwave
+$2\epsilon^{1/2} < x < 0.01$, between the resonance zone and $x = 0.01$, the wave's amplitude is within \dwAmpPercent\% of $|Z_w|$, and on the nonwave
 side the forced response departs from Eqn.\ (\ref{eqn:lres_xi}) by \dwForcedMedianPercent\% typically (the median).
 The wavenumber of $\xi - L_L/x$, computed as in Section \ref{sec:waves_ring}, is positive, so the wave trails, and it
-is \dwKcontPercent\% larger than Eqn.\ (\ref{eqn:dw_disp}) gives over $x < 0.01$ (the median; Fig.\ \ref{fig:dwtorque}a),
-likely because of the streamlines' finite spacing, as for the bending wave in the same ring. The satellite's torque on
+is \dwKcontPercent\% larger than Eqn.\ (\ref{eqn:dw_disp}) gives over that stretch (the median;
+Fig.\ \ref{fig:dwtorque}a). The lattice's own dispersion relation, $D = X(k\Delta)$, gives \dwKlatticePercent\% there, a
+little more than is measured, and the ring's finite width, which is not quantified here, may account for the
+difference. The satellite's torque on
 the ring, $T = \sum\mu rA_\theta$ over its particles, settles onto $T_L$ as soon as the wave is launched
 (Fig.\ \ref{fig:dwtorque}b). Over the run's last half its mean is $\dwTorqueRatio\,T_L$, and it scatters by at most
 \dwTorqueScatter\% about $T_L$ because of the free oscillation started when the satellite was switched on.
@@ -760,128 +864,16 @@ from the resonance zone to the wave front (dotted line), and the dispersion rela
 \clearpage
 \appendix
 
-\section{The perturbing streamline's geometry}
-\label{sec:appendix_geometry}
-\setcounter{equation}{0}
-
-%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
-This appendix derives the acceleration of Section \ref{sec:wire}, Eqns.\ (\ref{eqn:wire_Acomp}), extending the 2D
-force calculations of \cite{HS13} to 3D. In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. The ring matter
-that is represented by the particles in perturbing streamline $a'$ is at
-$\mathbf{r}' = (r', \theta', z')$ that traces a continuous wire, so these coordinates are
-to be regarded as functions of longitude $\theta'$, i.e.,
-$\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$. Lagrange polynomials will be fit to the particles
-in streamline $a'$, which means that $r'(\theta')$, $z'(\theta')$ and the streamline's linear density
-$\lambda'(\theta')$ can be regarded as known functions in the following. And because the particle is close to the streamline, $|r' - r| \ll r$,
-$|z' - z| \ll r$ and $|\theta' - \theta| \ll 1$, so the particle's local frame
-$(\hat{\mathbf{r}}, \hat{\boldsymbol{\theta}}, \hat{\mathbf{z}})$ can be treated as Cartesian.
-
-The vector from the particle to the streamline's near point (the black square in
-Fig.~\ref{fig:wire_planar}) can be written
-\begin{equation}
-    \label{eqn:wire_d}
-    \boldsymbol{\Delta} = \mathbf{r}'(\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
-\end{equation}
-where $\theta' = \theta + \delta\theta'$ is the near point's longitude as measured in the $z = 0$
-plane, and $\delta\theta'$ is its longitude relative to the particle's with $|\delta\theta'| \ll 1$. This splits
-the trip to the near point across two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(\theta) - \mathbf{r}$,
-travels from the particle to the crossing point $\mathbf{r}'(\theta) = (r'(\theta), \theta, z'(\theta))$, which is where the streamline crosses the
-particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
-\begin{equation}
-    \label{eqn:wire_d0}
-    \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}},
-\end{equation}
-where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
-$\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
-the crossing point to the near point. This is a right triangle
-(Fig.~\ref{fig:wire_planar}), so
-\begin{equation}
-    \label{eqn:wire_pythag}
-    |\mathbf{d}_0|^2 = \Delta^2 + |\mathbf{d}_1|^2.
-\end{equation}
-That stretch of streamline is short and locally straight, so
-$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
-+ [z'(\theta') - z'(\theta)]\hat{\mathbf{z}}$, which to first order in $\delta\theta'$ is
-\begin{equation}
-    \label{eqn:wire_d1}
-    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'\,\delta\theta'
-        = N r'\,\delta\theta'\,\hat{\mathbf{t}},
-\end{equation}
-where $r'$ is short for $r'(\theta)$. This uses $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$
-and likewise for $z'$, where $s_r$ and $s_z$ are the streamline's radial and vertical slopes of
-Eqn.\ (\ref{eqn:wire_slopes}), evaluated at the perturbed particle's longitude $\theta' = \theta$. Together they give $s = (s_r^2 + s_z^2)^{1/2}$, which is the
-streamline's slope relative to circular motion in the ring plane, i.e., the
-$\hat{\boldsymbol{\theta}}$ direction, so the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by
-the angle $\varphi$ where $\tan\varphi = s$. Note that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is also the perturbing streamline's unit tangent:
-\begin{equation}
-    \label{eqn:wire_t}
-    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N},
-\end{equation}
-where $N^2 = 1 + s_r^2 + s_z^2$.
-
-The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
-$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = (\mathbf{d}_0 + \mathbf{d}_1)\cdot\hat{\mathbf{t}} = 0$. And because
-$\mathbf{d}_1$ lies along $\hat{\mathbf{t}}$, this requires
-$\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
-\begin{equation}
-    \label{eqn:wire_D}
-    \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
-\end{equation}
-which is simply $\mathbf{d}_0$ minus its component along the streamline.
-
-Now equate $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$ to Eqn.\ (\ref{eqn:wire_d1}), which shows
-that the near point lies at $\delta\theta' = -c/r'$ where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N = (d_rs_r + d_zs_z)/N^2$. So at the near point
-\begin{equation}
-    \label{eqn:wire_d1near}
-    \mathbf{d}_1 = -Nc\,\hat{\mathbf{t}} = -c(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}).
-\end{equation}
-Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
-\begin{subequations}
-\label{eqn:wire_Dcomp}
-\begin{eqnarray}
-    \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \label{eqn:wire_Dcomp_a}\\
-    \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2. \label{eqn:wire_Dcomp_b}
-\end{eqnarray}
-\end{subequations}
-Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
-streamline $a'$ exerts on the particle, Eqns.\ (\ref{eqn:wire_Acomp}).
-
-Lastly, note that because the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by the angle
-$\varphi$, the right triangle of Eqn.\ (\ref{eqn:wire_pythag}) has
-$|\mathbf{d}_1| \le \Delta\tan\varphi = s\Delta$, with equality in the ring plane
-(Fig.~\ref{fig:wire_planar}). An $m$-armed disturbance displaces streamline $a'$ radially by about
-$ea'$ and vertically by about $ia'$ where $e$ and $i$ are its particles' eccentricity and
-inclination, so Eqns.\ (\ref{eqn:wire_slopes}) give $s_r \sim me$ and $s_z \sim mi$, and
-$s \lesssim m(e^2 + i^2)^{1/2}$. Rings are nearly circular and nearly planar, and $m$ is modest for
-the waves of interest, so $s \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point
-lies very close to the crossing point.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.5\textwidth]{figures/wire_planar.pdf}
-\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
-\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
-$\hat{\boldsymbol{\theta}}$ by $\varphi$ where $\tan\varphi = s_r$, and it crosses that longitude at
-$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
-$\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
-$\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
-(Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
-the near point (the planet is far off to the left), meets the streamline at a right angle, has length $\Delta = d_r\cos\varphi$ and makes the angle
-$\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\lambda'/\Delta)\hat{\boldsymbol{\Delta}}$ points along it
-(Eqns.\ \ref{eqn:wire_2d}).}
-\label{fig:wire_planar}
-\end{figure}
-
 \section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}
 \label{sec:appendix_wire2d}
 \setcounter{equation}{0}
 
 %equations G3, G6, G10, G14 of notes/sympy/streamline_gravity.py; epi_int_lite issues 7 and 9
-In the ring plane $d_z = s_z = 0$, and the acceleration of Section \ref{sec:wire} reduces to the geometry of Fig.~3 of \cite{HS13},
-which is redrawn as Fig.~\ref{fig:wire_planar}. There the streamline's tilt
+In the ring plane $d_z = s_z = 0$, and the acceleration of Section \ref{sec:wire} reduces to the geometry of
+Fig.~3 of \cite{HS13}, which is redrawn as Fig.~\ref{fig:wire_planar}. There the streamline's tilt
 $\varphi$ from $\hat{\boldsymbol{\theta}}$ has $\tan\varphi = s_r$. Then $c = d_r\sin\varphi\cos\varphi$
 and $\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi\hat{\mathbf{r}} - \sin\varphi\hat{\boldsymbol{\theta}})$, i.e., the perpendicular has
-length $\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{\mathbf{r}}$. The acceleration is
+length $\Delta = |d_r|\cos\varphi$ and makes the angle $\varphi$ with $\hat{\mathbf{r}}$. The acceleration is
 then
 \begin{subequations}
 \label{eqn:wire_2d}
@@ -894,12 +886,9 @@ Out of the plane, the tangential acceleration $A_{g,\theta} = -2G\lambda'c/\Delt
 term $-2G\lambda'd_zs_z/N^2\Delta^2$, which is due to the streamline's vertical tilt, and this is how
 vertically displaced streamlines exchange angular momentum.
 
-\cite{HS13} give the components of this acceleration as
-$A_{g,r} = A_g\cos\varphi$ and $A_{g,\theta} = -A_g\sin\varphi$, with $A_g = 2G\lambda/\Delta$ and
-$\Delta$ the perpendicular distance, and approximate them as $A_{g,r} \simeq A_g$ and
-$A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ (their Eqns.\ 20), to lowest order in the streamline's
-eccentricity. With $\Delta$ read as the radial gap $d_r$ and $\tan\varphi = v_r'/v_\theta'$, those
-are Eqns.\ (\ref{eqn:wire_2d}) without approximation. \code{Epi\_int\_lite} \citep{H25} differs from
+The lowest-order formulas of \cite{HS13}, $A_{g,r} \simeq A_g$ and $A_{g,\theta} \simeq -A_gv_r'/v_\theta'$ with
+$A_g = 2G\lambda/\Delta$ (their Eqns.\ 20), are Eqns.\ (\ref{eqn:wire_2d}) exactly when $\Delta$ is read as the
+radial gap $d_r$ and $\tan\varphi$ as $v_r'/v_\theta'$. \code{Epi\_int\_lite} \citep{H25} differs from
 Eqns.\ (\ref{eqn:wire_2d}) in three ways, which \code{epi\_int\_3d} corrects.
 
 \paragraph{Distance} \code{Epi\_int\_lite} evaluates the pull's magnitude at the crossing point,
@@ -914,10 +903,10 @@ $\Delta = d_r$, but keeps its direction toward the near point,
 This pull is weaker than Eqns.\ (\ref{eqn:wire_2d}) by the factor $\cos\varphi = 1 -
 {\cal O}(\varphi^2)$. Which is why \code{epi\_int} and \code{epi\_int\_lite} could use the distance
 to the crossing point, $|\mathbf{d}_0|$, for $\Delta$, also out of the plane, i.e., neglect
-$\mathbf{d}_1$ in the pull's magnitude. Appendix \ref{sec:appendix_geometry} shows that the near point lies very
+$\mathbf{d}_1$ in the pull's magnitude. Section \ref{sec:wire} shows that the near point lies very
 close to the crossing point, $|\mathbf{d}_1| \le s\Delta$ with $s \lesssim m(e^2 + i^2)^{1/2}$, and
-inserting that into $|\mathbf{d}_0|^2 = \Delta^2 + |\mathbf{d}_1|^2$ (Eqn.\ \ref{eqn:wire_pythag})
-gives $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$. So the two differ by a fraction of order
+$\boldsymbol{\Delta}$ and $\mathbf{d}_1$ are the legs of a right triangle whose hypotenuse is $\mathbf{d}_0$
+(Fig.~\ref{fig:wire_planar}), so $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$. So the two differ by a fraction of order
 $s^2 \lesssim m^2(e^2 + i^2)$, which is $\lesssim\!10^{-4}$ even for $m(e^2 + i^2)^{1/2}$ as large as
 $10^{-2}$ and so of no practical consequence, but Eqns.\ (\ref{eqn:wire_2d}) cost no more.
 
@@ -926,7 +915,7 @@ the crossing point, $\sin\varphi = v_r'/v'$ and $\cos\varphi = v_\theta'/v'$
 (Fig.~\ref{fig:wire_velocity}). The velocity is tangent to the streamline only when the
 streamline's shape is stationary. If the shape is a pattern that rotates at $\Omega_p$ while its
 particles orbit at $\Omega_a$, then $v_r'/v_\theta' = (1 - \Omega_p/\Omega_a)s_r$ where $s_r$ is the
-slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad resonance
+slope of the streamline's shape (Eqn.\ \ref{eqn:wire_slopes}). Near an $m$-armed Lindblad or vertical resonance
 $1 - \Omega_p/\Omega_a \simeq \pm1/m$, so the velocity underestimates the wire's tilt, and with it the
 tangential pull that transports angular momentum between streamlines, by a factor of about $m$. For
 the slowly precessing $m = 1$ ringlets of \cite{H25}, $\Omega_p$ is the precession rate and the error
@@ -935,14 +924,13 @@ is negligible. \code{Epi\_int\_3d} takes the direction from the shape (Eqn.\ \re
 \paragraph{Linear density} \code{Epi\_int\_lite} evaluates every perturbing streamline's pull with the
 perturbed particle's own linear density $\lambda$, rather than the perturbing streamline's
 $\lambda'$. The difference, $\lambda' - \lambda \simeq (a' - a)\partial\lambda/\partial a$, adds a
-nearly uniform pull of order the ring's mass over the planet's; in the eccentric ringlets of
-\cite{H25} it changes the precession rate by about $10^{-7}$ of itself.
+nearly uniform pull of order the ring's mass over the planet's, which hardly changes the precession of the eccentric
+ringlets of \cite{H25}.
 
-In an eccentric ringlet the three corrections together change the streamlines' eccentricities by less
-than $10^{-4}$ of themselves over 5000 orbits. Only the second matters for spiral waves, where it
-changes the torque between streamlines by a factor of about $m$. As in \code{epi\_int\_lite}, the
+Only the second correction matters for spiral waves, where it changes the torque between streamlines by a factor of
+about $m$. As in \code{epi\_int\_lite}, the
 particle's own streamline exerts no force on it in \code{epi\_int\_3d}, and $\Delta$ never vanishes, since
-streamlines may not cross. The slopes require that the streamline be well sampled by its particles.
+streamlines are assumed not to cross. The slopes require that the streamline be well sampled by its particles.
 \code{Epi\_int\_3d} also keeps
 \code{epi\_int\_lite}'s ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
 checked against \code{epi\_int\_lite}'s exactly.
@@ -1010,7 +998,7 @@ Eqn.\ (\ref{eqn:zigzag_X}) a cold lattice is axisymmetrically stable as long as
 \begin{equation}
     \label{eqn:zigzag_R}
     {\cal R} \equiv \frac{\lambda_{\rm crit}}{2\Delta} = \frac{2\pi^2G\sigma}{\kappa^2\Delta}
-    \simeq \frac{\pi G m_r N_r}{\kappa^2 a\Delta a^2} < 2,
+    \simeq \frac{\pi G m_r N_r}{\kappa^2a(\Delta a)^2} < 2,
 \end{equation}
 where $2\Delta$ is the shortest resolved wavelength, and the last form is for a ringlet of mass
 $m_r$, semimajor axis $a$ and width $\Delta a$, with $\sigma \simeq m_r/2\pi a\Delta a$ and
@@ -1046,10 +1034,9 @@ differential precession $\propto J_2(R_p/a)^2\Omega_a\Delta a/a$, while for a sm
 parameter the ringlet's self-gravity drives one $\propto (m_r/M_p)\Omega_a\Delta\tilde{\omega}(a/\Delta a)^2$,
 where $\Delta\tilde{\omega}$ is the periapse twist across it (cf.\ Eqn.\ C1 of \citealt{H25}).
 %TODO: this scaling is an order-of-magnitude estimate that fits the runs below; derive it properly
-So keeping $J_2$ from winding up the ringlet requires $m_r \propto J_2\Delta a^3/\Delta\tilde{\omega}$,
-and then ${\cal R} \propto J_2\Delta a N_r/\Delta\tilde{\omega}$: a wider ringlet does not help, and
-for a given planet more streamlines can be afforded only by a narrower ringlet. This is tested
-here with simulations of a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
+So, by this estimate, keeping $J_2$ from winding up the ringlet requires $m_r \propto J_2\Delta a^3/\Delta\tilde{\omega}$,
+and then ${\cal R} \propto J_2\Delta a N_r/\Delta\tilde{\omega}$, which suggests that a wider ringlet does not help.
+The limit is explored here with simulations of a ringlet of width $\Delta a = 0.0125a$ whose edges are tapered, mass $m_r = 3\times10^{-8}M_p$,
 eccentricity $e = 10^{-4}$, periapses twisted by $\pi$ from its inner to outer edge, and kinematic
 viscosity $\nu = 7\times10^{-11}a^2\Omega_a$, with no pressure, $R_p = 0.5a$ and $J_2 = 0.01$. With
 $N_r = 100$ streamlines (${\cal R} \simeq 0.09$ in the ringlet's middle, where the taper makes
@@ -1068,16 +1055,17 @@ ringlet without the initial twist, at $N_r = 333$ (${\cal R} \simeq 0.31$), cros
 orbits, and its code's own linearized axisymmetric modes, computed from the reference implementation's
 accelerations, grow by only $3.3\times10^{-3}$ per orbit, far too slowly. The disturbance that crosses is instead a sawtooth
 along each streamline with azimuthal wavenumber $m \simeq N_t/2$ where $N_t$ is the number of
-particles per streamline. It also grows in a circular ringlet, without ring gravity, and without
-viscosity, though more slowly (after about 220, 170 and 850 orbits), its onset varies
+particles per streamline. It also grows more slowly in a circular ringlet, where the streamlines cross after about
+220 orbits, in the ringlet without ring gravity, after about 170 orbits, and in the ringlet without viscosity,
+after about 850 orbits. Its onset varies
 non-monotonically with $N_t$ (with $N_t = 30$ or 50 the ringlet survives $10^4$ orbits, with 20, 40
 or 320 it does not), and pressure with $Q \le 10$ delays it by at most 20\%. It is presumably seeded by
 the 3-point Lagrange interpolation in longitude that couples neighboring streamlines' particles,
 and it remains an open problem.
 
-So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only. In practice a simulated ringlet whose
-self-gravity matters should be run with ${\cal R} \lesssim 0.1$, viscous or not, and a ringlet that
-needs more streamlines must be made narrower and much less massive.
+So Eqn.\ (\ref{eqn:zigzag_R}) is a necessary condition only. For viscous, self-gravitating ringlets like the one
+here, ${\cal R} \lesssim 0.1$ avoided the overstability, but it does not control the sawtooth, which also grows without
+ring gravity.
 
 \begin{figure*}
 \centering
@@ -1107,19 +1095,22 @@ $A_{g,z} \simeq 2G\lambda d_z/d_r^2$, and the sum of $A_{g,z}$ over the sheet is
     \label{eqn:wire_sheet}
     A_z = 2G\sigma Z_0\int_{-\infty}^{\infty}\frac{\cos kx - 1}{x^2}\,dx = -2\pi G\sigma|k|Z,
 \end{equation}
-which is the self-gravity term of the bending-wave dispersion relation,
-Eqn.\ (\ref{eqn:bw_disp}) \citep{SCL83, S84}. So summing the wires'
-pulls over the streamlines gives the vertical restoring force of a self-gravitating sheet, just
-as the same sum gives the $-2\pi G\sigma|k|$ term of a density wave in the plane. For bending waves,
-though, self-gravity is restoring, and adds to $\nu_a^2$.
+where the integral is evaluated at a crest, $Z = Z_0$, and a shift of origin extends it to every $r$. This is the
+self-gravity term of the bending-wave dispersion relation, Eqn.\ (\ref{eqn:bw_disp}) \citep{SCL83, S84}. So summing
+the wires' pulls over the streamlines gives the vertical restoring force of a self-gravitating sheet, just as the same
+sum gives the self-gravity term of a density wave in the plane, where self-gravity is destabilizing rather than
+restoring. On a lattice of streamlines spaced $\Delta$ apart the integral becomes the sum of
+Eqn.\ (\ref{eqn:zigzag_X}), so the restoring acceleration is $-X(k\Delta)Z$, which tends to $-2\pi G\sigma|k|Z$ as
+$k\Delta \rightarrow 0$.
 
 \section{The massless limit of the bending wave}
 \label{sec:massless_limit}
 \setcounter{equation}{0}
 
 %equations B16, sympy-checked in notes/sympy/bending_wave.py
-Equation (\ref{eqn:vres_h}) tends to the forced oscillation $h_{\rm forced} = L_V/x$ as the ring's surface
-density $\sigma \rightarrow 0$, which sends $\epsilon \rightarrow 0$. On the outer side of the resonance,
+This appendix shows how Eqn.\ (\ref{eqn:vres_h}) behaves as the ring's surface density $\sigma \rightarrow 0$, which
+sends $\epsilon \rightarrow 0$: it tends to the forced oscillation $h_{\rm forced} = L_V/x$ on the nonwave side of the
+resonance, and, at any finite time, on the wave side too. On the outer side of the resonance,
 $x > 0$, integrate the integral in Eqn.\ (\ref{eqn:vres_h}) by parts using
 $e^{is^2/2\epsilon} = (\epsilon/is)\,d(e^{is^2/2\epsilon})/ds$:
 \begin{equation}

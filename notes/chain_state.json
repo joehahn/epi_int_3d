@@ -1,11 +1,11 @@
 {
  "claim:bw_agreement": {
-  "date": "2026-11-23",
-  "hash": "45dea24d87da",
+  "date": "2026-11-24",
+  "hash": "b960c25aad72",
   "needs": {
    "code:front_speed": "d98f5922ed54",
    "notebook:bending_waves": "29892ea70dac",
-   "numbers:bending_waves": "0cf1686475a0",
+   "numbers:bending_waves": "61737f80ba14",
    "paper:eqn:vres_sol": "4740b01ec44c",
    "paper:fig:bwave": "695b9d343804",
    "sympy:B10": "75d787686330",
@@ -13,10 +13,10 @@
   }
  },
  "claim:bw_setup": {
-  "date": "2026-11-23",
-  "hash": "237e830f90fb",
+  "date": "2026-11-24",
+  "hash": "827b99bb829a",
   "needs": {
-   "numbers:bending_waves": "0cf1686475a0",
+   "numbers:bending_waves": "61737f80ba14",
    "paper:eqn:vres_amp": "3f9822a753ce",
    "paper:eqn:vres_lambda": "afc20a079dc2",
    "sympy:B7": "f2f19bbd3cb6",
@@ -24,14 +24,14 @@
   }
  },
  "claim:bw_torque": {
-  "date": "2026-11-23",
-  "hash": "87a58a4a797d",
+  "date": "2026-11-24",
+  "hash": "6d5a18d18660",
   "needs": {
    "code:satellite": "53f58f0b082a",
-   "numbers:bending_waves": "0cf1686475a0",
+   "numbers:bending_waves": "61737f80ba14",
    "paper:eqn:vres_torque": "75f039e1ec55",
    "paper:fig:angmom": "3cb9d1f6c7f7",
-   "paper:fig:torque": "4939afe29bf3"
+   "paper:fig:torque": "d2ef8407ef4f"
   }
  },
  "claim:bw_trailing_rotation": {
@@ -45,10 +45,10 @@
   }
  },
  "claim:bw_wavenumber": {
-  "date": "2026-11-23",
-  "hash": "88c52bfc6812",
+  "date": "2026-11-24",
+  "hash": "a392b5f8ad50",
   "needs": {
-   "numbers:bending_waves": "0cf1686475a0",
+   "numbers:bending_waves": "61737f80ba14",
    "paper:eqn:vres_lambda": "afc20a079dc2",
    "paper:fig:wavenumber": "55a293af2b48",
    "sympy:B21": "faabd8b58b9e",
@@ -56,8 +56,8 @@
   }
  },
  "claim:direction": {
-  "date": "2026-11-12",
-  "hash": "06e451986759",
+  "date": "2026-11-24",
+  "hash": "027b8d7318e0",
   "needs": {
    "code:ring_gravity": "b009c47899ac",
    "sympy:G14": "459ad722e276",
@@ -66,8 +66,8 @@
   }
  },
  "claim:distance": {
-  "date": "2026-11-23",
-  "hash": "b31e866e9295",
+  "date": "2026-11-24",
+  "hash": "65e79db62b7f",
   "needs": {
    "paper:eqn:wire_lite": "f53846f4a15f",
    "sympy:G19": "ae00e3ddfe55",
@@ -75,8 +75,8 @@
   }
  },
  "claim:drift_rotation": {
-  "date": "2026-11-13",
-  "hash": "36959d6b279a",
+  "date": "2026-11-24",
+  "hash": "600b2131ab2d",
   "needs": {
    "code:vertical_drift": "7031c051e0f4",
    "paper:eqn:i_node": "ee6aa634f5b4",
@@ -85,11 +85,11 @@
   }
  },
  "claim:dw_agreement": {
-  "date": "2026-11-23",
-  "hash": "fef37b3ad3c8",
+  "date": "2026-11-24",
+  "hash": "0c7af019180e",
   "needs": {
    "notebook:density_waves": "ac5f7e4bc47a",
-   "numbers:density_waves": "897714ce4622",
+   "numbers:density_waves": "d62dd4b238ca",
    "paper:eqn:lres_torque": "fb0262495b6d",
    "paper:eqn:lres_xi": "807f99078457",
    "paper:fig:dwave": "f2701d99ee31",
@@ -98,8 +98,8 @@
   }
  },
  "claim:dw_forcing": {
-  "date": "2026-11-23",
-  "hash": "a15dc0046d9b",
+  "date": "2026-11-24",
+  "hash": "8ef566ebf321",
   "needs": {
    "code:satellite": "53f58f0b082a",
    "sympy:L1": "46ef26480bd7",
@@ -108,10 +108,10 @@
   }
  },
  "claim:dw_setup": {
-  "date": "2026-11-23",
-  "hash": "45224896cef1",
+  "date": "2026-11-24",
+  "hash": "6ea262d91337",
   "needs": {
-   "numbers:density_waves": "897714ce4622",
+   "numbers:density_waves": "d62dd4b238ca",
    "sympy:L5": "fa3af57fb8f5",
    "sympy:L6": "e7ce7e2e5c25",
    "sympy:L7": "7d3102c85993"
@@ -135,15 +135,15 @@
   }
  },
  "claim:first_wavelength": {
-  "date": "2026-11-16",
-  "hash": "96fb2ef35a30",
+  "date": "2026-11-24",
+  "hash": "dc9417b4a304",
   "needs": {
    "sympy:B18": "36ffd840a5f9"
   }
  },
  "claim:frequency_relation": {
-  "date": "2026-11-11",
-  "hash": "fb3101291007",
+  "date": "2026-11-24",
+  "hash": "addda08192fa",
   "needs": {
    "paper:eqn:laplace": "61b7a5061b4b",
    "sympy:V7": "e3ccfae5eb4c"
@@ -157,20 +157,34 @@
   }
  },
  "claim:integrator": {
-  "date": "2026-11-12",
-  "hash": "36959d6b279a",
+  "date": "2026-11-24",
+  "hash": "600b2131ab2d",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:kick_drift_kick": "85b59f4c0c3d",
    "code:vertical_drift": "7031c051e0f4"
   }
  },
+ "claim:lambda_estimator": {
+  "date": "2026-11-24",
+  "hash": "4c7b464add64",
+  "needs": {
+   "code:ring_gravity_3d": "dd696367e669"
+  }
+ },
  "claim:linear_density": {
-  "date": "2026-11-10",
-  "hash": "023d88c1daae",
+  "date": "2026-11-24",
+  "hash": "3a58975bf26d",
   "needs": {
    "code:ring_gravity": "b009c47899ac",
    "test:kernels": "6d4a993dadf2"
+  }
+ },
+ "claim:lite_differences": {
+  "date": "2026-11-24",
+  "hash": "e213b43e3411",
+  "needs": {
+   "claim:direction": "027b8d7318e0"
   }
  },
  "claim:lres_results": {
@@ -184,8 +198,8 @@
   }
  },
  "claim:massless_results": {
-  "date": "2026-11-23",
-  "hash": "6d96e65458e7",
+  "date": "2026-11-24",
+  "hash": "41682855517f",
   "needs": {
    "figure:vertical_resonance": "c3152966b56e",
    "notebook:vertical_resonance": "d439a388e5e7",
@@ -195,20 +209,20 @@
   }
  },
  "claim:near_point_close": {
-  "date": "2026-11-12",
-  "hash": "1dba0fc10ca1",
+  "date": "2026-11-24",
+  "hash": "c307d143071e",
   "needs": {
-   "paper:eqn:wire_pythag": "f3186e4f704d",
+   "paper:eqn:wire_D": "5740ddd52595",
    "paper:eqn:wire_slopes": "a6daf986b7d8",
    "sympy:G18": "88f60922ebae",
    "sympy:G20": "e61431f60303"
   }
  },
  "claim:neglected_terms": {
-  "date": "2026-11-11",
-  "hash": "fb3101291007",
+  "date": "2026-11-24",
+  "hash": "addda08192fa",
   "needs": {
-   "paper:eqn:nu": "45881a76adfc",
+   "paper:eqn:nu_r": "1adcb0c5a1d6",
    "sympy:V6": "5472eaff9cd3"
   }
  },
@@ -223,16 +237,16 @@
   }
  },
  "claim:pattern_speed": {
-  "date": "2026-11-23",
-  "hash": "0596d1837591",
+  "date": "2026-11-24",
+  "hash": "85b65dbc29dc",
   "needs": {
    "code:satellite": "53f58f0b082a",
    "sympy:B4": "69a723a4c7ec"
   }
  },
  "claim:phase_from_lambda": {
-  "date": "2026-11-13",
-  "hash": "4608eb3a8d3b",
+  "date": "2026-11-24",
+  "hash": "b130e87f9795",
   "needs": {
    "paper:eqn:node": "79c3011eee11",
    "paper:eqn:zvz": "423a7229938d",
@@ -241,13 +255,21 @@
   }
  },
  "claim:recipe": {
-  "date": "2026-11-23",
-  "hash": "d87543860523",
+  "date": "2026-11-24",
+  "hash": "39dae3530aff",
   "needs": {
    "code:ring_gravity_3d": "dd696367e669",
    "paper:eqn:wire_Acomp": "cf49047ea994",
    "sympy:G17": "6ee5ece5560f",
    "test:kernels": "6d4a993dadf2"
+  }
+ },
+ "claim:resolution": {
+  "date": "2026-11-24",
+  "hash": "5c3781b75d63",
+  "needs": {
+   "paper:eqn:wire_slopes": "a6daf986b7d8",
+   "paper:eqn:zigzag_R": "725ddb80e437"
   }
  },
  "claim:resonance_location": {
@@ -267,16 +289,16 @@
   }
  },
  "claim:trailing": {
-  "date": "2026-11-16",
-  "hash": "a2819534a60a",
+  "date": "2026-11-24",
+  "hash": "713beb0f1933",
   "needs": {
    "sympy:B19": "26a6ca88091c",
    "sympy:B9": "ad423e395545"
   }
  },
  "claim:viscosity_in_plane": {
-  "date": "2026-11-11",
-  "hash": "dedf81f122bf",
+  "date": "2026-11-24",
+  "hash": "f1a3b847316a",
   "needs": {
    "code:kick_drift_kick": "85b59f4c0c3d"
   }
@@ -297,9 +319,10 @@
   }
  },
  "code:bending_wave_comparisons": {
-  "date": "2026-11-16",
-  "hash": "c3299619608e",
+  "date": "2026-11-24",
+  "hash": "b7d24fe4cdcc",
   "needs": {
+   "code:lattice_wavenumber": "2d5837a69f70",
    "code:resonance_zone": "bcf6eb093b02",
    "code:ring_sigma": "c65053c901a9",
    "code:simulated_h": "67e3f6ad9ce8",
@@ -308,15 +331,17 @@
   }
  },
  "code:bending_waves_numbers": {
-  "date": "2026-11-16",
-  "hash": "cfd618d6c430",
+  "date": "2026-11-24",
+  "hash": "f13e94e100bf",
   "needs": {
    "code:bending_wave": "cc860c117825",
-   "code:bending_wave_comparisons": "c3299619608e",
+   "code:bending_wave_comparisons": "b7d24fe4cdcc",
    "code:front_speed": "d98f5922ed54",
+   "code:resolution_R": "184ace02280d",
    "code:resolution_runs": "7ffc12c921f7",
    "code:resonance_zone": "bcf6eb093b02",
    "code:ring_sigma": "c65053c901a9",
+   "code:sawtooth": "a2cbc870236d",
    "code:simulated_h": "67e3f6ad9ce8",
    "code:tau_001": "0d82653b507f",
    "code:wave_front": "2c97437549cc",
@@ -332,8 +357,8 @@
   }
  },
  "code:density_waves_numbers": {
-  "date": "2026-11-23",
-  "hash": "8a2590a95202",
+  "date": "2026-11-24",
+  "hash": "4178cb54552a",
   "needs": {
    "code:density_wave": "cf8fff7bc59d",
    "code:dw_satellite_torque": "24b471b70705",
@@ -341,7 +366,9 @@
    "code:dw_torque_theory": "b0d662ab6970",
    "code:dw_wave_front": "5bd4ef2e6f62",
    "code:dw_wave_wavenumber": "4c4f17537fdb",
+   "code:lattice_wavenumber": "2d5837a69f70",
    "code:ring_sigma": "c65053c901a9",
+   "code:sawtooth": "a2cbc870236d",
    "code:simulated_xi": "bcca0419a98d",
    "eq:L5": "b4e24f3c933d",
    "eq:L7": "4dd55b30d482",
@@ -460,6 +487,13 @@
   "hash": "9006fad6438e",
   "needs": {}
  },
+ "code:lattice_wavenumber": {
+  "date": "2026-11-24",
+  "hash": "2d5837a69f70",
+  "needs": {
+   "sympy:P9": "66cab31c37bf"
+  }
+ },
  "code:lindblad_resonance_numbers": {
   "date": "2026-11-23",
   "hash": "c6494a09ab20",
@@ -487,6 +521,14 @@
   "date": "2026-11-10",
   "hash": "f87a66a984e1",
   "needs": {}
+ },
+ "code:resolution_R": {
+  "date": "2026-11-24",
+  "hash": "184ace02280d",
+  "needs": {
+   "code:ring_sigma": "c65053c901a9",
+   "eq:P8": "1b4716c4a591"
+  }
  },
  "code:resolution_runs": {
   "date": "2026-11-16",
@@ -595,6 +637,11 @@
   "needs": {
    "eq:B9": "a81d26e7d95e"
   }
+ },
+ "code:sawtooth": {
+  "date": "2026-11-24",
+  "hash": "a2cbc870236d",
+  "needs": {}
  },
  "code:simulated_h": {
   "date": "2026-11-10",
@@ -915,6 +962,13 @@
    "eq:G10": "05a70454ced0"
   }
  },
+ "eq:G21": {
+  "date": "2026-11-24",
+  "hash": "d6e02104daed",
+  "needs": {
+   "eq:G16": "8c38c9fc7697"
+  }
+ },
  "eq:G3": {
   "date": "2026-11-10",
   "hash": "a20ddfb68df5",
@@ -1126,6 +1180,13 @@
    "eq:P7": "82faf17dea6f"
   }
  },
+ "eq:P9": {
+  "date": "2026-11-24",
+  "hash": "625adfae2e7a",
+  "needs": {
+   "eq:P7": "82faf17dea6f"
+  }
+ },
  "eq:V1": {
   "date": "2026-11-10",
   "hash": "5fa44b52addf",
@@ -1267,8 +1328,8 @@
   }
  },
  "figure:wavenumber": {
-  "date": "2026-11-23",
-  "hash": "d091edb96dd1",
+  "date": "2026-11-24",
+  "hash": "138cdd7d3ccd",
   "needs": {
    "code:behind_front": "239c1c854f56",
    "code:drift": "a16d87bc9e34",
@@ -1284,8 +1345,8 @@
   }
  },
  "figure:wire_planar": {
-  "date": "2026-11-11",
-  "hash": "907422408d7c",
+  "date": "2026-11-24",
+  "hash": "566dc755a372",
   "needs": {
    "sympy:G10": "327af4ab5863",
    "sympy:G3": "e10fe85f9112",
@@ -1301,7 +1362,7 @@
   }
  },
  "notebook:bending_waves": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "hash": "29892ea70dac",
   "needs": {
    "code:bending_wave": "cc860c117825",
@@ -1320,7 +1381,7 @@
    "figure:angular_momentum": "4d54f946ccbe",
    "figure:bending_wave": "71442116b59a",
    "figure:torque": "248331f7dd8b",
-   "figure:wavenumber": "d091edb96dd1"
+   "figure:wavenumber": "138cdd7d3ccd"
   }
  },
  "notebook:density_waves": {
@@ -1380,10 +1441,10 @@
   }
  },
  "numbers:bending_waves": {
-  "date": "2026-11-23",
-  "hash": "0cf1686475a0",
+  "date": "2026-11-24",
+  "hash": "61737f80ba14",
   "needs": {
-   "code:bending_waves_numbers": "cfd618d6c430",
+   "code:bending_waves_numbers": "f13e94e100bf",
    "code:drift": "a16d87bc9e34",
    "code:latex_number": "9006fad6438e",
    "code:ring_gravity_3d": "dd696367e669",
@@ -1392,10 +1453,10 @@
   }
  },
  "numbers:density_waves": {
-  "date": "2026-11-23",
-  "hash": "897714ce4622",
+  "date": "2026-11-24",
+  "hash": "d62dd4b238ca",
   "needs": {
-   "code:density_waves_numbers": "8a2590a95202",
+   "code:density_waves_numbers": "4178cb54552a",
    "code:drift": "a16d87bc9e34",
    "code:latex_number": "9006fad6438e",
    "code:ring_gravity": "b009c47899ac",
@@ -1705,15 +1766,16 @@
   }
  },
  "paper:eqn:wire_Ag": {
-  "date": "2026-11-10",
-  "hash": "ef6bc860021d",
+  "date": "2026-11-24",
+  "hash": "3d3043e45101",
   "needs": {
-   "sympy:G1": "dbc04ec946d2"
+   "sympy:G1": "dbc04ec946d2",
+   "sympy:G21": "fdbf64eb85fe"
   }
  },
  "paper:eqn:wire_D": {
-  "date": "2026-11-10",
-  "hash": "f4c31857b31e",
+  "date": "2026-11-24",
+  "hash": "5740ddd52595",
   "needs": {
    "sympy:G16": "b940466b805c",
    "sympy:G8": "04c6f2f2b0e0"
@@ -1734,8 +1796,8 @@
   }
  },
  "paper:eqn:wire_d0": {
-  "date": "2026-11-10",
-  "hash": "a8a47498f49f",
+  "date": "2026-11-24",
+  "hash": "913e17b2f162",
   "needs": {
    "sympy:G16": "b940466b805c"
   }
@@ -1783,6 +1845,13 @@
    "sympy:G20": "e61431f60303"
   }
  },
+ "paper:eqn:wire_phi": {
+  "date": "2026-11-24",
+  "hash": "5c10a9594126",
+  "needs": {
+   "sympy:G21": "fdbf64eb85fe"
+  }
+ },
  "paper:eqn:wire_pythag": {
   "date": "2026-11-11",
   "hash": "f3186e4f704d",
@@ -1812,10 +1881,10 @@
   }
  },
  "paper:eqn:zigzag_R": {
-  "date": "2026-11-12",
-  "hash": "cb92fd5c37a0",
+  "date": "2026-11-24",
+  "hash": "725ddb80e437",
   "needs": {
-   "sympy:P8": "4734f21a092e"
+   "sympy:P8": "e14a1840fbde"
   }
  },
  "paper:eqn:zigzag_X": {
@@ -1890,8 +1959,8 @@
   }
  },
  "paper:fig:torque": {
-  "date": "2026-11-23",
-  "hash": "4939afe29bf3",
+  "date": "2026-11-24",
+  "hash": "d2ef8407ef4f",
   "needs": {
    "figure:torque": "248331f7dd8b",
    "sympy:B9": "ad423e395545"
@@ -1906,25 +1975,25 @@
   }
  },
  "paper:fig:wavenumber": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "hash": "55a293af2b48",
   "needs": {
-   "figure:wavenumber": "d091edb96dd1",
+   "figure:wavenumber": "138cdd7d3ccd",
    "sympy:B7": "f2f19bbd3cb6"
   }
  },
  "paper:fig:wire_planar": {
-  "date": "2026-11-23",
-  "hash": "e3d7f21cab84",
+  "date": "2026-11-24",
+  "hash": "61ae9c3a9e4a",
   "needs": {
-   "figure:wire_planar": "907422408d7c"
+   "figure:wire_planar": "566dc755a372"
   }
  },
  "paper:fig:wire_velocity": {
-  "date": "2026-11-11",
+  "date": "2026-11-24",
   "hash": "8e211b2b2c9e",
   "needs": {
-   "figure:wire_planar": "907422408d7c"
+   "figure:wire_planar": "566dc755a372"
   }
  },
  "paper:fig:zigzag": {
@@ -1935,8 +2004,8 @@
   }
  },
  "paper:inplane": {
-  "date": "2026-11-12",
-  "hash": "a8ba3d3f13c5",
+  "date": "2026-11-24",
+  "hash": "3c562af86c16",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "sympy:H1": "04874fce1e63",
@@ -2182,6 +2251,13 @@
    "eq:G20": "709bf2cc475e"
   }
  },
+ "sympy:G21": {
+  "date": "2026-11-24",
+  "hash": "fdbf64eb85fe",
+  "needs": {
+   "eq:G21": "d6e02104daed"
+  }
+ },
  "sympy:G3": {
   "date": "2026-11-10",
   "hash": "e10fe85f9112",
@@ -2400,10 +2476,17 @@
   }
  },
  "sympy:P8": {
-  "date": "2026-11-10",
-  "hash": "4734f21a092e",
+  "date": "2026-11-24",
+  "hash": "e14a1840fbde",
   "needs": {
    "eq:P8": "1b4716c4a591"
+  }
+ },
+ "sympy:P9": {
+  "date": "2026-11-24",
+  "hash": "66cab31c37bf",
+  "needs": {
+   "eq:P9": "625adfae2e7a"
   }
  },
  "sympy:V1": {
