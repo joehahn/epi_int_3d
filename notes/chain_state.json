@@ -76,7 +76,7 @@
  },
  "claim:drift_rotation": {
   "date": "2026-11-24",
-  "hash": "600b2131ab2d",
+  "hash": "a1c5da1abdf1",
   "needs": {
    "code:vertical_drift": "7031c051e0f4",
    "paper:eqn:i_node": "ee6aa634f5b4",
@@ -158,7 +158,7 @@
  },
  "claim:integrator": {
   "date": "2026-11-24",
-  "hash": "600b2131ab2d",
+  "hash": "a1c5da1abdf1",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:kick_drift_kick": "85b59f4c0c3d",

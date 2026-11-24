@@ -39,7 +39,7 @@
    "finding": "Exact invertibility does not establish symplecticity; the drift is exact for Eqns. (inplane),(zvz), which are themselves first order.",
    "verdict": "partly",
    "comment": "'Exact for the unperturbed motion of Eqns. (...)' is literally true and already names the first-order equations, but a reader can take it as exact Keplerian/J2 motion. 'Symplectic' is inherited from H25's description of the MERCURY scheme; the epicyclic drift is not shown to be a canonical map here. Drop 'symplectic' or attribute it, and say the drift is exact for the first-order epicyclic motion.",
-   "fix": "done 2026-11-24: reword Sec. 3.4"
+   "fix": "done 2026-11-24: 'exact' reworded; 'symplectic' kept at the author's request, as in hahn13 and hahn25 and as the scheme's family is usually described"
   },
   {
    "id": "gpt-4",

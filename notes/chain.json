@@ -2172,7 +2172,7 @@
   {
    "id": "claim:integrator",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@second-order kick-drift-kick scheme",
+   "anchor": "paper/epi_int_3d.tex@second-order symplectic kick-drift-kick scheme",
    "needs": [
     "code:kick_drift_kick",
     "code:drift",

@@ -388,7 +388,7 @@ Section \ref{sec:resolution}, while the wave simulations of Section \ref{sec:wav
 \subsection{Advancing the particles}
 \label{sec:integrator}
 
-\code{Epi\_int\_3d} advances the particles with the second-order kick-drift-kick scheme of
+\code{Epi\_int\_3d} advances the particles with the second-order symplectic kick-drift-kick scheme of
 \code{epi\_int\_lite}, which is that of the MERCURY N-body integrator \citep{C99}; see Section 2.2 of
 \cite{H25}. Each timestep $\Delta t$ starts with a kick that changes each particle's velocity by the
 ring's accelerations, plus any satellite's (Section \ref{sec:waves}), applied over $\Delta t/2$. Then a
