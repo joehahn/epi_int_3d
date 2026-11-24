@@ -50,7 +50,7 @@ def figure(p, o):
             color='black', label='theory')
         ax1.axvline(x_front, color=color_seq[0], linewidth=1.5, linestyle='dotted')
         ax1.set_xlim(0.0, x.max())
-        ax1.set_ylim(0.0, None)
+        ax1.set_ylim(0.0, 4.5)                                         #as wavenumber.py
         ax1.set_xlabel(r'fractional distance from resonance $x$')
         ax1.set_ylabel(r'wavenumber $|k|r_L$    ($10^4$)')
         ax1.legend(loc='upper left')

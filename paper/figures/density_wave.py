@@ -4,7 +4,8 @@
 #
 #the paper's density-wave figure (Section 4.2.4), the counterpart of bending_wave.py: each streamline's radial amplitude
 #|xi|/r, xi from a least-squares fit of its particles' radii to r_0 + Re[xi e^{i m(theta - Omega_p t)}] (simulated_xi),
-#versus its fractional distance from resonance x across the ring, at six times, in units of the time tau_0.01 that the
+#versus its fractional distance from resonance x over -0.002 < x < 0.011 (bending_wave.py's range,
+#mirrored), at six times, in units of the time tau_0.01 that the
 #wave takes to reach x = 0.01, as the wave propagates outward, and linear theory's |xi|/r, with xi the trailing solution
 #of Eqn. (45) (notes/equations.md L7). The fit keeps only the m-armed part of each streamline's shape: its
 #osculating eccentricity also holds a free part, up to 3.5e-6 at the ring's edges, where the initial circular orbits
@@ -37,7 +38,7 @@ def figure(p, o):
     sat = satellite(p)
     sigma = ring_sigma(p)
     tau = tau_001(p, sat)
-    x_in, x_out = (1.0 - sat.r_L)/sat.r_L, (1.0 + p['radial_width'] - sat.r_L)/sat.r_L
+    x_min, x_max = -0.002, 0.011                                       #Fig. 3's range, mirrored
     with style(font_scale=1.5) as color_seq:
         f, ax = plt.subplots(figsize=(10, 6))
         #each streamline's |xi|/r at six times, in units of tau_0.01
@@ -50,11 +51,11 @@ def figure(p, o):
             ax.plot(x_now, np.abs(xi_now)/(sat.r_L*(1.0 + x_now))/1.0e-7, linestyle='-', linewidth=linewidth,
                 color=color_seq[idx], label=label)
         #linear theory, dashed in the color of the latest time
-        xs = np.linspace(x_in, x_out, 20000)
+        xs = np.linspace(x_min, x_max, 20000)
         e_theory = np.abs(density_wave(sat, sigma, xs))/(sat.r_L*(1.0 + xs))
         ax.plot(xs, e_theory/1.0e-7, linestyle='dashed', linewidth=2, color=color_seq[len(time_fractions) - 1],
             label='linear theory')
-        ax.set_xlim(x_in, x_out)
+        ax.set_xlim(x_min, x_max)
         ax.set_ylim(0.0, 2.0*wave_amplitude(p, sat)/sat.r_L/1.0e-7)
         ax.set_xlabel(r'fractional distance from resonance $x$')
         ax.set_ylabel(r'radial amplitude $|\xi|/r$    ($10^{-7}$)')

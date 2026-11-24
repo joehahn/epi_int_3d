@@ -1198,7 +1198,7 @@
  },
  "figure:density_torque": {
   "date": "2026-11-23",
-  "hash": "29a57374a6b8",
+  "hash": "c29f9bc6d379",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:dw_satellite_torque": "24b471b70705",
@@ -1217,7 +1217,7 @@
  },
  "figure:density_wave": {
   "date": "2026-11-23",
-  "hash": "12638621da70",
+  "hash": "5be4e7cd4143",
   "needs": {
    "code:density_wave": "cf8fff7bc59d",
    "code:drift": "a16d87bc9e34",
@@ -1339,8 +1339,8 @@
    "code:satellite": "53f58f0b082a",
    "code:simulated_xi": "bcca0419a98d",
    "code:velocity_kick": "4e874e5b866f",
-   "figure:density_torque": "29a57374a6b8",
-   "figure:density_wave": "12638621da70"
+   "figure:density_torque": "c29f9bc6d379",
+   "figure:density_wave": "5be4e7cd4143"
   }
  },
  "notebook:inclined": {
@@ -1867,7 +1867,7 @@
   "date": "2026-11-23",
   "hash": "f2701d99ee31",
   "needs": {
-   "figure:density_wave": "12638621da70",
+   "figure:density_wave": "5be4e7cd4143",
    "sympy:L7": "7d3102c85993"
   }
  },
@@ -1875,7 +1875,7 @@
   "date": "2026-11-23",
   "hash": "abceae6116bd",
   "needs": {
-   "figure:density_torque": "29a57374a6b8",
+   "figure:density_torque": "c29f9bc6d379",
    "sympy:L5": "fa3af57fb8f5",
    "sympy:L8": "48396fba3d48"
   }
