@@ -66,8 +66,8 @@
   }
  },
  "claim:distance": {
-  "date": "2026-11-13",
-  "hash": "b049d50bd7a7",
+  "date": "2026-11-23",
+  "hash": "b31e866e9295",
   "needs": {
    "paper:eqn:wire_lite": "f53846f4a15f",
    "sympy:G19": "ae00e3ddfe55",
@@ -241,8 +241,8 @@
   }
  },
  "claim:recipe": {
-  "date": "2026-11-13",
-  "hash": "c18af578f1e1",
+  "date": "2026-11-23",
+  "hash": "d87543860523",
   "needs": {
    "code:ring_gravity_3d": "dd696367e669",
    "paper:eqn:wire_Acomp": "cf49047ea994",
@@ -1914,8 +1914,8 @@
   }
  },
  "paper:fig:wire_planar": {
-  "date": "2026-11-12",
-  "hash": "5f91ab5e4f07",
+  "date": "2026-11-23",
+  "hash": "e3d7f21cab84",
   "needs": {
    "figure:wire_planar": "907422408d7c"
   }

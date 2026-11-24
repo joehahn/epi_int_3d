@@ -272,3 +272,6 @@ a related rule, and a dropped rule's number is not reused. The same holds in eve
 - **P85.** Avoid "we" wherever an impersonal phrasing works (P1): "The following will use epi_int_3d to simulate…",
   not "Here we use…"; "The spiral density waves… will also be simulated", not "We will also simulate…"; "offer a
   few opportunities", not "give us…". (2026-11-16)
+- **P86.** A long derivation goes to an appendix; the main text states the result it uses, with every symbol in it
+  defined beside it, and points to the appendix ("Appendix A shows that streamline a′ then exerts the
+  acceleration (16), where c = …, N² = …"). (2026-11-23)

@@ -247,7 +247,7 @@ and linear densities near the particle are inferred from the particles that trac
 \subsection{Gravity}
 \label{sec:ring_gravity}
 
-%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py; figures by figures/wire_planar.py
+%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py (derived in Appendix A)
 All \code{epi\_int\_3d} simulations span only a narrow annulus within a broader planetary ring, so every particle is
 radially close to the nearby portions of all perturbing streamlines. Which is why \code{epi\_int\_3d} and its
 predecessors (\code{epi\_int} and \code{epi\_int\_lite}) assume that the gravitational acceleration of a particle by the particles inhabiting the perturbing
@@ -261,95 +261,20 @@ from the streamline's nearest point, which is labeled the near point in Fig.~\re
 and $\hat{\boldsymbol{\Delta}} = \boldsymbol{\Delta}/\Delta$ is the unit vector that points from the
 particle toward the near point.
 
-\subsubsection{The perturbing streamline's geometry}
+\subsubsection{The perturbing streamline's acceleration}
 \label{sec:wire}
 
-The following 3D treatment is an extension of the 2D force calculations used in \cite{HS13}.
-In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. The ring matter
-that is represented by the particles in perturbing streamline $a'$ is at
-$\mathbf{r}' = (r', \theta', z')$ that traces a continuous wire, so these coordinates are
-to be regarded as functions of longitude $\theta'$, i.e.,
-$\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$. Lagrange polynomials will be fit to the particles
-in streamline $a'$, which means that $r'(\theta')$, $z'(\theta')$ and the streamline's linear density
-$\lambda'(\theta')$ can be regarded as known functions in the following. And because the particle is close to the streamline, $|r' - r| \ll r$,
-$|z' - z| \ll r$ and $|\theta' - \theta| \ll 1$, so the particle's local frame
-$(\hat{\mathbf{r}}, \hat{\boldsymbol{\theta}}, \hat{\mathbf{z}})$ can be treated as Cartesian.
-
-The vector from the particle to the streamline's near point (the black square in
-Fig.~\ref{fig:wire_planar}) can be written
-\begin{equation}
-    \label{eqn:wire_d}
-    \boldsymbol{\Delta} = \mathbf{r}'(\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
-\end{equation}
-where $\theta' = \theta + \delta\theta'$ is the near point's longitude as measured in the $z = 0$
-plane, and $\delta\theta'$ is its longitude relative to the particle's with $|\delta\theta'| \ll 1$. This splits
-the trip to the near point across two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(\theta) - \mathbf{r}$,
-travels from the particle to the crossing point $\mathbf{r}'(\theta) = (r'(\theta), \theta, z'(\theta))$, which is where the streamline crosses the
-particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
-\begin{equation}
-    \label{eqn:wire_d0}
-    \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}},
-\end{equation}
-where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
-$\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
-the crossing point to the near point. This is a right triangle
-(Fig.~\ref{fig:wire_planar}), so
-\begin{equation}
-    \label{eqn:wire_pythag}
-    |\mathbf{d}_0|^2 = \Delta^2 + |\mathbf{d}_1|^2.
-\end{equation}
-That stretch of streamline is short and locally straight, so
-$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
-+ [z'(\theta') - z'(\theta)]\hat{\mathbf{z}}$, which to first order in $\delta\theta'$ is
-\begin{equation}
-    \label{eqn:wire_d1}
-    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'\,\delta\theta'
-        = N r'\,\delta\theta'\,\hat{\mathbf{t}},
-\end{equation}
-where $r'$ is short for $r'(\theta)$. This uses $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$
-and likewise for $z'$, where the streamline's radial and vertical slopes are
+In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. Lagrange polynomials fit to the particles
+in perturbing streamline $a'$ (Section \ref{sec:wire_code}) give its radius $r'(\theta')$, height $z'(\theta')$ and
+linear density $\lambda'(\theta')$ as functions of longitude $\theta'$. The streamline crosses the particle's longitude
+$d_r = r'(\theta) - r$ radially and $d_z = z'(\theta) - z$ vertically from the particle, and there its radial and
+vertical slopes are
 \begin{equation}
     \label{eqn:wire_slopes}
     s_r = \left.\frac{1}{r'}\frac{dr'}{d\theta'}\right|_{\theta' = \theta} \quad \mbox{and} \quad
     s_z = \left.\frac{1}{r'}\frac{dz'}{d\theta'}\right|_{\theta' = \theta},
 \end{equation}
-which are evaluated at the perturbed particle's longitude $\theta' = \theta$ and are obtained from the
-derivatives of the Lagrange polynomials. Together they give $s = (s_r^2 + s_z^2)^{1/2}$, which is the
-streamline's slope relative to circular motion in the ring plane, i.e., the
-$\hat{\boldsymbol{\theta}}$ direction, so the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by
-the angle $\varphi$ where $\tan\varphi = s$. Note that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is also the perturbing streamline's unit tangent:
-\begin{equation}
-    \label{eqn:wire_t}
-    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N},
-\end{equation}
-where $N^2 = 1 + s_r^2 + s_z^2$.
-
-The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
-$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = (\mathbf{d}_0 + \mathbf{d}_1)\cdot\hat{\mathbf{t}} = 0$. And because
-$\mathbf{d}_1$ lies along $\hat{\mathbf{t}}$, this requires
-$\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
-\begin{equation}
-    \label{eqn:wire_D}
-    \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
-\end{equation}
-which is simply $\mathbf{d}_0$ minus its component along the streamline.
-
-Now equate $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$ to Eqn.\ (\ref{eqn:wire_d1}), which shows
-that the near point lies at $\delta\theta' = -c/r'$ where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N = (d_rs_r + d_zs_z)/N^2$. So at the near point
-\begin{equation}
-    \label{eqn:wire_d1near}
-    \mathbf{d}_1 = -Nc\,\hat{\mathbf{t}} = -c(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}).
-\end{equation}
-Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
-\begin{subequations}
-\label{eqn:wire_Dcomp}
-\begin{eqnarray}
-    \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \label{eqn:wire_Dcomp_a}\\
-    \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2. \label{eqn:wire_Dcomp_b}
-\end{eqnarray}
-\end{subequations}
-Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
-streamline $a'$ exerts on the particle:
+where $r'$ is short for $r'(\theta)$. Appendix \ref{sec:appendix_geometry} shows that streamline $a'$ then exerts the acceleration
 \begin{subequations}
 \label{eqn:wire_Acomp}
 \begin{eqnarray}
@@ -358,34 +283,8 @@ streamline $a'$ exerts on the particle:
     A_{g,z} &=& \frac{2G\lambda'(d_z - cs_z)}{\Delta^2}, \label{eqn:wire_Acomp_c}
 \end{eqnarray}
 \end{subequations}
-where $N^2 = 1 + s_r^2 + s_z^2$ and $c = (d_rs_r + d_zs_z)/N^2$.
-
-Lastly, note that because the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by the angle
-$\varphi$, the right triangle of Eqn.\ (\ref{eqn:wire_pythag}) has
-$|\mathbf{d}_1| \le \Delta\tan\varphi = s\Delta$, with equality in the ring plane
-(Fig.~\ref{fig:wire_planar}). An $m$-armed disturbance displaces streamline $a'$ radially by about
-$ea'$ and vertically by about $ia'$ where $e$ and $i$ are its particles' eccentricity and
-inclination, so Eqns.\ (\ref{eqn:wire_slopes}) give $s_r \sim me$ and $s_z \sim mi$, and
-$s \lesssim m(e^2 + i^2)^{1/2}$. Rings are nearly circular and nearly planar, and $m$ is modest for
-the waves of interest, so $s \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point
-lies very close to the crossing point.
-
-
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{figures/wire_planar.pdf}
-\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
-\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
-$\hat{\boldsymbol{\theta}}$ by $\varphi$ where $\tan\varphi = s_r$, and it crosses that longitude at
-$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
-$\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
-$\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
-(Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
-the near point (the planet is far off to the left), meets the streamline at a right angle, has length $\Delta = d_r\cos\varphi$ and makes the angle
-$\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\lambda'/\Delta)\hat{\boldsymbol{\Delta}}$ points along it
-(Eqns.\ \ref{eqn:wire_2d}).}
-\label{fig:wire_planar}
-\end{figure}
+on the particle, where $c = (d_rs_r + d_zs_z)/N^2$, $N^2 = 1 + s_r^2 + s_z^2$, and
+$\Delta^2 = d_r^2 + d_z^2 - (Nc)^2$ is the square of the particle's distance from the streamline's near point.
 
 \subsubsection{Computing the acceleration}
 \label{sec:wire_code}
@@ -400,12 +299,12 @@ neighbor on either side bracket $\theta$.
 Lagrange polynomials fit to those three particles then provide, by interpolation to $\theta$, the
 crossing point's $r'(\theta)$ and $z'(\theta)$ and hence $d_r$ and $d_z$, the linear density
 $\lambda'(\theta)$, and, from the polynomials' derivatives, the slopes $s_r$ and $s_z$ of
-Eqn.\ (\ref{eqn:wire_slopes}), and Eqns.\ (\ref{eqn:wire_Dcomp})--(\ref{eqn:wire_Acomp}) then provide the
+Eqn.\ (\ref{eqn:wire_slopes}), and Eqns.\ (\ref{eqn:wire_Acomp}) then provide the
 acceleration. This is repeated for every perturbing streamline, and the sum is the particle's acceleration due to
 ring gravity. Note that $\lambda'$ is evaluated at the crossing point rather than at the near point,
 which is justified since Eqn.\ (\ref{eqn:wire_Ag}) assumes that $\lambda'$ varies insignificantly over
 distances of several $\Delta$ along the streamline, while the near point lies only
-$|\mathbf{d}_1| \ll \Delta$ from the crossing point.
+$|\mathbf{d}_1| \ll \Delta$ from the crossing point (Appendix \ref{sec:appendix_geometry}).
 
 \subsection{Pressure}
 \label{sec:pressure}
@@ -861,13 +760,125 @@ from the resonance zone to the wave front (dotted line), and the dispersion rela
 \clearpage
 \appendix
 
+\section{The perturbing streamline's geometry}
+\label{sec:appendix_geometry}
+\setcounter{equation}{0}
+
+%equations G1-G19, sympy-checked in notes/sympy/streamline_gravity.py; figure by figures/wire_planar.py
+This appendix derives the acceleration of Section \ref{sec:wire}, Eqns.\ (\ref{eqn:wire_Acomp}), extending the 2D
+force calculations of \cite{HS13} to 3D. In cylindrical coordinates the particle is at $\mathbf{r} = (r, \theta, z)$. The ring matter
+that is represented by the particles in perturbing streamline $a'$ is at
+$\mathbf{r}' = (r', \theta', z')$ that traces a continuous wire, so these coordinates are
+to be regarded as functions of longitude $\theta'$, i.e.,
+$\mathbf{r}' = (r'(\theta'), \theta', z'(\theta'))$. Lagrange polynomials will be fit to the particles
+in streamline $a'$, which means that $r'(\theta')$, $z'(\theta')$ and the streamline's linear density
+$\lambda'(\theta')$ can be regarded as known functions in the following. And because the particle is close to the streamline, $|r' - r| \ll r$,
+$|z' - z| \ll r$ and $|\theta' - \theta| \ll 1$, so the particle's local frame
+$(\hat{\mathbf{r}}, \hat{\boldsymbol{\theta}}, \hat{\mathbf{z}})$ can be treated as Cartesian.
+
+The vector from the particle to the streamline's near point (the black square in
+Fig.~\ref{fig:wire_planar}) can be written
+\begin{equation}
+    \label{eqn:wire_d}
+    \boldsymbol{\Delta} = \mathbf{r}'(\theta') - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1,
+\end{equation}
+where $\theta' = \theta + \delta\theta'$ is the near point's longitude as measured in the $z = 0$
+plane, and $\delta\theta'$ is its longitude relative to the particle's with $|\delta\theta'| \ll 1$. This splits
+the trip to the near point across two legs. The first leg, $\mathbf{d}_0 = \mathbf{r}'(\theta) - \mathbf{r}$,
+travels from the particle to the crossing point $\mathbf{r}'(\theta) = (r'(\theta), \theta, z'(\theta))$, which is where the streamline crosses the
+particle's longitude (the cross in Fig.~\ref{fig:wire_planar}), so
+\begin{equation}
+    \label{eqn:wire_d0}
+    \mathbf{d}_0 = d_r\hat{\mathbf{r}} + d_z\hat{\mathbf{z}},
+\end{equation}
+where $d_r = r'(\theta) - r$ and $d_z = z'(\theta) - z$. The second leg,
+$\mathbf{d}_1 = \boldsymbol{\Delta} - \mathbf{d}_0 = \mathbf{r}'(\theta') - \mathbf{r}'(\theta)$, then runs along the streamline from
+the crossing point to the near point. This is a right triangle
+(Fig.~\ref{fig:wire_planar}), so
+\begin{equation}
+    \label{eqn:wire_pythag}
+    |\mathbf{d}_0|^2 = \Delta^2 + |\mathbf{d}_1|^2.
+\end{equation}
+That stretch of streamline is short and locally straight, so
+$\mathbf{d}_1 \simeq [r'(\theta') - r'(\theta)]\hat{\mathbf{r}} + r'(\theta)\,\delta\theta'\,\hat{\boldsymbol{\theta}}
++ [z'(\theta') - z'(\theta)]\hat{\mathbf{z}}$, which to first order in $\delta\theta'$ is
+\begin{equation}
+    \label{eqn:wire_d1}
+    \mathbf{d}_1 \simeq (s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}})\,r'\,\delta\theta'
+        = N r'\,\delta\theta'\,\hat{\mathbf{t}},
+\end{equation}
+where $r'$ is short for $r'(\theta)$. This uses $r'(\theta') - r'(\theta) \simeq (dr'/d\theta')\delta\theta'$
+and likewise for $z'$, where $s_r$ and $s_z$ are the streamline's radial and vertical slopes of
+Eqn.\ (\ref{eqn:wire_slopes}), evaluated at the perturbed particle's longitude $\theta' = \theta$. Together they give $s = (s_r^2 + s_z^2)^{1/2}$, which is the
+streamline's slope relative to circular motion in the ring plane, i.e., the
+$\hat{\boldsymbol{\theta}}$ direction, so the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by
+the angle $\varphi$ where $\tan\varphi = s$. Note that as $\delta\theta' \rightarrow 0$ the chord $\mathbf{d}_1$ points along the streamline, so $\hat{\mathbf{t}}$ is also the perturbing streamline's unit tangent:
+\begin{equation}
+    \label{eqn:wire_t}
+    \hat{\mathbf{t}} = \frac{s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}}{N},
+\end{equation}
+where $N^2 = 1 + s_r^2 + s_z^2$.
+
+The near point is where $\boldsymbol{\Delta}$ is perpendicular to the streamline,
+$\boldsymbol{\Delta}\cdot\hat{\mathbf{t}} = (\mathbf{d}_0 + \mathbf{d}_1)\cdot\hat{\mathbf{t}} = 0$. And because
+$\mathbf{d}_1$ lies along $\hat{\mathbf{t}}$, this requires
+$\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$, so
+\begin{equation}
+    \label{eqn:wire_D}
+    \boldsymbol{\Delta} = \mathbf{d}_0 + \mathbf{d}_1 = \mathbf{d}_0 - (\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}},
+\end{equation}
+which is simply $\mathbf{d}_0$ minus its component along the streamline.
+
+Now equate $\mathbf{d}_1 = -(\mathbf{d}_0\cdot\hat{\mathbf{t}})\hat{\mathbf{t}}$ to Eqn.\ (\ref{eqn:wire_d1}), which shows
+that the near point lies at $\delta\theta' = -c/r'$ where $c = (\mathbf{d}_0\cdot\hat{\mathbf{t}})/N = (d_rs_r + d_zs_z)/N^2$. So at the near point
+\begin{equation}
+    \label{eqn:wire_d1near}
+    \mathbf{d}_1 = -Nc\,\hat{\mathbf{t}} = -c(s_r\hat{\mathbf{r}} + \hat{\boldsymbol{\theta}} + s_z\hat{\mathbf{z}}).
+\end{equation}
+Adding $\mathbf{d}_0$ to the above then yields $\boldsymbol{\Delta}$:
+\begin{subequations}
+\label{eqn:wire_Dcomp}
+\begin{eqnarray}
+    \boldsymbol{\Delta} &=& (d_r - cs_r)\hat{\mathbf{r}} - c\hat{\boldsymbol{\theta}} + (d_z - cs_z)\hat{\mathbf{z}} \label{eqn:wire_Dcomp_a}\\
+    \Delta^2 &=& d_r^2 + d_z^2 - (Nc)^2. \label{eqn:wire_Dcomp_b}
+\end{eqnarray}
+\end{subequations}
+Inserting $\boldsymbol{\Delta}$ into Eqn.\ (\ref{eqn:wire_Ag}) then provides the acceleration that
+streamline $a'$ exerts on the particle, Eqns.\ (\ref{eqn:wire_Acomp}).
+
+Lastly, note that because the streamline is tilted from $\hat{\boldsymbol{\theta}}$ by the angle
+$\varphi$, the right triangle of Eqn.\ (\ref{eqn:wire_pythag}) has
+$|\mathbf{d}_1| \le \Delta\tan\varphi = s\Delta$, with equality in the ring plane
+(Fig.~\ref{fig:wire_planar}). An $m$-armed disturbance displaces streamline $a'$ radially by about
+$ea'$ and vertically by about $ia'$ where $e$ and $i$ are its particles' eccentricity and
+inclination, so Eqns.\ (\ref{eqn:wire_slopes}) give $s_r \sim me$ and $s_z \sim mi$, and
+$s \lesssim m(e^2 + i^2)^{1/2}$. Rings are nearly circular and nearly planar, and $m$ is modest for
+the waves of interest, so $s \ll 1$ and $|\mathbf{d}_1| \ll \Delta$, which means that the near point
+lies very close to the crossing point.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{figures/wire_planar.pdf}
+\caption{The gravity of a perturbing streamline $a'$ on a particle in the ring plane: Fig.~3 of
+\cite{HS13}, redrawn. Near the particle's longitude, $a'$ (thin line, with the three particles nearest in longitude) is straight, tilted from
+$\hat{\boldsymbol{\theta}}$ by $\varphi$ where $\tan\varphi = s_r$, and it crosses that longitude at
+$\mathbf{d}_0 = d_r\hat{\mathbf{r}}$ from the particle (cross). Its near point (black square) lies $\mathbf{d}_1$ further along it, $r'\,\delta\theta'$ along
+$\hat{\boldsymbol{\theta}}$ from the crossing point (here $\delta\theta' < 0$). The perpendicular
+$\boldsymbol{\Delta} = \mathbf{r}' - \mathbf{r} = \mathbf{d}_0 + \mathbf{d}_1$
+(Eqn.\ \ref{eqn:wire_d}), where $\mathbf{r}$ and $\mathbf{r}'$ are the positions of the particle and
+the near point (the planet is far off to the left), meets the streamline at a right angle, has length $\Delta = d_r\cos\varphi$ and makes the angle
+$\varphi$ with $\hat{\mathbf{r}}$. The wire's acceleration $\mathbf{A}_g = (2G\lambda'/\Delta)\hat{\boldsymbol{\Delta}}$ points along it
+(Eqns.\ \ref{eqn:wire_2d}).}
+\label{fig:wire_planar}
+\end{figure}
+
 \section{Relation to \code{epi\_int} and \code{epi\_int\_lite}}
 \label{sec:appendix_wire2d}
 \setcounter{equation}{0}
 
 %equations G3, G6, G10, G14 of notes/sympy/streamline_gravity.py; epi_int_lite issues 7 and 9
 In the ring plane $d_z = s_z = 0$, and the acceleration of Section \ref{sec:wire} reduces to the geometry of Fig.~3 of \cite{HS13},
-which is redrawn here as Fig.~\ref{fig:wire_planar}. There the streamline's tilt
+which is redrawn as Fig.~\ref{fig:wire_planar}. There the streamline's tilt
 $\varphi$ from $\hat{\boldsymbol{\theta}}$ has $\tan\varphi = s_r$. Then $c = d_r\sin\varphi\cos\varphi$
 and $\boldsymbol{\Delta} = d_r\cos\varphi(\cos\varphi\hat{\mathbf{r}} - \sin\varphi\hat{\boldsymbol{\theta}})$, i.e., the perpendicular has
 length $\Delta = d_r\cos\varphi$ and makes the angle $\varphi$ with $\hat{\mathbf{r}}$. The acceleration is
@@ -903,7 +914,7 @@ $\Delta = d_r$, but keeps its direction toward the near point,
 This pull is weaker than Eqns.\ (\ref{eqn:wire_2d}) by the factor $\cos\varphi = 1 -
 {\cal O}(\varphi^2)$. Which is why \code{epi\_int} and \code{epi\_int\_lite} could use the distance
 to the crossing point, $|\mathbf{d}_0|$, for $\Delta$, also out of the plane, i.e., neglect
-$\mathbf{d}_1$ in the pull's magnitude. Section \ref{sec:wire} shows that the near point lies very
+$\mathbf{d}_1$ in the pull's magnitude. Appendix \ref{sec:appendix_geometry} shows that the near point lies very
 close to the crossing point, $|\mathbf{d}_1| \le s\Delta$ with $s \lesssim m(e^2 + i^2)^{1/2}$, and
 inserting that into $|\mathbf{d}_0|^2 = \Delta^2 + |\mathbf{d}_1|^2$ (Eqn.\ \ref{eqn:wire_pythag})
 gives $|\mathbf{d}_0|/N \le \Delta \le |\mathbf{d}_0|$. So the two differ by a fraction of order
