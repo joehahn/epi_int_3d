@@ -13,8 +13,9 @@
 #       along each streamline, sigma/sigma_0 - 1 = -d delta/dr (streamline spacing; white dense, black sparse), in
 #       percent. Each streamline's delta is interpolated along it with a periodic cubic spline in longitude onto a
 #       fixed longitude grid, and d delta/dr is the centered difference between neighboring streamlines. The wave
-#       winds about 60 times across the ring, so the face-on panel needs a large frame (dpi 100, a small hole) to
-#       avoid moire, and the unrolled panel shows the spiral's slope, which face-on is too tightly wound to show.
+#       winds about 60 times across the ring, so the face-on panel is drawn 3 times finer than its pixels and
+#       averaged down to them, to avoid moire, and the unrolled panel shows the spiral's slope, which is too tightly
+#       wound to see face-on.
 #       There is no lines version, as tests/bending_waves has: with about 4 of every 3rd streamline per wavelength,
 #       the curves either cross or barely move.
 #It shows every 2nd output and is committed. It is also written as docs/density_waves/density_wave.html, with play,
@@ -38,6 +39,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from scipy.interpolate import CubicSpline
+from scipy.ndimage import map_coordinates
 from density_analysis import load3d, satellite, tau_001
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -82,17 +84,39 @@ x_edges = (r_edges - sat.r_L)/sat.r_L
 phi_edges = np.concatenate([[phi[0] - (phi[1] - phi[0])/2], (phi[1:] + phi[:-1])/2, [phi[-1] + (phi[1] - phi[0])/2]])
 s_max = 1.2                                                             #the gray scale's limit, percent
 inner = 0.1                                                             #face-on, the stretched ring spans inner <= rho <= 1
-stretch = lambda r: inner + (1 - inner)*(r - r_edges[0])/(r_edges[-1] - r_edges[0])
-fig, (ax1, ax) = plt.subplots(1, 2, figsize=(17, 9), gridspec_kw=dict(width_ratios=[1.15, 1]))
-#left: face-on, the ring's width stretched
-P, R = np.meshgrid(phi_edges, stretch(r_edges))
-mesh1 = ax1.pcolormesh(R*np.cos(P), R*np.sin(P), 100*sk, cmap='gray', vmin=-s_max, vmax=s_max, shading='flat',
-    rasterized=True)
+DPI = 80
+fig, (ax1, ax) = plt.subplots(1, 2, figsize=(17, 9), dpi=DPI, gridspec_kw=dict(width_ratios=[1.15, 1]))
+fig.subplots_adjust(left=0.01, right=0.97, top=0.93, bottom=0.07, wspace=0.12)
+#left: face-on, the ring's width stretched. Drawn as an image SUPER times finer than the panel's pixels, then averaged
+#down to them, so a wave finer than a pixel fades to gray instead of aliasing into a moire pattern
+SUPER = 3
+lim = 1.01
+n_pix = int(round(ax1.get_window_extent().height))                     #the panel's height in pixels, at DPI
+u = np.linspace(-lim, lim, SUPER*n_pix + 1)
+u = (u[1:] + u[:-1])/2                                                  #the subpixels' centers
+X, Y = np.meshgrid(u, u[::-1])
+rho = np.hypot(X, Y)
+r_sub = r_edges[0] + (rho - inner)/(1 - inner)*(r_edges[-1] - r_edges[0])
+outside = (rho < inner) | (rho > 1)
+coords = np.array([np.interp(r_sub, rk, np.arange(rk.size)),           #each subpixel's place on the (streamline, phi) grid
+                   (np.arctan2(Y, X) - phi[0])/(phi[1] - phi[0])])
+
+
+def face_on(sk):
+    """The face-on image of sigma/sigma_0 - 1 (percent): sk sampled at each subpixel, averaged over SUPER x SUPER."""
+    img = map_coordinates(100*sk, coords, order=1, mode='nearest')
+    img[outside] = np.nan
+    return img.reshape(n_pix, SUPER, n_pix, SUPER).mean(axis=(1, 3))      #a pixel the ring's edge crosses stays blank
+
+
+mesh1 = ax1.imshow(face_on(sk), cmap='gray', vmin=-s_max, vmax=s_max, extent=(-lim, lim, -lim, lim),
+    interpolation='none')
 circle = np.linspace(0, 2*np.pi, 400)
-ax1.plot(stretch(sat.r_L)*np.cos(circle), stretch(sat.r_L)*np.sin(circle), 'r--', lw=0.8)
+stretch_rL = inner + (1 - inner)*(sat.r_L - r_edges[0])/(r_edges[-1] - r_edges[0])
+ax1.plot(stretch_rL*np.cos(circle), stretch_rL*np.sin(circle), 'r--', lw=0.8)
 ax1.set_aspect('equal')
-ax1.set_xlim(-1.01, 1.01)
-ax1.set_ylim(-1.01, 1.01)
+ax1.set_xlim(-lim, lim)
+ax1.set_ylim(-lim, lim)
 ax1.axis('off')
 fig.text(0.905, 0.07, f"{p['number_of_streamlines']} streamlines\n{p['particles_per_streamline']} particles/streamline\n"
          f"dt = {p['dt']:g}\n\nm = {sat.m} satellite, red: $r_L$\nring width stretched\nm = 1 part removed\n"
@@ -104,18 +128,16 @@ ax.set_xlabel(r'longitude in the frame rotating at $\Omega_p$, $/\pi$')
 ax.set_ylabel(r'$x = (r - r_L)/r_L$')
 fig.colorbar(mesh, ax=ax, shrink=0.6, pad=0.02, label=r'surface density $\sigma/\sigma_0 - 1$  (%)')
 title = fig.suptitle('', fontsize=14)
-fig.subplots_adjust(left=0.01, right=0.97, top=0.93, bottom=0.07, wspace=0.12)
 
 
 def frame(k):
     sk, _ = density(k)
     mesh.set_array((100*sk).ravel())
-    mesh1.set_array((100*sk).ravel())
+    mesh1.set_data(face_on(sk))
     title.set_text(f'$t = {o["times"][k]/tau:.2f}\\,\\tau_{{0.01}}$  ({o["times"][k]/(2*np.pi):.0f} orbits)')
     return mesh, mesh1, title
 
 
-DPI = 100
 if os.environ.get('LAST_FRAME'):                                         #a quick look at the last frame
     frame(len(o['times']) - 1)
     fig.savefig(os.environ['LAST_FRAME'], dpi=DPI)
