@@ -173,6 +173,9 @@ def write_cards():
                     'rec': True, 'detail': '', 'part': part_of(line, card)}]
     #the latest paper review's findings, by the section or appendix they name
     for finding in findings:
+        #a finding already acted on is not an open issue
+        if finding.get('fix', '').startswith('done'):
+            continue
         where = finding.get('where', '')
         found = re.search(r'(?:Section|Sec\.|§)\s*(\d(?:\.\d)?)|Appendix\s+([A-D])', where)
         card_id = None
