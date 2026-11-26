@@ -15,7 +15,7 @@ decisions, ground rules) and `README.md`.
   their original outputs, are git commit `99a7753`. `tests/analysis.py` reproduces the notebooks'
   calculations for `tests/test_regression.py`, the 2D regression suite. `tests/inclined/` (inclined
   test particles), `tests/vertical_analysis.py` and `tests/test_vertical.py` test the vertical motion,
-  which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels, `tests/test_seam.py` the seam fix (issue 10).
+  which only `fast/epi_int_3d.py` has. `tests/test_kernels.py` unit-tests the gravity kernels, `tests/test_seam.py` the seam fix (issue 10), `tests/test_viscosity.py` the shear-torque fix (issue 12).
 - `notes/`: `epi_int_lite_issues.md` (bugs found in epi_int_lite; log each new one there),
   `equations.md` (equation verification tracker), `sympy/` (symbolic checks),
   `numerics/`, `phases.csv` and `human_time.md` (time tracking), per-phase write-ups.
@@ -35,7 +35,7 @@ decisions, ground rules) and `README.md`.
   `review.py` (outside reviews through OpenRouter: `--derive`, `--code`, `--test`, `--paper`; raw replies and costs in `reviews/`), `tiebreak.py` (a model not involved rules on findings Claude disputed), `openrouter.py` (what those two share), `chain.py` (the dependency chain in `notes/chain.json`: marks what is downstream of a change as stale), `paper_numbers.py` (the paper's numbers, computed from the runs, as LaTeX macros in `paper/numbers/`), `ledger.py` (the paper ledger, https://claude.ai/artifact/KpgQvmghBVn7c4nTmFWxLZ: one card per section with its text, open issues and the author's notes; builds the cards with `ledger_cards.py`; Claude uploads them after each paper change and applies the notes as `notes/ledger/README.md` says), `make_bib.py` (the paper's bibliography), `lint_paper.py` (the paper's mechanical checks), `paper_diff.py`
   (the paper's changes since a git revision, marked up, in the git-ignored `paper/diff/`), `export_notebooks.py` (the executed test notebooks as HTML in `docs/notebooks/`, which the ledger links to section by section).
 - `fast/`: the faster code (Phase 0b), bit-for-bit the reference's results. `epi_int_3d.py` is
-  epi_int_3d's own driver, with vertical motion (the drift and 3D ring gravity: `notes/phase3/`); its ring gravity fixes epi_int_lite issues 7 and 9 by default (inputs `fix_lambda`, `nearpoint`, `shape_slope`, and `vertical_gravity` for the 3D wire; `epi_int_lite_gravity = True` restores the reference's, which the regression tests and benchmark set), Numba kernels for ring gravity (`kernels.py`)
+  epi_int_3d's own driver, with vertical motion (the drift and 3D ring gravity: `notes/phase3/`); its ring gravity fixes epi_int_lite issues 7 and 9, and its viscosity issues 10 and 12, by default (inputs `fix_lambda`, `nearpoint`, `shape_slope`, and `vertical_gravity` for the 3D wire; `epi_int_lite_gravity = True` restores the reference's, which the regression tests and benchmark set), Numba kernels for ring gravity (`kernels.py`)
   and the bookkeeping (`bookkeeping.py`); `epi_int_fast.py` is the earlier step, the reference driver
   with only ring gravity swapped for the kernel.
 - `docs/`: the GitHub Pages site (https://joehahn.github.io/epi_int_3d/), animations with play and pause; written by

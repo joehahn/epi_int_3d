@@ -8,7 +8,8 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 
 The fixes are applied at run time (`tools/patches.py`, called from a test's `inputs.py`) or in the
 faster driver (`fast/epi_int_3d.py`). The ring-gravity fixes (issues 7 and 9) are on by default in
-`fast/epi_int_3d.py` since 2026-10-24; its input `epi_int_lite_gravity = True` turns them off. The
+`fast/epi_int_3d.py` since 2026-10-24, and so are the seam fix (issue 10) and the shear-torque fix
+(issue 12, since 2026-11-25); its input `epi_int_lite_gravity = True` turns them all off. The
 others, except the crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py`
 with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 
@@ -20,7 +21,7 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
 | 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
 | 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | `patches.apply(fix_seam=True)`; `fast/epi_int_3d.py` input `fix_seam` (default on) | the plots, yes; the evolution, no (≤ 6×10⁻⁵ in q) |
-| 12 | the interior shear-viscous acceleration is −(1/σ)∂(F/r)/∂r, not hahn13's −(1/σr)∂F/∂r: an extra F/σr² on every interior particle | none yet | slightly (net torque ≲ the ring's fractional width × the edge torques) |
+| 12 | the interior shear-viscous acceleration is −(1/σ)∂(F/r)/∂r, not hahn13's −(1/σr)∂F/∂r: an extra F/σr² on every interior particle | `patches.apply(fix_shear_torque=True)`; `fast/epi_int_3d.py` input `fix_shear_torque` (default on) | slightly (net torque ≲ the ring's fractional width × the edge torques) |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), properties of the pressure and viscosity scheme (issue 5), and index-based interpolation
@@ -331,4 +332,8 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
   that fraction. Consistent with `tests/spreading` matching Pringle (1981).
 - **Effect on hahn25:** probably negligible (ringlet width/r ~ 10⁻⁴); not yet measured.
 - **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
-- **Fix:** none yet. A fix would use −(1/σr)∂F/∂r in the interior, as an opt-in like issue 6's.
+- **Fix:** `tools/patches.py` `ring_shear_viscosity` applies `A_P` to F and divides by r, which gives −(1/σr)∂F/∂r inside
+  the ring and leaves the edges as they were; `fast/epi_int_3d.py` applies it by default (input `fix_shear_torque`,
+  off with `epi_int_lite_gravity = True`, so the regression tests still match the reference bit for bit), the
+  author's choice (2026-11-25: "the new paper and the new code to be correct with no opt-in fix").
+  `tests/test_viscosity.py` checks it against hahn13's Eq. (27) in a uniform Keplerian ring.

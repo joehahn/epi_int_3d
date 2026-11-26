@@ -2187,7 +2187,8 @@
    "needs": [
     "code:kick_drift_kick",
     "code:ring_bulk_viscosity",
-    "code:ring_shear_viscosity"
+    "code:ring_shear_viscosity",
+    "code:ring_shear_viscosity_hahn13"
    ],
    "note": "Section 3.3: epi_int_lite's viscosity (hahn13 Eqs. 26-29, flat ring) is in-plane only; z != 0 effects later; bending-wave runs have none"
   },
@@ -2211,6 +2212,25 @@
     "eq:W1"
    ],
    "note": "reference implementation; interior -(1/sigma) d(F/r)/dr (epi_int_lite issue 12)"
+  },
+  {
+   "id": "code:ring_shear_viscosity_hahn13",
+   "kind": "code",
+   "anchor": "tools/patches.py::ring_shear_viscosity",
+   "needs": [
+    "eq:W1"
+   ],
+   "note": "epi_int_3d's default (fix_shear_torque); issue 12"
+  },
+  {
+   "id": "test:viscosity",
+   "kind": "test",
+   "anchor": "tests/test_viscosity.py::test_shear_torque",
+   "needs": [
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_shear_viscosity"
+   ],
+   "check": "uv run pytest -q tests/test_viscosity.py"
   },
   {
    "id": "code:ring_bulk_viscosity",
@@ -2256,11 +2276,12 @@
   {
    "id": "claim:viscosity_interior_form",
    "kind": "claim",
-   "anchor": "paper/epi_int_3d.tex@in the ring's interior as",
+   "anchor": "paper/epi_int_3d.tex@evaluates the shear-viscous acceleration",
    "needs": [
-    "code:ring_shear_viscosity"
+    "code:ring_shear_viscosity",
+    "code:ring_shear_viscosity_hahn13"
    ],
-   "note": "Section 3.3: the code's interior form adds F/sigma r^2, comparable locally; net torque <~ fractional width x edges' (issue 12)"
+   "note": "Appendix A: epi_int_lite's interior form adds F/sigma r^2 (x3 for uniform sigma); edges agree; net torque ~ fractional width x edges'; H25 mostly Ns=2, dA <~ 1e-3 a (issue 12)"
   },
   {
    "id": "code:resonance_D",

@@ -381,8 +381,8 @@ completed later. Its in-plane form enters the resolution limit of Section \ref{s
 \label{sec:viscosity}
 
 %equations W1-W2, transcribed from hahn13 Eqs. (26)-(29); code helper_fns.ring_shear_viscosity, ring_bulk_viscosity
-\code{Epi\_int\_3d} uses the shear and bulk viscosity of \code{epi\_int\_lite} (Section 2.2 of
-\citealt{H25}), which is that of \cite{HS13} for a flat ring at $z=0$. Shear viscosity is the friction among
+\code{Epi\_int\_3d} uses the shear and bulk viscosity of \cite{HS13} for a flat ring at $z=0$, as
+\code{epi\_int\_lite} does (Section 2.2 of \citealt{H25}). Shear viscosity is the friction among
 particles in adjacent streamlines as they shear past one another, and it carries angular momentum
 radially through the ring at the rate per unit length
 \begin{equation}
@@ -410,10 +410,7 @@ where $\nu_b$ is the bulk viscosity. $G$ acts as a one-dimensional pressure, so 
 These are Eqns.\ (26)--(29) of \cite{HS13}, and the derivatives are finite differences across adjacent streamlines
 at the particle's longitude. At the ring's inner edge, where no streamline lies interior, $A_{\nu,\theta} = -F/\lambda r$ and
 $A_{\nu,r} = -G/\lambda$, while at the outer edge $A_{\nu,\theta} = F_-/\lambda r$ and $A_{\nu,r} = G_-/\lambda$ where
-$F_-$ and $G_-$ are evaluated at the adjacent interior streamline. (\code{Epi\_int\_lite} instead evaluates Eqn.\ (\ref{eqn:visc_At})
-in the ring's interior as $-(1/\sigma)\partial(F/r)/\partial r$, which adds a tangential acceleration $F/\sigma r^2$. That is
-comparable to Eqn.\ (\ref{eqn:visc_At}) in a smooth ring, but its net torque on the ring is smaller than that exerted at
-the ring's edges by about the ring's fractional width.) These accelerations ignore the particles' vertical motions, and a later revision will
+$F_-$ and $G_-$ are evaluated at the adjacent interior streamline. (\code{Epi\_int\_lite} evaluates Eqn.\ (\ref{eqn:visc_At}) differently in the ring's interior; see Appendix \ref{sec:appendix_wire2d}.) These accelerations ignore the particles' vertical motions, and a later revision will
 include the effects of $z\ne0$ motions, such as a vertical viscosity that would damp bending waves. The viscosity
 also enters the resolution limit of Section \ref{sec:resolution}, while the wave simulations of Section
 \ref{sec:waves} have no viscosity or pressure.
@@ -964,9 +961,16 @@ Only the second correction matters for spiral waves, where it changes the torque
 about $m$. As in \code{epi\_int\_lite}, the
 particle's own streamline exerts no force on it in \code{epi\_int\_3d}, and $\Delta$ never vanishes, since
 streamlines are assumed not to cross. The slopes require that the streamline be well sampled by its particles.
-\code{Epi\_int\_3d} also keeps
-\code{epi\_int\_lite}'s ring gravity, Eqns.\ (\ref{eqn:wire_lite}), as an option, so that its results can be
-checked against \code{epi\_int\_lite}'s exactly.
+
+\paragraph{Viscous torque} In the ring's interior, \code{epi\_int\_lite} evaluates the shear-viscous acceleration
+of Eqn.\ (\ref{eqn:visc_At}) as $-(1/\sigma)\partial(F/r)/\partial r$, which adds $F/\sigma r^2 \simeq \frac{3}{2}\nu_s\Omega_a/r$
+in a Keplerian ring and so triples $A_{\nu,\theta}$ where $\sigma$ is uniform. The accelerations at the ring's edges, which
+are larger by about $r$ over the streamline spacing, are the same in both codes, so the added term's net torque on the ring is
+smaller than theirs by about the ring's fractional width. Most ringlets of \cite{H25} have two streamlines, and so
+no interior, and all are narrow enough, $\Delta a \lesssim 10^{-3}a$, that the difference is negligible. \code{Epi\_int\_3d} uses Eqn.\ (\ref{eqn:visc_At}).
+
+\code{Epi\_int\_3d} also keeps \code{epi\_int\_lite}'s ring gravity, Eqns.\ (\ref{eqn:wire_lite}), and its viscous
+torque as an option, so that its results can be checked against \code{epi\_int\_lite}'s exactly.
 
 \begin{figure}
 \centering

@@ -23,6 +23,10 @@ unchanged. Used by explore/run.py and by tests/nominal/inputs.py.
   Gravity still sees one ghost column, as its stencil is not nested. Particles away from the seam get
   the same accelerations bit for bit. With confine_inner_edge or confine_outer_edge, the edge torque
   is averaged over the real particles only, not also over the ghost columns as before.
+- fix_shear_torque=True gives shear viscosity hahn13's tangential acceleration in the ring's interior,
+  A = -(1/sigma r) dF/dr with F = -nu_s sigma r^2 d(omega)/dr, the angular momentum flux (issue 12). The
+  reference uses -(1/sigma) d(F/r)/dr, which adds F/sigma r^2. The edges, -F/lambda r and F_-/lambda r,
+  are unchanged. fast/epi_int_3d.py applies it by default.
 
 Usage, before source/epi_int_lite.py runs `from helper_fns import *`:
     import patches; patches.apply(taper=0.2)
@@ -183,10 +187,30 @@ def seam_accelerations(fix_viscosity):
     return accelerations
 
 
-def apply(taper=None, fix_edge=None, fix_viscosity=False, fix_seam=False):
+def ring_shear_viscosity(shear_viscosity, lambda_, sd, r, t, vr, vt, v, delta_r):
+    """Tangential acceleration due to shear viscosity, hahn13 Eqs. (26)-(27) (notes/equations.md W1):
+    A = -(1/sigma r) dF/dr in the interior, -F/lambda r and F_-/lambda r at the edges, from helper_fns.A_P
+    (or its fix_edge replacement) applied to F and divided by r."""
+    h = helper_fns
+    w = vt/r
+    dw_dr = h.df_dr(h.delta_f(w, t), delta_r)
+    F = -(shear_viscosity*sd)*r*r*dw_dr
+    return h.A_P(lambda_, sd, F, t, h.delta_f(F, t), delta_r)/r
+
+
+def apply_shear_torque():
+    """Fix issue 12: hahn13's interior shear-viscous acceleration; idempotent."""
+    if helper_fns.ring_shear_viscosity is not ring_shear_viscosity:
+        print('shear-viscous torque fixed (issue 12)')
+        helper_fns.ring_shear_viscosity = ring_shear_viscosity
+
+
+def apply(taper=None, fix_edge=None, fix_viscosity=False, fix_seam=False, fix_shear_torque=False):
     """Patch helper_fns: the wrapped crossing check always, and optionally an edge taper, edge fix,
-    viscosity fix and seam fix."""
+    viscosity fix, seam fix and shear-torque fix."""
     helper_fns.monitor_streamlines = monitor_streamlines
+    if fix_shear_torque:
+        apply_shear_torque()
     if fix_viscosity:
         print('viscosity gating fixed (issue 6)')
         helper_fns.accelerations = accelerations

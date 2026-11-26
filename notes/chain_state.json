@@ -1,6 +1,6 @@
 {
  "claim:bw_agreement": {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "hash": "b960c25aad72",
   "needs": {
    "code:front_speed": "d98f5922ed54",
@@ -24,7 +24,7 @@
   }
  },
  "claim:bw_torque": {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "hash": "6d5a18d18660",
   "needs": {
    "code:satellite": "53f58f0b082a",
@@ -157,11 +157,11 @@
   }
  },
  "claim:integrator": {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "hash": "a1c5da1abdf1",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:kick_drift_kick": "85b59f4c0c3d",
+   "code:kick_drift_kick": "4e4f408ac203",
    "code:vertical_drift": "7031c051e0f4"
   }
  },
@@ -298,18 +298,20 @@
  },
  "claim:viscosity_in_plane": {
   "date": "2026-11-25",
-  "hash": "50f861998a44",
+  "hash": "3896f873d7a2",
   "needs": {
-   "code:kick_drift_kick": "85b59f4c0c3d",
+   "code:kick_drift_kick": "4e4f408ac203",
    "code:ring_bulk_viscosity": "2b3241a0cb0d",
-   "code:ring_shear_viscosity": "7804b5c3a40e"
+   "code:ring_shear_viscosity": "7804b5c3a40e",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203"
   }
  },
  "claim:viscosity_interior_form": {
   "date": "2026-11-25",
-  "hash": "50f861998a44",
+  "hash": "fcc1e1d3da27",
   "needs": {
-   "code:ring_shear_viscosity": "7804b5c3a40e"
+   "code:ring_shear_viscosity": "7804b5c3a40e",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203"
   }
  },
  "code:behind_front": {
@@ -487,8 +489,8 @@
   }
  },
  "code:kick_drift_kick": {
-  "date": "2026-11-11",
-  "hash": "85b59f4c0c3d",
+  "date": "2026-11-25",
+  "hash": "4e4f408ac203",
   "needs": {}
  },
  "code:latex_number": {
@@ -598,6 +600,13 @@
  "code:ring_shear_viscosity": {
   "date": "2026-11-25",
   "hash": "7804b5c3a40e",
+  "needs": {
+   "eq:W1": "f219693d6b4a"
+  }
+ },
+ "code:ring_shear_viscosity_hahn13": {
+  "date": "2026-11-25",
+  "hash": "a14e5eb49203",
   "needs": {
    "eq:W1": "f219693d6b4a"
   }
@@ -1261,12 +1270,12 @@
   "needs": {}
  },
  "figure:angular_momentum": {
-  "date": "2026-11-23",
+  "date": "2026-11-25",
   "hash": "4d54f946ccbe",
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
-   "code:kick_drift_kick": "85b59f4c0c3d",
+   "code:kick_drift_kick": "4e4f408ac203",
    "code:ring_angular_momentum": "9941a6d70d66",
    "code:ring_gravity_3d": "dd696367e669",
    "code:satellite": "53f58f0b082a",
@@ -1395,7 +1404,7 @@
   }
  },
  "notebook:bending_waves": {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "hash": "29892ea70dac",
   "needs": {
    "code:bending_wave": "cc860c117825",
@@ -1978,7 +1987,7 @@
   }
  },
  "paper:fig:angmom": {
-  "date": "2026-11-23",
+  "date": "2026-11-25",
   "hash": "3cb9d1f6c7f7",
   "needs": {
    "figure:angular_momentum": "4d54f946ccbe"
@@ -2649,6 +2658,14 @@
    "code:run_3d": "e883637c1181",
    "code:satellite": "53f58f0b082a",
    "code:vertical_drift": "7031c051e0f4"
+  }
+ },
+ "test:viscosity": {
+  "date": "2026-11-25",
+  "hash": "73ca160e46f4",
+  "needs": {
+   "code:ring_shear_viscosity": "7804b5c3a40e",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203"
   }
  }
 }
