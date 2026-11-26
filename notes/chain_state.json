@@ -298,7 +298,7 @@
  },
  "claim:viscosity_in_plane": {
   "date": "2026-11-25",
-  "hash": "3896f873d7a2",
+  "hash": "d8226142ebc4",
   "needs": {
    "code:kick_drift_kick": "4e4f408ac203",
    "code:ring_bulk_viscosity": "2b3241a0cb0d",
