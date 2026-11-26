@@ -14,7 +14,7 @@ unchanged. Used by explore/run.py and by tests/nominal/inputs.py.
 - fix_viscosity=True computes the viscous accelerations whenever either viscosity is on (issue 6):
   the reference skips bulk viscosity when shear_viscosity = 0 and pressure is off, and skips shear
   viscosity's radial stress when bulk_viscosity = 0. Runs with both viscosities on, or both off,
-  are unchanged bit for bit.
+  are unchanged bit for bit. fast/epi_int_3d.py applies it by default.
 - fix_seam=True computes pressure and viscosity on the ring wrapped with two ghost columns per side
   instead of one (issue 10). delta_f's three-point stencil takes a particle's longitude neighbours by
   rolling the row around without the 2 pi offset, so it is wrong in the outermost column, and each
@@ -184,6 +184,7 @@ def seam_accelerations(fix_viscosity):
             At = h.edge_torques(r, At, confine_inner_edge, confine_outer_edge)
         return Ar, At
     accelerations.fix_seam = True
+    accelerations.fix_viscosity = fix_viscosity
     return accelerations
 
 
@@ -212,8 +213,7 @@ def apply(taper=None, fix_edge=None, fix_viscosity=False, fix_seam=False, fix_sh
     if fix_shear_torque:
         apply_shear_torque()
     if fix_viscosity:
-        print('viscosity gating fixed (issue 6)')
-        helper_fns.accelerations = accelerations
+        apply_viscosity()
     if fix_seam:
         apply_seam()
     if fix_edge is not None:
@@ -223,6 +223,16 @@ def apply(taper=None, fix_edge=None, fix_viscosity=False, fix_seam=False, fix_sh
         print('edge taper fraction =', taper)
         helper_fns.initialize_streamline = tapered(helper_fns.initialize_streamline, taper)
         helper_fns.initialize_streamline.tapered = True
+
+
+def apply_viscosity():
+    """Fix issue 6: the viscous accelerations whenever either viscosity is on, with or without the seam fix;
+    idempotent."""
+    acc = helper_fns.accelerations
+    if acc is accelerations or getattr(acc, 'fix_viscosity', False):
+        return
+    print('viscosity gating fixed (issue 6)')
+    helper_fns.accelerations = seam_accelerations(True) if getattr(acc, 'fix_seam', False) else accelerations
 
 
 def apply_seam():

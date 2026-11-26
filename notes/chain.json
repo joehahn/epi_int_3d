@@ -2233,6 +2233,24 @@
    "check": "uv run pytest -q tests/test_viscosity.py"
   },
   {
+   "id": "code:viscosity_gating",
+   "kind": "code",
+   "anchor": "tools/patches.py::accelerations",
+   "needs": [
+    "eq:W2"
+   ],
+   "note": "issue 6 fix; epi_int_3d's default (fix_viscosity)"
+  },
+  {
+   "id": "test:viscosity_gating",
+   "kind": "test",
+   "anchor": "tests/test_viscosity.py::test_viscosity_gating",
+   "needs": [
+    "code:viscosity_gating"
+   ],
+   "check": "uv run pytest -q tests/test_viscosity.py"
+  },
+  {
    "id": "code:ring_bulk_viscosity",
    "kind": "code",
    "anchor": "source/helper_fns.py::ring_bulk_viscosity",

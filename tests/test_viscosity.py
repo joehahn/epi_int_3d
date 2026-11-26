@@ -7,6 +7,8 @@
 #-F/lambda r at the inner edge (notes/equations.md W1). The reference's -(1/sigma) d(F/r)/dr gives three times
 #that inside the ring.
 #
+#test_viscosity_gating checks the issue 6 fix (both viscosities computed whenever either is on), also a default.
+#
 #Run:  uv run pytest tests/test_viscosity.py
 
 import sys
@@ -64,3 +66,27 @@ def test_shear_torque():
     assert np.allclose(At_reference[0], edge, rtol=1.0e-3, atol=0.0)
     #the patch is applied, and undone, as fast/epi_int_3d.py and this test expect
     assert helper_fns.ring_shear_viscosity is REFERENCE
+
+
+def test_viscosity_gating():
+    """Issue 6: the viscous accelerations are linear in the two viscosities, so with the fix those of
+    (nu_s, nu_b) are the sum of those of (nu_s, 0) and (0, nu_b), and shear viscosity alone still exerts its
+    radial stress. Without the fix, (nu_s, 0) has no radial stress and (0, nu_b) no viscosity at all.
+    Checked on an eccentric ringlet, whose v_r makes the radial stress nonzero, with and without the seam fix."""
+    from test_seam import eccentric_ringlet
+    lam, r, t, vr, vt = eccentric_ringlet()
+    nu = 1.0e-13
+    run = lambda acc, nu_s, nu_b: acc(lam, -1.0, nu_s, nu_b, -1.0, r, t, vr, vt, False, False, False)
+    for acc in (patches.accelerations, patches.seam_accelerations(True)):
+        Ar, At = run(acc, nu, nu)
+        Ar_s, At_s = run(acc, nu, 0.0)
+        Ar_b, At_b = run(acc, 0.0, nu)
+        scale = np.abs(Ar).max()
+        assert np.abs(Ar_s).max() > 0.1*scale                       #shear viscosity's radial stress is on
+        assert np.abs(Ar_b).max() > 0.1*scale                       #bulk viscosity alone is on
+        assert np.allclose(Ar, Ar_s + Ar_b, rtol=0.0, atol=1.0e-12*scale)
+        assert np.allclose(At, At_s + At_b, rtol=0.0, atol=1.0e-12*np.abs(At).max())
+        assert np.all(At_b == 0.0)                                  #bulk viscosity exerts no torque
+    #without the fix, both are off
+    Ar_b, At_b = run(helper_fns.accelerations, 0.0, nu)
+    assert np.all(Ar_b == 0.0)

@@ -161,7 +161,7 @@
   "hash": "a1c5da1abdf1",
   "needs": {
    "code:drift": "a16d87bc9e34",
-   "code:kick_drift_kick": "4e4f408ac203",
+   "code:kick_drift_kick": "b92977860102",
    "code:vertical_drift": "7031c051e0f4"
   }
  },
@@ -300,7 +300,7 @@
   "date": "2026-11-25",
   "hash": "d8226142ebc4",
   "needs": {
-   "code:kick_drift_kick": "4e4f408ac203",
+   "code:kick_drift_kick": "b92977860102",
    "code:ring_bulk_viscosity": "2b3241a0cb0d",
    "code:ring_shear_viscosity": "7804b5c3a40e",
    "code:ring_shear_viscosity_hahn13": "a14e5eb49203"
@@ -490,7 +490,7 @@
  },
  "code:kick_drift_kick": {
   "date": "2026-11-25",
-  "hash": "4e4f408ac203",
+  "hash": "b92977860102",
   "needs": {}
  },
  "code:latex_number": {
@@ -731,6 +731,13 @@
    "code:resonance_D": "d3219f173050",
    "code:satellite": "53f58f0b082a",
    "eq:B12": "d87f6aac45c3"
+  }
+ },
+ "code:viscosity_gating": {
+  "date": "2026-11-25",
+  "hash": "0f007d821f42",
+  "needs": {
+   "eq:W2": "a42588fb83e4"
   }
  },
  "code:wave_front": {
@@ -1275,7 +1282,7 @@
   "needs": {
    "code:drift": "a16d87bc9e34",
    "code:figstyle": "73ef6300bbfe",
-   "code:kick_drift_kick": "4e4f408ac203",
+   "code:kick_drift_kick": "b92977860102",
    "code:ring_angular_momentum": "9941a6d70d66",
    "code:ring_gravity_3d": "dd696367e669",
    "code:satellite": "53f58f0b082a",
@@ -2666,6 +2673,13 @@
   "needs": {
    "code:ring_shear_viscosity": "7804b5c3a40e",
    "code:ring_shear_viscosity_hahn13": "a14e5eb49203"
+  }
+ },
+ "test:viscosity_gating": {
+  "date": "2026-11-25",
+  "hash": "18e125d36e30",
+  "needs": {
+   "code:viscosity_gating": "0f007d821f42"
   }
  }
 }

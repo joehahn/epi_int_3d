@@ -31,10 +31,13 @@ nearpoint and shape_slope wire out of the plane and so requires both; False keep
 Optional input fix_seam (default True): pressure and viscosity are computed on the ring wrapped with
 two ghost columns per side, so that the particles beside theta = +-pi get the right forces
 (tools/patches.py, epi_int_lite issue 10).
+Optional input fix_viscosity (default True): the viscous accelerations are computed whenever either
+viscosity is on; epi_int_lite skips bulk viscosity when shear_viscosity = 0, and shear viscosity's radial
+stress when bulk_viscosity = 0 (tools/patches.py, epi_int_lite issue 6).
 Optional input fix_shear_torque (default True): shear viscosity's tangential acceleration in the ring's
 interior is hahn13's -(1/sigma r) dF/dr, F the angular momentum flux, rather than epi_int_lite's
 -(1/sigma) d(F/r)/dr (tools/patches.py, epi_int_lite issue 12; notes/equations.md W1).
-Optional input epi_int_lite_gravity (default False): True turns all six off, unless set
+Optional input epi_int_lite_gravity (default False): True turns all seven off, unless set
 explicitly, giving epi_int_lite's forces, as the regression tests against the reference use.
 Optional input satellite (a dict, default none): a "Fourier satellite", only the resonant m-th term of a
 satellite's potential (fast/satellite.py): an inclined satellite's at a vertical resonance, which kicks vz
@@ -266,15 +269,18 @@ def main():
     g.setdefault('vertical_gravity', g['nearpoint'] and g['shape_slope'])
     g.setdefault('fix_seam', not g['epi_int_lite_gravity'])
     g.setdefault('fix_shear_torque', not g['epi_int_lite_gravity'])
+    g.setdefault('fix_viscosity', not g['epi_int_lite_gravity'])
     if g['vertical_gravity'] and not (g['nearpoint'] and g['shape_slope']):
         raise ValueError('vertical_gravity requires nearpoint = True and shape_slope = True')
     for k in ('Rp', 'J2', 'initial_orbits', 'inclination', 'node', 'epi_int_lite_gravity', 'fix_lambda',
-              'nearpoint', 'shape_slope', 'vertical_gravity', 'fix_seam', 'fix_shear_torque', 'output_folder'):
+              'nearpoint', 'shape_slope', 'vertical_gravity', 'fix_seam', 'fix_shear_torque', 'fix_viscosity', 'output_folder'):
         print(k, '=', g[k])
     global gravity_kernel, gravity_kernel_3d
     gravity_kernel = kernels.get_kernel(g['fix_lambda'], g['nearpoint'], g['shape_slope'])
     gravity_kernel_3d = kernels.get_kernel_3d(g['fix_lambda']) if g['vertical_gravity'] else None
     helper_fns.ring_gravity = ring_gravity
+    if g['fix_viscosity']:
+        patches.apply_viscosity()
     if g['fix_seam']:
         patches.apply_seam()
     if g['fix_shear_torque']:

@@ -8,8 +8,8 @@ not there, unless noted. Changes made by the Python 3 port itself are in `port_c
 
 The fixes are applied at run time (`tools/patches.py`, called from a test's `inputs.py`) or in the
 faster driver (`fast/epi_int_3d.py`). The ring-gravity fixes (issues 7 and 9) are on by default in
-`fast/epi_int_3d.py` since 2026-10-24, and so are the seam fix (issue 10) and the shear-torque fix
-(issue 12, since 2026-11-25); its input `epi_int_lite_gravity = True` turns them all off. The
+`fast/epi_int_3d.py` since 2026-10-24, and so are the seam fix (issue 10), the shear-torque fix
+(issue 12, since 2026-11-25) and the viscosity-gating fix (issue 6, since 2026-11-25); its input `epi_int_lite_gravity = True` turns them all off. The
 others, except the crossing check, are opt-in. So the reference driver, and `fast/epi_int_3d.py`
 with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 
@@ -17,7 +17,7 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 |---|---|---|---|
 | 1 | the streamline-crossing check misfires near θ = ±π and stops runs | `patches.apply()` | no (only when a run stops) |
 | 4 | the outer edge's viscous/pressure flux is taken at the wrong longitudes | `patches.apply(fix_edge='own')` | slightly |
-| 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)` | only with one viscosity off |
+| 6 | bulk viscosity is skipped when shear viscosity is 0, and shear's radial stress when bulk is 0 | `patches.apply(fix_viscosity=True)`; `fast/epi_int_3d.py` input `fix_viscosity` (default on) | only with one viscosity off |
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
 | 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
 | 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | `patches.apply(fix_seam=True)`; `fast/epi_int_3d.py` input `fix_seam` (default on) | the plots, yes; the evolution, no (≤ 6×10⁻⁵ in q) |
@@ -163,8 +163,9 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
 - **Effect on epi_int_3d:** setting one viscosity to zero does not do what it says.
 - **Fix:** `tools/patches.py`, `apply(fix_viscosity=True)` (opt-in): σ is computed when any of c, ν_s,
   ν_b is positive, and the radial stress when ν_s or ν_b is. Runs with both viscosities on are
-  unchanged bit for bit (checked, nominal ringlet, 300 steps). To build into the faster code, with a
-  test.
+  unchanged bit for bit (checked, nominal ringlet, 300 steps). `fast/epi_int_3d.py` applies it by default
+  since 2026-11-25 (input `fix_viscosity`, off with `epi_int_lite_gravity = True`), for viscous density-wave
+  runs with one viscosity off; `tests/test_viscosity.py::test_viscosity_gating` tests it.
 - **What it showed** (333-streamline nominal ringlet, Nt = 40, gravity on, to 10³ orbits; this is
   probably issue 3's instability): both viscosities, crossed at ~145 orbits; shear only, full stress,
   ~57 orbits; shear's azimuthal stress only (the unfixed shear-only run), ~23 orbits; bulk only, no
