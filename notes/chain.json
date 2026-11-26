@@ -2210,7 +2210,7 @@
    "needs": [
     "eq:W1"
    ],
-   "note": "reference implementation; interior -(1/sigma) d(F/r)/dr"
+   "note": "reference implementation; interior -(1/sigma) d(F/r)/dr (epi_int_lite issue 12)"
   },
   {
    "id": "code:ring_bulk_viscosity",
@@ -2260,7 +2260,7 @@
    "needs": [
     "code:ring_shear_viscosity"
    ],
-   "note": "Section 3.3: the code's interior form differs from hahn13 Eq. 27 by <~ the fractional width"
+   "note": "Section 3.3: the code's interior form adds F/sigma r^2, comparable locally; net torque <~ fractional width x edges' (issue 12)"
   },
   {
    "id": "code:resonance_D",

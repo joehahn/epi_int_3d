@@ -20,6 +20,7 @@ with `epi_int_lite_gravity = True`, give epi_int_lite's results bit for bit.
 | 7 | each streamline's gravity uses the perturbed particle's linear density λ, not its own | input `fix_lambda` (`fast/epi_int_3d.py` only; default on) | slightly |
 | 9 | the wire's pull is measured at the crossing point, and its direction taken from the velocity | inputs `nearpoint`, `shape_slope` (`fast/epi_int_3d.py` only; default on) | slightly (m = 1); by ~m for m ≥ 2 |
 | 10 | `delta_f` pairs the first and last particle of a streamline without the 2π offset: surface-density plots made from unwrapped arrays notch at θ = ±π, and the viscous forces on the particles beside θ = ±π are off by up to a few % | `patches.apply(fix_seam=True)`; `fast/epi_int_3d.py` input `fix_seam` (default on) | the plots, yes; the evolution, no (≤ 6×10⁻⁵ in q) |
+| 12 | the interior shear-viscous acceleration is −(1/σ)∂(F/r)/∂r, not hahn13's −(1/σr)∂F/∂r: an extra F/σr² on every interior particle | none yet | slightly (net torque ≲ the ring's fractional width × the edge torques) |
 
 Still open: closely spaced eccentric streamlines go unstable when sampled by too few particles
 (issue 3), properties of the pressure and viscosity scheme (issue 5), and index-based interpolation
@@ -313,3 +314,21 @@ pressure, pressure gets a deep dive then (physics and code) before it is relied 
 - **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
 - **Fix:** none needed yet. To do: a check of the largest same-index offset in the regression tests, so
   a run where streamlines shear apart is caught.
+
+## 12. The interior shear-viscous acceleration is −(1/σ)∂(F/r)/∂r, not −(1/σr)∂F/∂r
+
+- **Found:** writing out hahn13's Eqs. (26)–(29) in the paper's Section 3.3, 2026-11-25; the author asked
+  which form the code uses.
+- **What:** with F = −ν_sσr²∂θ̇/∂r, the angular momentum flux, a particle's tangential acceleration is
+  the torque per unit mass over r, A_ν,θ = −(1/σr)∂F/∂r (hahn13 Eq. 27). `ring_shear_viscosity` in
+  `source/helper_fns.py` instead sets P = F/r and `A_P` returns −(1/σ)∂P/∂r in the ring's interior, which
+  adds F/σr² ≈ (3/2)ν_sΩ/r. The edge forms, −F/λr and F₋/λr, match hahn13.
+- **How large:** in a uniform circular Keplerian ring (101 streamlines spanning 1 ≤ r ≤ 1.01, ν_s = 10⁻¹²)
+  the code's interior A_ν,θ is 1.67 times hahn13's (3.70 vs 2.22 × 10⁻¹²), while its inner-edge value
+  matches to 10⁻⁴ (−1.4998 vs −1.5000 × 10⁻⁸). The extra term is smaller than the edge acceleration by
+  the streamline spacing over r, and its torque summed over the ring is smaller than the edges' by about
+  the ring's fractional width; it would drift a ring outward at ~3ν_s/r, slower than it spreads by about
+  that fraction. Consistent with `tests/spreading` matching Pringle (1981).
+- **Effect on hahn25:** probably negligible (ringlet width/r ~ 10⁻⁴); not yet measured.
+- **Origin:** epi_int_lite's helper_fns; epi_int (IDL) not checked.
+- **Fix:** none yet. A fix would use −(1/σr)∂F/∂r in the interior, as an opt-in like issue 6's.

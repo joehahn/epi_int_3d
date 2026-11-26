@@ -410,9 +410,10 @@ where $\nu_b$ is the bulk viscosity. $G$ acts as a one-dimensional pressure, so 
 These are Eqns.\ (26)--(29) of \cite{HS13}, and the derivatives are finite differences across adjacent streamlines
 at the particle's longitude. At the ring's inner edge, where no streamline lies interior, $A_{\nu,\theta} = -F/\lambda r$ and
 $A_{\nu,r} = -G/\lambda$, while at the outer edge $A_{\nu,\theta} = F_-/\lambda r$ and $A_{\nu,r} = G_-/\lambda$ where
-$F_-$ and $G_-$ are evaluated at the adjacent interior streamline. (\code{Epi\_int\_lite} evaluates Eqn.\ (\ref{eqn:visc_At})
-in the ring's interior as $-(1/\sigma)\partial(F/r)/\partial r$, which differs by a fraction no larger than the ring's
-fractional width.) These accelerations ignore the particles' vertical motions, and a later revision will
+$F_-$ and $G_-$ are evaluated at the adjacent interior streamline. (\code{Epi\_int\_lite} instead evaluates Eqn.\ (\ref{eqn:visc_At})
+in the ring's interior as $-(1/\sigma)\partial(F/r)/\partial r$, which adds a tangential acceleration $F/\sigma r^2$. That is
+comparable to Eqn.\ (\ref{eqn:visc_At}) in a smooth ring, but its net torque on the ring is smaller than that exerted at
+the ring's edges by about the ring's fractional width.) These accelerations ignore the particles' vertical motions, and a later revision will
 include the effects of $z\ne0$ motions, such as a vertical viscosity that would damp bending waves. The viscosity
 also enters the resolution limit of Section \ref{sec:resolution}, while the wave simulations of Section
 \ref{sec:waves} have no viscosity or pressure.
