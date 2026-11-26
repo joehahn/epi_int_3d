@@ -2185,9 +2185,82 @@
    "kind": "claim",
    "anchor": "paper/epi_int_3d.tex@uses the shear and bulk viscosity",
    "needs": [
-    "code:kick_drift_kick"
+    "code:kick_drift_kick",
+    "code:ring_bulk_viscosity",
+    "code:ring_shear_viscosity"
    ],
-   "note": "Section 3.3: epi_int_lite's viscosity (helper_fns.accelerations) is in-plane only; bending-wave runs have none"
+   "note": "Section 3.3: epi_int_lite's viscosity (hahn13 Eqs. 26-29, flat ring) is in-plane only; z != 0 effects later; bending-wave runs have none"
+  },
+  {
+   "id": "eq:W1",
+   "kind": "equation",
+   "anchor": "notes/equations.md#W1",
+   "needs": []
+  },
+  {
+   "id": "eq:W2",
+   "kind": "equation",
+   "anchor": "notes/equations.md#W2",
+   "needs": []
+  },
+  {
+   "id": "code:ring_shear_viscosity",
+   "kind": "code",
+   "anchor": "source/helper_fns.py::ring_shear_viscosity",
+   "needs": [
+    "eq:W1"
+   ],
+   "note": "reference implementation; interior -(1/sigma) d(F/r)/dr"
+  },
+  {
+   "id": "code:ring_bulk_viscosity",
+   "kind": "code",
+   "anchor": "source/helper_fns.py::ring_bulk_viscosity",
+   "needs": [
+    "eq:W2"
+   ],
+   "note": "reference implementation"
+  },
+  {
+   "id": "paper:eqn:visc_F",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_F",
+   "needs": [
+    "eq:W1"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_At",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_At",
+   "needs": [
+    "eq:W1"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_G",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_G",
+   "needs": [
+    "eq:W2"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_Ar",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_Ar",
+   "needs": [
+    "eq:W2"
+   ]
+  },
+  {
+   "id": "claim:viscosity_interior_form",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@in the ring's interior as",
+   "needs": [
+    "code:ring_shear_viscosity"
+   ],
+   "note": "Section 3.3: the code's interior form differs from hahn13 Eq. 27 by <~ the fractional width"
   },
   {
    "id": "code:resonance_D",

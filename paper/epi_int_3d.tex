@@ -380,10 +380,42 @@ completed later. Its in-plane form enters the resolution limit of Section \ref{s
 \subsection{Viscosity}
 \label{sec:viscosity}
 
+%equations W1-W2, transcribed from hahn13 Eqs. (26)-(29); code helper_fns.ring_shear_viscosity, ring_bulk_viscosity
 \code{Epi\_int\_3d} uses the shear and bulk viscosity of \code{epi\_int\_lite} (Section 2.2 of
-\citealt{H25}; Appendix A of \citealt{HS13}), which act only in the ring plane. A vertical viscosity,
-which would damp bending waves, will be completed later. The in-plane viscosity also enters the resolution limit of
-Section \ref{sec:resolution}, while the wave simulations of Section \ref{sec:waves} have no viscosity or pressure.
+\citealt{H25}), which is that of \cite{HS13} for a flat ring at $z=0$. Shear viscosity is the friction among
+particles in adjacent streamlines as they shear past one another, and it carries angular momentum
+radially through the ring at the rate per unit length
+\begin{equation}
+    \label{eqn:visc_F}
+    F = -\nu_s\sigma r^2\frac{\partial\dot{\theta}}{\partial r}
+\end{equation}
+where $\nu_s$ is the ring's kinematic shear viscosity, $\sigma$ its surface density and $\dot{\theta} = v_\theta/r$
+the particles' angular velocity. A radial gradient in $F$ torques the particle, whose tangential acceleration is
+\begin{equation}
+    \label{eqn:visc_At}
+    A_{\nu,\theta} = -\frac{1}{\sigma r}\frac{\partial F}{\partial r}.
+\end{equation}
+Shear and bulk viscosity also resist the particles' radial convergence and divergence, which carries
+radial momentum through the ring at the rate
+\begin{equation}
+    \label{eqn:visc_G}
+    G = -\left(\nu_b + \frac{4}{3}\nu_s\right)\sigma\frac{\partial v_r}{\partial r}
+        - \left(\nu_b - \frac{2}{3}\nu_s\right)\frac{\sigma v_r}{r}
+\end{equation}
+where $\nu_b$ is the bulk viscosity. $G$ acts as a one-dimensional pressure, so the radial acceleration is
+\begin{equation}
+    \label{eqn:visc_Ar}
+    A_{\nu,r} = -\frac{1}{\sigma}\frac{\partial G}{\partial r}.
+\end{equation}
+These are Eqns.\ (26)--(29) of \cite{HS13}, and the derivatives are finite differences across adjacent streamlines
+at the particle's longitude. At the ring's inner edge, where no streamline lies interior, $A_{\nu,\theta} = -F/\lambda r$ and
+$A_{\nu,r} = -G/\lambda$, while at the outer edge $A_{\nu,\theta} = F_-/\lambda r$ and $A_{\nu,r} = G_-/\lambda$ where
+$F_-$ and $G_-$ are evaluated at the adjacent interior streamline. (\code{Epi\_int\_lite} evaluates Eqn.\ (\ref{eqn:visc_At})
+in the ring's interior as $-(1/\sigma)\partial(F/r)/\partial r$, which differs by a fraction no larger than the ring's
+fractional width.) These accelerations ignore the particles' vertical motions, and a later revision will
+include the effects of $z\ne0$ motions, such as a vertical viscosity that would damp bending waves. The viscosity
+also enters the resolution limit of Section \ref{sec:resolution}, while the wave simulations of Section
+\ref{sec:waves} have no viscosity or pressure.
 
 \subsection{Advancing the particles}
 \label{sec:integrator}

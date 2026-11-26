@@ -9,7 +9,7 @@
    "pages": {"section:2": 2, "section:2.2": 3, "appendix:A": 30, "eqn:A9": 31, "eqn:C1": 33},
    "notes": {"eqn:C1": "numbered (C14) in the arXiv version"}},
   "HS13": {"pdf": "joes_papers/hahn13.pdf", "url": "https://arxiv.org/pdf/1306.1135",
-   "pages": {"fig:3": 13, "appendix:A": 50}},
+   "pages": {"fig:3": 13, "eqn:26": 16, "appendix:A": 50}},
   "H07": {"pdf": "joes_papers/hahn07.pdf", "url": "https://arxiv.org/pdf/0705.3797",
    "pages": {"fig:5": 27}}
  }

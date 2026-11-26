@@ -297,10 +297,19 @@
   }
  },
  "claim:viscosity_in_plane": {
-  "date": "2026-11-24",
-  "hash": "f1a3b847316a",
+  "date": "2026-11-25",
+  "hash": "baa4074bc103",
   "needs": {
-   "code:kick_drift_kick": "85b59f4c0c3d"
+   "code:kick_drift_kick": "85b59f4c0c3d",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
+   "code:ring_shear_viscosity": "7804b5c3a40e"
+  }
+ },
+ "claim:viscosity_interior_form": {
+  "date": "2026-11-25",
+  "hash": "baa4074bc103",
+  "needs": {
+   "code:ring_shear_viscosity": "7804b5c3a40e"
   }
  },
  "code:behind_front": {
@@ -563,6 +572,13 @@
   "hash": "9941a6d70d66",
   "needs": {}
  },
+ "code:ring_bulk_viscosity": {
+  "date": "2026-11-25",
+  "hash": "2b3241a0cb0d",
+  "needs": {
+   "eq:W2": "a42588fb83e4"
+  }
+ },
  "code:ring_gravity": {
   "date": "2026-11-10",
   "hash": "b009c47899ac",
@@ -577,6 +593,13 @@
   "needs": {
    "eq:G16": "8c38c9fc7697",
    "eq:G17": "7a082c91c6d4"
+  }
+ },
+ "code:ring_shear_viscosity": {
+  "date": "2026-11-25",
+  "hash": "7804b5c3a40e",
+  "needs": {
+   "eq:W1": "f219693d6b4a"
   }
  },
  "code:ring_sigma": {
@@ -1227,6 +1250,16 @@
   "hash": "2c5f5a983464",
   "needs": {}
  },
+ "eq:W1": {
+  "date": "2026-11-25",
+  "hash": "f219693d6b4a",
+  "needs": {}
+ },
+ "eq:W2": {
+  "date": "2026-11-25",
+  "hash": "a42588fb83e4",
+  "needs": {}
+ },
  "figure:angular_momentum": {
   "date": "2026-11-23",
   "hash": "4d54f946ccbe",
@@ -1648,6 +1681,34 @@
   "hash": "fb8af391fb4e",
   "needs": {
    "sympy:O3": "608ba0ac9017"
+  }
+ },
+ "paper:eqn:visc_Ar": {
+  "date": "2026-11-25",
+  "hash": "2560f1fb7258",
+  "needs": {
+   "eq:W2": "a42588fb83e4"
+  }
+ },
+ "paper:eqn:visc_At": {
+  "date": "2026-11-25",
+  "hash": "c93a823e68a2",
+  "needs": {
+   "eq:W1": "f219693d6b4a"
+  }
+ },
+ "paper:eqn:visc_F": {
+  "date": "2026-11-25",
+  "hash": "a04ffab5d826",
+  "needs": {
+   "eq:W1": "f219693d6b4a"
+  }
+ },
+ "paper:eqn:visc_G": {
+  "date": "2026-11-25",
+  "hash": "c1dc463129aa",
+  "needs": {
+   "eq:W2": "a42588fb83e4"
   }
  },
  "paper:eqn:vres_AV": {
