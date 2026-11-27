@@ -50,7 +50,7 @@ decisions, ground rules) and `README.md`.
   `notes/phase2c/`). `tests/bending_waves/`: the spiral bending wave that satellite launches in a self-gravitating
   ring, compared with Shu (1984) and with B13, the finite lattice's restoring force. `tests/lindblad_resonance/` and
   `tests/density_waves/` are their in-plane counterparts at an inner Lindblad resonance (the satellite's `'horizontal'`
-  resonance; theory L1–L9 in `notes/equations.md`, diagnostics `tests/density_analysis.py`, unit test `tests/test_satellite.py`). `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
+  resonance; theory L1–L9 in `notes/equations.md`, diagnostics `tests/density_analysis.py`, unit test `tests/test_satellite.py`); `tests/density_waves` also has viscous runs A, C, D and 400/1600-streamline runs (`output_*`, made by `tools/run_simulations.py`) for the wave's viscous damping, theory O6. `explore/`: scratch parameter studies (`run.py`, `diagnose.py`),
   outputs git-ignored.
 
 ## Running

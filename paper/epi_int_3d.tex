@@ -50,8 +50,8 @@ gravity that one streamline exerts on another in three dimensions (Section \ref{
 \code{epi\_int\_lite}'s in-plane streamline gravity (Appendix \ref{sec:appendix_wire2d}), a study of the
 streamline method's resolution limit (Appendix \ref{sec:appendix_zigzag}), and tests of the code against the
 theory of spiral bending waves at a satellite's vertical resonance and of spiral density waves at its Lindblad
-resonance (Section \ref{sec:waves}): the forced response of massless particles, and the wave that the
-satellite launches in a self-gravitating ring.
+resonance (Section \ref{sec:waves}): the forced response of massless particles, the wave that the
+satellite launches in a self-gravitating ring, and the viscous damping of that ring's density wave.
 \end{abstract}
 
 
@@ -889,6 +889,68 @@ from the resonance zone to the wave front (dotted line), and the dispersion rela
 \label{fig:dwtorque}
 \end{figure}
 
+\subsubsection{Viscous damping of the density wave}
+\label{sec:density_viscous}
+
+%equation O6 of notes/sympy/viscous_overstability.py; numbers from tests/density_waves' viscous runs by
+%tools/paper_numbers.py; figure by figures/viscous_damping.py (density_waves.ipynb tests 12-13)
+Viscosity damps the density wave as it propagates away from resonance, which tests the viscous accelerations of
+Section \ref{sec:viscosity}. To lowest order in the viscosities, the wavenumber acquires the imaginary part
+\begin{equation}
+    \label{eqn:dw_kI}
+    k_I = \frac{\kappa_ak^2\nu_{\rm eff}}{2\pi G\sigma},
+\end{equation}
+where $k$ is Eqn.\ (\ref{eqn:dw_disp})'s, $\kappa_a$ is evaluated at $r_L$, and
+\begin{equation}
+    \label{eqn:dw_nueff}
+    \nu_{\rm eff} = \nu_b + \left(\frac{10}{3} - \frac{4\Omega_a^2}{\kappa_a^2}\right)\nu_s
+\end{equation}
+is the effective viscosity of a ring whose kinematic viscosities $\nu_s$ and $\nu_b$ do not depend on $\sigma$, as
+in \code{epi\_int\_3d}; Appendix \ref{sec:appendix_viscous} derives both. Integrating $k_I$ outward from $r_L$ with
+$k = {\cal D}x/2\pi G\sigma$ shows that the wave's amplitude falls by the factor $\exp[-(x/x_{\rm vis})^3]$, where
+\begin{equation}
+    \label{eqn:dw_xvis}
+    x_{\rm vis} = \epsilon\left(\frac{3r_L^2{\cal D}}{\kappa_a\nu_{\rm eff}}\right)^{1/3}
+\end{equation}
+is the wave's viscous damping length. This is Eqn.\ (63) of \cite{S84} with his $7\nu/3 + \zeta$ replaced by
+$\nu_{\rm eff}$; the two differ because \cite{S84} takes the viscosity times $\sigma$ to be uniform, which drops a
+term that Appendix \ref{sec:appendix_viscous} keeps. Note that shear viscosity's part of $\nu_{\rm eff}$ is
+negative, $\simeq -2\nu_s/3$, so shear viscosity alone would make the wave grow rather than damp.
+
+The ring and satellite of Section \ref{sec:density_ring} are simulated three more times with viscosity: run A has
+$\nu_s = \nu_b = \dwNuVisc$, run C has bulk viscosity only, $\nu_b = \dwNuVisc$, and run D has $\nu_s = \dwNuVisc$
+and $\nu_b = 2\nu_s$. These viscosities put $x_{\rm vis}$ within the stretch $2\epsilon^{1/2} < x < 0.01$ where the
+inviscid wave is steady by the end of the run, and the three runs distinguish the shear and bulk viscosities'
+contributions to $\nu_{\rm eff}$, which is $\dwNuEffA\,\nu_s$, $\dwNuEffC\,\nu_b$ and $\dwNuEffD\,\nu_s$ in runs A, C
+and D. Figure \ref{fig:viscdamp} plots each streamline's wave amplitude $|\xi - L_L/x|$ at the end of the run
+divided by the inviscid run's, which removes the inviscid wave's small departures from $|Z_w|$ and leaves only the
+damping. A fit of $-\ln$ of that ratio to $(x/x_{\rm vis})^n$, over the streamlines where it lies between
+\dwDampFitLow\% and \dwDampFitHigh\%, gives exponents $n$ between \dwExponentMin\ and \dwExponentMax, as
+expected. With $n = 3$, the fits give $x_{\rm vis} = \dwXvisA$, \dwXvisC\ and \dwXvisD\ in runs A, C and D, while
+Eqn.\ (\ref{eqn:dw_xvis}) gives \dwXvisTheoryA, \dwXvisTheoryC\ and \dwXvisTheoryD. Shu's $7\nu_s/3 + \nu_b$ gives
+\dwXvisShuA\ and \dwXvisShuD\ for runs A and D, which the simulations rule out.
+
+The remaining differences are due to the code's finite resolution. Repeating the runs with half as many
+streamlines gives $x_{\rm vis} = \dwXvisALow$, \dwXvisCLow\ and \dwXvisDLow, about twice as far from
+Eqn.\ (\ref{eqn:dw_xvis}), and doubling the streamlines of run C gives \dwXvisCHigh. The change in $x_{\rm vis}$
+shrinks by a factor of \dwConvergenceRatio\ with each doubling, so the error is first order in the streamlines'
+spacing, and extrapolating the first two resolutions to zero spacing gives \dwXvisExtA, \dwXvisExtC\ and \dwXvisExtD. These are within
+\dwXvisExtPercentC\% and \dwXvisExtPercentD\% of Eqn.\ (\ref{eqn:dw_xvis}) in runs C and D, and within
+\dwXvisExtPercentA\% in run A, whose $\nu_{\rm eff}$ is the small difference of its shear and bulk viscosities'
+contributions and so is the most sensitive to the terms of relative order $D/\kappa_a^2 \simeq {\cal D}x/\kappa_a^2$,
+a few percent at $x \sim x_{\rm vis}$, that Eqn.\ (\ref{eqn:dw_kI}) neglects.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figures/viscous_damping.pdf}
+\caption{The density wave of Section \ref{sec:density_ring} in a viscous ring. Each streamline's wave amplitude
+$|\xi - L_L/x|$ at the end of the run, divided by that of the inviscid run, is plotted vs.\ its fractional distance
+from resonance $x$, over the stretch where the inviscid wave is steady, for run A ($\nu_s = \nu_b$), run C (bulk
+viscosity only) and run D ($\nu_b = 2\nu_s$) (dots). The dashed curves are $\exp[-(x/x_{\rm vis})^3]$ with
+$x_{\rm vis}$ from Eqn.\ (\ref{eqn:dw_xvis}).}
+\label{fig:viscdamp}
+\end{figure}
+
 \clearpage
 \appendix
 
@@ -1178,6 +1240,58 @@ angular momentum per unit area, which is proportional to $\sigma|Z_w|^2$, does n
 has reached only $x \simeq -|c_g|t/r_V$, which tends to zero with $\sigma$, so the inner side too has only
 the forced oscillation $h_{\rm forced}$ as $\sigma \rightarrow 0$. The massless ring of
 Section \ref{sec:waves_massless} is this limit.
+
+\section{Viscous damping of a density wave}
+\label{sec:appendix_viscous}
+\setcounter{equation}{0}
+
+%equation O6, sympy-checked in notes/sympy/viscous_overstability.py
+This appendix derives Eqns.\ (\ref{eqn:dw_kI})--(\ref{eqn:dw_nueff}) for a kinematic shear viscosity that varies
+with surface density as $\nu_s \propto \sigma^\beta$. Begin with a tightly wound density wave in which the ring's
+surface density is $\sigma + \sigma_1$ and its velocity relative to circular motion is $(u, v)$, with
+$\sigma_1, u, v \propto e^{i(kr + m\theta - \omega t)}$, so a particle sees the frequency
+$\omega_m = m\Omega_a - \omega$, which is $\kappa_a$ at an inner Lindblad resonance. Keeping only the radial
+derivatives, which bring down the large factor $ik$, the linearized equations of continuity and of radial and
+tangential motion are
+\begin{equation}
+    \label{eqn:visc_cont}
+    \omega_m\sigma_1 + k\sigma u = 0,
+\end{equation}
+\begin{equation}
+    \label{eqn:visc_rad}
+    i\omega_mu - 2\Omega_av = 2\pi iG\sigma_1 - \left(\nu_b + \frac{4}{3}\nu_s\right)k^2u,
+\end{equation}
+\begin{equation}
+    \label{eqn:visc_tan}
+    i\omega_mv + \frac{\kappa_a^2}{2\Omega_a}u = -\nu_sk^2v + (1 + \beta)\nu_s\,r\frac{d\Omega_a}{dr}\frac{ik\sigma_1}{\sigma},
+\end{equation}
+where the viscous terms are Eqns.\ (\ref{eqn:visc_At}) and (\ref{eqn:visc_Ar}) linearized, and
+$r\,d\Omega_a/dr = (\kappa_a^2 - 4\Omega_a^2)/2\Omega_a$, which is $-3\Omega_a/2$ in a Keplerian ring. The last term
+of Eqn.\ (\ref{eqn:visc_tan}) is the wave's perturbation of the ring's background shear stress: the angular momentum
+flux $F$ of Eqn.\ (\ref{eqn:visc_F}) is proportional to $\nu_s\sigma$, which the wave changes by
+$(1 + \beta)\nu_s\sigma_1$, and that change times the ring's shear $r\,d\Omega_a/dr$ is a stress comparable to the
+one due to the wave's own shear, $\nu_s\sigma ikv$. The ring's circular motion
+has no radial stress $G$, so the bulk viscosity's dependence on $\sigma$ does not enter.
+
+Without viscosity, the determinant of Eqns.\ (\ref{eqn:visc_cont})--(\ref{eqn:visc_tan}) vanishes when
+$\kappa_a^2 - \omega_m^2 = 2\pi G\sigma k$, which is Eqn.\ (\ref{eqn:dw_disp}). To first order in the viscosities,
+$k$ acquires the imaginary part
+\begin{equation}
+    \label{eqn:visc_kI}
+    k_I = \frac{\kappa_ak^2}{2\pi G\sigma}\left[\nu_b + \left(\frac{10}{3} + \beta\right)\nu_s
+        - 4(1 + \beta)\frac{\Omega_a^2}{\kappa_a^2}\nu_s\right]
+\end{equation}
+near the resonance, where terms of relative order $D/\kappa_a^2$ are neglected. A constant dynamic viscosity,
+$\nu_s\sigma$ uniform, has $\beta = -1$, which gives $\nu_b + 7\nu_s/3$ in the brackets. This is the case
+\cite{GT78} and \cite{S84} consider (Eqn.\ (61) of \citealt{S84}, with his $\zeta = \nu_b$): their viscous force,
+Eqn.\ (56) of \cite{S84}, assumes that the viscosity's spatial derivatives are small, which drops the last term of
+Eqn.\ (\ref{eqn:visc_tan}). \cite{GT78} noted that this assumption lacked justification and that a viscosity that
+varies with $\sigma$ might instead make the wave grow. \cite{SCL16} give Eqn.\ (\ref{eqn:visc_kI}) for a Keplerian
+ring, $\kappa_a = \Omega_a$, in their Eqn.\ (2), where it reads $\nu_b + 7\nu_s/3 - 3(1 + \beta)\nu_s$. In
+\code{epi\_int\_3d}, $F \propto \sigma$ in Eqn.\ (\ref{eqn:visc_F}), so $\beta = 0$, which gives
+Eqn.\ (\ref{eqn:dw_nueff}). The bracket of Eqn.\ (\ref{eqn:visc_kI}) is negative, and the wave grows, when
+$\beta > (\nu_b/\nu_s - 2/3)/3$ in a Keplerian ring, which is also the condition for the ring's viscous
+overstability \citep{ST95, SCL16}.
 
 \clearpage
 \bibliography{epi_int_3d}{}

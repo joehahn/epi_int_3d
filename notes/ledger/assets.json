@@ -38,5 +38,9 @@
  "density_torque.png": {
   "id": "1733400cd02c6d78d2b9e3be614ac96f",
   "hash": "65cdef3f577c"
+ },
+ "viscous_damping.png": {
+  "id": "d35a12cf8f4bcdbed1540836128c1725",
+  "hash": "d9deb3732eee"
  }
 }

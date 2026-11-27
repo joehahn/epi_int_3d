@@ -2759,7 +2759,12 @@
     "code:dw_wave_wavenumber",
     "code:ring_angular_momentum",
     "figure:density_wave",
-    "figure:density_torque"
+    "figure:density_torque",
+    "code:dw_viscous_run",
+    "code:dw_measured_damping",
+    "code:dw_damping_length",
+    "code:dw_nu_eff",
+    "figure:viscous_damping"
    ]
   },
   {
@@ -2815,9 +2820,13 @@
     "code:satellite",
     "code:velocity_kick",
     "code:ring_gravity",
-    "code:drift"
+    "code:drift",
+    "code:viscous_damping_numbers",
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_bulk_viscosity",
+    "code:viscosity_gating"
    ],
-   "note": "Section 4.2.4; from tests/density_waves' output"
+   "note": "Section 4.2.4; from tests/density_waves' output; Section 4.2.5 from its viscous runs"
   },
   {
    "id": "paper:eqn:dw_disp",
@@ -3071,6 +3080,223 @@
    "needs": [
     "claim:direction"
    ]
+  },
+  {
+   "id": "eq:O6",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O6",
+   "needs": [
+    "eq:O1",
+    "eq:L5",
+    "eq:L7"
+   ],
+   "note": "viscous damping of a density wave, nu ∝ sigma^beta, kappa != Omega; Shu at beta=-1, SCL16 at kappa=Omega"
+  },
+  {
+   "id": "sympy:O6",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O6",
+   "needs": [
+    "eq:O6"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "code:dw_viscous_run",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::viscous_run",
+   "needs": [],
+   "note": "test helper: a viscous run and the inviscid run at its resolution (VISCOUS_RUNS, INVISCID_RUNS)"
+  },
+  {
+   "id": "code:dw_nu_eff",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::nu_eff",
+   "needs": [
+    "eq:O6"
+   ]
+  },
+  {
+   "id": "code:dw_damping_length",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::damping_length",
+   "needs": [
+    "eq:O6",
+    "code:dw_nu_eff",
+    "code:ring_sigma"
+   ]
+  },
+  {
+   "id": "code:dw_damping_ratio",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::damping_ratio",
+   "needs": [
+    "code:simulated_xi",
+    "eq:L7"
+   ]
+  },
+  {
+   "id": "code:dw_measured_damping",
+   "kind": "code",
+   "anchor": "tests/density_analysis.py::measured_damping",
+   "needs": [
+    "code:dw_damping_ratio"
+   ],
+   "note": "fit over the steady stretch, ratio 0.1-0.9"
+  },
+  {
+   "id": "code:viscous_damping_numbers",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::viscous_damping_numbers",
+   "needs": [
+    "code:dw_viscous_run",
+    "code:dw_measured_damping",
+    "code:dw_damping_length",
+    "code:dw_nu_eff",
+    "code:latex_number",
+    "eq:O6"
+   ]
+  },
+  {
+   "id": "figure:viscous_damping",
+   "kind": "figure",
+   "anchor": "paper/figures/viscous_damping.py",
+   "needs": [
+    "code:satellite",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_bulk_viscosity",
+    "code:viscosity_gating",
+    "code:dw_viscous_run",
+    "code:dw_damping_ratio",
+    "code:dw_damping_length",
+    "sympy:O6",
+    "code:figstyle"
+   ]
+  },
+  {
+   "id": "paper:eqn:dw_kI",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:dw_kI",
+   "needs": [
+    "sympy:O6"
+   ]
+  },
+  {
+   "id": "paper:eqn:dw_nueff",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:dw_nueff",
+   "needs": [
+    "sympy:O6"
+   ]
+  },
+  {
+   "id": "paper:eqn:dw_xvis",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:dw_xvis",
+   "needs": [
+    "sympy:O6"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_cont",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_cont",
+   "needs": [
+    "sympy:O6"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_rad",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_rad",
+   "needs": [
+    "sympy:O6",
+    "paper:eqn:visc_G"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_tan",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_tan",
+   "needs": [
+    "sympy:O6",
+    "paper:eqn:visc_F"
+   ]
+  },
+  {
+   "id": "paper:eqn:visc_kI",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#eqn:visc_kI",
+   "needs": [
+    "sympy:O6"
+   ]
+  },
+  {
+   "id": "paper:fig:viscdamp",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:viscdamp",
+   "needs": [
+    "figure:viscous_damping",
+    "sympy:O6"
+   ],
+   "notebook": [
+    "density_waves#test12"
+   ]
+  },
+  {
+   "id": "claim:dw_viscous_theory",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@is the wave's viscous damping length",
+   "needs": [
+    "sympy:O6",
+    "paper:eqn:dw_xvis",
+    "paper:eqn:dw_nueff"
+   ],
+   "note": "Shu's Eqn. 63 with nu_eff; Shu takes nu sigma uniform; shear part ~ -2 nu_s/3"
+  },
+  {
+   "id": "claim:dw_viscous_setup",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@are simulated three more times with viscosity",
+   "needs": [
+    "numbers:density_waves",
+    "notebook:density_waves",
+    "paper:fig:viscdamp",
+    "paper:eqn:dw_xvis"
+   ],
+   "note": "runs A, C, D; fitted n ~ 3; x_vis vs Eqn. 49 and Shu",
+   "notebook": [
+    "density_waves#test12"
+   ]
+  },
+  {
+   "id": "claim:dw_viscous_convergence",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@The remaining differences are due to the code's finite resolution",
+   "needs": [
+    "numbers:density_waves",
+    "notebook:density_waves",
+    "paper:eqn:dw_xvis",
+    "paper:eqn:dw_kI"
+   ],
+   "note": "first order in spacing; extrapolated x_vis within 0.1-4%",
+   "notebook": [
+    "density_waves#test13"
+   ]
+  },
+  {
+   "id": "claim:visc_damping_literature",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@A constant dynamic viscosity",
+   "needs": [
+    "sympy:O6",
+    "paper:eqn:visc_kI",
+    "paper:eqn:visc_tan"
+   ],
+   "note": "beta=-1 gives Shu (Eqns 56, 61) and GT78; GT78 flagged it; SCL16 Eqn. 2 for kappa=Omega; overstability criterion ST95"
   }
  ]
 }

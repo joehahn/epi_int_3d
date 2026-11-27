@@ -14,7 +14,8 @@ skipped unless --force is given.
   `inclination` in inputs.py) always run with fast/epi_int_3d.py and its default ring gravity, as
   described in the paper.
 - VARIANTS: extra runs of a test with some inputs changed, each in its own output_<name>/ (and output_<name>.log):
-  tests/bending_waves at 400 and 1600 streamlines, beside its 800, for the paper's wavenumber convergence (Fig. 4).
+  tests/bending_waves at 400 and 1600 streamlines, beside its 800, for the paper's wavenumber convergence (Fig. 4);
+  tests/density_waves at 400 and 1600 streamlines and with viscosity (runs A, C, D), for the viscous damping (Fig. 9).
 
 Run:  uv run python tools/run_simulations.py                     #all 29 test simulations
       uv run python tools/run_simulations.py tests/spreading       #one test
@@ -39,7 +40,9 @@ FAST_DRIVER = REPO/'fast'/'epi_int_3d.py'
 #extra runs: test folder -> {output folder: modified inputs}
 sys.path.insert(0, str(REPO/'tests'))
 from vertical_analysis import RESOLUTION_RUNS
-VARIANTS = {'bending_waves': {k: v for k, v in RESOLUTION_RUNS.items() if k != 'output'}}
+from density_analysis import VISCOUS_RUNS, RESOLUTION_VARIANTS
+VARIANTS = {'bending_waves': {k: v for k, v in RESOLUTION_RUNS.items() if k != 'output'},
+            'density_waves': dict(RESOLUTION_VARIANTS, **VISCOUS_RUNS)}
 
 
 EPI_INT_3D_TESTS = ('nominal', 'inclined', 'self_confining', 'vertical_resonance', 'bending_waves', 'lindblad_resonance',

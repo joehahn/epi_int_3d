@@ -85,11 +85,11 @@
   }
  },
  "claim:dw_agreement": {
-  "date": "2026-11-24",
+  "date": "2026-11-27",
   "hash": "0c7af019180e",
   "needs": {
-   "notebook:density_waves": "ac5f7e4bc47a",
-   "numbers:density_waves": "d62dd4b238ca",
+   "notebook:density_waves": "66d144ebe935",
+   "numbers:density_waves": "7d88bc84428c",
    "paper:eqn:lres_torque": "fb0262495b6d",
    "paper:eqn:lres_xi": "807f99078457",
    "paper:fig:dwave": "f2701d99ee31",
@@ -108,10 +108,10 @@
   }
  },
  "claim:dw_setup": {
-  "date": "2026-11-24",
+  "date": "2026-11-27",
   "hash": "6ea262d91337",
   "needs": {
-   "numbers:density_waves": "d62dd4b238ca",
+   "numbers:density_waves": "7d88bc84428c",
    "sympy:L5": "fa3af57fb8f5",
    "sympy:L6": "e7ce7e2e5c25",
    "sympy:L7": "7d3102c85993"
@@ -123,6 +123,35 @@
   "needs": {
    "sympy:L5": "fa3af57fb8f5",
    "sympy:L6": "e7ce7e2e5c25"
+  }
+ },
+ "claim:dw_viscous_convergence": {
+  "date": "2026-11-27",
+  "hash": "f0c3f20993af",
+  "needs": {
+   "notebook:density_waves": "66d144ebe935",
+   "numbers:density_waves": "7d88bc84428c",
+   "paper:eqn:dw_kI": "466982a6c037",
+   "paper:eqn:dw_xvis": "80678353a934"
+  }
+ },
+ "claim:dw_viscous_setup": {
+  "date": "2026-11-27",
+  "hash": "f0f8bf56b207",
+  "needs": {
+   "notebook:density_waves": "66d144ebe935",
+   "numbers:density_waves": "7d88bc84428c",
+   "paper:eqn:dw_xvis": "80678353a934",
+   "paper:fig:viscdamp": "4865dd981b59"
+  }
+ },
+ "claim:dw_viscous_theory": {
+  "date": "2026-11-27",
+  "hash": "09f0bbb12ed4",
+  "needs": {
+   "paper:eqn:dw_nueff": "66468d52cbc0",
+   "paper:eqn:dw_xvis": "80678353a934",
+   "sympy:O6": "68c76fddf540"
   }
  },
  "claim:edge_term": {
@@ -296,6 +325,15 @@
    "sympy:B9": "ad423e395545"
   }
  },
+ "claim:visc_damping_literature": {
+  "date": "2026-11-27",
+  "hash": "6cd16fb3f305",
+  "needs": {
+   "paper:eqn:visc_kI": "e29df65685b2",
+   "paper:eqn:visc_tan": "66b8669c50da",
+   "sympy:O6": "68c76fddf540"
+  }
+ },
  "claim:viscosity_in_plane": {
   "date": "2026-11-25",
   "hash": "d8226142ebc4",
@@ -368,8 +406,8 @@
   }
  },
  "code:density_waves_numbers": {
-  "date": "2026-11-24",
-  "hash": "4178cb54552a",
+  "date": "2026-11-27",
+  "hash": "f0cb7f83b194",
   "needs": {
    "code:density_wave": "cf8fff7bc59d",
    "code:dw_satellite_torque": "24b471b70705",
@@ -394,6 +432,37 @@
    "eq:H1": "efd59989a5e1",
    "eq:H2": "1d8ce7023756",
    "eq:H3": "f7017c75bd8e"
+  }
+ },
+ "code:dw_damping_length": {
+  "date": "2026-11-27",
+  "hash": "30fa1b89080c",
+  "needs": {
+   "code:dw_nu_eff": "4ebb53059ca0",
+   "code:ring_sigma": "c65053c901a9",
+   "eq:O6": "57f4b0aa0786"
+  }
+ },
+ "code:dw_damping_ratio": {
+  "date": "2026-11-27",
+  "hash": "73de09c7f3f0",
+  "needs": {
+   "code:simulated_xi": "bcca0419a98d",
+   "eq:L7": "4dd55b30d482"
+  }
+ },
+ "code:dw_measured_damping": {
+  "date": "2026-11-27",
+  "hash": "725338667046",
+  "needs": {
+   "code:dw_damping_ratio": "73de09c7f3f0"
+  }
+ },
+ "code:dw_nu_eff": {
+  "date": "2026-11-27",
+  "hash": "4ebb53059ca0",
+  "needs": {
+   "eq:O6": "57f4b0aa0786"
   }
  },
  "code:dw_resonance_D": {
@@ -423,6 +492,11 @@
   "needs": {
    "eq:L8": "01afd67cc94c"
   }
+ },
+ "code:dw_viscous_run": {
+  "date": "2026-11-27",
+  "hash": "5d79c3a45394",
+  "needs": {}
  },
  "code:dw_wave_front": {
   "date": "2026-11-23",
@@ -738,6 +812,18 @@
   "hash": "0f007d821f42",
   "needs": {
    "eq:W2": "a42588fb83e4"
+  }
+ },
+ "code:viscous_damping_numbers": {
+  "date": "2026-11-27",
+  "hash": "a3202a3b6607",
+  "needs": {
+   "code:dw_damping_length": "30fa1b89080c",
+   "code:dw_measured_damping": "725338667046",
+   "code:dw_nu_eff": "4ebb53059ca0",
+   "code:dw_viscous_run": "5d79c3a45394",
+   "code:latex_number": "9006fad6438e",
+   "eq:O6": "57f4b0aa0786"
   }
  },
  "code:wave_front": {
@@ -1171,6 +1257,15 @@
    "eq:P8": "1b4716c4a591"
   }
  },
+ "eq:O6": {
+  "date": "2026-11-27",
+  "hash": "57f4b0aa0786",
+  "needs": {
+   "eq:L5": "b4e24f3c933d",
+   "eq:L7": "4dd55b30d482",
+   "eq:O1": "d19ec2e33c00"
+  }
+ },
  "eq:P1": {
   "date": "2026-11-10",
   "hash": "a78fa91b1149",
@@ -1376,6 +1471,24 @@
    "sympy:B12": "7f8ae407a448"
   }
  },
+ "figure:viscous_damping": {
+  "date": "2026-11-27",
+  "hash": "3ed6562b52e9",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:dw_damping_length": "30fa1b89080c",
+   "code:dw_damping_ratio": "73de09c7f3f0",
+   "code:dw_viscous_run": "5d79c3a45394",
+   "code:figstyle": "73ef6300bbfe",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
+   "code:ring_gravity": "b009c47899ac",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
+   "code:satellite": "53f58f0b082a",
+   "code:velocity_kick": "4e874e5b866f",
+   "code:viscosity_gating": "0f007d821f42",
+   "sympy:O6": "68c76fddf540"
+  }
+ },
  "figure:wavenumber": {
   "date": "2026-11-24",
   "hash": "138cdd7d3ccd",
@@ -1434,14 +1547,18 @@
   }
  },
  "notebook:density_waves": {
-  "date": "2026-11-23",
-  "hash": "ac5f7e4bc47a",
+  "date": "2026-11-27",
+  "hash": "66d144ebe935",
   "needs": {
    "code:density_wave": "cf8fff7bc59d",
    "code:drift": "a16d87bc9e34",
+   "code:dw_damping_length": "30fa1b89080c",
+   "code:dw_measured_damping": "725338667046",
+   "code:dw_nu_eff": "4ebb53059ca0",
    "code:dw_satellite_torque": "24b471b70705",
    "code:dw_tau_001": "81c10bed92dc",
    "code:dw_torque_theory": "b0d662ab6970",
+   "code:dw_viscous_run": "5d79c3a45394",
    "code:dw_wave_front": "5bd4ef2e6f62",
    "code:dw_wave_wavenumber": "4c4f17537fdb",
    "code:ring_angular_momentum": "9941a6d70d66",
@@ -1450,7 +1567,8 @@
    "code:simulated_xi": "bcca0419a98d",
    "code:velocity_kick": "4e874e5b866f",
    "figure:density_torque": "c29f9bc6d379",
-   "figure:density_wave": "5be4e7cd4143"
+   "figure:density_wave": "5be4e7cd4143",
+   "figure:viscous_damping": "3ed6562b52e9"
   }
  },
  "notebook:inclined": {
@@ -1502,15 +1620,19 @@
   }
  },
  "numbers:density_waves": {
-  "date": "2026-11-24",
-  "hash": "d62dd4b238ca",
+  "date": "2026-11-27",
+  "hash": "7d88bc84428c",
   "needs": {
-   "code:density_waves_numbers": "4178cb54552a",
+   "code:density_waves_numbers": "f0cb7f83b194",
    "code:drift": "a16d87bc9e34",
    "code:latex_number": "9006fad6438e",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
    "code:ring_gravity": "b009c47899ac",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
    "code:satellite": "53f58f0b082a",
-   "code:velocity_kick": "4e874e5b866f"
+   "code:velocity_kick": "4e874e5b866f",
+   "code:viscosity_gating": "0f007d821f42",
+   "code:viscous_damping_numbers": "a3202a3b6607"
   }
  },
  "numbers:lindblad_resonance": {
@@ -1580,6 +1702,27 @@
   "hash": "0ce0e1b74135",
   "needs": {
    "sympy:L5": "fa3af57fb8f5"
+  }
+ },
+ "paper:eqn:dw_kI": {
+  "date": "2026-11-27",
+  "hash": "466982a6c037",
+  "needs": {
+   "sympy:O6": "68c76fddf540"
+  }
+ },
+ "paper:eqn:dw_nueff": {
+  "date": "2026-11-27",
+  "hash": "66468d52cbc0",
+  "needs": {
+   "sympy:O6": "68c76fddf540"
+  }
+ },
+ "paper:eqn:dw_xvis": {
+  "date": "2026-11-27",
+  "hash": "80678353a934",
+  "needs": {
+   "sympy:O6": "68c76fddf540"
   }
  },
  "paper:eqn:i_node": {
@@ -1725,6 +1868,36 @@
   "hash": "c1dc463129aa",
   "needs": {
    "eq:W2": "a42588fb83e4"
+  }
+ },
+ "paper:eqn:visc_cont": {
+  "date": "2026-11-27",
+  "hash": "5a971cc8b1a3",
+  "needs": {
+   "sympy:O6": "68c76fddf540"
+  }
+ },
+ "paper:eqn:visc_kI": {
+  "date": "2026-11-27",
+  "hash": "e29df65685b2",
+  "needs": {
+   "sympy:O6": "68c76fddf540"
+  }
+ },
+ "paper:eqn:visc_rad": {
+  "date": "2026-11-27",
+  "hash": "b41e4783e58c",
+  "needs": {
+   "paper:eqn:visc_G": "c1dc463129aa",
+   "sympy:O6": "68c76fddf540"
+  }
+ },
+ "paper:eqn:visc_tan": {
+  "date": "2026-11-27",
+  "hash": "66b8669c50da",
+  "needs": {
+   "paper:eqn:visc_F": "a04ffab5d826",
+   "sympy:O6": "68c76fddf540"
   }
  },
  "paper:eqn:vres_AV": {
@@ -2041,6 +2214,14 @@
   "needs": {
    "figure:torque": "248331f7dd8b",
    "sympy:B9": "ad423e395545"
+  }
+ },
+ "paper:fig:viscdamp": {
+  "date": "2026-11-27",
+  "hash": "4865dd981b59",
+  "needs": {
+   "figure:viscous_damping": "3ed6562b52e9",
+   "sympy:O6": "68c76fddf540"
   }
  },
  "paper:fig:vres": {
@@ -2501,6 +2682,13 @@
   "hash": "92734ae47404",
   "needs": {
    "eq:O5": "c7914d7432b5"
+  }
+ },
+ "sympy:O6": {
+  "date": "2026-11-27",
+  "hash": "68c76fddf540",
+  "needs": {
+   "eq:O6": "57f4b0aa0786"
   }
  },
  "sympy:P1": {

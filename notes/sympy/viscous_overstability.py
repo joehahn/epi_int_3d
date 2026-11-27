@@ -97,3 +97,56 @@ Xpi = 4*G*sig/D*(sp.pi*sp.pi/2 - sp.pi**2/4)
 R = 2*sp.pi**2*G*sig/(W**2*D)
 print('O5 x(zigzag) = R/2:', sp.simplify(Xpi/W**2 - R/2) == 0)
 print('   so with nu_b = nu_s the lattice is stable for R < 2/7, with nu_b = 2 nu_s for R < 4/5')
+
+#--- O6: viscous damping of a density wave at an inner Lindblad resonance, nu ∝ sigma^beta, kappa != Omega ------
+#Tight-winding (WKB) Eulerian equations, perturbations ~ exp i(k r + m theta - omega t), k > 0 (trailing), Doppler-shifted
+#frequency w = omega - m Omega (= -kappa at an ILR). The background shear stress sigma nu r dOmega/dr is perturbed by
+#delta(sigma nu) = (1 + beta) nu sigma1 (beta = dln nu/dln sigma: 0 for epi_int_3d's constant nu, -1 for Shu's constant
+#dynamic viscosity), with r dOmega/dr = (kappa^2 - 4 Omega^2)/2 Omega. The circular background has no radial stress, so
+#nu_b's density dependence does not enter.
+w, kap, beta6, k0, g6 = sp.symbols('w kappa beta k0 g', positive=True)
+S6, u6, v6 = sp.symbols('S u v')
+rOp = (kap**2 - 4*W**2)/(2*W)
+eqs6 = [-I*w*S6 + I*k*sig*u6,
+        -I*w*u6 - 2*W*v6 - 2*sp.pi*G*I*S6 + nu1*k**2*u6,
+        -I*w*v6 + kap**2/(2*W)*u6 + nu*k**2*v6 - (1 + beta6)*nu*I*k*S6*rOp/sig]
+F6 = sp.expand(sp.Matrix([[sp.diff(e, q) for q in (S6, u6, v6)] for e in eqs6]).det())
+#inviscid: w^2 = kappa^2 - 2 pi G sigma k (L5)
+print('O6 inviscid dispersion relation  w (w^2 - kappa^2 + 2 pi G sigma k) = 0:',
+      sp.simplify(F6.subs({nu: 0, nub: 0}) - I*w*(w**2 - kap**2 + 2*sp.pi*G*sig*k)) == 0)
+#first order in viscosity: k = k0 + dk, dk = -(dF/dnu terms)/(dF/dk); then leading order in g = 2 pi G sigma k0 = D << kappa^2
+F6e = F6.subs({nu: eps*nu, nub: eps*nub})
+dk = (-sp.diff(F6e, eps).subs(eps, 0)/sp.diff(F6e, k).subs(eps, 0)).subs(k, k0)
+dk = dk.subs(G, g6/(2*sp.pi*sig*k0)).subs(w, -sp.sqrt(kap**2 - g6))
+dk_lead = sp.simplify(sp.series(dk, g6, 0, 0).removeO())
+nu_eff = nub + (sp.Rational(10, 3) + beta6)*nu - 4*(1 + beta6)*(W/kap)**2*nu
+print('O6 Im k = kappa k0^3 nu_eff/(2 pi G sigma k0), nu_eff = nu_b + (10/3 + beta) nu_s - 4(1 + beta)(Omega/kappa)^2 nu_s:',
+      sp.simplify(dk_lead - I*kap*k0**3*nu_eff/g6) == 0)
+print('    beta = -1 (Shu 1984 Eqn. 59, GT78b):  nu_b + 7 nu_s/3:', sp.simplify(nu_eff.subs(beta6, -1) - (nub + sp.Rational(7, 3)*nu)) == 0)
+print('    kappa = Omega (Schmidt et al. 2016 Eqn. 2, dln eta/dln sigma = 1 + beta):',
+      sp.simplify(nu_eff.subs(kap, W) - sp.Rational(7, 3)*nu*(1 - sp.Rational(9, 7)*(1 + beta6) + 3*nub/(7*nu))) == 0)
+print('    beta = 0 (epi_int_3d):', sp.simplify(nu_eff.subs(beta6, 0)))
+#amplitude ~ exp(-int Im k dr), k0 = D x/(2 pi G sigma) (L5), dr = r_L dx: exp[-(x/x_vis)^3],
+#x_vis = epsilon [3 r_L^2 D/(kappa nu_eff)]^(1/3), epsilon = 2 pi G sigma/(r_L D) (L7), as Shu (1984) Eqn. (63)
+X, rL, DD, xp = sp.symbols('x r_L Dcal xp', positive=True)
+ImK = kap*(DD*xp/(2*sp.pi*G*sig))**2*nu_eff/(2*sp.pi*G*sig)
+expo = sp.integrate(ImK*rL, (xp, 0, X))
+epsL = 2*sp.pi*G*sig/(rL*DD)
+x_vis = epsL*(3*rL**2*DD/(kap*nu_eff))**sp.Rational(1, 3)
+print('O6 int_0^x Im k r_L dx = (x/x_vis)^3, x_vis = epsilon [3 r_L^2 D/(kappa nu_eff)]^(1/3):',
+      sp.simplify(expo - (X/x_vis)**3) == 0)
+#numerical check: the exact root k of the full viscous dispersion relation, near k0, against k0 + i Im k, with
+#g/kappa^2 = 2e-5 (the neglected terms are O(g/kappa^2) relative to each viscosity's, and nu_eff here is a near-cancellation)
+import numpy as np
+vals = {W: 1.0, kap: 0.99, sig: 1.0e-6, G: 1.0, nu: 3.0e-12, nub: 2.0e-12, beta6: 0.0}
+k0n = 3.0
+gn = 2*np.pi*1.0e-6*k0n
+wn = -np.sqrt(0.99**2 - gn)
+poly = sp.Poly(sp.expand(F6.subs(vals).subs(w, wn)/I), k)
+roots = np.roots([complex(c) for c in poly.all_coeffs()])
+kr = roots[np.argmin(abs(roots - k0n))]
+pred = complex(dk_lead.subs(vals).subs({k0: k0n, g6: gn}))
+print('    numerical: Im k exact %.6e, first order %.6e, relative difference %.1e (expect ~ (g/kappa^2) nu/nu_eff)'
+      % (kr.imag, pred.imag, abs(kr.imag/pred.imag - 1)))
+#next order in g: nu_b (1 - g/2 kappa^2) and nu_s [10/3 + beta - 4(1 + beta)(Omega/kappa)^2 + O(g/kappa^2)]; at the runs'
+#damping zone (g = D x ~ 0.02 kappa^2) these shift the bulk coefficient by -0.01 and the shear's by -0.03

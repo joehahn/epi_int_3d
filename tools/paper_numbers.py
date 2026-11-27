@@ -335,6 +335,55 @@ def density_waves_numbers():
     numbers += [('dwTorqueRatio', latex_number(late.mean(), 3), 'mean T/T_L over the last half of the run (L8)')]
     numbers += [('dwTorqueScatter', latex_number(100.0*np.abs(late - 1.0).max(), 2, up=True),
         'largest |T/T_L - 1| over the last half, percent, rounded up')]
+    numbers += viscous_damping_numbers(test_folder)
+    return numbers
+
+
+#the viscous runs of tests/density_waves, Section 4.2.5 and Fig. viscdamp: measured and theoretical damping lengths
+def viscous_damping_numbers(test_folder):
+    numbers = []
+    names = {'A': 'A', 'C': 'C', 'D': 'D'}
+    words = {400: 'Low', 800: '', 1600: 'High'}
+    x_vis = {}
+    exponents = []
+    for n in (400, 800, 1600):
+        for name in 'ACD':
+            runs = dw.viscous_run(test_folder, name, n)
+            if runs is None:
+                continue
+            (p, o), (p0, o0) = runs
+            assert o['monitor']['streamline_crossing_timestep'] is None, 'streamlines crossed in viscous run ' + name
+            exponent, x_vis[(name, n)] = dw.measured_damping(p, o, p0, o0)
+            exponents += [exponent]
+            numbers += [('dwXvis' + names[name] + words[n], latex_number(x_vis[(name, n)], 3),
+                f'run {name}, {n} streamlines: x_vis of the n = 3 fit (measured_damping)')]
+            if n == 800:
+                sat = dw.satellite(p)
+                numbers += [('dwXvisTheory' + name, latex_number(dw.damping_length(p, sat), 3), f'run {name}: O6 x_vis, beta = 0')]
+                numbers += [('dwXvisShu' + name, latex_number(dw.damping_length(p, sat, beta=-1.0), 3),
+                    f'run {name}: Shu (1984) x_vis, beta = -1')]
+                numbers += [('dwNuEff' + name, latex_number(dw.nu_eff(p, sat)/dw.NU_VISCOUS, 3), f'run {name}: nu_eff/nu (O6)')]
+    numbers += [('dwNuVisc', latex_number(dw.NU_VISCOUS, 2), 'density_analysis NU_VISCOUS')]
+    p, o = dw.load3d(test_folder)
+    sat = dw.satellite(p)
+    from helper_fns import Omega, Kappa
+    q2 = (Omega(p['J2'], p['Rp'], sat.r_L)/Kappa(p['J2'], p['Rp'], sat.r_L))**2
+    numbers += [('dwShearCoef', latex_number(10.0/3.0 - 4.0*q2, 3), '10/3 - 4 (Omega/kappa)^2 at r_L (O6, beta = 0)')]
+    numbers += [('dwExponentMin', latex_number(min(exponents), 2), 'smallest free-exponent fit n over the viscous runs')]
+    numbers += [('dwExponentMax', latex_number(max(exponents), 2), 'largest free-exponent fit n over the viscous runs')]
+    numbers += [('dwDampFitLow', latex_number(100*dw.DAMPING_FIT[0], 2), 'DAMPING_FIT lower ratio, percent')]
+    numbers += [('dwDampFitHigh', latex_number(100*dw.DAMPING_FIT[1], 2), 'DAMPING_FIT upper ratio, percent')]
+    #first-order (in the streamline spacing) extrapolation from 400 and 800 streamlines, 2 x_800 - x_400
+    for name in 'ACD':
+        extrapolated = 2*x_vis[(name, 800)] - x_vis[(name, 400)]
+        theory = dw.damping_length(dw.viscous_run(test_folder, name)[0][0], sat)
+        numbers += [('dwXvisExt' + name, latex_number(extrapolated, 3), f'run {name}: 2 x_vis(800) - x_vis(400)')]
+        numbers += [('dwXvisExtPercent' + name, latex_number(100*abs(extrapolated/theory - 1), 1),
+            f'run {name}: |extrapolated/theory - 1|, percent')]
+    if ('C', 1600) in x_vis:
+        #the error's ratio between successive doublings, (x_400 - x_800)/(x_800 - x_1600): 2 at first order, 4 at second
+        ratio = (x_vis[('C', 400)] - x_vis[('C', 800)])/(x_vis[('C', 800)] - x_vis[('C', 1600)])
+        numbers += [('dwConvergenceRatio', latex_number(ratio, 2), 'run C: (x_400 - x_800)/(x_800 - x_1600)')]
     return numbers
 
 

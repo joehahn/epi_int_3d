@@ -5,7 +5,8 @@
 #Diagnostics of a satellite's inner Lindblad resonance (fast/satellite.py's 'horizontal' Fourier satellite), the
 #in-plane counterparts of tests/vertical_analysis.py's bending-wave ones, for tests/lindblad_resonance (massless
 #particles) and tests/density_waves (a self-gravitating ring's spiral density wave), the paper's Section 4.2.
-#Theory: notes/equations.md L1-L9 (notes/sympy/density_wave.py).
+#Theory: notes/equations.md L1-L9 (notes/sympy/density_wave.py); the viscous damping, O6
+#(notes/sympy/viscous_overstability.py).
 
 import sys
 from pathlib import Path
@@ -23,7 +24,8 @@ from vertical_analysis import load3d, ring_sigma, paper_figure, late_outputs, wa
 __all__ = ['load3d', 'ring_sigma', 'paper_figure', 'late_outputs', 'wavenumber_profile', 'satellite', 'resonance_D',
            'forced_eccentricity', 'density_wave', 'L_L', 'wave_amplitude', 'simulated_xi', 'satellite_torque',
            'torque_theory', 'wave_wavenumber', 'tau_001', 'resonance_zone', 'wave_front',
-           'steady', 'X_STEADY']
+           'steady', 'X_STEADY', 'VISCOUS_RUNS', 'INVISCID_RUNS', 'viscous_run', 'nu_eff', 'damping_length',
+           'damping_ratio', 'measured_damping', 'DAMPING_FIT', 'NU_VISCOUS']
 
 
 def satellite(p):
@@ -129,3 +131,74 @@ def wave_front(p, o, k):
 def steady(p, sat, x):
     """Where the wave is compared with linear theory at the run's end: outside the resonance zone, x < X_STEADY."""
     return (x > resonance_zone(p, sat)) & (x < X_STEADY)
+
+
+#tests/density_waves with viscosity (paper Section 4.2.5), the same ring otherwise (tools/run_simulations.py makes them):
+#output folder -> modified inputs; each viscous run is compared with the inviscid run at its resolution, INVISCID_RUNS.
+#number_of_particles is set from inputs.py's number_of_streamlines before -m applies, so it is given here too.
+NU_VISCOUS = 2.7e-12
+def _at(n):
+    return {} if n == 800 else {'number_of_streamlines': n, 'number_of_particles': n*32}
+INVISCID_RUNS = {400: 'output_N400', 800: 'output', 1600: 'output_N1600'}
+VISCOUS_RUNS = {}
+for _n, _runs in ((800, 'ACD'), (400, 'ACD'), (1600, 'C')):
+    for _name in _runs:
+        nu_s, nu_b = {'A': (NU_VISCOUS, NU_VISCOUS), 'C': (0.0, NU_VISCOUS), 'D': (NU_VISCOUS, 2*NU_VISCOUS)}[_name]
+        VISCOUS_RUNS['output_visc' + _name + ('' if _n == 800 else f'_N{_n}')] = dict(_at(_n), shear_viscosity=nu_s,
+            bulk_viscosity=nu_b)
+RESOLUTION_VARIANTS = {folder: _at(n) for n, folder in INVISCID_RUNS.items() if n != 800}
+
+
+def viscous_run(test_folder, name, n=800):
+    """Viscous run name ('A', 'C' or 'D') at n streamlines and the inviscid run at the same resolution, as
+    ((p, o), (p0, o0)) from load3d, or None if either has not been made."""
+    folder = 'output_visc' + name + ('' if n == 800 else f'_N{n}')
+    if folder not in VISCOUS_RUNS:
+        return None
+    pair = []
+    for f, modified in ((folder, VISCOUS_RUNS[folder]), (INVISCID_RUNS[n], _at(n))):
+        if not (Path(test_folder)/f).is_dir():
+            return None
+        pair.append(load3d(test_folder, Path(test_folder)/f, dict(modified, output_folder=f)))
+    return tuple(pair)
+
+
+def nu_eff(p, sat, beta=0.0):
+    """The effective viscosity of a density wave's damping, nu_b + (10/3 + beta) nu_s - 4(1 + beta)(Omega/kappa)^2 nu_s,
+    Omega and kappa at r_L, for a kinematic shear viscosity nu_s ∝ sigma^beta (notes/equations.md O6): beta = 0 is
+    epi_int_3d's constant nu_s, beta = -1 Shu's (1984) constant dynamic viscosity, nu_b + 7 nu_s/3. A viscosity < 0 is off."""
+    nu_s, nu_b = max(p['shear_viscosity'], 0.0), max(p['bulk_viscosity'], 0.0)
+    q2 = (Omega(p['J2'], p['Rp'], sat.r_L)/Kappa(p['J2'], p['Rp'], sat.r_L))**2
+    return nu_b + (10.0/3.0 + beta)*nu_s - 4.0*(1.0 + beta)*q2*nu_s
+
+
+def damping_length(p, sat, beta=0.0, G=1.0):
+    """Linear theory's viscous damping length x_vis = eps [3 r_L^2 D_L/(kappa nu_eff)]^(1/3), eps = 2 pi G sigma/(r_L D_L),
+    kappa at r_L: the wave's amplitude falls as exp[-(x/x_vis)^3] (O6; Shu 1984 Eqn. 63 with nu_eff)."""
+    eps = 2*np.pi*G*ring_sigma(p)/(sat.r_L*sat.D_L)
+    return eps*(3*sat.r_L**2*sat.D_L/(Kappa(p['J2'], p['Rp'], sat.r_L)*nu_eff(p, sat, beta)))**(1.0/3.0)
+
+
+def damping_ratio(p, o, p0, o0, k=-1):
+    """At output k, x and the ratio of the viscous run's wave amplitude to the inviscid run's at the same x,
+    |xi - L_L/x| over |xi_0 - L_L/x|, each streamline's xi from simulated_xi (the two runs share their streamlines' x
+    to ~1e-7)."""
+    sat, x, xi = simulated_xi(p, o, k)
+    sat, x0, xi0 = simulated_xi(p0, o0, k)
+    return x0, np.abs(xi - L_L(sat)/x)/np.abs(xi0 - L_L(sat)/x0)
+
+
+DAMPING_FIT = (0.1, 0.9)            #the ratios fitted: where the wave has damped by 10-90 percent
+
+
+def measured_damping(p, o, p0, o0, k=-1):
+    """The damping measured at output k: fits of -ln(ratio) to (x/x_vis)^n over the streamlines outside the resonance
+    zone where the inviscid wave is steady (steady: x < X_STEADY) and whose ratio lies in DAMPING_FIT, with n free
+    (returns n) and with n = 3 (returns that x_vis)."""
+    sat = satellite(p)
+    x, ratio = damping_ratio(p, o, p0, o0, k)
+    use = steady(p, sat, x) & (ratio > DAMPING_FIT[0]) & (ratio < DAMPING_FIT[1])
+    y = np.log(-np.log(ratio[use]))
+    n = np.polyfit(np.log(x[use]), y, 1)[0]
+    x_vis = np.exp(-np.mean(y - 3*np.log(x[use]))/3)
+    return n, x_vis
