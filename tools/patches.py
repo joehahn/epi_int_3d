@@ -26,7 +26,11 @@ unchanged. Used by explore/run.py and by tests/nominal/inputs.py.
 - fix_shear_torque=True gives shear viscosity hahn13's tangential acceleration in the ring's interior,
   A = -(1/sigma r) dF/dr with F = -nu_s sigma r^2 d(omega)/dr, the angular momentum flux (issue 12). The
   reference uses -(1/sigma) d(F/r)/dr, which adds F/sigma r^2. The edges, -F/lambda r and F_-/lambda r,
-  are unchanged. fast/epi_int_3d.py applies it by default.
+  are unchanged. fast/epi_int_3d.py applies it by default. With either fix, bulk_viscosity < 0 means
+  nu_b = 0 (off), as the inputs say, rather than entering the radial stress.
+- seed_mode(phi, amplitude) starts the ring with one axisymmetric epicyclic wave of lattice wavenumber phi,
+  streamline j displaced radially by xi_0 cos(phi j) and kicked by v_r = kappa xi_0 sin(phi j), xi_0 =
+  amplitude x the streamline spacing, for tests/overstability.
 
 Usage, before source/epi_int_lite.py runs `from helper_fns import *`:
     import patches; patches.apply(taper=0.2)
@@ -82,6 +86,27 @@ def tapered(initialize, f):
     return wrapped
 
 
+def seed_mode(phi, amplitude):
+    """Wrap helper_fns.initialize_streamline so that it displaces streamline j radially by xi_0 cos(phi j), at
+    fixed angular momentum, and kicks it by v_r = kappa xi_0 sin(phi j), xi_0 = amplitude x the streamline spacing:
+    one axisymmetric epicyclic wave, xi = xi_0 cos(phi j - kappa t), of uniform amplitude. Idempotent (rewraps the unseeded
+    initializer), so re-reading inputs.py does not seed twice."""
+    initialize = getattr(helper_fns.initialize_streamline, 'unseeded', helper_fns.initialize_streamline)
+    def wrapped(number_of_streamlines, particles_per_streamline, radial_width, *args, **kwargs):
+        r, t, vr, vt, c, monitor = initialize(number_of_streamlines, particles_per_streamline, radial_width,
+                                              *args, **kwargs)
+        J2, Rp = args[8], args[9]
+        j = np.arange(number_of_streamlines)[:, None]
+        xi_0 = amplitude*radial_width/(number_of_streamlines - 1)
+        vr = vr + helper_fns.Kappa(J2, Rp, r)*xi_0*np.sin(phi*j)
+        r_new = r + xi_0*np.cos(phi*j)
+        vt = vt*r/r_new                       #same angular momentum, so the guiding centers stay put
+        print('seeded axisymmetric wave: phi =', phi, ' xi_0/spacing =', amplitude)
+        return r_new, t, vr, vt, c, monitor
+    wrapped.unseeded = initialize
+    helper_fns.initialize_streamline = wrapped
+
+
 def A_P_hahn13(lambda_, sd, P, t, delta_P, delta_r):
     """As helper_fns.A_P, but the outer edge uses the inner neighbor's P at the outer particles' longitudes."""
     A = -df_dr(delta_P, delta_r)/sd
@@ -125,7 +150,8 @@ def accelerations(lambda_, G_ring, shear_viscosity, bulk_viscosity, c, r, t, vr,
         if (shear_viscosity > 0.0):
             At += h.ring_shear_viscosity(shear_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
         if ((shear_viscosity > 0.0) or (bulk_viscosity > 0.0)):                     #was: bulk only
-            Ar += h.ring_bulk_viscosity(shear_viscosity, bulk_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)
+            Ar += h.ring_bulk_viscosity(shear_viscosity, max(bulk_viscosity, 0.0), lw, sdw, rw, tw, vrw, vtw, vw,
+                delta_rw)                                                           #bulk < 0 means off
     if (confine_inner_edge or confine_outer_edge):
         At = h.edge_torques(rw, At, confine_inner_edge, confine_outer_edge)
     if (type(Ar) != int):
@@ -178,8 +204,8 @@ def seam_accelerations(fix_viscosity):
             if (shear_viscosity > 0.0):
                 At += h.ring_shear_viscosity(shear_viscosity, lw, sdw, rw, tw, vrw, vtw, vw, delta_rw)[:, 2:-2]
             if ((bulk_viscosity > 0.0) or (fix_viscosity and shear_viscosity > 0.0)):
-                Ar += h.ring_bulk_viscosity(shear_viscosity, bulk_viscosity, lw, sdw, rw, tw, vrw, vtw, vw,
-                    delta_rw)[:, 2:-2]
+                Ar += h.ring_bulk_viscosity(shear_viscosity, max(bulk_viscosity, 0.0), lw, sdw, rw, tw, vrw, vtw,
+                    vw, delta_rw)[:, 2:-2]                                  #bulk < 0 means off
         if (confine_inner_edge or confine_outer_edge):
             At = h.edge_torques(r, At, confine_inner_edge, confine_outer_edge)
         return Ar, At

@@ -19,6 +19,7 @@
 \input{numbers/bending_waves}
 \input{numbers/lindblad_resonance}
 \input{numbers/density_waves}
+\input{numbers/overstability}
 
 %journal
 \received{not yet}
@@ -915,7 +916,8 @@ $k = {\cal D}x/2\pi G\sigma$ shows that the wave's amplitude falls by the factor
 is the wave's viscous damping length. This is Eqn.\ (63) of \cite{S84} with his $7\nu/3 + \zeta$ replaced by
 $\nu_{\rm eff}$; the two differ because \cite{S84} takes the viscosity times $\sigma$ to be uniform, which drops a
 term that Appendix \ref{sec:appendix_viscous} keeps. Note that shear viscosity's part of $\nu_{\rm eff}$ is
-negative, $\simeq -2\nu_s/3$, so shear viscosity alone would make the wave grow rather than damp.
+negative, $\simeq -2\nu_s/3$, so shear viscosity alone would make the wave grow rather than damp, as it makes
+axisymmetric epicyclic oscillations grow (Appendix \ref{sec:appendix_zigzag}).
 
 The ring and satellite of Section \ref{sec:density_ring} are simulated three more times with viscosity: run A has
 $\nu_s = \nu_b = \dwNuVisc$, run C has bulk viscosity only, $\nu_b = \dwNuVisc$, and run D has $\nu_s = \dwNuVisc$
@@ -1102,19 +1104,21 @@ $m_r$, semimajor axis $a$ and width $\Delta a$, with $\sigma \simeq m_r/2\pi a\D
 $\Delta \simeq \Delta a/N_r$. Adding streamlines to a given ringlet raises ${\cal R}$ in
 proportion to $N_r$.
 
-%O1-O5, sympy-checked in notes/sympy/viscous_overstability.py
+%O1-O5 and O7, sympy-checked in notes/sympy/viscous_overstability.py
 A viscous ringlet must also avoid the viscous overstability, the growth of axisymmetric epicyclic
 oscillations that viscous stresses drive when the shear stress rises steeply enough with surface
-density \citep{ST95, LR95, SSS01, S01, LO06, LO08}. For a cold ringlet with constant kinematic shear
-and bulk viscosities $\nu_s$ and $\nu_b$, as in \code{epi\_int\_lite}, and Keplerian $\kappa = \Omega$, a
+density \citep{ST95, LR95, SSS01, S01, LO06, LO08}. For a cold ringlet with kinematic shear
+and bulk viscosities $\nu_s$ and $\nu_b$ that do not depend on $\sigma$, as in \code{epi\_int\_lite}, a
 mode with oscillation frequency $\omega \simeq \kappa(1 - x)^{1/2}$ grows to first order in the
 viscosities at the rate
 \begin{equation}
     \label{eqn:overstability}
-    \gamma = \frac{K}{6(1 - x)}\left[\nu_s(4x + 2) - 3\nu_b(1 - x)\right],
+    \gamma = -\frac{K}{2}\left[\nu_b + \frac{\nu_{\rm eff} - \nu_b - 4x\nu_s/3}{1 - x}\right],
 \end{equation}
-where $K = k^2$ and $x = 2\pi G\sigma k/\kappa^2$ in the continuum. Without self-gravity ($x = 0$)
-the ringlet is stable when $\nu_b > 2\nu_s/3$, the onset found by \cite{ST95} and \cite{LSS17} for a
+where $K = k^2$ and $x = 2\pi G\sigma k/\kappa^2$ in the continuum, and $\nu_{\rm eff}$ is the density wave's
+effective viscosity, Eqn.\ (\ref{eqn:dw_nueff}); Appendix \ref{sec:appendix_viscous} derives both. In a Keplerian
+ring, $\kappa = \Omega$, this is $\gamma = K[\nu_s(4x + 2) - 3\nu_b(1 - x)]/6(1 - x)$. Without self-gravity ($x = 0$)
+that ringlet is stable when $\nu_b > 2\nu_s/3$, the onset found by \cite{ST95} and \cite{LSS17} for a
 viscosity independent of $\sigma$, while self-gravity is destabilizing \citep{LSS17}: a mode is
 stable only for $x < (3\nu_b - 2\nu_s)/(4\nu_s + 3\nu_b)$, which is $1/7$ for $\nu_b = \nu_s$ and
 $0.4$ for $\nu_b = 2\nu_s$. The streamline lattice follows Eqn.\ (\ref{eqn:overstability}) with the
@@ -1124,6 +1128,44 @@ self-gravity is strongest, $X(\pi)/\kappa^2 = {\cal R}/2$; so a viscous lattice 
 wavelength when ${\cal R} < 2/7$ for $\nu_b = \nu_s$, or ${\cal R} < 4/5$ for $\nu_b = 2\nu_s$, more
 stringent than Eqn.\ (\ref{eqn:zigzag_R}). Since $K\nu \sim \nu/\Delta^2$, an overstable lattice's
 modes grow faster the more streamlines it has.
+
+%tests/overstability (overstability.ipynb tests 14-15); numbers by tools/paper_numbers.py; figure by figures/overstability.py
+Simulations confirm Eqn.\ (\ref{eqn:overstability}) on the lattice. The ring of Section \ref{sec:density_ring},
+without the satellite and with \osNstreamlines\ streamlines, starts with one small axisymmetric epicyclic wave of
+lattice wavenumber $\phi = \osPhiOne$, $\osPhiTwo$ or $\osPhiThree$: streamline $j$ is displaced radially by $\xi_0\cos j\phi$, at
+fixed angular momentum, and given the radial velocity $\kappa\xi_0\sin j\phi$, with $\xi_0 = \osSeedSmall\,\Delta$ for
+waves that grow and $\osSeedLarge\,\Delta$ for those that decay. Five mixes of viscosity are run for \osOrbits\ orbits:
+shear viscosity alone, $\nu_s = \osNu$, with and without ring gravity; bulk viscosity alone, $\nu_b = \osNu$; and
+$\nu_s = \osNu$ with $\nu_b = \nu_s$ (for \osOrbitsLong\ orbits, as its waves decay slowly) or $\nu_b = 2\nu_s$.
+Because $\kappa$ falls outward, the wave winds up, its wavenumber rising by $1.5\kappa t/r$. So the growth rate is
+measured locally: each streamline's amplitude is $|\xi_j - iv_{r,j}/\omega|$, where $\xi_j$ and $v_{r,j}$ are its mean
+radial displacement and velocity less those of the same run without the wave, and $\gamma$ is fitted to the median
+amplitude over the ring's middle \osWindowPercent\%, while $\phi$ is the slope of the amplitudes' phase against $j$.
+Equation (\ref{eqn:overstability}) is evaluated at that $\phi$, with $K = \sin^2\phi/\Delta^2$ and $x = X(\phi)/\kappa^2$.
+
+Figure \ref{fig:overstab} shows the measured rates. With shear viscosity alone every wave grows, at rates within
+\osShearPercent\% of Eqn.\ (\ref{eqn:overstability}); without ring gravity the rate is $\osSZeroTwo$--$\osSZeroOne\,K\nu_s$,
+against $-\nu_{\rm eff}/2 = \osSZeroTheory\,\nu_s$ from Eqn.\ (\ref{eqn:dw_nueff}), which a Keplerian ring's $K\nu_s/3$
+would miss by \osKeplerPercent\%. With bulk viscosity alone every wave decays at $K\nu_b/2$ to within \osBulkPercent\%.
+With both, the measured rates are within \osDPercent\% of Eqn.\ (\ref{eqn:overstability}) for $\nu_b = 2\nu_s$ and
+\osAPercent\% for $\nu_b = \nu_s$, whose $\gamma$ is the small difference of the two viscosities' contributions; in
+units of $K\nu_s$ all the rates are within \osMaxDiff\ of Eqn.\ (\ref{eqn:overstability}), the mixed ones damping
+slightly faster than the sum of the separate viscosities' rates, for reasons not found. Self-gravity's destabilizing
+effect shows in the $\nu_b = \nu_s$ runs repeated with \osNstreamlinesHigh\ streamlines and $\nu_s = \nu_b =
+\osNuHigh$, which keeps $K\nu$ the same: their waves have $x = \osAHxOne$, \osAHxTwo\ and \osAHxThree, on either side
+of the onset $x = \osOnset$ of Eqn.\ (\ref{eqn:overstability}), and the first decays while the other two grow, as
+predicted, at \osAHRatioTwo\ and \osAHRatioThree\ times the predicted rates.
+
+\begin{figure*}
+\centering
+\includegraphics[width=0.85\textwidth]{figures/overstability.pdf}
+\caption{Growth rates $\gamma$ of axisymmetric epicyclic waves seeded in the viscous ring of
+Section \ref{sec:density_ring}, in units of $K\nu$ ($K = \sin^2\phi/\Delta^2$, $\nu = \nu_s$, or $\nu_b$ for bulk
+viscosity alone), vs.\ the self-gravity $x = X(\phi)/\kappa^2$ at each wave's lattice wavenumber $\phi = \osPhiOne$,
+$\osPhiTwo$ or $\osPhiThree$ (dots; squares without ring gravity, triangles with \osNstreamlinesHigh\ streamlines), and
+Eqn.\ (\ref{eqn:overstability}) (dashed). Waves above zero grow.}
+\label{fig:overstab}
+\end{figure*}
 
 That limit matters because a ringlet's self-gravity must be strong enough to resist the
 differential precession due to $J_2$. Across a ringlet of width $\Delta a$, $J_2$ drives a
@@ -1291,7 +1333,10 @@ ring, $\kappa_a = \Omega_a$, in their Eqn.\ (2), where it reads $\nu_b + 7\nu_s/
 \code{epi\_int\_3d}, $F \propto \sigma$ in Eqn.\ (\ref{eqn:visc_F}), so $\beta = 0$, which gives
 Eqn.\ (\ref{eqn:dw_nueff}). The bracket of Eqn.\ (\ref{eqn:visc_kI}) is negative, and the wave grows, when
 $\beta > (\nu_b/\nu_s - 2/3)/3$ in a Keplerian ring, which is also the condition for the ring's viscous
-overstability \citep{ST95, SCL16}.
+overstability \citep{ST95, SCL16}. That is no coincidence: for axisymmetric oscillations, $m = 0$, the same
+equations give a frequency $\omega_m$ whose imaginary part is the growth rate of Eqn.\ (\ref{eqn:overstability}),
+with $\nu_{\rm eff}$ the bracket of Eqn.\ (\ref{eqn:visc_kI}) when $\beta \neq 0$, so that without self-gravity the
+rate is $-k^2/2$ times that bracket.
 
 \clearpage
 \bibliography{epi_int_3d}{}

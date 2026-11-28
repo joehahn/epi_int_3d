@@ -4,6 +4,7 @@
 #self-gravitating ringlet, in the continuum and as epi_int_lite discretizes it on a lattice of circular
 #streamlines spaced Delta apart. Keplerian (kappa = Omega), constant kinematic viscosities nu_s (shear)
 #and nu_b (bulk), so beta = dln(nu)/dln(sigma) = 0. Perturbations ~ exp(i k x + s t).
+#O6: the viscous damping of a density wave, and O7: O3's growth rate, both with nu ∝ sigma^beta and kappa != Omega.
 #
 #Run:  uv run python notes/sympy/viscous_overstability.py
 
@@ -150,3 +151,32 @@ print('    numerical: Im k exact %.6e, first order %.6e, relative difference %.1
       % (kr.imag, pred.imag, abs(kr.imag/pred.imag - 1)))
 #next order in g: nu_b (1 - g/2 kappa^2) and nu_s [10/3 + beta - 4(1 + beta)(Omega/kappa)^2 + O(g/kappa^2)]; at the runs'
 #damping zone (g = D x ~ 0.02 kappa^2) these shift the bulk coefficient by -0.01 and the shear's by -0.03
+
+#--- O7: growth rate of axisymmetric epicyclic waves, nu ∝ sigma^beta, kappa != Omega (generalizes O3) -------------
+#O6's Eulerian equations with -i w -> s, m = 0; to first order in the viscosities at s = i omega0, omega0^2 = kappa^2 - g,
+#g = 2 pi G sigma k = x kappa^2. The rate shares O6's nu_eff: gamma = -(k^2/2)[nu_b + (nu_eff - nu_b - 4 x nu_s/3)/(1 - x)],
+#so without self-gravity gamma = -k^2 nu_eff/2, and the wave grows wherever nu_eff < 0 (shear viscosity alone).
+s7, xx7 = sp.symbols('s x7')
+eqs7 = [s7*S6 + I*k*sig*u6,
+        s7*u6 - 2*W*v6 - 2*sp.pi*G*I*S6 + nu1*k**2*u6,
+        s7*v6 + kap**2/(2*W)*u6 + nu*k**2*v6 - (1 + beta6)*nu*I*k*S6*rOp/sig]
+F7 = sp.expand(sp.Matrix([[sp.diff(e, q) for q in (S6, u6, v6)] for e in eqs7]).det()).subs(G, g6/(2*sp.pi*sig*k))
+print('O7 inviscid: s (s^2 + kappa^2 - 2 pi G sigma k) = 0:',
+      sp.simplify(F7.subs({nu: 0, nub: 0}) - s7*(s7**2 + kap**2 - g6)) == 0)
+F7e = F7.subs({nu: eps*nu, nub: eps*nub})
+ds7 = (-sp.diff(F7e, eps).subs(eps, 0)/sp.diff(F7e, s7).subs(eps, 0)).subs(s7, I*sp.sqrt(kap**2 - g6))
+gamma7 = sp.simplify(sp.re(sp.expand_complex(ds7))).subs(g6, xx7*kap**2)
+claim7 = -(k**2/2)*(nub + (nu_eff - nub - sp.Rational(4, 3)*xx7*nu)/(1 - xx7))
+print('O7 gamma = -(k^2/2)[nu_b + (nu_eff - nu_b - 4 x nu_s/3)/(1 - x)]:', sp.simplify(gamma7 - claim7) == 0)
+print('    kappa = Omega, beta = 0 is O3:',
+      sp.simplify(claim7.subs({kap: W, beta6: 0}) - (k**2*(nu*(4*xx7 + 2) - 3*nub*(1 - xx7))/(6*(1 - xx7))).subs(x, xx7)) == 0)
+print('    x = 0: gamma = -k^2 nu_eff/2:', sp.simplify(claim7.subs(xx7, 0) + k**2*nu_eff/2) == 0)
+print('    beta = 0 onset (gamma = 0): x =', sp.simplify(sp.solve(sp.Eq(claim7.subs(beta6, 0), 0), xx7)[0]))
+#numerical check: the exact root s of the full dispersion relation against i omega0 + gamma
+vals7 = {W: 1.0, kap: 0.99, nu: 1.0e-6, nub: 0.5e-6, beta6: 0.0, k: 100.0}
+gn7 = 0.07*0.99**2
+roots7 = np.roots([complex(c) for c in sp.Poly(F7.subs(vals7).subs(g6, gn7), s7).all_coeffs()])
+sr = roots7[np.argmax(roots7.imag)]
+pred7 = float(claim7.subs(vals7).subs(xx7, 0.07))
+print('    numerical: Re s exact %.6e, first order %.6e, relative difference %.1e (expect ~ k^2 nu/kappa = 1e-2)'
+      % (sr.real, pred7, abs(sr.real/pred7 - 1)))

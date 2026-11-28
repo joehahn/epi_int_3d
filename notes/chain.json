@@ -2132,7 +2132,8 @@
    "kind": "paper",
    "anchor": "paper/epi_int_3d.tex#eqn:overstability",
    "needs": [
-    "sympy:O3"
+    "sympy:O3",
+    "sympy:O7"
    ]
   },
   {
@@ -3253,7 +3254,8 @@
    "needs": [
     "sympy:O6",
     "paper:eqn:dw_xvis",
-    "paper:eqn:dw_nueff"
+    "paper:eqn:dw_nueff",
+    "claim:overstability_results"
    ],
    "note": "Shu's Eqn. 63 with nu_eff; Shu takes nu sigma uniform; shear part ~ -2 nu_s/3"
   },
@@ -3297,6 +3299,217 @@
     "paper:eqn:visc_tan"
    ],
    "note": "beta=-1 gives Shu (Eqns 56, 61) and GT78; GT78 flagged it; SCL16 Eqn. 2 for kappa=Omega; overstability criterion ST95"
+  },
+  {
+   "id": "eq:O7",
+   "kind": "equation",
+   "anchor": "notes/equations.md#O7",
+   "needs": [
+    "eq:O3",
+    "eq:O6"
+   ],
+   "note": "growth rate of axisymmetric epicyclic waves, nu ∝ sigma^beta, kappa != Omega; shares O6's nu_eff"
+  },
+  {
+   "id": "sympy:O7",
+   "kind": "sympy",
+   "anchor": "notes/sympy/viscous_overstability.py#O7",
+   "needs": [
+    "eq:O7"
+   ],
+   "check": "out=$(uv run python notes/sympy/viscous_overstability.py) && ! printf \"%s\" \"$out\" | grep -q False"
+  },
+  {
+   "id": "code:seed_mode",
+   "kind": "code",
+   "anchor": "tools/patches.py::seed_mode",
+   "needs": [],
+   "note": "one axisymmetric epicyclic wave at fixed angular momentum"
+  },
+  {
+   "id": "code:os_growth_per_K",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::growth_per_K",
+   "needs": [
+    "eq:O7"
+   ]
+  },
+  {
+   "id": "code:os_growth_rate",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::growth_rate",
+   "needs": [
+    "code:os_growth_per_K",
+    "code:os_lattice_K",
+    "code:os_lattice_x"
+   ]
+  },
+  {
+   "id": "code:os_lattice_K",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::lattice_K",
+   "needs": [
+    "eq:O4"
+   ]
+  },
+  {
+   "id": "code:os_lattice_x",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::lattice_x",
+   "needs": [
+    "eq:P7",
+    "code:ring_sigma"
+   ]
+  },
+  {
+   "id": "code:os_wave",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::wave",
+   "needs": [
+    "code:os_lattice_x"
+   ]
+  },
+  {
+   "id": "code:os_measured_growth",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::measured_growth",
+   "needs": [
+    "code:os_wave",
+    "code:os_growth_rate",
+    "code:os_lattice_K",
+    "code:os_lattice_x"
+   ]
+  },
+  {
+   "id": "code:os_runs",
+   "kind": "code",
+   "anchor": "tests/overstability_analysis.py::_mods",
+   "needs": [
+    "code:seed_mode"
+   ],
+   "note": "the run registry: mixes S, S0, C, A, D, AH at phi = pi/4, pi/2, 3pi/4, and unseeded controls"
+  },
+  {
+   "id": "code:overstability_numbers",
+   "kind": "code",
+   "anchor": "tools/paper_numbers.py::overstability_numbers",
+   "needs": [
+    "code:os_runs",
+    "code:os_measured_growth",
+    "code:latex_number",
+    "eq:O7"
+   ]
+  },
+  {
+   "id": "numbers:overstability",
+   "kind": "numbers",
+   "anchor": "paper/numbers/overstability.tex",
+   "needs": [
+    "code:overstability_numbers",
+    "code:latex_number",
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_bulk_viscosity",
+    "code:viscosity_gating",
+    "code:seed_mode"
+   ],
+   "note": "Appendix B; from tests/overstability's runs"
+  },
+  {
+   "id": "figure:overstability",
+   "kind": "figure",
+   "anchor": "paper/figures/overstability.py",
+   "needs": [
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_bulk_viscosity",
+    "code:viscosity_gating",
+    "code:seed_mode",
+    "code:os_runs",
+    "code:os_measured_growth",
+    "code:os_growth_per_K",
+    "sympy:O7",
+    "code:figstyle"
+   ]
+  },
+  {
+   "id": "paper:fig:overstab",
+   "kind": "paper",
+   "anchor": "paper/epi_int_3d.tex#fig:overstab",
+   "needs": [
+    "figure:overstability",
+    "sympy:O7",
+    "numbers:overstability"
+   ],
+   "notebook": [
+    "overstability#test14"
+   ]
+  },
+  {
+   "id": "notebook:overstability",
+   "kind": "notebook",
+   "anchor": "tests/overstability/overstability.ipynb",
+   "needs": [
+    "code:velocity_kick",
+    "code:ring_gravity",
+    "code:drift",
+    "code:ring_shear_viscosity_hahn13",
+    "code:ring_bulk_viscosity",
+    "code:viscosity_gating",
+    "code:seed_mode",
+    "code:os_runs",
+    "code:os_measured_growth",
+    "code:os_wave",
+    "code:os_growth_rate",
+    "code:os_growth_per_K",
+    "figure:overstability"
+   ]
+  },
+  {
+   "id": "claim:overstability_setup",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@Simulations confirm Eqn.",
+   "needs": [
+    "numbers:overstability",
+    "code:seed_mode",
+    "code:os_wave",
+    "paper:eqn:overstability"
+   ],
+   "note": "seeded waves, five viscosity mixes, local measurement against the unseeded control",
+   "notebook": [
+    "overstability#test14"
+   ]
+  },
+  {
+   "id": "claim:overstability_results",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@shows the measured rates",
+   "needs": [
+    "numbers:overstability",
+    "notebook:overstability",
+    "paper:eqn:overstability",
+    "paper:eqn:dw_nueff"
+   ],
+   "note": "shear 0.7%, bulk 0.4%, D 3.4%, A 13%, all within 0.011 K nu; 1600-streamline nu_b=nu_s waves change sign at the onset",
+   "notebook": [
+    "overstability#test14",
+    "overstability#test15"
+   ]
+  },
+  {
+   "id": "claim:overstability_damping_link",
+   "kind": "claim",
+   "anchor": "paper/epi_int_3d.tex@That is no coincidence",
+   "needs": [
+    "sympy:O7",
+    "paper:eqn:visc_kI",
+    "paper:eqn:overstability"
+   ],
+   "note": "m = 0 gives O7; at x = 0 gamma = -k^2/2 times the bracket"
   }
  ]
 }

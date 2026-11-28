@@ -147,11 +147,12 @@
  },
  "claim:dw_viscous_theory": {
   "date": "2026-11-27",
-  "hash": "09f0bbb12ed4",
+  "hash": "9aa821f177f7",
   "needs": {
+   "claim:overstability_results": "ccf52927e060",
    "paper:eqn:dw_nueff": "66468d52cbc0",
    "paper:eqn:dw_xvis": "80678353a934",
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "claim:edge_term": {
@@ -255,14 +256,43 @@
    "sympy:V6": "5472eaff9cd3"
   }
  },
- "claim:overstability_lattice": {
-  "date": "2026-11-10",
-  "hash": "c1fd212a2efc",
+ "claim:overstability_damping_link": {
+  "date": "2026-11-27",
+  "hash": "b52678cc0999",
   "needs": {
-   "paper:eqn:overstability": "fb8af391fb4e",
-   "sympy:O3": "608ba0ac9017",
-   "sympy:O4": "8c2a4c085a9b",
-   "sympy:O5": "92734ae47404"
+   "paper:eqn:overstability": "98ece8a31094",
+   "paper:eqn:visc_kI": "e29df65685b2",
+   "sympy:O7": "b54d2173bb0d"
+  }
+ },
+ "claim:overstability_lattice": {
+  "date": "2026-11-27",
+  "hash": "da39df6d37b0",
+  "needs": {
+   "paper:eqn:overstability": "98ece8a31094",
+   "sympy:O3": "68db5521d3d2",
+   "sympy:O4": "069fb520df62",
+   "sympy:O5": "1dec66a35172"
+  }
+ },
+ "claim:overstability_results": {
+  "date": "2026-11-27",
+  "hash": "ccf52927e060",
+  "needs": {
+   "notebook:overstability": "327af72b9f1e",
+   "numbers:overstability": "f7df11a77512",
+   "paper:eqn:dw_nueff": "66468d52cbc0",
+   "paper:eqn:overstability": "98ece8a31094"
+  }
+ },
+ "claim:overstability_setup": {
+  "date": "2026-11-27",
+  "hash": "98c55cf939ce",
+  "needs": {
+   "code:os_wave": "225af267d0d3",
+   "code:seed_mode": "7f8bf2638f3a",
+   "numbers:overstability": "f7df11a77512",
+   "paper:eqn:overstability": "98ece8a31094"
   }
  },
  "claim:pattern_speed": {
@@ -327,11 +357,11 @@
  },
  "claim:visc_damping_literature": {
   "date": "2026-11-27",
-  "hash": "6cd16fb3f305",
+  "hash": "b52678cc0999",
   "needs": {
    "paper:eqn:visc_kI": "e29df65685b2",
    "paper:eqn:visc_tan": "66b8669c50da",
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "claim:viscosity_in_plane": {
@@ -607,6 +637,71 @@
   "hash": "f87a66a984e1",
   "needs": {}
  },
+ "code:os_growth_per_K": {
+  "date": "2026-11-27",
+  "hash": "eb2e93633b2b",
+  "needs": {
+   "eq:O7": "c4894024d820"
+  }
+ },
+ "code:os_growth_rate": {
+  "date": "2026-11-27",
+  "hash": "8d7ec69ce17d",
+  "needs": {
+   "code:os_growth_per_K": "eb2e93633b2b",
+   "code:os_lattice_K": "f983e0aed622",
+   "code:os_lattice_x": "0f10346ba939"
+  }
+ },
+ "code:os_lattice_K": {
+  "date": "2026-11-27",
+  "hash": "f983e0aed622",
+  "needs": {
+   "eq:O4": "9d176fb1a07e"
+  }
+ },
+ "code:os_lattice_x": {
+  "date": "2026-11-27",
+  "hash": "0f10346ba939",
+  "needs": {
+   "code:ring_sigma": "c65053c901a9",
+   "eq:P7": "82faf17dea6f"
+  }
+ },
+ "code:os_measured_growth": {
+  "date": "2026-11-27",
+  "hash": "35814367f9eb",
+  "needs": {
+   "code:os_growth_rate": "8d7ec69ce17d",
+   "code:os_lattice_K": "f983e0aed622",
+   "code:os_lattice_x": "0f10346ba939",
+   "code:os_wave": "225af267d0d3"
+  }
+ },
+ "code:os_runs": {
+  "date": "2026-11-27",
+  "hash": "148168381390",
+  "needs": {
+   "code:seed_mode": "7f8bf2638f3a"
+  }
+ },
+ "code:os_wave": {
+  "date": "2026-11-27",
+  "hash": "225af267d0d3",
+  "needs": {
+   "code:os_lattice_x": "0f10346ba939"
+  }
+ },
+ "code:overstability_numbers": {
+  "date": "2026-11-27",
+  "hash": "89914b531040",
+  "needs": {
+   "code:latex_number": "9006fad6438e",
+   "code:os_measured_growth": "35814367f9eb",
+   "code:os_runs": "148168381390",
+   "eq:O7": "c4894024d820"
+  }
+ },
  "code:resolution_R": {
   "date": "2026-11-24",
   "hash": "184ace02280d",
@@ -749,6 +844,11 @@
   "hash": "a2cbc870236d",
   "needs": {}
  },
+ "code:seed_mode": {
+  "date": "2026-11-27",
+  "hash": "7f8bf2638f3a",
+  "needs": {}
+ },
  "code:simulated_h": {
   "date": "2026-11-10",
   "hash": "67e3f6ad9ce8",
@@ -808,8 +908,8 @@
   }
  },
  "code:viscosity_gating": {
-  "date": "2026-11-25",
-  "hash": "0f007d821f42",
+  "date": "2026-11-27",
+  "hash": "9a8dc0669c36",
   "needs": {
    "eq:W2": "a42588fb83e4"
   }
@@ -1266,6 +1366,14 @@
    "eq:O1": "d19ec2e33c00"
   }
  },
+ "eq:O7": {
+  "date": "2026-11-27",
+  "hash": "c4894024d820",
+  "needs": {
+   "eq:O3": "abb2668d5fb3",
+   "eq:O6": "57f4b0aa0786"
+  }
+ },
  "eq:P1": {
   "date": "2026-11-10",
   "hash": "a78fa91b1149",
@@ -1435,6 +1543,24 @@
    "sympy:L7": "7d3102c85993"
   }
  },
+ "figure:overstability": {
+  "date": "2026-11-27",
+  "hash": "a58fdcbda2cb",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:figstyle": "73ef6300bbfe",
+   "code:os_growth_per_K": "eb2e93633b2b",
+   "code:os_measured_growth": "35814367f9eb",
+   "code:os_runs": "148168381390",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
+   "code:ring_gravity": "b009c47899ac",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
+   "code:seed_mode": "7f8bf2638f3a",
+   "code:velocity_kick": "4e874e5b866f",
+   "code:viscosity_gating": "9a8dc0669c36",
+   "sympy:O7": "b54d2173bb0d"
+  }
+ },
  "figure:resonance_location": {
   "date": "2026-11-15",
   "hash": "e27779b88a95",
@@ -1485,8 +1611,8 @@
    "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
    "code:satellite": "53f58f0b082a",
    "code:velocity_kick": "4e874e5b866f",
-   "code:viscosity_gating": "0f007d821f42",
-   "sympy:O6": "68c76fddf540"
+   "code:viscosity_gating": "9a8dc0669c36",
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "figure:wavenumber": {
@@ -1595,6 +1721,25 @@
    "eq:L9": "43ec41d12aad"
   }
  },
+ "notebook:overstability": {
+  "date": "2026-11-27",
+  "hash": "327af72b9f1e",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:os_growth_per_K": "eb2e93633b2b",
+   "code:os_growth_rate": "8d7ec69ce17d",
+   "code:os_measured_growth": "35814367f9eb",
+   "code:os_runs": "148168381390",
+   "code:os_wave": "225af267d0d3",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
+   "code:ring_gravity": "b009c47899ac",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
+   "code:seed_mode": "7f8bf2638f3a",
+   "code:velocity_kick": "4e874e5b866f",
+   "code:viscosity_gating": "9a8dc0669c36",
+   "figure:overstability": "a58fdcbda2cb"
+  }
+ },
  "notebook:vertical_resonance": {
   "date": "2026-11-23",
   "hash": "d439a388e5e7",
@@ -1631,7 +1776,7 @@
    "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
    "code:satellite": "53f58f0b082a",
    "code:velocity_kick": "4e874e5b866f",
-   "code:viscosity_gating": "0f007d821f42",
+   "code:viscosity_gating": "9a8dc0669c36",
    "code:viscous_damping_numbers": "a3202a3b6607"
   }
  },
@@ -1644,6 +1789,21 @@
    "code:lindblad_resonance_numbers": "c6494a09ab20",
    "code:satellite": "53f58f0b082a",
    "code:velocity_kick": "4e874e5b866f"
+  }
+ },
+ "numbers:overstability": {
+  "date": "2026-11-27",
+  "hash": "f7df11a77512",
+  "needs": {
+   "code:drift": "a16d87bc9e34",
+   "code:latex_number": "9006fad6438e",
+   "code:overstability_numbers": "89914b531040",
+   "code:ring_bulk_viscosity": "2b3241a0cb0d",
+   "code:ring_gravity": "b009c47899ac",
+   "code:ring_shear_viscosity_hahn13": "a14e5eb49203",
+   "code:seed_mode": "7f8bf2638f3a",
+   "code:velocity_kick": "4e874e5b866f",
+   "code:viscosity_gating": "9a8dc0669c36"
   }
  },
  "numbers:vertical_resonance": {
@@ -1708,21 +1868,21 @@
   "date": "2026-11-27",
   "hash": "466982a6c037",
   "needs": {
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:dw_nueff": {
   "date": "2026-11-27",
   "hash": "66468d52cbc0",
   "needs": {
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:dw_xvis": {
   "date": "2026-11-27",
   "hash": "80678353a934",
   "needs": {
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:i_node": {
@@ -1836,10 +1996,11 @@
   }
  },
  "paper:eqn:overstability": {
-  "date": "2026-11-10",
-  "hash": "fb8af391fb4e",
+  "date": "2026-11-27",
+  "hash": "98ece8a31094",
   "needs": {
-   "sympy:O3": "608ba0ac9017"
+   "sympy:O3": "68db5521d3d2",
+   "sympy:O7": "b54d2173bb0d"
   }
  },
  "paper:eqn:visc_Ar": {
@@ -1874,14 +2035,14 @@
   "date": "2026-11-27",
   "hash": "5a971cc8b1a3",
   "needs": {
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:visc_kI": {
   "date": "2026-11-27",
   "hash": "e29df65685b2",
   "needs": {
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:visc_rad": {
@@ -1889,7 +2050,7 @@
   "hash": "b41e4783e58c",
   "needs": {
    "paper:eqn:visc_G": "c1dc463129aa",
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:visc_tan": {
@@ -1897,7 +2058,7 @@
   "hash": "66b8669c50da",
   "needs": {
    "paper:eqn:visc_F": "a04ffab5d826",
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:eqn:vres_AV": {
@@ -2199,6 +2360,15 @@
    "sympy:L8": "48396fba3d48"
   }
  },
+ "paper:fig:overstab": {
+  "date": "2026-11-27",
+  "hash": "79bb09299981",
+  "needs": {
+   "figure:overstability": "a58fdcbda2cb",
+   "numbers:overstability": "f7df11a77512",
+   "sympy:O7": "b54d2173bb0d"
+  }
+ },
  "paper:fig:resloc": {
   "date": "2026-11-15",
   "hash": "a8a95c7f9e40",
@@ -2221,7 +2391,7 @@
   "hash": "4865dd981b59",
   "needs": {
    "figure:viscous_damping": "3ed6562b52e9",
-   "sympy:O6": "68c76fddf540"
+   "sympy:O6": "7d7d190c9d99"
   }
  },
  "paper:fig:vres": {
@@ -2650,45 +2820,52 @@
   }
  },
  "sympy:O1": {
-  "date": "2026-11-10",
-  "hash": "30e1bc85c73a",
+  "date": "2026-11-27",
+  "hash": "ef30a2361b01",
   "needs": {
    "eq:O1": "d19ec2e33c00"
   }
  },
  "sympy:O2": {
-  "date": "2026-11-10",
-  "hash": "5109a085de8c",
+  "date": "2026-11-27",
+  "hash": "7113e4139f43",
   "needs": {
    "eq:O2": "ce4d2a87cf13"
   }
  },
  "sympy:O3": {
-  "date": "2026-11-10",
-  "hash": "608ba0ac9017",
+  "date": "2026-11-27",
+  "hash": "68db5521d3d2",
   "needs": {
    "eq:O3": "abb2668d5fb3"
   }
  },
  "sympy:O4": {
-  "date": "2026-11-10",
-  "hash": "8c2a4c085a9b",
+  "date": "2026-11-27",
+  "hash": "069fb520df62",
   "needs": {
    "eq:O4": "9d176fb1a07e"
   }
  },
  "sympy:O5": {
-  "date": "2026-11-10",
-  "hash": "92734ae47404",
+  "date": "2026-11-27",
+  "hash": "1dec66a35172",
   "needs": {
    "eq:O5": "c7914d7432b5"
   }
  },
  "sympy:O6": {
   "date": "2026-11-27",
-  "hash": "68c76fddf540",
+  "hash": "7d7d190c9d99",
   "needs": {
    "eq:O6": "57f4b0aa0786"
+  }
+ },
+ "sympy:O7": {
+  "date": "2026-11-27",
+  "hash": "b54d2173bb0d",
+  "needs": {
+   "eq:O7": "c4894024d820"
   }
  },
  "sympy:P1": {
@@ -2864,10 +3041,10 @@
   }
  },
  "test:viscosity_gating": {
-  "date": "2026-11-25",
-  "hash": "18e125d36e30",
+  "date": "2026-11-27",
+  "hash": "c4b0b2b1134e",
   "needs": {
-   "code:viscosity_gating": "0f007d821f42"
+   "code:viscosity_gating": "9a8dc0669c36"
   }
  }
 }

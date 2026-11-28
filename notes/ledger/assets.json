@@ -42,5 +42,9 @@
  "viscous_damping.png": {
   "id": "d35a12cf8f4bcdbed1540836128c1725",
   "hash": "d9deb3732eee"
+ },
+ "overstability.png": {
+  "id": "e407affc9870479aea99323e9b306d70",
+  "hash": "9b6d956d6408"
  }
 }

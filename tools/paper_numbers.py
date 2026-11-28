@@ -387,6 +387,62 @@ def viscous_damping_numbers(test_folder):
     return numbers
 
 
+def overstability_numbers():
+    """tests/overstability: the seeded epicyclic waves' growth rates against O7 (Appendix B)."""
+    import overstability_analysis as osa
+    from helper_fns import Omega, Kappa
+    folder = os.path.join(repo_folder, 'tests', 'overstability')
+    numbers = []
+    ratio, diff, x = {}, {}, {}
+    for mix in osa.MIXES:
+        control = osa.overstability_run(folder, mix, 0)
+        for i in osa.PHIS:
+            p, o = osa.overstability_run(folder, mix, i)
+            assert o['monitor']['streamline_crossing_timestep'] is None, f'streamlines crossed in run {mix}{i}'
+            m = osa.measured_growth(p, o, control[1])
+            nu = max(p['shear_viscosity'], p['bulk_viscosity'])
+            ratio[(mix, i)] = m['gamma']/m['theory']
+            diff[(mix, i)] = (m['gamma'] - m['theory'])/(m['K']*nu)
+            x[(mix, i)] = m['x']
+            if mix == 'S0':
+                numbers += [(f'osSZero{"One Two Three".split()[i - 1]}', latex_number(m['gamma']/(m['K']*nu), 3),
+                    f'run S0{i}: measured gamma/K nu_s, no ring gravity')]
+    percent = lambda mixes: latex_number(100*max(abs(ratio[k] - 1) for k in ratio if k[0] in mixes), 2, up=True)
+    p = osa.overstability_run(folder, 'S', 2)[0]
+    pH = osa.overstability_run(folder, 'AH', 1)[0]
+    pA = osa.overstability_run(folder, 'A', 1)[0]
+    r = 1.0 + 0.5*p['radial_width']
+    c = 10.0/3.0 - 4.0*(Omega(p['J2'], p['Rp'], r)/Kappa(p['J2'], p['Rp'], r))**2
+    orbits = lambda q: round(q['dt']*q['timesteps_per_output']*q['total_number_of_outputs']/(2*np.pi), -1)
+    numbers += [('osNstreamlines', str(p['number_of_streamlines']), 'inputs.py number_of_streamlines'),
+                ('osNstreamlinesHigh', str(pH['number_of_streamlines']), 'run AH number_of_streamlines'),
+                ('osNu', latex_number(osa.NU, 2), 'overstability_analysis NU'),
+                ('osNuHigh', latex_number(osa.MIXES['AH'][0], 2), 'run AH nu_s = nu_b'),
+                ('osOrbits', latex_number(orbits(p), 3), 'run length, orbits'),
+                ('osOrbitsLong', latex_number(orbits(pA), 3), 'runs A and AH length, orbits'),
+                ('osSeedSmall', latex_number(p['seed_amplitude'], 1), 'growing waves seed xi_0/Delta'),
+                ('osSeedLarge', latex_number(osa.OVERSTABILITY_RUNS['output_C1']['seed_amplitude'], 1),
+                    'decaying waves seed xi_0/Delta'),
+                ('osWindowPercent', latex_number(100*(osa.WINDOW[1] - osa.WINDOW[0]), 2), 'measured streamlines, percent'),
+                ('osShearPercent', percent(('S', 'S0')), 'shear-only runs: max |measured/O7 - 1|, percent'),
+                ('osBulkPercent', percent(('C',)), 'bulk-only runs: max |measured/O7 - 1|, percent'),
+                ('osDPercent', percent(('D',)), 'nu_b = 2 nu_s runs: max |measured/O7 - 1|, percent'),
+                ('osAPercent', percent(('A',)), 'nu_b = nu_s runs: max |measured/O7 - 1|, percent'),
+                ('osMaxDiff', latex_number(max(abs(v) for v in diff.values()), 2, up=True),
+                    'all runs: max |measured - O7|/(K nu)'),
+                ('osSZeroTheory', latex_number(-c/2, 3), '-nu_eff/2 nu_s = -[10/3 - 4 (Omega/kappa)^2]/2, O7 at x = 0'),
+                ('osKeplerPercent', latex_number(100*(-c/2*3 - 1), 2), '(O7 at x = 0)/(Keplerian 1/3) - 1, percent'),
+                ('osOnset', latex_number((1.0 + c)/(1.0 + 4.0/3.0), 2), 'O7 onset x for nu_b = nu_s: (1 + c)/(1 + 4/3)')]
+    from fractions import Fraction
+    for i, word in zip(osa.PHIS, ('One', 'Two', 'Three')):
+        q = Fraction(osa.PHIS[i]/np.pi).limit_denominator(16)
+        numbers += [('osPhi' + word, (f'{q.numerator}' if q.numerator > 1 else '') + '\\pi/' + f'{q.denominator}',
+                     f'PHIS[{i}], the seeded lattice wavenumber')]
+        numbers += [('osAHx' + word, latex_number(x[('AH', i)], 2), f'run AH{i}: x = X(phi)/kappa^2'),
+                    ('osAHRatio' + word, latex_number(ratio[('AH', i)], 2), f'run AH{i}: measured/O7')]
+    return numbers
+
+
 #write one test's macros
 def write_numbers(test, numbers):
     path = os.path.join(numbers_folder, test + '.tex')
@@ -401,7 +457,8 @@ def write_numbers(test, numbers):
 
 #the tests that supply numbers, and their functions
 producers = {'vertical_resonance': vertical_resonance_numbers, 'bending_waves': bending_waves_numbers,
-             'lindblad_resonance': lindblad_resonance_numbers, 'density_waves': density_waves_numbers}
+             'lindblad_resonance': lindblad_resonance_numbers, 'density_waves': density_waves_numbers,
+             'overstability': overstability_numbers}
 
 #parse the command line
 parser = argparse.ArgumentParser()

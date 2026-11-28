@@ -87,6 +87,8 @@ def test_viscosity_gating():
         assert np.allclose(Ar, Ar_s + Ar_b, rtol=0.0, atol=1.0e-12*scale)
         assert np.allclose(At, At_s + At_b, rtol=0.0, atol=1.0e-12*np.abs(At).max())
         assert np.all(At_b == 0.0)                                  #bulk viscosity exerts no torque
+        Ar_off, At_off = run(acc, nu, -1.0)                         #bulk < 0 means off, as nu_b = 0
+        assert np.array_equal(Ar_off, Ar_s) and np.array_equal(At_off, At_s)
     #without the fix, both are off
     Ar_b, At_b = run(helper_fns.accelerations, 0.0, nu)
     assert np.all(Ar_b == 0.0)

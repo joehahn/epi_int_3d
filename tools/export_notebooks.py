@@ -29,6 +29,7 @@ notebooks = {
     'inclined': 'tests/inclined/inclined.ipynb',
     'lindblad_resonance': 'tests/lindblad_resonance/lindblad_resonance.ipynb',
     'density_waves': 'tests/density_waves/density_waves.ipynb',
+    'overstability': 'tests/overstability/overstability.ipynb',
 }
 
 names = sys.argv[1:] or list(notebooks)
